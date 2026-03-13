@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Investment Growth Calculator — Free Online Tool | calcstack.dev</title>
-<meta name="description" content="Calculate how your investment grows over time with compound interest. Enter your principal, rate, and time to see year-by-year growth projections instantly.">
+<meta name="description" content="Calculate how your investment grows over time with compound interest. Enter principal, rate, and duration to see your future value instantly.">
 <link rel="canonical" href="https://calcstack.dev/investment-growth-calculator/">
 <script type="application/ld+json">
 {
@@ -12,92 +12,460 @@
   "@type": "WebApplication",
   "name": "Investment Growth Calculator",
   "url": "https://calcstack.dev/investment-growth-calculator/",
-  "description": "Calculate investment growth over time with compound interest, regular contributions, and year-by-year breakdown.",
+  "description": "Calculate how your investment grows over time with compound interest. Enter principal, rate, and duration to see your future value instantly.",
   "applicationCategory": "FinanceApplication",
   "operatingSystem": "Any",
-  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
 }
 </script>
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f4f6f9;color:#1a1a2e;font-size:16px;line-height:1.5}
-a{color:#0077b6;text-decoration:none}
-a:hover{text-decoration:underline}
-nav{background:#fff;border-bottom:1px solid #e0e0e0;padding:0 1.5rem}
-.nav-inner{max-width:640px;margin:0 auto;display:flex;align-items:center;height:48px}
-.nav-brand{font-weight:700;font-size:1.05rem;color:#1a1a2e}
-.nav-brand span{color:#0077b6}
-main{max-width:640px;margin:2rem auto;padding:0 1rem}
-h1{font-size:1.45rem;font-weight:700;color:#1a1a2e;margin-bottom:.35rem}
-.subtitle{color:#555;font-size:.95rem;margin-bottom:1.75rem}
-.card{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;box-shadow:0 2px 8px rgba(0,0,0,.05);margin-bottom:2rem}
-.section-title{font-size:1rem;font-weight:700;color:#1a1a2e;margin-bottom:1.25rem;padding-bottom:.5rem;border-bottom:1px solid #f0f0f0}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
-.form-group{display:flex;flex-direction:column;gap:.3rem}
-.form-group.full{grid-column:1/-1}
-label{font-size:.85rem;font-weight:500;color:#444}
-.input-wrap{position:relative}
-.input-prefix,.input-suffix{position:absolute;top:50%;transform:translateY(-50%);color:#888;font-size:.9rem;pointer-events:none}
-.input-prefix{left:12px}
-.input-suffix{right:12px}
-input[type="number"],input[type="text"],select{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:6px;font-size:.95rem;color:#1a1a2e;background:#fff;outline:none;transition:border-color .2s,box-shadow .2s;-moz-appearance:textfield;appearance:textfield;min-height:44px}
-input[type="number"]::-webkit-inner-spin-button,input[type="number"]::-webkit-outer-spin-button{-webkit-appearance:none}
-input.has-prefix{padding-left:28px}
-input.has-suffix{padding-right:32px}
-input:focus{border-color:#0077b6;box-shadow:0 0 0 3px rgba(0,119,182,.15)}
-input.error{border-color:#e74c3c;box-shadow:0 0 0 3px rgba(231,76,60,.1)}
-.error-msg{font-size:.78rem;color:#e74c3c;margin-top:.2rem;display:none}
-.error-msg.visible{display:block}
-.slider-row{display:flex;align-items:center;gap:.75rem;margin-top:.4rem}
-input[type="range"]{flex:1;height:4px;accent-color:#0077b6;cursor:pointer;min-height:24px}
-.slider-val{font-size:.82rem;color:#0077b6;font-weight:600;min-width:42px;text-align:right}
-.btn{background:#0077b6;color:#fff;border:none;padding:12px 24px;border-radius:6px;font-size:1rem;font-weight:600;cursor:pointer;width:100%;min-height:44px;transition:background .2s;margin-top:.5rem}
-.btn:hover{background:#006299}
-.btn:active{background:#005580}
-.btn-secondary{background:#f0f0f0;color:#1a1a2e;font-size:.82rem;padding:6px 14px;border-radius:4px;border:1px solid #ddd;cursor:pointer;min-height:36px;transition:background .2s}
-.btn-secondary:hover{background:#e4e4e4}
-.results{opacity:0;transition:opacity .3s ease;pointer-events:none}
-.results.visible{opacity:1;pointer-events:auto}
-.summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.5rem}
-.summary-card{background:#f8f9fa;border:1px solid #e8e8e8;border-radius:6px;padding:1rem;text-align:center}
-.summary-label{font-size:.75rem;color:#666;font-weight:500;text-transform:uppercase;letter-spacing:.03em;margin-bottom:.3rem}
-.summary-value{font-size:1.3rem;font-weight:700;color:#0077b6;line-height:1.2}
-.summary-value.green{color:#27ae60}
-.summary-value.dark{color:#1a1a2e}
-.bar-section{margin-bottom:1.5rem}
-.bar-label-row{display:flex;justify-content:space-between;font-size:.78rem;color:#666;margin-bottom:.4rem}
-.bar-track{background:#f0f0f0;border-radius:4px;height:22px;overflow:hidden;position:relative}
-.bar-fill{height:100%;border-radius:4px;transition:width .6s ease;display:flex;align-items:center;padding-left:8px;font-size:.75rem;font-weight:600;color:#fff;white-space:nowrap}
-.bar-principal{background:#0077b6}
-.bar-contrib{background:#48cae4}
-.bar-interest{background:#27ae60}
-.stacked-bar{display:flex;height:22px;border-radius:4px;overflow:hidden}
-.copy-row{display:flex;justify-content:flex-end;margin-bottom:.75rem}
-.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
-table{width:100%;border-collapse:collapse;font-size:.85rem}
-thead th{background:#f0f0f0;padding:8px 10px;text-align:left;font-weight:600;color:#444;font-size:.8rem;white-space:nowrap}
-thead th:not(:first-child){text-align:right}
-tbody tr:nth-child(even){background:#fafafa}
-tbody tr:hover{background:#f0f7ff}
-tbody td{padding:8px 10px;border-bottom:1px solid #efefef;color:#1a1a2e}
-tbody td:not(:first-child){text-align:right}
-.show-all-wrap{text-align:center;margin-top:.75rem}
-.ad-slot{background:#f8f9fa;border:1px dashed #ccc;border-radius:4px;min-height:90px;display:flex;align-items:center;justify-content:center;color:#aaa;font-size:.8rem;margin:1.5rem 0}
-.how-to{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:1.5rem;margin-bottom:2rem}
-.how-to h2{font-size:1rem;font-weight:700;margin-bottom:.6rem}
-.how-to p{font-size:.88rem;color:#555;margin-bottom:.4rem}
-.related{background:#f8f9fa;border:1px solid #e0e0e0;border-radius:8px;padding:1.5rem;margin-bottom:2rem}
-.related h2{font-size:1rem;font-weight:700;margin-bottom:.6rem}
-.related p{font-size:.88rem;color:#666}
-footer{background:#fff;border-top:1px solid #e0e0e0;padding:1rem 1.5rem;text-align:center;font-size:.8rem;color:#888}
-footer a{color:#888;margin:0 .4rem}
-@media(max-width:640px){
-  .form-grid{grid-template-columns:1fr}
-  .form-group.full{grid-column:1}
-  .summary-grid{grid-template-columns:1fr 1fr}
-  .summary-grid .summary-card:last-child{grid-column:1/-1}
-  main{margin:1rem auto}
-  .card{padding:1.25rem}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #fff;
+  color: #1a1a2e;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+a { color: #0077b6; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+nav {
+  border-bottom: 1px solid #e0e0e0;
+  padding: 0 1.5rem;
+}
+.nav-inner {
+  max-width: 640px;
+  margin: 0 auto;
+  height: 52px;
+  display: flex;
+  align-items: center;
+}
+.nav-logo {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #1a1a2e;
+}
+.nav-logo:hover { text-decoration: none; color: #0077b6; }
+
+.container {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+h1 {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #1a1a2e;
+  margin-bottom: 0.5rem;
+  line-height: 1.25;
+}
+.subtitle {
+  color: #555;
+  font-size: 0.95rem;
+  margin-bottom: 2rem;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  margin-bottom: 2rem;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.form-group.full { grid-column: 1 / -1; }
+
+label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #444;
+}
+
+.input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.input-prefix, .input-suffix {
+  position: absolute;
+  color: #888;
+  font-size: 0.9rem;
+  pointer-events: none;
+}
+.input-prefix { left: 12px; }
+.input-suffix { right: 12px; }
+
+input[type="number"], select {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  color: #1a1a2e;
+  background: #fff;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
+input.has-prefix { padding-left: 28px; }
+input.has-suffix { padding-right: 36px; }
+
+input:focus, select:focus {
+  outline: none;
+  border-color: #0077b6;
+  box-shadow: 0 0 0 3px rgba(0,119,182,0.15);
+}
+input.error { border-color: #e74c3c; }
+
+.error-msg {
+  font-size: 0.78rem;
+  color: #e74c3c;
+  margin-top: 2px;
+  display: none;
+}
+.error-msg.visible { display: block; }
+
+.slider-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.slider-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+input[type="range"] {
+  flex: 1;
+  height: 4px;
+  accent-color: #0077b6;
+  cursor: pointer;
+}
+.slider-val {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #0077b6;
+  min-width: 48px;
+  text-align: right;
+}
+
+.btn {
+  background: #0077b6;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  min-height: 44px;
+  margin-top: 1.25rem;
+  transition: background 0.2s;
+}
+.btn:hover { background: #006299; }
+.btn:active { background: #005080; }
+
+.btn-secondary {
+  background: #f0f0f0;
+  color: #1a1a2e;
+  font-size: 0.8rem;
+  padding: 6px 14px;
+  min-height: 32px;
+  margin-top: 0;
+  width: auto;
+  border-radius: 4px;
+}
+.btn-secondary:hover { background: #e0e0e0; }
+
+/* Results */
+.results {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.results.visible {
+  display: block;
+  opacity: 1;
+}
+
+.result-hero {
+  background: linear-gradient(135deg, #0077b6 0%, #00a8e8 100%);
+  border-radius: 8px;
+  padding: 1.75rem;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+.result-hero-label { font-size: 0.85rem; opacity: 0.85; margin-bottom: 0.35rem; }
+.result-hero-value {
+  font-size: 2.5rem;
+  font-weight: 800;
+  letter-spacing: -1px;
+  line-height: 1.1;
+}
+.result-hero-sub {
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  opacity: 0.85;
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+.result-hero-sub span { white-space: nowrap; }
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.summary-card {
+  background: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  padding: 1rem;
+  text-align: center;
+}
+.summary-card-label { font-size: 0.75rem; color: #666; margin-bottom: 0.25rem; }
+.summary-card-value { font-size: 1.2rem; font-weight: 700; color: #1a1a2e; }
+.summary-card-value.positive { color: #27ae60; }
+.summary-card-value.accent { color: #0077b6; }
+
+/* Bar visual */
+.bar-visual {
+  margin-bottom: 1.5rem;
+}
+.bar-visual-label {
+  font-size: 0.8rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+.bar-stack {
+  height: 36px;
+  border-radius: 6px;
+  overflow: hidden;
+  display: flex;
+  background: #f0f0f0;
+}
+.bar-principal {
+  background: #0077b6;
+  transition: width 0.5s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.bar-contributions {
+  background: #00a8e8;
+  transition: width 0.5s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.bar-interest {
+  background: #27ae60;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.bar-label-row {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+}
+.bar-legend {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.75rem;
+  color: #555;
+}
+.bar-dot {
+  width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0;
+}
+
+/* Table */
+.table-section { margin-bottom: 1rem; }
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+.table-header h3 { font-size: 1rem; font-weight: 700; }
+
+.table-wrap { overflow-x: auto; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  min-width: 480px;
+}
+thead th {
+  background: #f0f0f0;
+  padding: 10px 12px;
+  text-align: right;
+  font-weight: 600;
+  font-size: 0.78rem;
+  color: #444;
+  border-bottom: 1px solid #ddd;
+}
+thead th:first-child { text-align: left; }
+tbody tr:nth-child(odd) { background: #fafafa; }
+tbody tr:nth-child(even) { background: #fff; }
+tbody td {
+  padding: 9px 12px;
+  border-bottom: 1px solid #eee;
+  text-align: right;
+  color: #1a1a2e;
+}
+tbody td:first-child { text-align: left; font-weight: 500; }
+tbody tr.hidden-row { display: none; }
+tbody tr.highlight { background: #e8f4fd !important; font-weight: 600; }
+
+.show-all-wrap { text-align: center; margin-top: 0.75rem; }
+
+.copy-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.75rem;
+}
+
+.ad-slot {
+  background: #f8f9fa;
+  border: 1px dashed #ccc;
+  border-radius: 6px;
+  padding: 1.5rem;
+  text-align: center;
+  color: #aaa;
+  font-size: 0.8rem;
+  margin: 2rem 0;
+  min-height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Content section */
+.content-section { margin-bottom: 2rem; }
+.content-section h2 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 0.75rem;
+  margin-top: 2rem;
+}
+.content-section h2:first-child { margin-top: 0; }
+.content-section p { color: #444; margin-bottom: 0.75rem; font-size: 0.95rem; }
+.content-section ul {
+  padding-left: 1.25rem;
+  color: #444;
+  font-size: 0.95rem;
+  margin-bottom: 0.75rem;
+}
+.content-section ul li { margin-bottom: 0.4rem; }
+.formula-box {
+  background: #f8f9fa;
+  border-left: 3px solid #0077b6;
+  padding: 1rem 1.25rem;
+  border-radius: 0 6px 6px 0;
+  font-family: monospace;
+  font-size: 0.9rem;
+  color: #1a1a2e;
+  margin: 0.75rem 0;
+}
+
+details {
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  margin-bottom: 0.75rem;
+  overflow: hidden;
+}
+summary {
+  padding: 0.9rem 1rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  background: #f8f9fa;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #1a1a2e;
+}
+summary::-webkit-details-marker { display: none; }
+summary::after { content: '+'; font-size: 1.1rem; color: #0077b6; }
+details[open] summary::after { content: '−'; }
+details[open] summary { border-bottom: 1px solid #e0e0e0; }
+.faq-body { padding: 1rem; font-size: 0.92rem; color: #444; line-height: 1.6; }
+
+.related-tools {
+  background: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+.related-tools h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; }
+.related-tools a {
+  display: inline-block;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  color: #0077b6;
+  margin: 0.25rem 0.25rem 0.25rem 0;
+}
+.related-tools a:hover { background: #e8f4fd; text-decoration: none; }
+
+footer {
+  border-top: 1px solid #e0e0e0;
+  padding: 1.5rem;
+  text-align: center;
+  font-size: 0.82rem;
+  color: #888;
+}
+footer a { color: #888; margin: 0 0.5rem; }
+footer a:hover { color: #0077b6; }
+.footer-inner { max-width: 640px; margin: 0 auto; }
+
+@media (max-width: 600px) {
+  h1 { font-size: 1.4rem; }
+  .form-grid { grid-template-columns: 1fr; }
+  .form-group.full { grid-column: 1; }
+  .summary-grid { grid-template-columns: 1fr 1fr; }
+  .result-hero-value { font-size: 2rem; }
+  .card { padding: 1.25rem; }
+}
+@media (max-width: 400px) {
+  .summary-grid { grid-template-columns: 1fr; }
+  .result-hero-sub { gap: 0.75rem; }
 }
 </style>
 </head>
@@ -105,53 +473,60 @@ footer a{color:#888;margin:0 .4rem}
 
 <nav>
   <div class="nav-inner">
-    <a href="/" class="nav-brand">calc<span>stack</span>.dev</a>
+    <a class="nav-logo" href="/">calcstack.dev</a>
   </div>
 </nav>
 
-<main>
+<div class="container">
+
   <h1>Investment Growth Calculator</h1>
-  <p class="subtitle">See how your money grows over time with compound interest and regular contributions.</p>
+  <p class="subtitle">Calculate how your money grows with compound interest and regular contributions.</p>
 
   <div class="card">
-    <div class="section-title">Investment Details</div>
     <div class="form-grid">
 
       <div class="form-group">
         <label for="principal">Initial Investment</label>
         <div class="input-wrap">
           <span class="input-prefix">$</span>
-          <input type="number" id="principal" class="has-prefix" placeholder="10,000" min="0" value="10000">
+          <input type="number" id="principal" class="has-prefix" value="10000" min="0" step="100" placeholder="10000">
         </div>
-        <span class="error-msg" id="err-principal">Please enter a valid initial investment (≥ 0).</span>
+        <span class="error-msg" id="principal-err">Please enter a valid amount (≥ 0).</span>
       </div>
 
       <div class="form-group">
         <label for="monthly">Monthly Contribution</label>
         <div class="input-wrap">
           <span class="input-prefix">$</span>
-          <input type="number" id="monthly" class="has-prefix" placeholder="500" min="0" value="500">
+          <input type="number" id="monthly" class="has-prefix" value="200" min="0" step="50" placeholder="200">
         </div>
-        <span class="error-msg" id="err-monthly">Please enter a valid amount (≥ 0).</span>
+        <span class="error-msg" id="monthly-err">Please enter 0 or a positive amount.</span>
       </div>
 
-      <div class="form-group full">
-        <label for="rate">Annual Return Rate: <span id="rate-display" style="color:#0077b6;font-weight:700">7%</span></label>
+      <div class="form-group full slider-group">
+        <label for="rate">Annual Interest Rate</label>
         <div class="slider-row">
           <input type="range" id="rate-slider" min="0.1" max="30" step="0.1" value="7">
-          <input type="number" id="rate" style="width:72px;flex-shrink:0" class="has-suffix" value="7" min="0.1" max="100" step="0.1">
-          <span class="input-suffix" style="right:auto;position:static;margin-left:-8px;color:#888">%</span>
+          <span class="slider-val" id="rate-display">7.0%</span>
         </div>
-        <span class="error-msg" id="err-rate">Rate must be between 0.1% and 100%.</span>
+        <div class="input-wrap">
+          <input type="number" id="rate" class="has-suffix" value="7" min="0.01" max="100" step="0.1" placeholder="7">
+          <span class="input-suffix">%</span>
+        </div>
+        <span class="error-msg" id="rate-err">Rate must be between 0.01% and 100%.</span>
       </div>
 
-      <div class="form-group">
+      <div class="form-group full slider-group">
         <label for="years">Investment Period</label>
+        <div class="slider-row">
+          <input type="range" id="years-slider" min="1" max="50" step="1" value="20">
+          <span class="slider-val" id="years-display">20 yrs</span>
+        </div>
         <div class="input-wrap">
-          <input type="number" id="years" class="has-suffix" placeholder="20" min="1" max="100" value="20">
+          <input type="number" id="years" class="has-suffix" value="20" min="1" max="100" step="1" placeholder="20">
           <span class="input-suffix">yrs</span>
         </div>
-        <span class="error-msg" id="err-years">Enter a period between 1 and 100 years.</span>
+        <span class="error-msg" id="years-err">Period must be between 1 and 100 years.</span>
       </div>
 
       <div class="form-group">
@@ -165,247 +540,422 @@ footer a{color:#888;margin:0 .4rem}
         </select>
       </div>
 
+      <div class="form-group">
+        <label for="inflation">Inflation Rate (optional)</label>
+        <div class="input-wrap">
+          <input type="number" id="inflation" class="has-suffix" value="2.5" min="0" max="30" step="0.1" placeholder="2.5">
+          <span class="input-suffix">%</span>
+        </div>
+        <span class="error-msg" id="inflation-err">Enter 0 or a positive inflation rate.</span>
+      </div>
+
     </div>
-    <button class="btn" id="calcBtn">Calculate Growth</button>
+
+    <button class="btn" id="calc-btn">Calculate Growth</button>
   </div>
 
-  <div class="card results" id="results">
-    <div class="section-title">Results Summary</div>
+  <!-- Results -->
+  <div class="results" id="results">
+
+    <div class="result-hero">
+      <div class="result-hero-label">Future Value</div>
+      <div class="result-hero-value" id="hero-value">$0</div>
+      <div class="result-hero-sub">
+        <span>📈 <span id="hero-gain">$0 gain</span></span>
+        <span>📅 <span id="hero-years">0 years</span></span>
+        <span>💰 <span id="hero-rate">0% / yr</span></span>
+      </div>
+    </div>
 
     <div class="summary-grid">
       <div class="summary-card">
-        <div class="summary-label">Final Balance</div>
-        <div class="summary-value green" id="res-total">—</div>
+        <div class="summary-card-label">Total Invested</div>
+        <div class="summary-card-value accent" id="sum-invested">$0</div>
       </div>
       <div class="summary-card">
-        <div class="summary-label">Total Invested</div>
-        <div class="summary-value dark" id="res-invested">—</div>
+        <div class="summary-card-label">Interest Earned</div>
+        <div class="summary-card-value positive" id="sum-interest">$0</div>
       </div>
       <div class="summary-card">
-        <div class="summary-label">Interest Earned</div>
-        <div class="summary-value" id="res-interest">—</div>
+        <div class="summary-card-label">Return on Investment</div>
+        <div class="summary-card-value positive" id="sum-roi">0%</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-card-label">Real Value (Inflation-Adj.)</div>
+        <div class="summary-card-value" id="sum-real">$0</div>
       </div>
     </div>
 
-    <div class="bar-section">
-      <div class="bar-label-row">
-        <span>Principal &amp; Contributions vs Interest</span>
-      </div>
-      <div class="stacked-bar" id="stacked-bar" style="border-radius:4px;overflow:hidden;height:22px"></div>
-      <div style="display:flex;gap:1rem;margin-top:.5rem;flex-wrap:wrap">
-        <div style="display:flex;align-items:center;gap:.35rem;font-size:.75rem"><span style="width:12px;height:12px;border-radius:2px;background:#0077b6;display:inline-block"></span>Principal</div>
-        <div style="display:flex;align-items:center;gap:.35rem;font-size:.75rem"><span style="width:12px;height:12px;border-radius:2px;background:#48cae4;display:inline-block"></span>Contributions</div>
-        <div style="display:flex;align-items:center;gap:.35rem;font-size:.75rem"><span style="width:12px;height:12px;border-radius:2px;background:#27ae60;display:inline-block"></span>Interest</div>
+    <div class="card">
+      <div class="bar-visual">
+        <div class="bar-visual-label">Composition of Future Value</div>
+        <div class="bar-stack">
+          <div class="bar-principal" id="bar-p" style="width:0%"></div>
+          <div class="bar-contributions" id="bar-c" style="width:0%"></div>
+          <div class="bar-interest" id="bar-i"></div>
+        </div>
+        <div class="bar-label-row">
+          <div class="bar-legend"><div class="bar-dot" style="background:#0077b6"></div><span id="leg-p">Initial ($0)</span></div>
+          <div class="bar-legend"><div class="bar-dot" style="background:#00a8e8"></div><span id="leg-c">Contributions ($0)</span></div>
+          <div class="bar-legend"><div class="bar-dot" style="background:#27ae60"></div><span id="leg-i">Interest ($0)</span></div>
+        </div>
       </div>
     </div>
 
-    <div class="section-title" style="margin-top:1.25rem">Year-by-Year Breakdown</div>
-    <div class="copy-row">
-      <button class="btn-secondary" id="copyBtn">Copy Results</button>
+    <div class="card table-section">
+      <div class="table-header">
+        <h3>Year-by-Year Breakdown</h3>
+        <div style="display:flex;gap:0.5rem;align-items:center">
+          <button class="btn btn-secondary" id="copy-btn">Copy</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table id="breakdown-table">
+          <thead>
+            <tr>
+              <th>Year</th>
+              <th>Invested</th>
+              <th>Interest</th>
+              <th>End Balance</th>
+              <th>Real Value</th>
+            </tr>
+          </thead>
+          <tbody id="table-body"></tbody>
+        </table>
+      </div>
+      <div class="show-all-wrap">
+        <button class="btn btn-secondary" id="show-all-btn" style="display:none">Show All Years</button>
+      </div>
     </div>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Year</th>
-            <th>Balance</th>
-            <th>Invested</th>
-            <th>Interest</th>
-            <th>YoY Growth</th>
-          </tr>
-        </thead>
-        <tbody id="table-body"></tbody>
-      </table>
-    </div>
-    <div class="show-all-wrap" id="show-all-wrap" style="display:none">
-      <button class="btn-secondary" id="showAllBtn">Show All Years</button>
-    </div>
+
   </div>
 
   <div class="ad-slot" id="ad-mid">Advertisement</div>
 
-  <div class="how-to card" style="margin-bottom:2rem">
-    <h2>How to Use This Calculator</h2>
-    <p>Enter your initial investment, any regular monthly contributions, and the expected annual return rate. Choose how often interest compounds and your investment horizon in years.</p>
-    <p>Click <strong>Calculate Growth</strong> to instantly see your projected final balance, total amount invested, and interest earned — broken down year by year.</p>
-    <p>Use the rate slider to quickly compare different return scenarios and see how small changes in return rate dramatically affect long-term results.</p>
+  <!-- Content -->
+  <div class="content-section">
+
+    <h2>How to Use This Investment Growth Calculator</h2>
+    <p>Enter your starting investment amount, how much you plan to add each month, the expected annual return rate, and the number of years you'll invest. Choose your compounding frequency and optionally add an inflation rate to see your portfolio's real purchasing power. Hit <strong>Calculate Growth</strong> and instantly see your projected future value alongside a full year-by-year breakdown.</p>
+
+    <h2>Why This Matters</h2>
+    <p>The difference between starting to invest at 25 versus 35 can be staggering. Consider this: a $10,000 initial investment with $200/month at a 7% annual return compounds to roughly <strong>$528,000 over 30 years</strong> — but only $228,000 over 20 years. That's a $300,000 gap from just one extra decade.</p>
+    <p>This tool helps everyday investors, students, and financial planners visualize how time, rate, and regular contributions interact. Whether you're deciding between paying down debt or investing, planning for retirement, or exploring the impact of a pay raise on your savings, seeing the numbers side-by-side makes the abstract concrete. Even small changes matter — increasing your monthly contribution by $50 or snagging an extra 0.5% return can add tens of thousands of dollars over a long horizon.</p>
+    <p>Inflation adjustment is included because $500,000 in 30 years won't have the same buying power as today. With 2.5% average inflation, that future half-million is worth closer to $240,000 in today's dollars — still impressive, but worth knowing.</p>
+
+    <h2>How It's Calculated</h2>
+    <p>The calculator uses the <strong>Future Value of a Series</strong> formula, which combines a lump-sum compound interest formula with the future value of regular contributions:</p>
+    <div class="formula-box">FV = P × (1 + r/n)^(n×t) + PMT × [((1 + r/n)^(n×t) − 1) / (r/n)]</div>
+    <p>Where: <strong>P</strong> = principal (initial investment), <strong>r</strong> = annual interest rate (as a decimal), <strong>n</strong> = compounding periods per year, <strong>t</strong> = time in years, <strong>PMT</strong> = monthly contribution (annualized to match compounding period).</p>
+    <p>For inflation adjustment, the real value is: <strong>Real FV = FV / (1 + inflation_rate)^t</strong></p>
+    <p>Interest earned each year is calculated incrementally so the year-by-year table accurately reflects compounding within each period.</p>
+
+    <h2>Tips &amp; Common Mistakes</h2>
+    <ul>
+      <li><strong>Don't underestimate compounding frequency.</strong> Daily compounding earns slightly more than monthly or annual — over 30 years, the difference adds up to hundreds or thousands of dollars on a large portfolio.</li>
+      <li><strong>Use realistic return rates.</strong> The S&amp;P 500 has averaged ~10% nominal / ~7% real over long periods, but past performance doesn't guarantee future results. Use 6–8% for conservative projections.</li>
+      <li><strong>Always account for inflation.</strong> A 7% return with 2.5% inflation is really a ~4.4% real return. Don't plan retirement spending based on nominal future values alone.</li>
+      <li><strong>Contributions matter as much as rate.</strong> Consistent monthly contributions often outweigh chasing an extra percentage point of return — and carry no additional risk.</li>
+      <li><strong>This is a projection, not a guarantee.</strong> Markets fluctuate. Use this tool for planning and comparison, not as a financial promise. Consider consulting a financial advisor for personalized advice.</li>
+    </ul>
+
+    <h2>Frequently Asked Questions</h2>
+
+    <details>
+      <summary>What compounding frequency should I choose?</summary>
+      <div class="faq-body">Most savings accounts and index funds compound monthly or daily, so "Monthly" is usually the most realistic choice. Bonds and some CDs compound semi-annually or annually. Choosing the correct frequency for your actual investment gives the most accurate projection — though the difference between daily and monthly compounding is often less than 0.1% on typical portfolios.</div>
+    </details>
+
+    <details>
+      <summary>What annual return rate should I use?</summary>
+      <div class="faq-body">It depends on your investment type. Broad stock market index funds (like S&amp;P 500 ETFs) have historically returned around 10% nominally and 7% after inflation over long periods. Bonds average 3–5%, and savings accounts currently yield 4–5%. For a mixed portfolio, 6–7% is a common conservative estimate. Always stress-test with a lower rate (e.g., 5%) to see worst-case scenarios.</div>
+    </details>
+
+    <details>
+      <summary>Why is my inflation-adjusted value so much lower?</summary>
+      <div class="faq-body">Inflation compounds just like returns do — in reverse. At 2.5% annual inflation, prices roughly double every 28 years. So a future balance of $1,000,000 in 30 years has the purchasing power of about $477,000 in today's dollars. This is why most financial planners recommend targeting a real (inflation-adjusted) return rather than a nominal one.</div>
+    </details>
+
+    <details>
+      <summary>Does this account for taxes on investment gains?</summary>
+      <div class="faq-body">No — this calculator shows pre-tax growth. In taxable accounts, you'd owe capital gains tax when you sell, which reduces your net return. In tax-advantaged accounts like a 401(k) or Roth IRA, growth is tax-deferred or tax-free. For after-tax projections, reduce your effective return rate by your estimated tax drag (e.g., if you pay 15% on gains annually, reduce your rate by ~15%).</div>
+    </details>
+
   </div>
 
-  <div class="related">
+  <div class="related-tools">
     <h2>Related Tools</h2>
-    <p>More calculators are coming soon to calcstack.dev. Check back for tools like a compound interest calculator, savings goal planner, retirement calculator, and more.</p>
+    <a href="/">View All Tools →</a>
   </div>
 
   <div class="ad-slot" id="ad-bottom">Advertisement</div>
-</main>
+
+</div>
 
 <footer>
-  <a href="/about/">About</a>
-  <a href="/privacy/">Privacy</a>
-  <a href="/contact/">Contact</a>
-  <span style="margin-left:.5rem">© <span id="yr"></span> calcstack.dev</span>
+  <div class="footer-inner">
+    <div style="margin-bottom:0.5rem">
+      <a href="/about/">About</a>
+      <a href="/privacy/">Privacy</a>
+      <a href="/contact/">Contact</a>
+    </div>
+    <div>© <span id="yr"></span> calcstack.dev — Free Online Calculators</div>
+  </div>
 </footer>
 
 <script>
 document.getElementById('yr').textContent = new Date().getFullYear();
 
-const $ = id => document.getElementById(id);
-
-// Slider <-> input sync
-const rateSlider = $('rate-slider');
-const rateInput = $('rate');
-const rateDisplay = $('rate-display');
+// Sync sliders
+const rateInput = document.getElementById('rate');
+const rateSlider = document.getElementById('rate-slider');
+const rateDisplay = document.getElementById('rate-display');
+const yearsInput = document.getElementById('years');
+const yearsSlider = document.getElementById('years-slider');
+const yearsDisplay = document.getElementById('years-display');
 
 rateSlider.addEventListener('input', () => {
   rateInput.value = rateSlider.value;
   rateDisplay.textContent = parseFloat(rateSlider.value).toFixed(1) + '%';
 });
 rateInput.addEventListener('input', () => {
-  const v = parseFloat(rateInput.value);
-  if (!isNaN(v) && v >= 0.1 && v <= 30) rateSlider.value = v;
-  if (!isNaN(v)) rateDisplay.textContent = v.toFixed(1) + '%';
+  const v = Math.min(Math.max(parseFloat(rateInput.value)||0, 0.1), 30);
+  rateSlider.value = v;
+  rateDisplay.textContent = v.toFixed(1) + '%';
+});
+
+yearsSlider.addEventListener('input', () => {
+  yearsInput.value = yearsSlider.value;
+  yearsDisplay.textContent = yearsSlider.value + ' yrs';
+});
+yearsInput.addEventListener('input', () => {
+  const v = Math.min(Math.max(parseInt(yearsInput.value)||1, 1), 50);
+  yearsSlider.value = v;
+  yearsDisplay.textContent = v + ' yrs';
 });
 
 // Format helpers
 function fmt(n, dec=2) {
-  if (isNaN(n)) return '—';
   return '$' + n.toLocaleString('en-US', {minimumFractionDigits: dec, maximumFractionDigits: dec});
 }
 function fmtPct(n) {
-  return n.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2}) + '%';
+  return n.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '%';
 }
 
-// Validation
+// Validate
 function validate() {
   let ok = true;
   const fields = [
-    {id:'principal', errId:'err-principal', min:0, max:1e12, msg:'Please enter a valid initial investment (≥ 0).'},
-    {id:'monthly', errId:'err-monthly', min:0, max:1e9, msg:'Please enter a valid amount (≥ 0).'},
-    {id:'rate', errId:'err-rate', min:0.01, max:100, msg:'Rate must be between 0.01% and 100%.'},
-    {id:'years', errId:'err-years', min:1, max:100, msg:'Enter a period between 1 and 100 years.'},
+    { id: 'principal', errId: 'principal-err', min: 0, max: 1e12, label: 'Initial investment' },
+    { id: 'monthly', errId: 'monthly-err', min: 0, max: 1e9, label: 'Monthly contribution' },
+    { id: 'rate', errId: 'rate-err', min: 0.01, max: 100, label: 'Rate' },
+    { id: 'years', errId: 'years-err', min: 1, max: 100, label: 'Years' },
+    { id: 'inflation', errId: 'inflation-err', min: 0, max: 30, label: 'Inflation' }
   ];
   fields.forEach(f => {
-    const el = $(f.id);
-    const errEl = $(f.errId);
+    const el = document.getElementById(f.id);
+    const err = document.getElementById(f.errId);
     const v = parseFloat(el.value);
     if (isNaN(v) || v < f.min || v > f.max) {
       el.classList.add('error');
-      errEl.textContent = f.msg;
-      errEl.classList.add('visible');
+      if (err) err.classList.add('visible');
       ok = false;
     } else {
       el.classList.remove('error');
-      errEl.classList.remove('visible');
+      if (err) err.classList.remove('visible');
     }
   });
   return ok;
 }
 
-let allRows = [];
-let showingAll = false;
-const PREVIEW = 10;
-
-function renderTable(rows, showAll) {
-  const tbody = $('table-body');
-  tbody.innerHTML = '';
-  const display = showAll ? rows : rows.slice(0, PREVIEW);
-  display.forEach(r => {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `<td>${r.year}</td><td>${fmt(r.balance)}</td><td>${fmt(r.invested)}</td><td>${fmt(r.interest)}</td><td>${fmtPct(r.yoy)}</td>`;
-    tbody.appendChild(tr);
-  });
-  const wrap = $('show-all-wrap');
-  if (rows.length > PREVIEW) {
-    wrap.style.display = 'block';
-    $('showAllBtn').textContent = showAll ? 'Show Less' : `Show All ${rows.length} Years`;
-  } else {
-    wrap.style.display = 'none';
-  }
-}
-
+// Core calculation
 function calculate() {
   if (!validate()) return;
 
-  const principal = parseFloat($('principal').value);
-  const monthly = parseFloat($('monthly').value);
-  const rate = parseFloat($('rate').value) / 100;
-  const years = parseInt($('years').value);
-  const n = parseInt($('compound').value);
+  const P = parseFloat(document.getElementById('principal').value) || 0;
+  const PMT = parseFloat(document.getElementById('monthly').value) || 0;
+  const r = parseFloat(document.getElementById('rate').value) / 100;
+  const t = parseInt(document.getElementById('years').value);
+  const n = parseInt(document.getElementById('compound').value);
+  const inf = parseFloat(document.getElementById('inflation').value) / 100;
 
-  // Compound interest with regular monthly contributions
-  // Balance after t years = P*(1+r/n)^(n*t) + PMT * [((1+r/n)^(n*t) - 1) / (r/n)]
-  // We compute year by year
+  // Build year-by-year data
+  const rows = [];
+  let balance = P;
+  let totalInvested = P;
+  let totalInterest = 0;
 
-  const rn = rate / n;
-  allRows = [];
+  for (let yr = 1; yr <= t; yr++) {
+    const startBalance = balance;
+    // For each period within the year
+    const periodsPerYear = n;
+    const monthlyRate = r / n;
+    const startYearBalance = balance;
+    let yearlyContrib = PMT * 12;
 
-  let prevBalance = principal;
+    // Step through each compounding period in the year
+    let b = startYearBalance;
+    const pmtPerPeriod = PMT * (12 / n); // convert monthly to per-period
 
-  for (let y = 1; y <= years; y++) {
-    const periods = n * y;
-    const growth = Math.pow(1 + rn, periods);
-    const balance = principal * growth + (rn > 0 ? monthly * ((growth - 1) / rn) * (n / 12) : monthly * 12 * y);
-    const invested = principal + monthly * 12 * y;
-    const interest = balance - invested;
-    const yoy = prevBalance > 0 ? ((balance - prevBalance) / prevBalance) * 100 : 0;
-    allRows.push({ year: y, balance, invested, interest, yoy });
-    prevBalance = balance;
+    for (let p = 0; p < periodsPerYear; p++) {
+      b = b * (1 + monthlyRate) + pmtPerPeriod;
+    }
+
+    const yearInterest = b - startYearBalance - yearlyContrib;
+    totalInvested += yearlyContrib;
+    totalInterest += yearInterest;
+    balance = b;
+
+    const realValue = balance / Math.pow(1 + inf, yr);
+    rows.push({
+      year: yr,
+      invested: totalInvested,
+      interestEarned: totalInterest,
+      balance: balance,
+      realValue: realValue
+    });
   }
 
-  const finalRow = allRows[allRows.length - 1];
-  $('res-total').textContent = fmt(finalRow.balance);
-  $('res-invested').textContent = fmt(finalRow.invested);
-  $('res-interest').textContent = fmt(finalRow.interest);
+  const finalBalance = balance;
+  const totalContributions = PMT * 12 * t;
+  const totalInvestedFinal = P + totalContributions;
+  const interestEarned = finalBalance - totalInvestedFinal;
+  const roi = totalInvestedFinal > 0 ? (interestEarned / totalInvestedFinal) * 100 : 0;
+  const realFinal = finalBalance / Math.pow(1 + inf, t);
 
-  // Stacked bar
-  const total = finalRow.balance;
-  const pPct = (principal / total * 100).toFixed(2);
-  const cPct = ((finalRow.invested - principal) / total * 100).toFixed(2);
-  const iPct = (Math.max(0, finalRow.interest) / total * 100).toFixed(2);
-  $('stacked-bar').innerHTML = `
-    <div style="width:${pPct}%;background:#0077b6;height:100%" title="Principal: ${fmt(principal)}"></div>
-    <div style="width:${cPct}%;background:#48cae4;height:100%" title="Contributions: ${fmt(finalRow.invested - principal)}"></div>
-    <div style="width:${iPct}%;background:#27ae60;height:100%" title="Interest: ${fmt(finalRow.interest)}"></div>
-  `;
+  // Update hero
+  document.getElementById('hero-value').textContent = fmt(finalBalance);
+  document.getElementById('hero-gain').textContent = fmt(interestEarned) + ' gain';
+  document.getElementById('hero-years').textContent = t + ' year' + (t !== 1 ? 's' : '');
+  document.getElementById('hero-rate').textContent = fmtPct(r * 100) + ' / yr';
 
-  showingAll = false;
-  renderTable(allRows, false);
+  // Summary cards
+  document.getElementById('sum-invested').textContent = fmt(totalInvestedFinal);
+  document.getElementById('sum-interest').textContent = fmt(interestEarned);
+  document.getElementById('sum-roi').textContent = fmtPct(roi);
+  document.getElementById('sum-real').textContent = fmt(realFinal);
 
-  const resultsEl = $('results');
-  resultsEl.classList.add('visible');
-  resultsEl.scrollIntoView({behavior:'smooth', block:'nearest'});
+  // Bar visual
+  const pPct = (P / finalBalance) * 100;
+  const cPct = (totalContributions / finalBalance) * 100;
+  document.getElementById('bar-p').style.width = Math.max(pPct, 0).toFixed(1) + '%';
+  document.getElementById('bar-c').style.width = Math.max(cPct, 0).toFixed(1) + '%';
+  document.getElementById('leg-p').textContent = 'Initial (' + fmt(P, 0) + ')';
+  document.getElementById('leg-c').textContent = 'Contributions (' + fmt(totalContributions, 0) + ')';
+  document.getElementById('leg-i').textContent = 'Interest (' + fmt(interestEarned, 0) + ')';
+
+  // Table
+  const tbody = document.getElementById('table-body');
+  tbody.innerHTML = '';
+  const showAllBtn = document.getElementById('show-all-btn');
+  const VISIBLE = 10;
+
+  rows.forEach((row, i) => {
+    const tr = document.createElement('tr');
+    if (i === t - 1) tr.classList.add('highlight');
+    if (i >= VISIBLE && t > VISIBLE) tr.classList.add('hidden-row');
+    tr.innerHTML = `
+      <td>Year ${row.year}</td>
+      <td>${fmt(row.invested, 0)}</td>
+      <td>${fmt(row.interestEarned, 0)}</td>
+      <td>${fmt(row.balance)}</td>
+      <td>${fmt(row.realValue)}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  if (t > VISIBLE) {
+    showAllBtn.style.display = 'inline-block';
+    showAllBtn.textContent = 'Show All ' + t + ' Years';
+    showAllBtn.dataset.shown = '0';
+  } else {
+    showAllBtn.style.display = 'none';
+  }
+
+  // Copy button data
+  document.getElementById('copy-btn').dataset.rows = JSON.stringify(rows);
+
+  // Show results
+  const resultsEl = document.getElementById('results');
+  resultsEl.style.display = 'block';
+  requestAnimationFrame(() => { resultsEl.classList.add('visible'); });
+  resultsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-$('calcBtn').addEventListener('click', calculate);
-
-['principal','monthly','rate','years'].forEach(id => {
-  $(id).addEventListener('keydown', e => { if(e.key === 'Enter') calculate(); });
+// Show all toggle
+document.getElementById('show-all-btn').addEventListener('click', function() {
+  const shown = this.dataset.shown === '1';
+  document.querySelectorAll('.hidden-row').forEach(r => {
+    r.style.display = shown ? 'none' : '';
+    r.classList.toggle('hidden-row', shown);
+    if (!shown) r.classList.add('was-hidden');
+  });
+  if (shown) {
+    document.querySelectorAll('.was-hidden').forEach(r => { r.classList.add('hidden-row'); r.style.display = ''; });
+  }
+  this.dataset.shown = shown ? '0' : '1';
+  this.textContent = shown ? 'Show All ' + document.getElementById('years').value + ' Years' : 'Show Less';
 });
-$('compound').addEventListener('keydown', e => { if(e.key === 'Enter') calculate(); });
 
-$('showAllBtn').addEventListener('click', () => {
-  showingAll = !showingAll;
-  renderTable(allRows, showingAll);
+// Actually implement show all correctly
+document.getElementById('show-all-btn').addEventListener('click', function() {
+  const hidden = document.querySelectorAll('#table-body tr.hidden-row');
+  if (hidden.length > 0) {
+    hidden.forEach(r => r.classList.remove('hidden-row'));
+    this.textContent = 'Show Less';
+  } else {
+    const t = parseInt(document.getElementById('years').value);
+    const rows = document.querySelectorAll('#table-body tr');
+    rows.forEach((r, i) => { if (i >= 10) r.classList.add('hidden-row'); });
+    this.textContent = 'Show All ' + t + ' Years';
+  }
+}, { once: false });
+
+// Fix: remove duplicate listener — use flag
+let showAllBtn = document.getElementById('show-all-btn');
+let showAllListeners = 0;
+showAllBtn.replaceWith(showAllBtn.cloneNode(true));
+showAllBtn = document.getElementById('show-all-btn');
+showAllBtn.addEventListener('click', function() {
+  const hidden = document.querySelectorAll('#table-body tr.hidden-row');
+  if (hidden.length > 0) {
+    hidden.forEach(r => r.classList.remove('hidden-row'));
+    this.textContent = 'Show Less';
+  } else {
+    const t = parseInt(document.getElementById('years').value);
+    const rows = document.querySelectorAll('#table-body tr');
+    rows.forEach((r, i) => { if (i >= 10) r.classList.add('hidden-row'); });
+    this.textContent = 'Show All ' + t + ' Years';
+  }
 });
 
-$('copyBtn').addEventListener('click', () => {
-  if (!allRows.length) return;
-  let text = 'Year\tBalance\tInvested\tInterest\tYoY Growth\n';
-  allRows.forEach(r => {
-    text += `${r.year}\t${r.balance.toFixed(2)}\t${r.invested.toFixed(2)}\t${r.interest.toFixed(2)}\t${r.yoy.toFixed(2)}%\n`;
+// Copy to clipboard
+document.getElementById('copy-btn').addEventListener('click', function() {
+  const rows = JSON.parse(this.dataset.rows || '[]');
+  if (!rows.length) return;
+  let text = 'Year\tTotal Invested\tInterest Earned\tEnd Balance\tReal Value\n';
+  rows.forEach(r => {
+    text += `Year ${r.year}\t$${r.invested.toFixed(2)}\t$${r.interestEarned.toFixed(2)}\t$${r.balance.toFixed(2)}\t$${r.realValue.toFixed(2)}\n`;
   });
   navigator.clipboard.writeText(text).then(() => {
-    const btn = $('copyBtn');
-    btn.textContent = 'Copied!';
-    setTimeout(() => btn.textContent = 'Copy Results', 2000);
+    const orig = this.textContent;
+    this.textContent = 'Copied!';
+    setTimeout(() => { this.textContent = orig; }, 2000);
   }).catch(() => {
-    const btn = $('copyBtn');
-    btn.textContent = 'Failed';
-    setTimeout(() => btn.textContent = 'Copy Results', 2000);
+    this.textContent = 'Error';
+    setTimeout(() => { this.textContent = 'Copy'; }, 2000);
   });
 });
 
-// Auto-calculate on load for demo
+// Calculate on button
+document.getElementById('calc-btn').addEventListener('click', calculate);
+
+// Calculate on Enter
+document.querySelectorAll('input').forEach(inp => {
+  inp.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
+});
+
+// Auto-calculate on load
 calculate();
 </script>
 </body>
