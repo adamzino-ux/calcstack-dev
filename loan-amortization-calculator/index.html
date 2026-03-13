@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loan Amortization Calculator — Free Online Tool | calcstack.dev</title>
+<meta name="description" content="Calculate your loan amortization schedule instantly. See monthly payments, total interest, and a full payment-by-payment breakdown. Free online tool.">
+<link rel="canonical" href="https://calcstack.dev/loan-amortization-calculator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Loan Amortization Calculator",
+  "url": "https://calcstack.dev/loan-amortization-calculator/",
+  "description": "Calculate your loan amortization schedule instantly. See monthly payments, total interest, and a full payment-by-payment breakdown.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #fff;
+  color: #1a1a2e;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+nav {
+  border-bottom: 1px solid #e0e0e0;
+  padding: 0.85rem 1.5rem;
+}
+
+nav a {
+  text-decoration: none;
+  color: #0077b6;
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: -0.3px;
+}
+
+.container {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+h1 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 0.4rem;
+  letter-spacing: -0.5px;
+}
+
+.subtitle {
+  color: #666;
+  font-size: 0.95rem;
+  margin-bottom: 2rem;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  margin-bottom: 2rem;
+}
+
+.field {
+  margin-bottom: 1.25rem;
+}
+
+label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #444;
+  margin-bottom: 0.4rem;
+}
+
+input[type="number"], select {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  color: #1a1a2e;
+  background: #fff;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  -webkit-appearance: none;
+  appearance: none;
+  min-height: 44px;
+}
+
+input[type="number"]:focus, select:focus {
+  outline: none;
+  border-color: #0077b6;
+  box-shadow: 0 0 0 3px rgba(0,119,182,0.15);
+}
+
+input.error {
+  border-color: #e74c3c;
+  box-shadow: 0 0 0 3px rgba(231,76,60,0.1);
+}
+
+.error-msg {
+  color: #e74c3c;
+  font-size: 0.8rem;
+  margin-top: 0.3rem;
+  display: none;
+}
+
+.error-msg.show { display: block; }
+
+.slider-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+input[type="range"] {
+  flex: 1;
+  height: 4px;
+  accent-color: #0077b6;
+  cursor: pointer;
+  min-height: 20px;
+}
+
+.slider-val {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #0077b6;
+  min-width: 48px;
+  text-align: right;
+}
+
+.row2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+button.primary {
+  width: 100%;
+  background: #0077b6;
+  color: #fff;
+  border: none;
+  padding: 14px 24px;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  min-height: 44px;
+}
+
+button.primary:hover { background: #006299; }
+
+.results {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  display: none;
+}
+
+.results.visible {
+  display: block;
+  opacity: 1;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.summary-box {
+  background: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+}
+
+.summary-box .label {
+  font-size: 0.75rem;
+  color: #666;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  margin-bottom: 0.3rem;
+}
+
+.summary-box .value {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #0077b6;
+  line-height: 1.2;
+}
+
+.summary-box .value.large {
+  font-size: 1.65rem;
+}
+
+.summary-box .sub {
+  font-size: 0.75rem;
+  color: #888;
+  margin-top: 0.2rem;
+}
+
+.bar-section {
+  margin-bottom: 1.5rem;
+}
+
+.bar-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  color: #555;
+  margin-bottom: 0.3rem;
+}
+
+.bar-track {
+  background: #e0e0e0;
+  border-radius: 4px;
+  height: 14px;
+  overflow: hidden;
+  display: flex;
+}
+
+.bar-principal {
+  background: #0077b6;
+  height: 100%;
+  transition: width 0.4s ease;
+}
+
+.bar-interest {
+  background: #f4a261;
+  height: 100%;
+  transition: width 0.4s ease;
+}
+
+.bar-legend {
+  display: flex;
+  gap: 1.2rem;
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: #555;
+}
+
+.legend-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  margin-right: 4px;
+  vertical-align: middle;
+}
+
+.section-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 1rem;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  min-width: 480px;
+}
+
+thead th {
+  background: #f0f0f0;
+  padding: 10px 12px;
+  text-align: left;
+  font-weight: 600;
+  color: #333;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+thead th.num { text-align: right; }
+
+tbody tr:nth-child(even) { background: #fafafa; }
+tbody tr:nth-child(odd) { background: #fff; }
+
+tbody td {
+  padding: 9px 12px;
+  border-bottom: 1px solid #f0f0f0;
+  color: #333;
+}
+
+tbody td.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+tbody tr:last-child td { border-bottom: none; }
+
+.show-more-row {
+  background: #f8f9fa !important;
+}
+
+.show-more-row td {
+  text-align: center;
+  padding: 10px;
+}
+
+button.show-more {
+  background: transparent;
+  border: 1px solid #0077b6;
+  color: #0077b6;
+  padding: 6px 18px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-height: 36px;
+}
+
+button.show-more:hover {
+  background: #0077b6;
+  color: #fff;
+}
+
+.copy-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.75rem;
+}
+
+button.copy-btn {
+  background: transparent;
+  border: 1px solid #ddd;
+  color: #555;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-height: 36px;
+}
+
+button.copy-btn:hover {
+  border-color: #0077b6;
+  color: #0077b6;
+}
+
+.ad-slot {
+  background: #f8f9fa;
+  border: 1px dashed #ccc;
+  border-radius: 8px;
+  padding: 2rem;
+  text-align: center;
+  color: #aaa;
+  font-size: 0.8rem;
+  margin-bottom: 2rem;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.how-to {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  border: 1px solid #e0e0e0;
+}
+
+.how-to h2 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.6rem;
+  color: #1a1a2e;
+}
+
+.how-to p {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.related {
+  margin-bottom: 2rem;
+}
+
+.related h2 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.6rem;
+  color: #1a1a2e;
+}
+
+.related p {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+footer {
+  border-top: 1px solid #e0e0e0;
+  padding: 1.5rem;
+  text-align: center;
+  font-size: 0.82rem;
+  color: #888;
+}
+
+footer a {
+  color: #0077b6;
+  text-decoration: none;
+  margin: 0 0.5rem;
+}
+
+footer a:hover { text-decoration: underline; }
+
+@media (max-width: 640px) {
+  .container { padding: 1.25rem 1rem; }
+  .card { padding: 1.25rem; }
+  h1 { font-size: 1.35rem; }
+  .summary-grid { grid-template-columns: 1fr 1fr; }
+  .summary-grid .summary-box:first-child { grid-column: 1 / -1; }
+  .summary-box .value.large { font-size: 2rem; }
+  .row2 { grid-template-columns: 1fr; gap: 0; }
+}
+
+@media (max-width: 400px) {
+  .summary-grid { grid-template-columns: 1fr; }
+  .summary-grid .summary-box:first-child { grid-column: auto; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/">calcstack.dev</a>
+</nav>
+
+<div class="container">
+  <h1>Loan Amortization Calculator</h1>
+  <p class="subtitle">Calculate your monthly payment, total interest, and full amortization schedule.</p>
+
+  <div class="card">
+    <div class="field">
+      <label for="loanAmount">Loan Amount ($)</label>
+      <input type="number" id="loanAmount" placeholder="e.g. 250000" min="1" max="100000000" step="1000">
+      <div class="slider-row">
+        <input type="range" id="loanSlider" min="1000" max="1000000" step="1000" value="250000">
+        <span class="slider-val" id="loanSliderVal">$250,000</span>
+      </div>
+      <div class="error-msg" id="loanAmountErr">Please enter a valid loan amount greater than 0.</div>
+    </div>
+
+    <div class="row2">
+      <div class="field">
+        <label for="interestRate">Annual Interest Rate (%)</label>
+        <input type="number" id="interestRate" placeholder="e.g. 6.5" min="0" max="100" step="0.01">
+        <div class="slider-row">
+          <input type="range" id="rateSlider" min="0" max="30" step="0.1" value="6.5">
+          <span class="slider-val" id="rateSliderVal">6.5%</span>
+        </div>
+        <div class="error-msg" id="interestRateErr">Please enter a valid rate (0–100%).</div>
+      </div>
+
+      <div class="field">
+        <label for="loanTerm">Loan Term</label>
+        <select id="loanTerm">
+          <option value="5">5 years</option>
+          <option value="10">10 years</option>
+          <option value="15">15 years</option>
+          <option value="20">20 years</option>
+          <option value="25">25 years</option>
+          <option value="30" selected>30 years</option>
+          <option value="custom">Custom…</option>
+        </select>
+        <div id="customTermWrap" style="display:none; margin-top:0.5rem;">
+          <input type="number" id="customTerm" placeholder="Months (e.g. 48)" min="1" max="600" step="1">
+          <div class="error-msg" id="customTermErr">Enter a term between 1 and 600 months.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row2">
+      <div class="field">
+        <label for="extraPayment">Extra Monthly Payment ($) <span style="color:#aaa;font-weight:400">(optional)</span></label>
+        <input type="number" id="extraPayment" placeholder="0" min="0" step="100" value="">
+        <div class="error-msg" id="extraPaymentErr">Enter a valid extra payment amount.</div>
+      </div>
+
+      <div class="field">
+        <label for="startDate">Start Date <span style="color:#aaa;font-weight:400">(optional)</span></label>
+        <input type="number" id="startYear" placeholder="Year (e.g. 2025)" min="2000" max="2100" step="1">
+      </div>
+    </div>
+
+    <button class="primary" id="calcBtn">Calculate Amortization</button>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="results" id="results">
+    <div class="card">
+      <div class="summary-grid">
+        <div class="summary-box">
+          <div class="label">Monthly Payment</div>
+          <div class="value large" id="resMonthly">—</div>
+          <div class="sub" id="resMonthlyExtra"></div>
+        </div>
+        <div class="summary-box">
+          <div class="label">Total Interest</div>
+          <div class="value" id="resTotalInterest">—</div>
+          <div class="sub" id="resSavings"></div>
+        </div>
+        <div class="summary-box">
+          <div class="label">Total Cost</div>
+          <div class="value" id="resTotalCost">—</div>
+          <div class="sub" id="resPayoffDate"></div>
+        </div>
+      </div>
+
+      <div class="bar-section">
+        <div class="bar-label">
+          <span>Principal vs. Interest</span>
+          <span id="barPercents"></span>
+        </div>
+        <div class="bar-track">
+          <div class="bar-principal" id="barPrincipal" style="width:0%"></div>
+          <div class="bar-interest" id="barInterest" style="width:0%"></div>
+        </div>
+        <div class="bar-legend">
+          <span><span class="legend-dot" style="background:#0077b6"></span>Principal</span>
+          <span><span class="legend-dot" style="background:#f4a261"></span>Interest</span>
+        </div>
+      </div>
+
+      <div class="section-title">Amortization Schedule</div>
+      <div class="copy-row">
+        <button class="copy-btn" id="copyBtn">📋 Copy Summary</button>
+      </div>
+      <div class="table-wrapper">
+        <table id="amortTable">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Date</th>
+              <th class="num">Payment</th>
+              <th class="num">Principal</th>
+              <th class="num">Interest</th>
+              <th class="num">Balance</th>
+            </tr>
+          </thead>
+          <tbody id="amortBody"></tbody>
+        </table>
+      </div>
+      <div id="showMoreWrap" style="text-align:center; margin-bottom:0.5rem; display:none;">
+        <button class="show-more" id="showMoreBtn">Show All Payments</button>
+      </div>
+    </div>
+
+    <div class="ad-slot" id="ad-mid">Advertisement</div>
+  </div>
+
+  <div class="how-to card">
+    <h2>How to Use This Calculator</h2>
+    <p>Enter your loan amount, annual interest rate, and repayment term, then click <strong>Calculate Amortization</strong>. You'll instantly see your monthly payment, total interest paid, and a full month-by-month breakdown. Add an extra monthly payment to see how much time and interest you can save.</p>
+  </div>
+
+  <div class="related card">
+    <h2>Related Tools</h2>
+    <p style="color:#555; font-size:0.9rem;">More calculators coming soon to calcstack.dev — check back for mortgage, compound interest, and savings tools.</p>
+  </div>
+
+  <div class="ad-slot" id="ad-bottom">Advertisement</div>
+
+  <footer>
+    <a href="/about/">About</a>
+    <a href="/privacy/">Privacy</a>
+    <a href="/contact/">Contact</a>
+    <span style="display:block; margin-top:0.5rem;">© 2025 calcstack.dev</span>
+  </footer>
+</div>
+
+<script>
+(function () {
+  // ── DOM refs ──
+  const loanAmountEl = document.getElementById('loanAmount');
+  const loanSlider = document.getElementById('loanSlider');
+  const loanSliderVal = document.getElementById('loanSliderVal');
+  const interestRateEl = document.getElementById('interestRate');
+  const rateSlider = document.getElementById('rateSlider');
+  const rateSliderVal = document.getElementById('rateSliderVal');
+  const loanTermEl = document.getElementById('loanTerm');
+  const customTermWrap = document.getElementById('customTermWrap');
+  const customTermEl = document.getElementById('customTerm');
+  const extraPaymentEl = document.getElementById('extraPayment');
+  const startYearEl = document.getElementById('startYear');
+  const calcBtn = document.getElementById('calcBtn');
+  const resultsEl = document.getElementById('results');
+  const copyBtn = document.getElementById('copyBtn');
+  const showMoreBtn = document.getElementById('showMoreBtn');
+  const showMoreWrap = document.getElementById('showMoreWrap');
+
+  // ── Default values ──
+  loanAmountEl.value = '250000';
+  interestRateEl.value = '6.5';
+  startYearEl.value = new Date().getFullYear();
+
+  // ── Helpers ──
+  function fmt(n, dec) {
+    dec = (dec === undefined) ? 2 : dec;
+    return Number(n).toLocaleString('en-US', { minimumFractionDigits: dec, maximumFractionDigits: dec });
+  }
+
+  function fmtCur(n) { return '$' + fmt(n, 2); }
+
+  function clearError(inputEl, errId) {
+    inputEl.classList.remove('error');
+    document.getElementById(errId).classList.remove('show');
+  }
+
+  function showError(inputEl, errId) {
+    inputEl.classList.add('error');
+    document.getElementById(errId).classList.add('show');
+  }
+
+  // ── Slider sync ──
+  loanSlider.addEventListener('input', function () {
+    loanAmountEl.value = this.value;
+    loanSliderVal.textContent = '$' + fmt(this.value, 0);
+    clearError(loanAmountEl, 'loanAmountErr');
+  });
+
+  loanAmountEl.addEventListener('input', function () {
+    const v = parseFloat(this.value);
+    if (!isNaN(v) && v >= 1000 && v <= 1000000) {
+      loanSlider.value = v;
+      loanSliderVal.textContent = '$' + fmt(v, 0);
+    }
+    clearError(this, 'loanAmountErr');
+  });
+
+  rateSlider.addEventListener('input', function () {
+    interestRateEl.value = this.value;
+    rateSliderVal.textContent = this.value + '%';
+    clearError(interestRateEl, 'interestRateErr');
+  });
+
+  interestRateEl.addEventListener('input', function () {
+    const v = parseFloat(this.value);
+    if (!isNaN(v) && v >= 0 && v <= 30) {
+      rateSlider.value = v;
+      rateSliderVal.textContent = v + '%';
+    }
+    clearError(this, 'interestRateErr');
+  });
+
+  // ── Custom term ──
+  loanTermEl.addEventListener('change', function () {
+    customTermWrap.style.display = this.value === 'custom' ? 'block' : 'none';
+  });
+
+  // ── Enter key ──
+  [loanAmountEl, interestRateEl, extraPaymentEl, customTermEl, startYearEl].forEach(function (el) {
+    el.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') calculate();
+    });
+  });
+
+  calcBtn.addEventListener('click', calculate);
+
+  // ── Full schedule storage ──
+  var fullSchedule = [];
+  var summaryText = '';
+
+  // ── Show more ──
+  var showing = false;
+  showMoreBtn.addEventListener('click', function () {
+    if (!showing) {
+      renderTable(fullSchedule, true);
+      showMoreBtn.textContent = 'Show Less';
+      showing = true;
+    } else {
+      renderTable(fullSchedule, false);
+      showMoreBtn.textContent = 'Show All Payments';
+      showing = false;
+    }
+  });
+
+  // ── Copy ──
+  copyBtn.addEventListener('click', function () {
+    navigator.clipboard.writeText(summaryText).then(function () {
+      copyBtn.textContent = '✓ Copied!';
+      setTimeout(function () { copyBtn.textContent = '📋 Copy Summary'; }, 2000);
+    }).catch(function () {
+      copyBtn.textContent = 'Copy failed';
+      setTimeout(function () { copyBtn.textContent = '📋 Copy Summary'; }, 2000);
+    });
+  });
+
+  // ── Main calculation ──
+  function calculate() {
+    var valid = true;
+
+    clearError(loanAmountEl, 'loanAmountErr');
+    clearError(interestRateEl, 'interestRateErr');
+    if (customTermEl) clearError(customTermEl, 'customTermErr');
+    clearError(extraPaymentEl, 'extraPaymentErr');
+
+    var principal = parseFloat(loanAmountEl.value);
+    if (isNaN(principal) || principal <= 0) {
+      showError(loanAmountEl, 'loanAmountErr');
+      valid = false;
+    }
+
+    var rate = parseFloat(interestRateEl.value);
+    if (isNaN(rate) || rate < 0 || rate > 100) {
+      showError(interestRateEl, 'interestRateErr');
+      valid = false;
+    }
+
+    var termMonths;
+    if (loanTermEl.value === 'custom') {
+      termMonths = parseInt(customTermEl.value, 10);
+      if (isNaN(termMonths) || termMonths < 1 || termMonths > 600) {
+        showError(customTermEl, 'customTermErr');
+        valid = false;
+      }
+    } else {
+      termMonths = parseInt(loanTermEl.value, 10) * 12;
+    }
+
+    var extra = parseFloat(extraPaymentEl.value) || 0;
+    if (extra < 0) {
+      showError(extraPaymentEl, 'extraPaymentErr');
+      valid = false;
+    }
+
+    if (!valid) return;
+
+    var startYear = parseInt(startYearEl.value, 10) || new Date().getFullYear();
+    var startMonth = 0; // Jan
+
+    var monthlyRate = rate / 100 / 12;
+
+    // Compute standard monthly payment
+    var stdPayment;
+    if (monthlyRate === 0) {
+      stdPayment = principal / termMonths;
+    } else {
+      stdPayment = principal * (monthlyRate * Math.pow(1 + monthlyRate, termMonths)) / (Math.pow(1 + monthlyRate, termMonths) - 1);
+    }
+
+    // Build schedule (with extra payment)
+    var balance = principal;
+    var schedule = [];
+    var totalInterest = 0;
+    var totalPaid = 0;
+    var month = 1;
+    var curYear = startYear;
+    var curMonth = startMonth; // 0-indexed
+    var MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+    while (balance > 0.005 && month <= termMonths + 1) {
+      var interestCharge = balance * monthlyRate;
+      var totalPayment = stdPayment + extra;
+
+      // last payment adjustment
+      var principalCharge;
+      if (totalPayment >= balance + interestCharge) {
+        totalPayment = balance + interestCharge;
+        principalCharge = balance;
+      } else {
+        principalCharge = totalPayment - interestCharge;
+      }
+
+      if (principalCharge < 0) principalCharge = 0;
+      balance -= principalCharge;
+      if (balance < 0.005) balance = 0;
+
+      totalInterest += interestCharge;
+      totalPaid += totalPayment;
+
+      var dateStr = MONTHS[curMonth % 12] + ' ' + (curYear + Math.floor((startMonth + month - 1) / 12));
+
+      schedule.push({
+        num: month,
+        date: dateStr,
+        payment: totalPayment,
+        principal: principalCharge,
+        interest: interestCharge,
+        balance: balance
+      });
+
+      curMonth++;
+      if (curMonth > 11) { curMonth = 0; curYear++; }
+
+      month++;
+      if (balance <= 0) break;
+    }
+
+    fullSchedule = schedule;
+    showing = false;
+
+    var totalCost = totalPaid;
+    var lastEntry = schedule[schedule.length - 1];
+    var payoffDate = lastEntry ? lastEntry.date : '—';
+    var actualMonths = schedule.length;
+
+    // Interest savings from extra payment
+    var stdTotalInterest = 0;
+    if (extra > 0) {
+      var bal2 = principal;
+      for (var i = 0; i < termMonths && bal2 > 0.005; i++) {
+        var intChg = bal2 * monthlyRate;
+        var prinChg = stdPayment - intChg;
+        if (prinChg < 0) prinChg = 0;
+        bal2 -= prinChg;
+        if (bal2 < 0) bal2 = 0;
+        stdTotalInterest += intChg;
+      }
+    }
+    var savedInterest = extra > 0 ? Math.max(0, stdTotalInterest - totalInterest) : 0;
+    var savedMonths = extra > 0 ? (termMonths - actualMonths) : 0;
+
+    // ── Update UI ──
+    document.getElementById('resMonthly').textContent = fmtCur(stdPayment + extra);
+    if (extra > 0) {
+      document.getElementById('resMonthlyExtra').textContent = '(' + fmtCur(stdPayment) + ' + ' + fmtCur(extra) + ' extra)';
+    } else {
+      document.getElementById('resMonthlyExtra').textContent = '';
+    }
+
+    document.getElementById('resTotalInterest').textContent = fmtCur(totalInterest);
+    if (extra > 0 && savedInterest > 0) {
+      document.getElementById('resSavings').textContent = 'Save ' + fmtCur(savedInterest);
+    } else {
+      document.getElementById('resSavings').textContent = '';
+    }
+
+    document.getElementById('resTotalCost').textContent = fmtCur(totalCost);
+    document.getElementById('resPayoffDate').textContent = payoffDate + (savedMonths > 0 ? ' (' + savedMonths + ' mo. early)' : '');
+
+    // Bar chart
+    var principalPct = (principal / totalCost * 100).toFixed(1);
+    var interestPct = (totalInterest / totalCost * 100).toFixed(1);
+    document.getElementById('barPrincipal').style.width = principalPct + '%';
+    document.getElementById('barInterest').style.width = interestPct + '%';
+    document.getElementById('barPercents').textContent = principalPct + '% / ' + interestPct + '%';
+
+    // Table
+    renderTable(schedule, false);
+
+    // Summary text for copy
+    summaryText = 'LOAN AMORTIZATION SUMMARY\n' +
+      '─────────────────────────\n' +
+      'Loan Amount:       ' + fmtCur(principal) + '\n' +
+      'Interest Rate:     ' + rate + '%\n' +
+      'Term:              ' + (termMonths / 12).toFixed(1) + ' years (' + termMonths + ' months)\n' +
+      (extra > 0 ? 'Extra Payment:     ' + fmtCur(extra) + '/mo\n' : '') +
+      '\nMonthly Payment:   ' + fmtCur(stdPayment + extra) + '\n' +
+      'Total Interest:    ' + fmtCur(totalInterest) + '\n' +
+      'Total Cost:        ' + fmtCur(totalCost) + '\n' +
+      'Payoff Date:       ' + payoffDate + '\n' +
+      (savedInterest > 0 ? 'Interest Saved:    ' + fmtCur(savedInterest) + '\n' : '');
+
+    // Show results
+    resultsEl.style.display = 'block';
+    requestAnimationFrame(function () {
+      resultsEl.classList.add('visible');
+    });
+
+    resultsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function renderTable(schedule, showAll) {
+    var tbody = document.getElementById('amortBody');
+    var rows = '';
+    var limit = showAll ? schedule.length : Math.min(12, schedule.length);
+
+    for (var i = 0; i < limit; i++) {
+      var row = schedule[i];
+      var isOdd = i % 2 === 0;
+      rows += '<tr>' +
+        '<td>' + row.num + '</td>' +
+        '<td>' + row.date + '</td>' +
+        '<td class="num">' + fmtCur(row.payment) + '</td>' +
+        '<td class="num">' + fmtCur(row.principal) + '</td>' +
+        '<td class="num">' + fmtCur(row.interest) + '</td>' +
+        '<td class="num">' + fmtCur(row.balance) + '</td>' +
+        '</tr>';
+    }
+
+    tbody.innerHTML = rows;
+
+    if (schedule.length > 12) {
+      showMoreWrap.style.display = 'block';
+      showMoreBtn.textContent = showAll ? 'Show Less' : 'Show All ' + schedule.length + ' Payments';
+    } else {
+      showMoreWrap.style.display = 'none';
+    }
+  }
+
+  // Init slider labels
+  loanSliderVal.textContent = '$' + fmt(loanSlider.value, 0);
+  rateSliderVal.textContent = rateSlider.value + '%';
+
+})();
+</script>
+</body>
+</html>
