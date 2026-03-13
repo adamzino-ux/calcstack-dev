@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mortgage Payment Calculator — Free Online Tool | calcstack.dev</title>
-<meta name="description" content="Calculate your monthly mortgage payment instantly. Enter loan amount, interest rate, and term to see full amortization breakdown. Free mortgage payment calculator.">
+<meta name="description" content="Calculate your monthly mortgage payment instantly. Enter loan amount, interest rate, and term to see payment breakdown, total interest, and full amortization schedule.">
 <link rel="canonical" href="https://calcstack.dev/mortgage-payment-calculator/">
 <script type="application/ld+json">
 {
@@ -12,548 +12,577 @@
   "@type": "WebApplication",
   "name": "Mortgage Payment Calculator",
   "url": "https://calcstack.dev/mortgage-payment-calculator/",
-  "description": "Calculate monthly mortgage payments with full amortization schedule. Supports extra payments and shows total interest paid.",
+  "description": "Calculate monthly mortgage payments, total interest paid, and view full amortization schedule.",
   "applicationCategory": "FinanceApplication",
   "operatingSystem": "Any",
-  "offers": { "@type": "Offer", "price": "0" }
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
 }
 </script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f0f4f8;color:#1a1a2e;font-size:16px;line-height:1.6}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#fff;color:#1a1a2e;font-size:16px;line-height:1.6}
 a{color:#0077b6;text-decoration:none}
 a:hover{text-decoration:underline}
-nav{background:#fff;border-bottom:1px solid #e0e0e0;padding:0 1.5rem}
-.nav-inner{max-width:640px;margin:0 auto;height:52px;display:flex;align-items:center}
-.nav-brand{font-weight:700;font-size:1.1rem;color:#1a1a2e}
-.nav-brand span{color:#0077b6}
-main{max-width:640px;margin:2rem auto;padding:0 1rem}
-h1{font-size:1.6rem;font-weight:700;color:#1a1a2e;margin-bottom:.4rem}
+nav{border-bottom:1px solid #e0e0e0;padding:0 1rem}
+nav .nav-inner{max-width:640px;margin:0 auto;display:flex;align-items:center;height:52px}
+nav .brand{font-weight:700;font-size:1.1rem;color:#1a1a2e}
+nav .brand:hover{text-decoration:none;color:#0077b6}
+.container{max-width:640px;margin:0 auto;padding:1.5rem 1rem 3rem}
+h1{font-size:1.6rem;font-weight:700;margin-bottom:.4rem;color:#1a1a2e}
 .subtitle{color:#555;font-size:.95rem;margin-bottom:1.5rem}
-.card{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;box-shadow:0 1px 4px rgba(0,0,0,.06);margin-bottom:2rem}
-.section-title{font-size:1rem;font-weight:600;color:#1a1a2e;margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid #f0f0f0}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
-.form-group{margin-bottom:1rem}
-.form-group:last-child{margin-bottom:0}
-label{display:block;font-size:.85rem;font-weight:500;color:#444;margin-bottom:.4rem}
-.input-wrap{position:relative}
-.input-prefix,.input-suffix{position:absolute;top:50%;transform:translateY(-50%);color:#777;font-size:.9rem;pointer-events:none}
-.input-prefix{left:12px}
-.input-suffix{right:12px}
-input[type=number],input[type=text],select{width:100%;border:1px solid #ddd;border-radius:6px;padding:12px 16px;font-size:1rem;color:#1a1a2e;background:#fff;transition:border-color .2s,box-shadow .2s;-moz-appearance:textfield;appearance:textfield}
-input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
-input.has-prefix{padding-left:28px}
-input.has-suffix{padding-right:36px}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
+.form-group{display:flex;flex-direction:column;gap:.4rem}
+.form-group.full{grid-column:1/-1}
+label{font-size:.85rem;font-weight:500;color:#444}
+input[type="number"],input[type="text"],select{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:6px;font-size:1rem;color:#1a1a2e;background:#fff;transition:border-color .2s,box-shadow .2s;-moz-appearance:textfield}
+input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appearance:none}
 input:focus,select:focus{outline:none;border-color:#0077b6;box-shadow:0 0 0 3px rgba(0,119,182,.15)}
 input.error{border-color:#e74c3c}
-.error-msg{color:#e74c3c;font-size:.8rem;margin-top:.3rem;display:none}
-.error-msg.show{display:block}
+.error-msg{font-size:.78rem;color:#e74c3c;margin-top:2px;display:none}
+.input-prefix{position:relative}
+.input-prefix span{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#777;font-size:1rem;pointer-events:none}
+.input-prefix input{padding-left:28px}
+.input-suffix{position:relative}
+.input-suffix span{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:#777;font-size:1rem;pointer-events:none}
+.input-suffix input{padding-right:28px}
 .slider-wrap{margin-top:.5rem}
-input[type=range]{width:100%;accent-color:#0077b6;cursor:pointer;height:4px;margin-top:4px}
-.slider-labels{display:flex;justify-content:space-between;font-size:.75rem;color:#999;margin-top:.2rem}
-.btn{background:#0077b6;color:#fff;border:none;border-radius:6px;padding:12px 24px;font-size:1rem;font-weight:600;cursor:pointer;width:100%;min-height:44px;transition:background .2s}
-.btn:hover{background:#006299}
-.btn:active{background:#00527d}
-.btn-secondary{background:#f0f4f8;color:#1a1a2e;border:1px solid #ddd;padding:8px 16px;font-size:.85rem;font-weight:500;border-radius:6px;cursor:pointer;min-height:36px;transition:background .2s}
-.btn-secondary:hover{background:#e2e8f0}
-.results{opacity:0;transition:opacity .3s ease;pointer-events:none}
-.results.show{opacity:1;pointer-events:auto}
-.key-metrics{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1.5rem}
-.metric{background:#f8f9fa;border-radius:8px;padding:1rem;text-align:center;border:1px solid #e8e8e8}
-.metric-value{font-size:1.5rem;font-weight:700;color:#0077b6;display:block}
-.metric-label{font-size:.75rem;color:#666;margin-top:.2rem}
-.metric.primary{background:#0077b6;border-color:#0077b6}
-.metric.primary .metric-value{color:#fff;font-size:1.8rem}
-.metric.primary .metric-label{color:rgba(255,255,255,.85)}
-.breakdown-bars{margin-bottom:1.5rem}
-.bar-row{margin-bottom:.8rem}
-.bar-label{display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:.3rem}
-.bar-label span:first-child{font-weight:500}
-.bar-label span:last-child{color:#0077b6;font-weight:600}
-.bar-track{background:#f0f0f0;border-radius:4px;height:10px;overflow:hidden}
-.bar-fill{height:100%;border-radius:4px;transition:width .6s ease}
-.bar-fill.principal{background:#0077b6}
-.bar-fill.interest{background:#e8a838}
-.result-actions{display:flex;gap:.5rem;margin-bottom:1rem}
-.copy-btn{background:#f0f4f8;border:1px solid #ddd;border-radius:6px;padding:8px 14px;font-size:.82rem;color:#444;cursor:pointer;transition:all .2s;white-space:nowrap}
-.copy-btn:hover{background:#e2e8f0}
-.copy-btn.copied{background:#e8f5e9;border-color:#66bb6a;color:#2e7d32}
+.slider-wrap input[type="range"]{width:100%;height:4px;accent-color:#0077b6;cursor:pointer}
+btn{display:inline-block}
+.btn-primary{background:#0077b6;color:#fff;border:none;padding:13px 24px;border-radius:6px;font-size:1rem;font-weight:600;cursor:pointer;width:100%;margin-top:1rem;min-height:44px;transition:background .2s}
+.btn-primary:hover{background:#006299}
+.results{opacity:0;transition:opacity .3s ease;display:none;margin-top:1.5rem}
+.results.visible{opacity:1;display:block}
+.result-hero{background:#f0f7ff;border-radius:8px;padding:1.5rem;text-align:center;margin-bottom:1.5rem;border:1px solid #cce3f5}
+.result-hero .label{font-size:.85rem;color:#555;font-weight:500;text-transform:uppercase;letter-spacing:.05em}
+.result-hero .amount{font-size:2.8rem;font-weight:800;color:#0077b6;line-height:1.1;margin:.3rem 0}
+.result-hero .sublabel{font-size:.85rem;color:#777}
+.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+.summary-card{background:#f8f9fa;border-radius:6px;padding:1rem 1.2rem;border:1px solid #e8e8e8}
+.summary-card .s-label{font-size:.78rem;color:#666;font-weight:500;text-transform:uppercase;letter-spacing:.04em}
+.summary-card .s-val{font-size:1.3rem;font-weight:700;color:#1a1a2e;margin-top:.2rem}
+.bar-section{margin-bottom:1.5rem}
+.bar-section h3{font-size:.9rem;font-weight:600;color:#444;margin-bottom:.6rem}
+.bar-row{display:flex;align-items:center;gap:.8rem;margin-bottom:.5rem}
+.bar-row .bar-label{font-size:.82rem;color:#555;width:110px;flex-shrink:0}
+.bar-outer{flex:1;background:#e8e8e8;border-radius:4px;height:16px;overflow:hidden}
+.bar-inner{height:100%;border-radius:4px;transition:width .5s ease}
+.bar-principal{background:#0077b6}
+.bar-interest{background:#e8823a}
+.bar-val{font-size:.82rem;font-weight:600;color:#1a1a2e;width:80px;text-align:right;flex-shrink:0}
+.copy-btn{background:none;border:1px solid #0077b6;color:#0077b6;padding:6px 14px;border-radius:4px;font-size:.82rem;cursor:pointer;transition:background .2s,color .2s}
+.copy-btn:hover{background:#0077b6;color:#fff}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.8rem}
+.section-header h3{font-size:1rem;font-weight:700;color:#1a1a2e}
+.table-wrap{overflow-x:auto;border-radius:6px;border:1px solid #e0e0e0}
 table{width:100%;border-collapse:collapse;font-size:.85rem}
-thead tr{background:#f0f0f0}
-th{padding:10px 8px;text-align:left;font-weight:600;color:#444;font-size:.8rem;border-bottom:2px solid #ddd}
-th.num,td.num{text-align:right}
+thead th{background:#f0f0f0;padding:10px 12px;text-align:left;font-weight:600;color:#444;white-space:nowrap}
+thead th:not(:first-child){text-align:right}
 tbody tr:nth-child(even){background:#fafafa}
-tbody tr:hover{background:#f0f7ff}
-td{padding:9px 8px;border-bottom:1px solid #eee;color:#333}
-td.highlight{color:#0077b6;font-weight:600}
-.table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:6px;border:1px solid #e0e0e0}
-.show-all-wrap{text-align:center;padding:1rem 0 .5rem}
-.amort-tabs{display:flex;gap:.5rem;margin-bottom:1rem}
-.tab-btn{background:#f0f0f0;border:1px solid #ddd;border-radius:6px;padding:8px 14px;font-size:.85rem;cursor:pointer;font-weight:500;color:#555;transition:all .2s;min-height:36px}
-.tab-btn.active{background:#0077b6;border-color:#0077b6;color:#fff}
-.tab-content{display:none}
-.tab-content.active{display:block}
-.info-box{background:#f0f7ff;border-left:3px solid #0077b6;border-radius:0 6px 6px 0;padding:.9rem 1rem;font-size:.88rem;color:#333;margin-bottom:1rem}
-.how-to{background:#f8f9fa;border-radius:8px;padding:1.5rem;margin-bottom:2rem}
-.how-to h2{font-size:1.1rem;margin-bottom:.7rem;color:#1a1a2e}
-.how-to p{font-size:.9rem;color:#555;margin-bottom:.5rem}
-.how-to p:last-child{margin-bottom:0}
-.related{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:1.5rem;margin-bottom:2rem}
-.related h2{font-size:1.1rem;margin-bottom:.7rem;color:#1a1a2e}
-.related p{font-size:.9rem;color:#555}
-.ad-slot{background:#f8f9fa;border:1px dashed #ccc;border-radius:6px;min-height:90px;display:flex;align-items:center;justify-content:center;color:#bbb;font-size:.8rem;margin-bottom:2rem}
-footer{background:#fff;border-top:1px solid #e0e0e0;padding:1.2rem 1rem;text-align:center;font-size:.82rem;color:#777;margin-top:1rem}
-footer a{color:#555}
+tbody tr:nth-child(odd){background:#fff}
+tbody td{padding:9px 12px;border-bottom:1px solid #ececec;color:#333}
+tbody td:not(:first-child){text-align:right;font-variant-numeric:tabular-nums}
+tbody tr:last-child td{border-bottom:none}
+.show-all-btn{margin-top:.8rem;background:none;border:1px solid #ddd;color:#555;padding:8px 18px;border-radius:4px;font-size:.85rem;cursor:pointer;width:100%;transition:background .2s}
+.show-all-btn:hover{background:#f0f0f0}
+.ad-slot{background:#f8f9fa;border:1px dashed #ddd;border-radius:6px;padding:1.5rem;text-align:center;color:#aaa;font-size:.8rem;margin:2rem 0}
+.content-section{margin-top:2.5rem}
+.content-section h2{font-size:1.2rem;font-weight:700;color:#1a1a2e;margin-bottom:.7rem;margin-top:2rem}
+.content-section p{color:#444;font-size:.95rem;margin-bottom:.8rem}
+.content-section ul{padding-left:1.4rem;color:#444;font-size:.95rem}
+.content-section ul li{margin-bottom:.4rem}
+.formula-box{background:#f8f9fa;border-left:4px solid #0077b6;padding:1rem 1.2rem;border-radius:0 6px 6px 0;font-family:monospace;font-size:.9rem;color:#1a1a2e;margin:1rem 0;overflow-x:auto}
+details{border:1px solid #e0e0e0;border-radius:6px;padding:.8rem 1rem;margin-bottom:.6rem}
+summary{font-weight:600;cursor:pointer;font-size:.95rem;color:#1a1a2e}
+summary:hover{color:#0077b6}
+details p{margin-top:.6rem;color:#444;font-size:.9rem}
+.related-tools{margin-top:2rem}
+.related-tools h2{font-size:1.1rem;font-weight:700;margin-bottom:.8rem}
+.related-links{display:flex;flex-wrap:wrap;gap:.6rem}
+.related-links a{background:#f0f7ff;border:1px solid #cce3f5;color:#0077b6;padding:8px 14px;border-radius:6px;font-size:.88rem;font-weight:500;transition:background .2s}
+.related-links a:hover{background:#0077b6;color:#fff;text-decoration:none}
+footer{border-top:1px solid #e0e0e0;padding:1.2rem 1rem;margin-top:2rem}
+footer .footer-inner{max-width:640px;margin:0 auto;display:flex;flex-wrap:wrap;gap:.6rem 1.2rem;align-items:center;justify-content:space-between;font-size:.82rem;color:#888}
+footer .footer-links{display:flex;gap:.8rem;flex-wrap:wrap}
+footer a{color:#777}
 footer a:hover{color:#0077b6}
-.footer-links{display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap;margin-bottom:.5rem}
-@media(max-width:640px){
-  .form-row{grid-template-columns:1fr}
-  .key-metrics{grid-template-columns:1fr 1fr}
-  .metric.primary{grid-column:1/-1}
-  main{margin:1rem auto}
-  .card{padding:1.25rem}
-  h1{font-size:1.35rem}
+@media(max-width:520px){
+.form-grid{grid-template-columns:1fr}
+.form-group.full{grid-column:1}
+.summary-grid{grid-template-columns:1fr 1fr}
+.result-hero .amount{font-size:2.2rem}
+.bar-row .bar-label{width:80px}
 }
-@media(max-width:400px){
-  .key-metrics{grid-template-columns:1fr}
-  .metric.primary{grid-column:auto}
+@media(max-width:380px){
+.summary-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
-
 <nav>
   <div class="nav-inner">
-    <a href="/" class="nav-brand">calc<span>stack</span>.dev</a>
+    <a href="/" class="brand">calcstack.dev</a>
   </div>
 </nav>
 
-<main>
+<div class="container">
   <h1>Mortgage Payment Calculator</h1>
   <p class="subtitle">Calculate your monthly payment, total interest, and full amortization schedule.</p>
 
   <div class="card">
-    <div class="section-title">Loan Details</div>
-    <div class="form-row">
-      <div class="form-group">
-        <label for="loanAmount">Home Price</label>
-        <div class="input-wrap">
-          <span class="input-prefix">$</span>
-          <input type="number" id="loanAmount" class="has-prefix" placeholder="350,000" min="1000" max="100000000" value="350000">
+    <div class="form-grid">
+      <div class="form-group full">
+        <label for="loanAmount">Home Price / Loan Amount</label>
+        <div class="input-prefix">
+          <span>$</span>
+          <input type="number" id="loanAmount" placeholder="350,000" min="1" step="1000" value="350000">
         </div>
         <div class="slider-wrap">
-          <input type="range" id="loanAmountSlider" min="50000" max="2000000" step="5000" value="350000">
-          <div class="slider-labels"><span>$50K</span><span>$2M</span></div>
+          <input type="range" id="loanSlider" min="50000" max="2000000" step="5000" value="350000">
         </div>
-        <div class="error-msg" id="err-loan">Please enter a valid loan amount (≥ $1,000).</div>
+        <div class="error-msg" id="loanError">Please enter a valid loan amount greater than 0.</div>
       </div>
+
       <div class="form-group">
         <label for="downPayment">Down Payment</label>
-        <div class="input-wrap">
-          <span class="input-prefix">$</span>
-          <input type="number" id="downPayment" class="has-prefix" placeholder="70,000" min="0" value="70000">
+        <div class="input-prefix">
+          <span>$</span>
+          <input type="number" id="downPayment" placeholder="70,000" min="0" step="1000" value="70000">
         </div>
-        <div class="slider-wrap">
-          <input type="range" id="downPaymentSlider" min="0" max="500000" step="1000" value="70000">
-          <div class="slider-labels"><span>$0</span><span>$500K</span></div>
-        </div>
-        <div class="error-msg" id="err-down">Down payment cannot exceed home price.</div>
+        <div class="error-msg" id="downError">Down payment cannot exceed loan amount.</div>
       </div>
-    </div>
-    <div class="form-row">
+
+      <div class="form-group">
+        <label for="downPct">Down Payment %</label>
+        <div class="input-suffix">
+          <span>%</span>
+          <input type="number" id="downPct" placeholder="20" min="0" max="100" step="0.5" value="20">
+        </div>
+      </div>
+
       <div class="form-group">
         <label for="interestRate">Annual Interest Rate</label>
-        <div class="input-wrap">
-          <input type="number" id="interestRate" class="has-suffix" placeholder="6.5" min="0.01" max="30" step="0.01" value="6.5">
-          <span class="input-suffix">%</span>
+        <div class="input-suffix">
+          <span>%</span>
+          <input type="number" id="interestRate" placeholder="6.5" min="0.01" max="30" step="0.05" value="6.5">
         </div>
         <div class="slider-wrap">
-          <input type="range" id="interestRateSlider" min="0.5" max="20" step="0.05" value="6.5">
-          <div class="slider-labels"><span>0.5%</span><span>20%</span></div>
+          <input type="range" id="rateSlider" min="1" max="15" step="0.05" value="6.5">
         </div>
-        <div class="error-msg" id="err-rate">Please enter a valid interest rate (0.01% – 30%).</div>
+        <div class="error-msg" id="rateError">Please enter a valid interest rate (0.01–30%).</div>
       </div>
+
       <div class="form-group">
         <label for="loanTerm">Loan Term</label>
         <select id="loanTerm">
-          <option value="30">30 Years</option>
-          <option value="20">20 Years</option>
-          <option value="15">15 Years</option>
-          <option value="10">10 Years</option>
+          <option value="30" selected>30 years</option>
+          <option value="20">20 years</option>
+          <option value="15">15 years</option>
+          <option value="10">10 years</option>
+          <option value="5">5 years</option>
         </select>
       </div>
-    </div>
-    <div class="form-row">
+
+      <div class="form-group">
+        <label for="extraPayment">Extra Monthly Payment</label>
+        <div class="input-prefix">
+          <span>$</span>
+          <input type="number" id="extraPayment" placeholder="0" min="0" step="50" value="0">
+        </div>
+      </div>
+
       <div class="form-group">
         <label for="propertyTax">Property Tax (annual)</label>
-        <div class="input-wrap">
-          <span class="input-prefix">$</span>
-          <input type="number" id="propertyTax" class="has-prefix" placeholder="3,500" min="0" value="3500">
+        <div class="input-prefix">
+          <span>$</span>
+          <input type="number" id="propertyTax" placeholder="3,500" min="0" step="100" value="3500">
         </div>
-        <div class="error-msg" id="err-tax">Enter 0 if unknown.</div>
       </div>
+
       <div class="form-group">
         <label for="homeInsurance">Home Insurance (annual)</label>
-        <div class="input-wrap">
-          <span class="input-prefix">$</span>
-          <input type="number" id="homeInsurance" class="has-prefix" placeholder="1,200" min="0" value="1200">
+        <div class="input-prefix">
+          <span>$</span>
+          <input type="number" id="homeInsurance" placeholder="1,200" min="0" step="100" value="1200">
         </div>
       </div>
     </div>
-    <div class="form-group">
-      <label for="extraPayment">Extra Monthly Payment (optional)</label>
-      <div class="input-wrap">
-        <span class="input-prefix">$</span>
-        <input type="number" id="extraPayment" class="has-prefix" placeholder="0" min="0" value="0">
-      </div>
-    </div>
-    <button class="btn" id="calcBtn">Calculate Payment</button>
+
+    <button class="btn-primary" id="calcBtn">Calculate Mortgage Payment</button>
   </div>
 
-  <div class="card results" id="results">
-    <div class="section-title">Your Results</div>
+  <div class="results" id="results">
+    <div class="result-hero">
+      <div class="label">Monthly Payment (P&amp;I)</div>
+      <div class="amount" id="heroAmount">$0</div>
+      <div class="sublabel" id="heroSublabel">Principal &amp; Interest only</div>
+    </div>
 
-    <div class="key-metrics" id="keyMetrics">
-      <div class="metric primary">
-        <span class="metric-value" id="resMonthly">—</span>
-        <div class="metric-label">Total Monthly Payment</div>
+    <div class="summary-grid">
+      <div class="summary-card">
+        <div class="s-label">Total Monthly (PITI)</div>
+        <div class="s-val" id="totalMonthly">—</div>
       </div>
-      <div class="metric">
-        <span class="metric-value" id="resPrincipalInterest">—</span>
-        <div class="metric-label">Principal & Interest</div>
+      <div class="summary-card">
+        <div class="s-label">Principal (Loan)</div>
+        <div class="s-val" id="principalAmt">—</div>
       </div>
-      <div class="metric">
-        <span class="metric-value" id="resTotalCost">—</span>
-        <div class="metric-label">Total Cost</div>
+      <div class="summary-card">
+        <div class="s-label">Total Interest Paid</div>
+        <div class="s-val" id="totalInterest">—</div>
       </div>
-      <div class="metric">
-        <span class="metric-value" id="resTotalInterest">—</span>
-        <div class="metric-label">Total Interest</div>
+      <div class="summary-card">
+        <div class="s-label">Total Cost (P+I)</div>
+        <div class="s-val" id="totalCost">—</div>
       </div>
-      <div class="metric">
-        <span class="metric-value" id="resLoanAmt">—</span>
-        <div class="metric-label">Loan Amount</div>
+      <div class="summary-card" id="extraCard" style="display:none">
+        <div class="s-label">Interest Saved (extra)</div>
+        <div class="s-val" id="interestSaved">—</div>
       </div>
-      <div class="metric">
-        <span class="metric-value" id="resPayoffDate">—</span>
-        <div class="metric-label">Payoff Date</div>
+      <div class="summary-card" id="timeCard" style="display:none">
+        <div class="s-label">Time Saved</div>
+        <div class="s-val" id="timeSaved">—</div>
       </div>
     </div>
 
-    <div class="breakdown-bars" id="breakdownBars">
+    <div class="bar-section">
+      <h3>Payment Breakdown</h3>
       <div class="bar-row">
-        <div class="bar-label"><span>Principal</span><span id="barPrincipalPct">—</span></div>
-        <div class="bar-track"><div class="bar-fill principal" id="barPrincipal" style="width:0%"></div></div>
+        <div class="bar-label">Principal</div>
+        <div class="bar-outer"><div class="bar-inner bar-principal" id="barPrincipal" style="width:0%"></div></div>
+        <div class="bar-val" id="barPrincipalVal">—</div>
       </div>
       <div class="bar-row">
-        <div class="bar-label"><span>Interest</span><span id="barInterestPct">—</span></div>
-        <div class="bar-track"><div class="bar-fill interest" id="barInterest" style="width:0%"></div></div>
+        <div class="bar-label">Interest</div>
+        <div class="bar-outer"><div class="bar-inner bar-interest" id="barInterest" style="width:0%"></div></div>
+        <div class="bar-val" id="barInterestVal">—</div>
       </div>
     </div>
 
-    <div class="info-box" id="extraSavingsBox" style="display:none"></div>
-
-    <div class="result-actions">
-      <button class="copy-btn" id="copyBtn">📋 Copy Summary</button>
+    <div class="section-header">
+      <h3>Amortization Schedule</h3>
+      <button class="copy-btn" id="copyBtn">Copy Summary</button>
     </div>
-
-    <div class="amort-tabs">
-      <button class="tab-btn active" data-tab="monthly">Monthly Schedule</button>
-      <button class="tab-btn" data-tab="yearly">Yearly Summary</button>
+    <div class="table-wrap">
+      <table id="amortTable">
+        <thead>
+          <tr>
+            <th>Year</th>
+            <th>Principal</th>
+            <th>Interest</th>
+            <th>Balance</th>
+          </tr>
+        </thead>
+        <tbody id="amortBody"></tbody>
+      </table>
     </div>
-
-    <div class="tab-content active" id="tab-monthly">
-      <div class="table-scroll">
-        <table id="monthlyTable">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th class="num">Payment</th>
-              <th class="num">Principal</th>
-              <th class="num">Interest</th>
-              <th class="num">Balance</th>
-            </tr>
-          </thead>
-          <tbody id="monthlyBody"></tbody>
-        </table>
-      </div>
-      <div class="show-all-wrap" id="showAllMonthly" style="display:none">
-        <button class="btn-secondary" id="showAllMonthlyBtn">Show All Payments</button>
-      </div>
-    </div>
-
-    <div class="tab-content" id="tab-yearly">
-      <div class="table-scroll">
-        <table id="yearlyTable">
-          <thead>
-            <tr>
-              <th>Year</th>
-              <th class="num">Total Paid</th>
-              <th class="num">Principal</th>
-              <th class="num">Interest</th>
-              <th class="num">Balance</th>
-            </tr>
-          </thead>
-          <tbody id="yearlyBody"></tbody>
-        </table>
-      </div>
-    </div>
+    <button class="show-all-btn" id="showAllBtn" style="display:none">Show All Years</button>
   </div>
 
   <div class="ad-slot" id="ad-mid">Advertisement</div>
 
-  <div class="how-to">
-    <h2>How to Use This Calculator</h2>
-    <p>Enter your home price, down payment, annual interest rate, and loan term. The calculator instantly shows your monthly principal & interest payment, plus optional property tax and insurance costs.</p>
-    <p>Use the sliders to quickly explore different scenarios. Add an extra monthly payment to see how much interest you can save and how early you'll pay off your loan.</p>
-    <p>Scroll the amortization table to see a full month-by-month or year-by-year breakdown of every payment over the life of your loan.</p>
+  <div class="content-section">
+    <h2>How to Use This Mortgage Payment Calculator</h2>
+    <p>Enter your home price (or loan amount), down payment, annual interest rate, and loan term. The calculator instantly shows your monthly principal &amp; interest payment plus an optional breakdown including property tax and insurance (PITI). You can also enter an extra monthly payment to see how much interest you'd save and how many months you'd shave off your loan.</p>
+    <p>Use the sliders to quickly explore different interest rate and loan amount scenarios. The amortization table shows exactly how your balance decreases year by year.</p>
+
+    <h2>Why This Matters</h2>
+    <p>Your mortgage is almost certainly the largest financial commitment of your life. A 0.5% difference in interest rate on a $350,000 loan over 30 years means a difference of roughly $35,000 in total interest paid. That's a car. Understanding your payment before you commit is non-negotiable.</p>
+    <p>Consider a couple buying their first home at $400,000 with 10% down ($360,000 loan). At 6.5%, their monthly P&amp;I payment is $2,276. If they stretch to a $450,000 home, that same rate bumps the payment to $2,554 — a difference of $278/month, or $3,336/year. Over a decade, that's $33,360 more out of pocket before even counting interest.</p>
+    <p>Real estate agents and sellers will tell you what you can afford. This calculator tells you what you'll actually pay. Use it to compare 15-year vs. 30-year terms, shop competing rates, and decide how much extra you can throw at the principal each month to become mortgage-free faster.</p>
+
+    <h2>How It's Calculated</h2>
+    <p>The standard mortgage payment formula uses compound interest amortization:</p>
+    <div class="formula-box">M = P × [r(1+r)ⁿ] / [(1+r)ⁿ - 1]
+
+Where:
+  M = monthly payment
+  P = principal loan amount (home price − down payment)
+  r = monthly interest rate (annual rate ÷ 12)
+  n = total number of payments (years × 12)</div>
+    <p>For example: $280,000 loan at 6.5% for 30 years → r = 0.065/12 = 0.005417, n = 360. M = 280,000 × [0.005417 × (1.005417)³⁶⁰] / [(1.005417)³⁶⁰ − 1] ≈ <strong>$1,770/month</strong>.</p>
+    <p>Each month, interest is calculated on the remaining balance. Early payments are mostly interest; later payments are mostly principal. The amortization table shows this shift year by year.</p>
+
+    <h2>Tips &amp; Common Mistakes</h2>
+    <ul>
+      <li><strong>Don't forget PITI:</strong> Your real monthly housing cost includes property taxes, homeowners insurance, and possibly PMI if your down payment is under 20%. This calculator shows that total.</li>
+      <li><strong>PMI alert:</strong> With less than 20% down, expect to add $50–$200/month in private mortgage insurance until your equity reaches 20%.</li>
+      <li><strong>Extra payments are powerful:</strong> Paying just $200/month extra on a $350,000, 30-year loan at 6.5% can save over $80,000 in interest and cut 6+ years off your loan.</li>
+      <li><strong>Compare 15 vs. 30 year:</strong> A 15-year mortgage typically offers a lower rate and you'll pay dramatically less interest overall — but the monthly payment is significantly higher. Use this calculator to see both scenarios side-by-side.</li>
+      <li><strong>Rate shopping matters:</strong> Even a 0.25% lower rate is worth pursuing. On a $400,000 loan, that's roughly $18,000 over 30 years.</li>
+    </ul>
+
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>What's included in a mortgage payment?</summary>
+      <p>A basic mortgage payment covers principal (reducing your loan balance) and interest. The full "PITI" payment also includes property taxes and homeowners insurance, often held in escrow by your lender. If your down payment is under 20%, PMI is typically added as well.</p>
+    </details>
+    <details>
+      <summary>Should I choose a 15-year or 30-year mortgage?</summary>
+      <p>A 30-year mortgage gives you a lower monthly payment and more cash flow flexibility, but you'll pay significantly more interest over the life of the loan. A 15-year mortgage costs more each month but builds equity faster and saves tens of thousands in interest. If you can comfortably afford the higher payment, the 15-year is usually the better financial choice.</p>
+    </details>
+    <details>
+      <summary>How does my credit score affect my mortgage rate?</summary>
+      <p>Your credit score is one of the biggest determinants of your interest rate. Borrowers with scores above 760 typically qualify for the best rates, while scores below 640 may face rates 1–2% higher or difficulty qualifying at all. Improving your score before applying can save you thousands over the life of the loan.</p>
+    </details>
+    <details>
+      <summary>What is an amortization schedule?</summary>
+      <p>An amortization schedule shows how each payment is split between interest and principal over the life of your loan. In the early years, the majority of each payment goes to interest. As your balance decreases, the interest portion shrinks and more of each payment pays down the principal. This calculator shows a yearly summary of this schedule.</p>
+    </details>
   </div>
 
-  <div class="related">
+  <div class="related-tools">
     <h2>Related Tools</h2>
-    <p>More calculators coming soon on <a href="/">calcstack.dev</a>. Check back for refinance calculators, affordability calculators, and more mortgage tools.</p>
+    <div class="related-links">
+      <a href="/loan-amortization-calculator/">Loan Amortization Calculator</a>
+      <a href="/investment-growth-calculator/">Investment Growth Calculator</a>
+      <a href="/salary-to-hourly-calculator/">Salary to Hourly Calculator</a>
+    </div>
   </div>
 
   <div class="ad-slot" id="ad-bottom">Advertisement</div>
+</div>
 
-  <footer>
+<footer>
+  <div class="footer-inner">
+    <span>© <span id="fyear"></span> calcstack.dev</span>
     <div class="footer-links">
       <a href="/about/">About</a>
       <a href="/privacy/">Privacy</a>
       <a href="/contact/">Contact</a>
     </div>
-    <div>© <span id="yr"></span> calcstack.dev — Free Online Calculators</div>
-  </footer>
-</main>
+  </div>
+</footer>
 
 <script>
-document.getElementById('yr').textContent = new Date().getFullYear();
+document.getElementById('fyear').textContent = new Date().getFullYear();
 
-const $ = id => document.getElementById(id);
+const fmt = (n, d=0) => n.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
+const fmtDollar = (n) => '$' + fmt(n,2);
 
 // Slider sync
-function syncSlider(inputId, sliderId) {
-  const input = $(inputId), slider = $(sliderId);
-  input.addEventListener('input', () => { slider.value = input.value; });
-  slider.addEventListener('input', () => { input.value = slider.value; });
-}
-syncSlider('loanAmount', 'loanAmountSlider');
-syncSlider('downPayment', 'downPaymentSlider');
-syncSlider('interestRate', 'interestRateSlider');
+const loanInput = document.getElementById('loanAmount');
+const loanSlider = document.getElementById('loanSlider');
+const rateInput = document.getElementById('interestRate');
+const rateSlider = document.getElementById('rateSlider');
+const downInput = document.getElementById('downPayment');
+const downPctInput = document.getElementById('downPct');
 
-function fmt(n, dec=0) {
-  if (isNaN(n)) return '—';
-  return n.toLocaleString('en-US', {minimumFractionDigits: dec, maximumFractionDigits: dec});
+loanInput.addEventListener('input',()=>{
+  let v=parseFloat(loanInput.value)||0;
+  if(v>=50000&&v<=2000000) loanSlider.value=v;
+  syncDownPct();
+});
+loanSlider.addEventListener('input',()=>{
+  loanInput.value=loanSlider.value;
+  syncDownPct();
+});
+rateInput.addEventListener('input',()=>{
+  let v=parseFloat(rateInput.value)||0;
+  if(v>=1&&v<=15) rateSlider.value=v;
+});
+rateSlider.addEventListener('input',()=>{
+  rateInput.value=rateSlider.value;
+});
+
+downInput.addEventListener('input',()=>{ syncFromDown(); });
+downPctInput.addEventListener('input',()=>{ syncFromPct(); });
+
+function syncDownPct(){
+  let loan=parseFloat(loanInput.value)||0;
+  let down=parseFloat(downInput.value)||0;
+  if(loan>0) downPctInput.value=Math.round((down/loan)*1000)/10;
 }
-function fmtD(n) { return '$' + fmt(n, 2); }
-function fmtDk(n) {
-  if (n >= 1000000) return '$' + fmt(n/1000000, 2) + 'M';
-  if (n >= 1000) return '$' + fmt(n/1000, 1) + 'K';
-  return fmtD(n);
+function syncFromDown(){
+  let loan=parseFloat(loanInput.value)||0;
+  let down=parseFloat(downInput.value)||0;
+  if(loan>0) downPctInput.value=Math.round((down/loan)*1000)/10;
+}
+function syncFromPct(){
+  let loan=parseFloat(loanInput.value)||0;
+  let pct=parseFloat(downPctInput.value)||0;
+  downInput.value=Math.round(loan*(pct/100));
 }
 
-function setError(id, show) {
-  const el = $(id);
-  const inputId = id.replace('err-','');
-  const map = {'loan':'loanAmount','down':'downPayment','rate':'interestRate','tax':'propertyTax'};
-  const inp = $(map[inputId]);
-  if(el) { el.classList.toggle('show', show); }
-  if(inp) { inp.classList.toggle('error', show); }
-}
-function clearErrors() {
-  ['err-loan','err-down','err-rate','err-tax'].forEach(id => setError(id.replace('err-',''), false));
-}
+function validate(){
+  let ok=true;
+  const loan=parseFloat(loanInput.value);
+  const down=parseFloat(downInput.value)||0;
+  const rate=parseFloat(rateInput.value);
 
-function calcMonthlyPayment(principal, annualRate, months) {
-  if (annualRate === 0) return principal / months;
-  const r = annualRate / 100 / 12;
-  return principal * (r * Math.pow(1+r, months)) / (Math.pow(1+r, months) - 1);
-}
+  document.getElementById('loanError').style.display='none';
+  document.getElementById('downError').style.display='none';
+  document.getElementById('rateError').style.display='none';
+  loanInput.classList.remove('error');
+  downInput.classList.remove('error');
+  rateInput.classList.remove('error');
 
-function buildAmortization(principal, annualRate, months, extra) {
-  const r = annualRate / 100 / 12;
-  const basePayment = calcMonthlyPayment(principal, annualRate, months);
-  let balance = principal;
-  const rows = [];
-  for (let m = 1; m <= months && balance > 0.005; m++) {
-    const intCharge = balance * r;
-    let princPaid = basePayment - intCharge + extra;
-    if (princPaid > balance) princPaid = balance;
-    const payment = intCharge + princPaid;
-    balance -= princPaid;
-    if (balance < 0) balance = 0;
-    rows.push({ month: m, payment, principal: princPaid, interest: intCharge, balance });
+  if(!loan||loan<=0||isNaN(loan)){
+    document.getElementById('loanError').style.display='block';
+    loanInput.classList.add('error'); ok=false;
   }
-  return rows;
+  if(down<0||down>=loan){
+    document.getElementById('downError').style.display='block';
+    downInput.classList.add('error'); ok=false;
+  }
+  if(!rate||rate<=0||rate>30||isNaN(rate)){
+    document.getElementById('rateError').style.display='block';
+    rateInput.classList.add('error'); ok=false;
+  }
+  return ok;
 }
 
-let fullAmortData = [];
-let showingAll = false;
+function buildAmort(principal, monthlyRate, nPayments, extraMonthly){
+  let balance=principal;
+  let rows=[];
+  let month=0;
+  let actualMonths=0;
+  while(balance>0.005&&month<nPayments*2){
+    month++;
+    let interest=balance*monthlyRate;
+    let basePayment=principal*monthlyRate*Math.pow(1+monthlyRate,nPayments)/(Math.pow(1+monthlyRate,nPayments)-1);
+    let principalPay=Math.min(basePayment-interest+extraMonthly,balance);
+    if(principalPay<0) principalPay=0;
+    balance=Math.max(0,balance-principalPay);
+    rows.push({month,interest,principalPay,balance});
+    if(balance<=0.005){actualMonths=month;break;}
+  }
+  if(actualMonths===0) actualMonths=month;
+  return {rows,actualMonths};
+}
 
-function calculate() {
-  clearErrors();
-  const homePrice = parseFloat($('loanAmount').value) || 0;
-  const down = parseFloat($('downPayment').value) || 0;
-  const rate = parseFloat($('interestRate').value) || 0;
-  const term = parseInt($('loanTerm').value);
-  const tax = parseFloat($('propertyTax').value) || 0;
-  const ins = parseFloat($('homeInsurance').value) || 0;
-  const extra = parseFloat($('extraPayment').value) || 0;
+function aggregateByYear(rows){
+  let years=[];
+  for(let i=0;i<rows.length;i+=12){
+    let chunk=rows.slice(i,i+12);
+    let yr=Math.floor(i/12)+1;
+    let totP=chunk.reduce((s,r)=>s+r.principalPay,0);
+    let totI=chunk.reduce((s,r)=>s+r.interest,0);
+    let endBal=chunk[chunk.length-1].balance;
+    years.push({yr,totP,totI,endBal});
+  }
+  return years;
+}
 
-  let valid = true;
-  if (!homePrice || homePrice < 1000) { setError('loan', true); valid = false; }
-  if (down >= homePrice) { setError('down', true); valid = false; }
-  if (!rate || rate < 0.01 || rate > 30) { setError('rate', true); valid = false; }
-  if (!valid) return;
+let allYears=[];
+let showingAll=false;
 
-  const principal = homePrice - down;
-  const months = term * 12;
-  const basePI = calcMonthlyPayment(principal, rate, months);
-  const taxMo = tax / 12;
-  const insMo = ins / 12;
-  const totalMonthly = basePI + taxMo + insMo + extra;
+function calculate(){
+  if(!validate()) return;
 
-  fullAmortData = buildAmortization(principal, rate, months, extra);
-  const totalPaid = fullAmortData.reduce((s,r) => s+r.payment, 0) + (taxMo+insMo) * fullAmortData.length;
-  const totalInterest = fullAmortData.reduce((s,r) => s+r.interest, 0);
-  const totalPrincipal = fullAmortData.reduce((s,r) => s+r.principal, 0);
-  const actualMonths = fullAmortData.length;
+  const homePrice=parseFloat(loanInput.value);
+  const down=parseFloat(downInput.value)||0;
+  const principal=homePrice-down;
+  const annualRate=parseFloat(rateInput.value)/100;
+  const monthlyRate=annualRate/12;
+  const termYears=parseInt(document.getElementById('loanTerm').value);
+  const nPayments=termYears*12;
+  const extra=parseFloat(document.getElementById('extraPayment').value)||0;
+  const propTax=parseFloat(document.getElementById('propertyTax').value)||0;
+  const insurance=parseFloat(document.getElementById('homeInsurance').value)||0;
 
-  // Payoff date
-  const now = new Date();
-  const payoffDate = new Date(now.getFullYear(), now.getMonth() + actualMonths, 1);
-  const payoffStr = payoffDate.toLocaleDateString('en-US', {month:'short', year:'numeric'});
+  const basePayment=principal*monthlyRate*Math.pow(1+monthlyRate,nPayments)/(Math.pow(1+monthlyRate,nPayments)-1);
 
-  // Update key metrics
-  $('resMonthly').textContent = fmtD(basePI + taxMo + insMo + extra);
-  $('resPrincipalInterest').textContent = fmtD(basePI);
-  $('resTotalCost').textContent = fmtDk(totalPaid);
-  $('resTotalInterest').textContent = fmtDk(totalInterest);
-  $('resLoanAmt').textContent = fmtDk(principal);
-  $('resPayoffDate').textContent = payoffStr;
+  // Standard schedule (no extra)
+  const std=buildAmort(principal,monthlyRate,nPayments,0);
+  const stdTotalInterest=std.rows.reduce((s,r)=>s+r.interest,0);
+
+  // With extra payments
+  const ext=buildAmort(principal,monthlyRate,nPayments,extra);
+  const extTotalInterest=ext.rows.reduce((s,r)=>s+r.interest,0);
+
+  const totalPI=stdTotalInterest+principal;
+  const monthlyTax=propTax/12;
+  const monthlyIns=insurance/12;
+  const totalMonthly=basePayment+monthlyTax+monthlyIns;
+
+  // Results display
+  document.getElementById('heroAmount').textContent=fmtDollar(basePayment);
+  document.getElementById('heroSublabel').textContent='Principal & Interest · $'+fmt(principal)+' loan · '+termYears+'-year term';
+  document.getElementById('totalMonthly').textContent=fmtDollar(totalMonthly);
+  document.getElementById('principalAmt').textContent='$'+fmt(principal);
+  document.getElementById('totalInterest').textContent='$'+fmt(stdTotalInterest);
+  document.getElementById('totalCost').textContent='$'+fmt(totalPI);
+
+  if(extra>0){
+    const saved=stdTotalInterest-extTotalInterest;
+    const monthsSaved=std.actualMonths-ext.actualMonths;
+    const yrsSaved=Math.floor(monthsSaved/12);
+    const mSaved=monthsSaved%12;
+    let timeStr=yrsSaved>0?yrsSaved+'yr '+(mSaved>0?mSaved+'mo':''):mSaved+'mo';
+    document.getElementById('interestSaved').textContent='$'+fmt(saved);
+    document.getElementById('timeSaved').textContent=timeStr;
+    document.getElementById('extraCard').style.display='block';
+    document.getElementById('timeCard').style.display='block';
+  } else {
+    document.getElementById('extraCard').style.display='none';
+    document.getElementById('timeCard').style.display='none';
+  }
 
   // Bars
-  const totalCostForBar = totalInterest + totalPrincipal;
-  const pPct = Math.round(totalPrincipal / totalCostForBar * 100);
-  const iPct = 100 - pPct;
-  $('barPrincipal').style.width = pPct + '%';
-  $('barInterest').style.width = iPct + '%';
-  $('barPrincipalPct').textContent = fmtD(totalPrincipal) + ' (' + pPct + '%)';
-  $('barInterestPct').textContent = fmtD(totalInterest) + ' (' + iPct + '%)';
+  const pct=principal/totalPI*100;
+  const iPct=stdTotalInterest/totalPI*100;
+  document.getElementById('barPrincipal').style.width=pct+'%';
+  document.getElementById('barInterest').style.width=iPct+'%';
+  document.getElementById('barPrincipalVal').textContent='$'+fmt(principal);
+  document.getElementById('barInterestVal').textContent='$'+fmt(stdTotalInterest);
 
-  // Extra payment savings
-  const extraBox = $('extraSavingsBox');
-  if (extra > 0) {
-    const baseAmort = buildAmortization(principal, rate, months, 0);
-    const baseInterest = baseAmort.reduce((s,r) => s+r.interest, 0);
-    const savedInterest = baseInterest - totalInterest;
-    const savedMonths = baseAmort.length - actualMonths;
-    extraBox.style.display = 'block';
-    extraBox.innerHTML = `💰 By paying an extra <strong>${fmtD(extra)}/month</strong>, you save <strong>${fmtD(savedInterest)}</strong> in interest and pay off your loan <strong>${savedMonths} month${savedMonths!==1?'s':''}</strong> early.`;
-  } else {
-    extraBox.style.display = 'none';
-  }
+  // Amort table
+  allYears=aggregateByYear(extra>0?ext.rows:std.rows);
+  showingAll=false;
+  renderTable(false);
 
-  // Build monthly table
-  renderMonthlyTable(false);
-
-  // Build yearly table
-  renderYearlyTable();
-
-  const res = $('results');
-  res.classList.add('show');
-  setTimeout(() => res.scrollIntoView({behavior:'smooth', block:'start'}), 50);
+  const res=document.getElementById('results');
+  res.style.display='block';
+  requestAnimationFrame(()=>res.classList.add('visible'));
 }
 
-function renderMonthlyTable(showAll) {
-  const body = $('monthlyBody');
-  const LIMIT = 24;
-  const rows = showAll ? fullAmortData : fullAmortData.slice(0, LIMIT);
-  body.innerHTML = rows.map(r =>
-    `<tr>
-      <td>${r.month}</td>
-      <td class="num">${fmtD(r.payment)}</td>
-      <td class="num">${fmtD(r.principal)}</td>
-      <td class="num highlight">${fmtD(r.interest)}</td>
-      <td class="num">${r.balance > 0 ? fmtD(r.balance) : '$0.00'}</td>
-    </tr>`
-  ).join('');
-  const showAllWrap = $('showAllMonthly');
-  if (fullAmortData.length > LIMIT && !showAll) {
-    showAllWrap.style.display = 'block';
+function renderTable(all){
+  const tbody=document.getElementById('amortBody');
+  tbody.innerHTML='';
+  const rows=all?allYears:allYears.slice(0,10);
+  rows.forEach(r=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>Year ${r.yr}</td><td>$${fmt(r.totP)}</td><td>$${fmt(r.totI)}</td><td>$${fmt(r.endBal)}</td>`;
+    tbody.appendChild(tr);
+  });
+  const btn=document.getElementById('showAllBtn');
+  if(allYears.length>10&&!all){
+    btn.style.display='block';
+    btn.textContent=`Show All ${allYears.length} Years`;
   } else {
-    showAllWrap.style.display = 'none';
+    btn.style.display='none';
   }
 }
 
-function renderYearlyTable() {
-  const body = $('yearlyBody');
-  const years = {};
-  fullAmortData.forEach(r => {
-    const y = Math.ceil(r.month / 12);
-    if (!years[y]) years[y] = { totalPaid:0, principal:0, interest:0, balance:0 };
-    years[y].totalPaid += r.payment;
-    years[y].principal += r.principal;
-    years[y].interest += r.interest;
-    years[y].balance = r.balance;
-  });
-  body.innerHTML = Object.entries(years).map(([y, d]) =>
-    `<tr>
-      <td>${y}</td>
-      <td class="num">${fmtD(d.totalPaid)}</td>
-      <td class="num">${fmtD(d.principal)}</td>
-      <td class="num highlight">${fmtD(d.interest)}</td>
-      <td class="num">${d.balance > 0 ? fmtD(d.balance) : '$0.00'}</td>
-    </tr>`
-  ).join('');
-}
-
-$('showAllMonthlyBtn').addEventListener('click', () => {
-  showingAll = true;
-  renderMonthlyTable(true);
+document.getElementById('showAllBtn').addEventListener('click',function(){
+  showingAll=true;
+  renderTable(true);
+  this.style.display='none';
 });
 
-// Tabs
-document.querySelectorAll('.tab-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-    btn.classList.add('active');
-    $('tab-' + btn.dataset.tab).classList.add('active');
+document.getElementById('calcBtn').addEventListener('click',calculate);
+
+document.querySelectorAll('input,select').forEach(el=>{
+  el.addEventListener('keydown',e=>{if(e.key==='Enter')calculate();});
+});
+
+document.getElementById('copyBtn').addEventListener('click',function(){
+  const loan=parseFloat(loanInput.value)||0;
+  const down=parseFloat(downInput.value)||0;
+  const rate=parseFloat(rateInput.value)||0;
+  const term=document.getElementById('loanTerm').value;
+  const payment=document.getElementById('heroAmount').textContent;
+  const totalInt=document.getElementById('totalInterest').textContent;
+  const totalCost=document.getElementById('totalCost').textContent;
+  const text=`Mortgage Summary\nLoan: $${fmt(loan-down)}\nRate: ${rate}%\nTerm: ${term} years\nMonthly P&I: ${payment}\nTotal Interest: ${totalInt}\nTotal Cost: ${totalCost}`;
+  navigator.clipboard.writeText(text).then(()=>{
+    this.textContent='Copied!';
+    setTimeout(()=>this.textContent='Copy Summary',2000);
   });
 });
 
-// Copy
-$('copyBtn').addEventListener('click', () => {
-  const lines = [
-    'Mortgage Payment Summary',
-    '========================',
-    'Monthly Payment:       ' + $('resMonthly').textContent,
-    'Principal & Interest:  ' + $('resPrincipalInterest').textContent,
-    'Total Cost:            ' + $('resTotalCost').textContent,
-    'Total Interest:        ' + $('resTotalInterest').textContent,
-    'Loan Amount:           ' + $('resLoanAmt').textContent,
-    'Payoff Date:           ' + $('resPayoffDate').textContent,
-  ];
-  navigator.clipboard.writeText(lines.join('\n')).then(() => {
-    const btn = $('copyBtn');
-    btn.textContent = '✅ Copied!';
-    btn.classList.add('copied');
-    setTimeout(() => { btn.textContent = '📋 Copy Summary'; btn.classList.remove('copied'); }, 2000);
-  }).catch(() => {
-    alert('Could not copy. Please select and copy manually.');
-  });
-});
-
-// Calculate button
-$('calcBtn').addEventListener('click', calculate);
-
-// Enter key
-['loanAmount','downPayment','interestRate','propertyTax','homeInsurance','extraPayment'].forEach(id => {
-  $(id).addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
-});
-
-// Auto-calculate on load
+// Run on load with defaults
 calculate();
 </script>
 </body>
