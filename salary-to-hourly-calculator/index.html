@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Salary to Hourly Calculator — Free Online Tool | calcstack.dev</title>
-<meta name="description" content="Convert annual salary to hourly rate instantly. Enter your salary, hours per week, and weeks per year to see your true hourly wage — free and accurate.">
+<meta name="description" content="Convert any salary to an hourly rate instantly. Enter your annual, monthly, or weekly pay and get your exact hourly wage with a full breakdown.">
 <link rel="canonical" href="https://calcstack.dev/salary-to-hourly-calculator/">
 <script type="application/ld+json">
 {
@@ -12,7 +12,7 @@
   "@type": "WebApplication",
   "name": "Salary to Hourly Calculator",
   "url": "https://calcstack.dev/salary-to-hourly-calculator/",
-  "description": "Convert annual, monthly, or weekly salary to an hourly rate. Adjust hours per week and weeks per year to get accurate results.",
+  "description": "Convert any salary to an hourly rate instantly. Enter your annual, monthly, or weekly pay and get your exact hourly wage with a full breakdown.",
   "applicationCategory": "FinanceApplication",
   "operatingSystem": "Any",
   "offers": {
@@ -24,401 +24,91 @@
 </script>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: #fff;
-  color: #1a1a2e;
-  font-size: 16px;
-  line-height: 1.6;
-}
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #fff; color: #1a1a2e; font-size: 16px; line-height: 1.6; }
 a { color: #0077b6; text-decoration: none; }
 a:hover { text-decoration: underline; }
-
-nav {
-  border-bottom: 1px solid #e0e0e0;
-  padding: 0 1.5rem;
-  height: 52px;
-  display: flex;
-  align-items: center;
-}
-.nav-inner {
-  max-width: 640px;
-  margin: 0 auto;
-  width: 100%;
-}
-.nav-brand {
-  font-weight: 700;
-  font-size: 1.05rem;
-  color: #0077b6;
-  text-decoration: none;
-}
-.nav-brand:hover { text-decoration: none; opacity: 0.85; }
-
-.page-wrapper {
-  max-width: 640px;
-  margin: 0 auto;
-  padding: 2rem 1.5rem 3rem;
-}
-
-h1 {
-  font-size: 1.65rem;
-  font-weight: 700;
-  color: #1a1a2e;
-  margin-bottom: 0.4rem;
-  line-height: 1.25;
-}
-.subtitle {
-  color: #555;
-  font-size: 0.95rem;
-  margin-bottom: 2rem;
-}
-
-/* Card */
-.tool-card {
-  background: #fff;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  padding: 2rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-  margin-bottom: 2rem;
-}
-
-/* Inputs */
-.field { margin-bottom: 1.25rem; }
-label {
-  display: block;
-  font-size: 0.85rem;
-  font-weight: 500;
-  color: #444;
-  margin-bottom: 6px;
-}
-input[type="number"], select {
-  width: 100%;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  padding: 12px 16px;
-  font-size: 1rem;
-  font-family: inherit;
-  color: #1a1a2e;
-  background: #fff;
-  transition: box-shadow 0.2s, border-color 0.2s;
-  min-height: 44px;
-  appearance: none;
-  -webkit-appearance: none;
-}
-input[type="number"]:focus, select:focus {
-  outline: none;
-  border-color: #0077b6;
-  box-shadow: 0 0 0 3px rgba(0,119,182,0.15);
-}
+nav { border-bottom: 1px solid #e0e0e0; padding: 0 1.5rem; }
+nav .nav-inner { max-width: 640px; margin: 0 auto; display: flex; align-items: center; height: 52px; }
+nav .site-name { font-weight: 700; font-size: 1.1rem; color: #1a1a2e; }
+nav .site-name:hover { text-decoration: none; color: #0077b6; }
+.container { max-width: 640px; margin: 0 auto; padding: 2rem 1.5rem 3rem; }
+h1 { font-size: 1.75rem; font-weight: 800; color: #1a1a2e; margin-bottom: 0.4rem; }
+.subtitle { color: #555; font-size: 0.95rem; margin-bottom: 2rem; }
+.tool-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 2rem; }
+.form-group { margin-bottom: 1.4rem; }
+label { display: block; font-size: 0.85rem; font-weight: 500; color: #444; margin-bottom: 6px; }
+input[type="number"], select { width: 100%; border: 1px solid #ddd; border-radius: 6px; padding: 12px 16px; font-size: 1rem; color: #1a1a2e; background: #fff; transition: border-color 0.2s, box-shadow 0.2s; min-height: 44px; appearance: none; -webkit-appearance: none; }
+input[type="number"]:focus, select:focus { outline: none; border-color: #0077b6; box-shadow: 0 0 0 3px rgba(0,119,182,0.15); }
 input.error { border-color: #e74c3c; }
-.error-msg {
-  color: #e74c3c;
-  font-size: 0.8rem;
-  margin-top: 4px;
-  display: none;
-}
-.error-msg.visible { display: block; }
-
-/* Slider */
-.slider-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-top: 6px;
-}
-input[type="range"] {
-  flex: 1;
-  accent-color: #0077b6;
-  height: 4px;
-  cursor: pointer;
-}
-.slider-val {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #0077b6;
-  min-width: 36px;
-  text-align: right;
-}
-
-/* Tabs */
-.tabs {
-  display: flex;
-  gap: 6px;
-  margin-bottom: 1.5rem;
-  flex-wrap: wrap;
-}
-.tab-btn {
-  padding: 7px 18px;
-  border: 1px solid #ddd;
-  border-radius: 20px;
-  background: #fff;
-  font-size: 0.85rem;
-  font-family: inherit;
-  color: #555;
-  cursor: pointer;
-  transition: all 0.2s;
-  min-height: 36px;
-}
-.tab-btn.active {
-  background: #0077b6;
-  color: #fff;
-  border-color: #0077b6;
-}
-.tab-btn:hover:not(.active) {
-  border-color: #0077b6;
-  color: #0077b6;
-}
-
-/* Button */
-.btn-calc {
-  width: 100%;
-  background: #0077b6;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  padding: 14px 24px;
-  font-size: 1rem;
-  font-weight: 600;
-  font-family: inherit;
-  cursor: pointer;
-  transition: background 0.2s;
-  min-height: 48px;
-  margin-top: 0.5rem;
-}
-.btn-calc:hover { background: #006299; }
-
-/* Results */
-.results-section {
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-}
-.results-section.visible {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.result-hero {
-  background: #f0f7ff;
-  border: 1px solid #b8d9f0;
-  border-radius: 8px;
-  padding: 1.5rem;
-  text-align: center;
-  margin-bottom: 1.25rem;
-}
-.result-hero-label {
-  font-size: 0.85rem;
-  color: #555;
-  font-weight: 500;
-  margin-bottom: 4px;
-}
-.result-hero-number {
-  font-size: 2.8rem;
-  font-weight: 800;
-  color: #0077b6;
-  line-height: 1.1;
-}
-.result-hero-sub {
-  font-size: 0.85rem;
-  color: #666;
-  margin-top: 4px;
-}
-
-.result-copy-row {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 1rem;
-}
-.btn-copy {
-  background: #f8f9fa;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  padding: 6px 14px;
-  font-size: 0.8rem;
-  font-family: inherit;
-  color: #555;
-  cursor: pointer;
-  transition: all 0.2s;
-  min-height: 32px;
-}
-.btn-copy:hover { border-color: #0077b6; color: #0077b6; }
-.btn-copy.copied { color: #27ae60; border-color: #27ae60; }
-
-/* Table */
-.table-wrap { overflow-x: auto; }
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.9rem;
-}
-th {
-  background: #f0f0f0;
-  padding: 10px 14px;
-  text-align: left;
-  font-weight: 600;
-  font-size: 0.82rem;
-  color: #333;
-  border-bottom: 2px solid #ddd;
-}
-th.num, td.num { text-align: right; }
-td {
-  padding: 9px 14px;
-  border-bottom: 1px solid #f0f0f0;
-  color: #1a1a2e;
-}
-tr:nth-child(even) td { background: #fafafa; }
-tr:last-child td { border-bottom: none; }
-
-/* Comparison bars */
-.bar-container {
-  background: #eef5fb;
-  border-radius: 4px;
-  height: 10px;
-  margin-top: 4px;
-  overflow: hidden;
-}
-.bar-fill {
-  height: 100%;
-  background: #0077b6;
-  border-radius: 4px;
-  transition: width 0.4s ease;
-}
-
-/* Ad slot */
-.ad-slot {
-  background: #f8f9fa;
-  border: 1px dashed #ccc;
-  border-radius: 6px;
-  min-height: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #aaa;
-  font-size: 0.78rem;
-  margin: 2rem 0;
-}
-
-/* Content */
-.content-section { margin: 2.5rem 0; }
-.content-section h2 {
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: #1a1a2e;
-  margin-bottom: 0.75rem;
-  padding-bottom: 0.4rem;
-  border-bottom: 2px solid #f0f0f0;
-}
-.content-section p {
-  font-size: 0.93rem;
-  color: #333;
-  margin-bottom: 0.75rem;
-  line-height: 1.7;
-}
-.content-section ul {
-  padding-left: 1.25rem;
-  font-size: 0.93rem;
-  color: #333;
-  line-height: 1.8;
-}
-.content-section ul li { margin-bottom: 0.3rem; }
-
-details {
-  border: 1px solid #e0e0e0;
-  border-radius: 6px;
-  margin-bottom: 0.6rem;
-  overflow: hidden;
-}
-summary {
-  padding: 12px 16px;
-  font-weight: 500;
-  font-size: 0.92rem;
-  cursor: pointer;
-  background: #f8f9fa;
-  color: #1a1a2e;
-  list-style: none;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  min-height: 44px;
-}
-summary::after { content: "+"; font-size: 1.1rem; color: #0077b6; }
-details[open] summary::after { content: "−"; }
-details p {
-  padding: 12px 16px;
-  font-size: 0.88rem;
-  color: #444;
-  line-height: 1.65;
-  margin: 0;
-}
-
-.formula-box {
-  background: #f8f9fa;
-  border-left: 3px solid #0077b6;
-  border-radius: 0 6px 6px 0;
-  padding: 12px 16px;
-  font-family: 'Courier New', monospace;
-  font-size: 0.88rem;
-  color: #1a1a2e;
-  margin: 0.75rem 0;
-  line-height: 1.7;
-}
-
-/* Related tools */
-.related-section {
-  background: #f8f9fa;
-  border-radius: 8px;
-  padding: 1.25rem 1.5rem;
-  margin: 2rem 0;
-}
-.related-section h2 {
-  font-size: 1rem;
-  font-weight: 700;
-  margin-bottom: 0.75rem;
-  color: #1a1a2e;
-}
-.related-links { display: flex; flex-wrap: wrap; gap: 10px; }
-.related-link {
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  padding: 8px 14px;
-  font-size: 0.85rem;
-  color: #0077b6;
-  text-decoration: none;
-  transition: all 0.2s;
-  min-height: 36px;
-  display: inline-flex;
-  align-items: center;
-}
-.related-link:hover {
-  border-color: #0077b6;
-  background: #f0f7ff;
-  text-decoration: none;
-}
-
-/* Footer */
-footer {
-  border-top: 1px solid #e0e0e0;
-  padding: 1.5rem;
-  text-align: center;
-  font-size: 0.82rem;
-  color: #888;
-}
-footer a { color: #888; margin: 0 8px; }
+.error-msg { color: #e74c3c; font-size: 0.8rem; margin-top: 4px; display: none; }
+.error-msg.show { display: block; }
+.row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+input[type="range"] { width: 100%; height: 6px; accent-color: #0077b6; cursor: pointer; margin-top: 6px; }
+.slider-row { display: flex; align-items: center; gap: 12px; }
+.slider-row input[type="range"] { flex: 1; }
+.slider-val { font-size: 0.9rem; font-weight: 600; color: #0077b6; min-width: 36px; text-align: right; }
+.btn { background: #0077b6; color: #fff; border: none; border-radius: 6px; padding: 12px 24px; font-size: 1rem; font-weight: 600; cursor: pointer; width: 100%; min-height: 48px; transition: background 0.2s; }
+.btn:hover { background: #006299; }
+.results { opacity: 0; transition: opacity 0.3s ease; display: none; }
+.results.visible { opacity: 1; display: block; }
+.big-result { text-align: center; background: #f0f8ff; border-radius: 8px; padding: 1.5rem 1rem; margin-bottom: 1.5rem; border: 1px solid #b3d9f2; }
+.big-label { font-size: 0.85rem; color: #555; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+.big-number { font-size: 2.8rem; font-weight: 900; color: #0077b6; line-height: 1.1; }
+.big-sub { font-size: 0.9rem; color: #666; margin-top: 4px; }
+.summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
+.summary-card { background: #f8f9fa; border-radius: 8px; padding: 1rem 1.2rem; border: 1px solid #e8e8e8; }
+.summary-card .s-label { font-size: 0.78rem; color: #666; font-weight: 500; text-transform: uppercase; letter-spacing: 0.04em; }
+.summary-card .s-val { font-size: 1.3rem; font-weight: 700; color: #1a1a2e; margin-top: 2px; }
+.section-title { font-size: 1rem; font-weight: 700; color: #1a1a2e; margin-bottom: 0.8rem; }
+.bar-chart { margin-bottom: 1.5rem; }
+.bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.bar-row-label { font-size: 0.82rem; color: #444; width: 100px; flex-shrink: 0; }
+.bar-track { flex: 1; background: #eee; border-radius: 4px; height: 20px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 4px; transition: width 0.4s ease; }
+.bar-row-val { font-size: 0.82rem; font-weight: 600; color: #1a1a2e; width: 80px; text-align: right; flex-shrink: 0; }
+.copy-btn { background: none; border: 1px solid #0077b6; color: #0077b6; border-radius: 6px; padding: 6px 14px; font-size: 0.82rem; cursor: pointer; transition: background 0.2s, color 0.2s; min-height: 34px; }
+.copy-btn:hover { background: #0077b6; color: #fff; }
+.table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin-bottom: 1rem; }
+table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+thead th { background: #f0f0f0; font-weight: 600; padding: 10px 12px; text-align: left; border-bottom: 2px solid #ddd; white-space: nowrap; }
+thead th:not(:first-child) { text-align: right; }
+tbody tr:nth-child(even) { background: #fafafa; }
+tbody tr:nth-child(odd) { background: #fff; }
+tbody td { padding: 9px 12px; border-bottom: 1px solid #efefef; }
+tbody td:not(:first-child) { text-align: right; font-variant-numeric: tabular-nums; }
+.show-all-btn { background: none; border: 1px solid #ddd; color: #0077b6; border-radius: 6px; padding: 8px 18px; font-size: 0.85rem; cursor: pointer; width: 100%; margin-top: 4px; min-height: 40px; transition: background 0.2s; }
+.show-all-btn:hover { background: #f0f8ff; }
+.ad-slot { min-height: 0; margin: 0; }
+.content-section { margin-bottom: 2rem; }
+.content-section h2 { font-size: 1.2rem; font-weight: 700; color: #1a1a2e; margin-bottom: 0.75rem; margin-top: 2rem; }
+.content-section p { color: #444; font-size: 0.95rem; margin-bottom: 0.75rem; }
+.content-section ul { padding-left: 1.4rem; color: #444; font-size: 0.95rem; }
+.content-section ul li { margin-bottom: 0.4rem; }
+details { border: 1px solid #e0e0e0; border-radius: 6px; margin-bottom: 0.75rem; }
+summary { padding: 12px 16px; font-weight: 600; font-size: 0.92rem; cursor: pointer; color: #1a1a2e; list-style: none; display: flex; align-items: center; justify-content: space-between; }
+summary::-webkit-details-marker { display: none; }
+summary::after { content: '+'; font-size: 1.1rem; color: #0077b6; }
+details[open] summary::after { content: '−'; }
+details p { padding: 0 16px 12px; color: #555; font-size: 0.9rem; }
+.related-tools { background: #f8f9fa; border-radius: 8px; padding: 1.5rem; margin-bottom: 2rem; }
+.related-tools h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; color: #1a1a2e; }
+.related-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+.related-grid a { font-size: 0.88rem; color: #0077b6; padding: 6px 0; }
+footer { border-top: 1px solid #e0e0e0; padding: 1.5rem; text-align: center; font-size: 0.82rem; color: #888; }
+footer a { color: #666; margin: 0 8px; }
 footer a:hover { color: #0077b6; }
-.footer-links { margin-bottom: 6px; }
-
-/* Two-col grid for inputs */
-.input-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0 1rem;
+@media (max-width: 640px) {
+  h1 { font-size: 1.4rem; }
+  .tool-card { padding: 1.25rem; }
+  .row-2 { grid-template-columns: 1fr; }
+  .summary-grid { grid-template-columns: 1fr 1fr; }
+  .big-number { font-size: 2.2rem; }
+  .related-grid { grid-template-columns: 1fr; }
+  .bar-row-label { width: 80px; }
+  .bar-row-val { width: 70px; }
 }
-@media (max-width: 480px) {
-  .input-grid { grid-template-columns: 1fr; }
-  h1 { font-size: 1.35rem; }
-  .result-hero-number { font-size: 2.2rem; }
+@media (max-width: 400px) {
+  .summary-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -426,392 +116,366 @@ footer a:hover { color: #0077b6; }
 
 <nav>
   <div class="nav-inner">
-    <a href="/" class="nav-brand">calcstack.dev</a>
+    <a href="/" class="site-name">calcstack.dev</a>
   </div>
 </nav>
 
-<div class="page-wrapper">
-
+<div class="container">
   <h1>Salary to Hourly Calculator</h1>
-  <p class="subtitle">Convert any salary — annual, monthly, or weekly — into an accurate hourly rate.</p>
+  <p class="subtitle">Convert any salary into an hourly rate — instantly, with a full pay breakdown.</p>
 
   <div class="tool-card">
-
-    <div class="tabs" role="tablist" aria-label="Salary period">
-      <button class="tab-btn active" data-period="annual" role="tab">Annual</button>
-      <button class="tab-btn" data-period="monthly" role="tab">Monthly</button>
-      <button class="tab-btn" data-period="weekly" role="tab">Weekly</button>
+    <div class="form-group">
+      <label for="salary">Your Salary Amount ($)</label>
+      <input type="number" id="salary" placeholder="e.g. 75000" min="0" step="any">
+      <div class="error-msg" id="salary-err">Please enter a valid salary amount.</div>
     </div>
-
-    <div class="field">
-      <label id="salary-label" for="salary-input">Annual Salary ($)</label>
-      <input type="number" id="salary-input" placeholder="e.g. 75000" min="0" step="any" inputmode="decimal">
-      <div class="error-msg" id="salary-error">Please enter a valid salary greater than zero.</div>
-    </div>
-
-    <div class="input-grid">
-      <div class="field">
-        <label for="hours-input">Hours per Week</label>
-        <input type="number" id="hours-input" value="40" min="1" max="168" step="0.5" inputmode="decimal">
-        <div class="slider-row">
-          <input type="range" id="hours-slider" min="1" max="80" step="0.5" value="40">
-          <span class="slider-val" id="hours-display">40</span>
-        </div>
-        <div class="error-msg" id="hours-error">Enter hours between 1 and 168.</div>
+    <div class="row-2">
+      <div class="form-group">
+        <label for="salaryPeriod">Salary Period</label>
+        <select id="salaryPeriod">
+          <option value="annual">Annual</option>
+          <option value="monthly">Monthly</option>
+          <option value="biweekly">Bi-Weekly</option>
+          <option value="weekly">Weekly</option>
+          <option value="daily">Daily</option>
+        </select>
       </div>
-      <div class="field">
-        <label for="weeks-input">Weeks per Year</label>
-        <input type="number" id="weeks-input" value="52" min="1" max="52" step="1" inputmode="decimal">
-        <div class="slider-row">
-          <input type="range" id="weeks-slider" min="1" max="52" step="1" value="52">
-          <span class="slider-val" id="weeks-display">52</span>
-        </div>
-        <div class="error-msg" id="weeks-error">Enter weeks between 1 and 52.</div>
+      <div class="form-group">
+        <label for="hoursPerWeek">Hours Per Week</label>
+        <input type="number" id="hoursPerWeek" value="40" min="1" max="168" step="1">
+        <div class="error-msg" id="hours-err">Enter hours between 1 and 168.</div>
       </div>
     </div>
-
-    <div class="field">
-      <label for="unpaid-vacation">Unpaid Vacation / Time Off (weeks per year)</label>
-      <input type="number" id="unpaid-vacation" value="0" min="0" max="51" step="0.5" placeholder="0" inputmode="decimal">
-      <div class="error-msg" id="vacation-error">Cannot exceed weeks per year.</div>
+    <div class="form-group">
+      <label for="weeksPerYear">Weeks Worked Per Year: <span id="weeksLabel">52</span></label>
+      <div class="slider-row">
+        <input type="range" id="weeksPerYear" min="1" max="52" value="52" step="1">
+        <span class="slider-val" id="weeksSliderVal">52</span>
+      </div>
     </div>
-
-    <button class="btn-calc" id="calc-btn">Calculate Hourly Rate</button>
+    <div class="row-2">
+      <div class="form-group">
+        <label for="vacationDays">Vacation Days / Year</label>
+        <input type="number" id="vacationDays" value="0" min="0" max="365" step="1">
+      </div>
+      <div class="form-group">
+        <label for="holidays">Public Holidays / Year</label>
+        <input type="number" id="holidays" value="0" min="0" max="50" step="1">
+      </div>
+    </div>
+    <button class="btn" id="calcBtn">Calculate Hourly Rate</button>
   </div>
 
-  <!-- Results -->
-  <div class="results-section" id="results-section">
-    <div class="result-hero">
-      <div class="result-hero-label">Your Hourly Rate</div>
-      <div class="result-hero-number" id="hero-hourly">$0.00</div>
-      <div class="result-hero-sub" id="hero-sub">Based on 40 hrs/week × 52 weeks</div>
+  <div class="results" id="results">
+    <div class="big-result">
+      <div class="big-label">Your Hourly Rate</div>
+      <div class="big-number" id="bigHourly">$0.00</div>
+      <div class="big-sub" id="bigSub">Based on 40 hrs/week × 52 weeks</div>
     </div>
 
-    <div class="result-copy-row">
-      <button class="btn-copy" id="copy-btn">Copy Results</button>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem;">
+      <div class="section-title" style="margin:0;">Pay Period Summary</div>
+      <button class="copy-btn" id="copyBtn">Copy Results</button>
     </div>
 
+    <div class="summary-grid" id="summaryGrid"></div>
+
+    <div class="bar-chart" id="barChart">
+      <div class="section-title">Pay Breakdown (Per Year)</div>
+    </div>
+
+    <div class="section-title">Full Pay Period Breakdown</div>
     <div class="table-wrap">
-      <table id="results-table">
+      <table id="breakdownTable">
         <thead>
           <tr>
-            <th>Pay Period</th>
-            <th class="num">Amount</th>
-            <th class="num">Effective Rate</th>
+            <th>Period</th>
+            <th>Gross Pay</th>
+            <th>Hours</th>
+            <th>Effective Hourly</th>
           </tr>
         </thead>
-        <tbody id="results-tbody"></tbody>
+        <tbody id="breakdownBody"></tbody>
       </table>
     </div>
-
-    <div style="margin-top:1.5rem;">
-      <div style="font-size:0.85rem;font-weight:600;color:#444;margin-bottom:0.75rem;">Pay Period Comparison</div>
-      <div id="bar-chart"></div>
-    </div>
+    <button class="show-all-btn" id="showAllBtn" style="display:none;">Show All Rows</button>
   </div>
 
-  <div class="ad-slot" id="ad-mid">Advertisement</div>
+  <div class="ad-slot" id="ad-mid"></div>
 
-  <!-- Content -->
   <div class="content-section">
     <h2>How to Use This Salary to Hourly Calculator</h2>
-    <p>Select your salary period (annual, monthly, or weekly), then enter your salary amount. Adjust the hours per week and weeks per year sliders to match your actual schedule. Optionally, enter unpaid vacation time to get your true effective hourly rate. Hit <strong>Calculate</strong> to instantly see your hourly wage alongside a full pay period breakdown.</p>
-  </div>
+    <p>Enter your salary amount and select whether it's annual, monthly, bi-weekly, weekly, or daily. Then set your hours per week and how many weeks you actually work. You can also account for vacation days and public holidays for a more accurate "true hourly" rate. Hit Calculate and you'll see your exact hourly wage along with every pay period equivalent.</p>
 
-  <div class="content-section">
     <h2>Why This Matters</h2>
-    <p>Understanding your real hourly rate goes far beyond a simple curiosity — it's a practical tool for making smarter financial decisions. Say you're comparing two job offers: one pays $80,000 per year with the expectation of 50 hours per week, and another offers $72,000 with a strict 40-hour week. The first role <em>sounds</em> better by $8,000, but its hourly rate works out to roughly $30.77/hr versus $34.62/hr for the lower-paying job. You'd actually earn more per hour at the lower-salaried position.</p>
-    <p>This also matters for freelancers setting their rates. If you previously earned $65,000 as an employee (with benefits, paid vacation, and employer taxes), you shouldn't quote $31/hr as a freelancer — after accounting for self-employment tax, no paid time off, and no benefits, you'd be earning significantly less in real terms.</p>
-    <p>Teachers, healthcare workers, and salaried professionals often work unpaid overtime. A nurse on a $75,000 salary working 50 hours a week earns just $28.85/hr — not the $36/hr that 40-hour math suggests. Knowing this number gives you leverage in salary negotiations and clarity on your actual compensation.</p>
-  </div>
+    <p>Most job offers list an annual salary — but your real take-home experience depends on how many hours you actually put in. A $70,000/year job at 40 hours/week works out to $33.65/hour. But if that role regularly requires 50-hour weeks, your real hourly rate drops to $26.92. That 25% gap is the difference between two jobs that look identical on paper.</p>
+    <p>This calculator is especially useful when comparing job offers across different employment types. A contractor quoting $50/hour versus an employee earning $95,000/year — which is better? The answer depends on hours, benefits, and days off. Freelancers also use this tool in reverse: knowing their target hourly rate helps them price projects correctly.</p>
+    <p>Another common use case: overtime planning. Salaried employees exempt from overtime who consistently work 55+ hours are effectively earning far less per hour than they realize. Seeing that number — say $22/hour for a "well-paid" $65,000 role — can be eye-opening and a powerful tool in salary negotiations.</p>
 
-  <div class="content-section">
     <h2>How It's Calculated</h2>
-    <p>The core formula is straightforward:</p>
-    <div class="formula-box">
-Hourly Rate = Annual Salary ÷ (Hours per Week × Weeks Worked per Year)
-<br><br>
-Weeks Worked = Weeks per Year − Unpaid Vacation Weeks
-<br><br>
-Example: $75,000 ÷ (40 hrs × 52 weeks) = $75,000 ÷ 2,080 = <strong>$36.06/hr</strong>
-    </div>
-    <p>If you enter a monthly or weekly salary, it's first converted to an annual figure: monthly × 12 or weekly × 52. All pay period breakdowns (daily, biweekly, etc.) are then derived from this annual figure using standard working day and week counts.</p>
-  </div>
+    <p>The core formula converts any salary period to an annual figure first, then divides by total hours worked:</p>
+    <p><strong>Hourly Rate = Annual Salary ÷ (Hours Per Week × Weeks Per Year)</strong></p>
+    <p>Weeks per year is adjusted by subtracting vacation and holidays: <strong>Effective Weeks = 52 − (Vacation Days + Holiday Days) ÷ 5</strong>. This gives you the "true" hourly rate reflecting only days you're actually paid to work. All other periods (monthly, weekly, daily) are derived from this base annual figure.</p>
 
-  <div class="content-section">
-    <h2>Tips &amp; Common Mistakes</h2>
+    <h2>Tips & Common Mistakes</h2>
     <ul>
-      <li><strong>Don't assume 40 hours.</strong> If you regularly work 45–50 hours, use your real number — the difference adds up to thousands of dollars in "invisible" unpaid wages.</li>
-      <li><strong>Account for unpaid time off.</strong> Two weeks of unpaid vacation reduce your working year to 50 weeks, raising your effective hourly rate slightly — but your annual take-home is the same.</li>
-      <li><strong>Freelancers: add a 30–40% premium.</strong> Your hourly rate as a freelancer needs to cover self-employment tax (~15.3%), no paid benefits, and unbillable hours for admin and marketing.</li>
-      <li><strong>Salary vs. total compensation.</strong> Remember that salary is just one part of your comp. Employer 401(k) matching, health insurance, and bonuses can add 20–30% on top of base pay.</li>
-      <li><strong>Use the right period tab.</strong> If your contract states a monthly salary, use the Monthly tab — don't manually multiply and risk rounding errors.</li>
+      <li><strong>Don't assume 52 weeks:</strong> Most full-time workers take some vacation. Use your actual weeks worked for an honest hourly equivalent.</li>
+      <li><strong>Include unpaid overtime:</strong> If you regularly work 45–50 hours but are paid a fixed salary, adjust the hours/week slider up to see your true rate.</li>
+      <li><strong>Contractors need a buffer:</strong> A $50/hour contractor rate looks equivalent to a $104,000 salary — but contractors pay self-employment tax, fund their own benefits, and have gaps between clients. Aim for 1.3–1.5× the equivalent employee rate.</li>
+      <li><strong>Don't forget benefits:</strong> Health insurance, 401(k) matching, and paid time off add 20–35% to compensation. A $65,000 salary with full benefits can exceed $85,000 in total value.</li>
+      <li><strong>Use bi-weekly for paycheck planning:</strong> Most employers pay bi-weekly (26 paychecks/year). Check your bi-weekly gross to budget monthly expenses accurately.</li>
     </ul>
-  </div>
 
-  <div class="content-section">
     <h2>Frequently Asked Questions</h2>
 
     <details>
-      <summary>How many working hours are in a year?</summary>
-      <p>A standard full-time year is 2,080 hours (40 hours/week × 52 weeks). However, if you subtract 10 federal holidays and 2 weeks of paid vacation, you're looking at approximately 2,000 hours. The exact number depends on your employer and schedule, which is why this calculator lets you customize it.</p>
+      <summary>How many work hours are in a year?</summary>
+      <p>A standard full-time employee works 40 hours/week × 52 weeks = 2,080 hours per year. If you account for 10 vacation days and 10 federal holidays, that drops to roughly 1,920 hours. Use the sliders in the tool to match your exact situation.</p>
     </details>
 
     <details>
       <summary>What's the hourly rate for a $50,000 salary?</summary>
-      <p>At 40 hours per week for 52 weeks, a $50,000 annual salary equals <strong>$24.04 per hour</strong>. If you only work 50 weeks (accounting for 2 weeks off), it rises slightly to $25.00/hr because the same salary is spread across fewer working hours.</p>
+      <p>At 40 hours/week with 52 weeks worked, a $50,000 annual salary equals $24.04/hour. With 2 weeks vacation (50 working weeks), it rises to $25.00/hour since you're paid the same amount for fewer hours worked.</p>
     </details>
 
     <details>
-      <summary>Should I include overtime when calculating my hourly rate?</summary>
-      <p>For salaried employees, overtime typically isn't paid separately — your salary covers all hours worked. This is exactly why entering your real hours per week matters: if you work 50 hours on a $60,000 salary, your effective rate is $23.08/hr, not $28.85/hr. Use your actual average weekly hours for the most accurate result.</p>
+      <summary>How do I convert hourly to salary?</summary>
+      <p>Multiply your hourly rate by hours per week, then by weeks worked per year. For example: $25/hour × 40 hours × 52 weeks = $52,000/year. This calculator does the reverse, but the same formula applies both ways.</p>
     </details>
 
     <details>
-      <summary>How do I calculate an hourly rate from a monthly salary?</summary>
-      <p>Switch to the "Monthly" tab and enter your monthly gross pay. The calculator multiplies it by 12 to get an annual figure, then divides by your total working hours per year. For example, $5,500/month × 12 = $66,000 ÷ 2,080 hours = <strong>$31.73/hr</strong>.</p>
+      <summary>Is overtime included in salary calculations?</summary>
+      <p>This tool calculates your base effective hourly rate. If you're a salaried employee who works overtime without additional pay, increase the "Hours Per Week" input to see your true effective hourly rate. Hourly employees typically earn 1.5× their base rate for hours over 40/week.</p>
     </details>
   </div>
 
-  <div class="related-section">
+  <div class="related-tools">
     <h2>Related Tools</h2>
-    <div class="related-links">
-      <a href="/investment-growth-calculator/" class="related-link">📈 Investment Growth Calculator</a>
+    <div class="related-grid">
+      <a href="/net-worth-calculator/">Net Worth Calculator</a>
+      <a href="/inflation-adjuster-calculator/">Inflation Adjuster Calculator</a>
+      <a href="/savings-goal-calculator/">Savings Goal Calculator</a>
+      <a href="/rent-vs-buy-calculator/">Rent vs Buy Calculator</a>
+      <a href="/debt-payoff-calculator/">Debt Payoff Calculator</a>
+      <a href="/investment-growth-calculator/">Investment Growth Calculator</a>
     </div>
   </div>
 
-  <div class="ad-slot" id="ad-bottom">Advertisement</div>
-
-</div><!-- end page-wrapper -->
+  <div class="ad-slot" id="ad-bottom"></div>
+</div>
 
 <footer>
-  <div class="footer-links">
+  <div>
     <a href="/about/">About</a>
     <a href="/privacy/">Privacy</a>
     <a href="/contact/">Contact</a>
   </div>
-  <div>© <span id="footer-year"></span> calcstack.dev — Free Online Calculators</div>
+  <div style="margin-top:8px;">© 2025 calcstack.dev</div>
 </footer>
 
 <script>
-(function(){
-  // --- State ---
-  let activePeriod = 'annual';
+(function() {
+  const $ = id => document.getElementById(id);
 
-  // --- DOM refs ---
-  const salaryInput = document.getElementById('salary-input');
-  const salaryLabel = document.getElementById('salary-label');
-  const salaryError = document.getElementById('salary-error');
-  const hoursInput = document.getElementById('hours-input');
-  const hoursSlider = document.getElementById('hours-slider');
-  const hoursDisplay = document.getElementById('hours-display');
-  const hoursError = document.getElementById('hours-error');
-  const weeksInput = document.getElementById('weeks-input');
-  const weeksSlider = document.getElementById('weeks-slider');
-  const weeksDisplay = document.getElementById('weeks-display');
-  const weeksError = document.getElementById('weeks-error');
-  const vacationInput = document.getElementById('unpaid-vacation');
-  const vacationError = document.getElementById('vacation-error');
-  const calcBtn = document.getElementById('calc-btn');
-  const resultsSection = document.getElementById('results-section');
-  const heroHourly = document.getElementById('hero-hourly');
-  const heroSub = document.getElementById('hero-sub');
-  const resultsTbody = document.getElementById('results-tbody');
-  const barChart = document.getElementById('bar-chart');
-  const copyBtn = document.getElementById('copy-btn');
-
-  // --- Tabs ---
-  document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.addEventListener('click', function(){
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      this.classList.add('active');
-      activePeriod = this.dataset.period;
-      const labels = { annual: 'Annual Salary ($)', monthly: 'Monthly Salary ($)', weekly: 'Weekly Salary ($)' };
-      salaryLabel.textContent = labels[activePeriod];
-      salaryInput.placeholder = activePeriod === 'annual' ? 'e.g. 75000' : activePeriod === 'monthly' ? 'e.g. 6250' : 'e.g. 1442';
-      clearError(salaryInput, salaryError);
-    });
+  // Slider sync
+  const weeksSlider = $('weeksPerYear');
+  const weeksLabel = $('weeksLabel');
+  const weeksSliderVal = $('weeksSliderVal');
+  weeksSlider.addEventListener('input', function() {
+    weeksLabel.textContent = this.value;
+    weeksSliderVal.textContent = this.value;
   });
 
-  // --- Slider sync ---
-  function syncSlider(input, slider, display) {
-    input.addEventListener('input', function(){
-      const v = parseFloat(this.value);
-      if (!isNaN(v)) { slider.value = Math.min(v, parseFloat(slider.max)); display.textContent = v; }
-    });
-    slider.addEventListener('input', function(){
-      input.value = this.value;
-      display.textContent = this.value;
-    });
-  }
-  syncSlider(hoursInput, hoursSlider, hoursDisplay);
-  syncSlider(weeksInput, weeksSlider, weeksDisplay);
+  // Enter key on inputs
+  ['salary','hoursPerWeek','vacationDays','holidays'].forEach(id => {
+    $(id).addEventListener('keydown', e => { if (e.key === 'Enter') doCalc(); });
+  });
+  $('salaryPeriod').addEventListener('keydown', e => { if (e.key === 'Enter') doCalc(); });
 
-  // --- Helpers ---
-  function fmt(n, dec) {
-    if (typeof dec === 'undefined') dec = 2;
-    return n.toLocaleString('en-US', { minimumFractionDigits: dec, maximumFractionDigits: dec });
+  $('calcBtn').addEventListener('click', () => { requestAnimationFrame(() => doCalc()); });
+
+  function fmt(n, dec=2) {
+    if (isNaN(n) || !isFinite(n)) return '—';
+    return '$' + n.toFixed(dec).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
-  function fmtDollar(n) { return '$' + fmt(n, 2); }
-  function clearError(input, msg) {
-    input.classList.remove('error');
-    msg.classList.remove('visible');
+  function fmtNum(n, dec=2) {
+    if (isNaN(n) || !isFinite(n)) return '—';
+    return n.toFixed(dec).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
-  function showError(input, msg) {
-    input.classList.add('error');
-    msg.classList.add('visible');
+  function fmtHrs(n) {
+    return n.toFixed(1).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
 
-  // --- Validate ---
-  function validate() {
-    let ok = true;
-    clearError(salaryInput, salaryError);
-    clearError(hoursInput, hoursError);
-    clearError(weeksInput, weeksError);
-    clearError(vacationInput, vacationError);
+  let allRows = [];
+  let showingAll = false;
 
-    const salary = parseFloat(salaryInput.value);
-    if (isNaN(salary) || salary <= 0) { showError(salaryInput, salaryError); ok = false; }
+  function doCalc() {
+    // Clear errors
+    $('salary').classList.remove('error');
+    $('hoursPerWeek').classList.remove('error');
+    $('salary-err').classList.remove('show');
+    $('hours-err').classList.remove('show');
 
-    const hours = parseFloat(hoursInput.value);
-    if (isNaN(hours) || hours < 1 || hours > 168) { showError(hoursInput, hoursError); ok = false; }
+    const salaryRaw = parseFloat($('salary').value);
+    const period = $('salaryPeriod').value;
+    const hoursPerWeek = parseFloat($('hoursPerWeek').value);
+    const weeksPerYear = parseFloat(weeksSlider.value);
+    const vacDays = parseFloat($('vacationDays').value) || 0;
+    const holDays = parseFloat($('holidays').value) || 0;
 
-    const weeks = parseFloat(weeksInput.value);
-    if (isNaN(weeks) || weeks < 1 || weeks > 52) { showError(weeksInput, weeksError); ok = false; }
-
-    const vacation = parseFloat(vacationInput.value) || 0;
-    if (vacation < 0 || vacation >= weeks) { showError(vacationInput, vacationError); vacationError.textContent = 'Cannot equal or exceed weeks per year.'; ok = false; }
-
-    return ok;
-  }
-
-  // --- Calculate ---
-  function calculate() {
-    if (!validate()) return;
-
-    const rawSalary = parseFloat(salaryInput.value);
-    const hours = parseFloat(hoursInput.value);
-    const weeks = parseFloat(weeksInput.value);
-    const vacation = parseFloat(vacationInput.value) || 0;
+    let valid = true;
+    if (isNaN(salaryRaw) || salaryRaw < 0) {
+      $('salary').classList.add('error');
+      $('salary-err').classList.add('show');
+      valid = false;
+    }
+    if (isNaN(hoursPerWeek) || hoursPerWeek < 1 || hoursPerWeek > 168) {
+      $('hoursPerWeek').classList.add('error');
+      $('hours-err').classList.add('show');
+      valid = false;
+    }
+    if (!valid) return;
 
     // Convert to annual
     let annual;
-    if (activePeriod === 'annual') annual = rawSalary;
-    else if (activePeriod === 'monthly') annual = rawSalary * 12;
-    else annual = rawSalary * 52;
-
-    const workedWeeks = weeks - vacation;
-    if (workedWeeks <= 0) {
-      showError(vacationInput, vacationError);
-      vacationError.textContent = 'Worked weeks must be greater than zero.';
-      return;
+    switch(period) {
+      case 'annual':    annual = salaryRaw; break;
+      case 'monthly':   annual = salaryRaw * 12; break;
+      case 'biweekly':  annual = salaryRaw * 26; break;
+      case 'weekly':    annual = salaryRaw * 52; break;
+      case 'daily':     annual = salaryRaw * (weeksPerYear * 5); break;
+      default:          annual = salaryRaw;
     }
 
-    const totalHours = hours * workedWeeks;
-    const hourly = annual / totalHours;
+    // Effective weeks (adjust for vacation + holidays)
+    const daysOff = (vacDays + holDays);
+    const weeksOff = daysOff / 5;
+    const effectiveWeeks = Math.max(0.5, weeksPerYear - weeksOff);
+    const totalHours = hoursPerWeek * effectiveWeeks;
 
-    // Derived values
-    const daily = hourly * hours / 5; // standard 5-day workweek equiv
-    const dailyActual = hourly * (hours / 5);
-    const weekly = hourly * hours;
-    const biweekly = weekly * 2;
-    const semiMonthly = annual / 24;
+    const hourly = totalHours > 0 ? annual / totalHours : 0;
     const monthly = annual / 12;
+    const biweekly = annual / 26;
+    const weekly = annual / 52;
+    const daily = annual / (52 * 5);
 
-    // Hero
-    heroHourly.textContent = fmtDollar(hourly);
-    heroSub.textContent = `Based on ${fmt(hours,1)} hrs/week × ${fmt(workedWeeks,1)} worked weeks/year`;
+    // Hours per period
+    const hrsPerDay = hoursPerWeek / 5;
+    const hrsPerWeek = hoursPerWeek;
+    const hrsPerBiweek = hoursPerWeek * 2;
+    const hrsPerMonth = (hoursPerWeek * 52) / 12;
+    const hrsPerYear = totalHours;
 
-    // Table rows
-    const rows = [
-      { period: 'Hourly', amount: hourly, rate: hourly },
-      { period: 'Daily (8 hrs)', amount: hourly * 8, rate: hourly },
-      { period: 'Weekly', amount: weekly, rate: hourly },
-      { period: 'Bi-Weekly (2 weeks)', amount: biweekly, rate: hourly },
-      { period: 'Semi-Monthly (24×/yr)', amount: semiMonthly, rate: hourly },
-      { period: 'Monthly', amount: monthly, rate: hourly },
-      { period: 'Quarterly', amount: annual / 4, rate: hourly },
-      { period: 'Annually', amount: annual, rate: hourly },
-    ];
+    requestAnimationFrame(() => {
+      // Big number
+      $('bigHourly').textContent = fmt(hourly);
+      $('bigSub').textContent = `Based on ${fmtHrs(hoursPerWeek)} hrs/week × ${effectiveWeeks.toFixed(1)} effective weeks`;
 
-    resultsTbody.innerHTML = '';
-    rows.forEach(row => {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `<td>${row.period}</td><td class="num">${fmtDollar(row.amount)}</td><td class="num">${fmtDollar(row.rate)}/hr</td>`;
-      resultsTbody.appendChild(tr);
+      // Summary cards
+      const cards = [
+        { label: 'Annual', val: fmt(annual, 0) },
+        { label: 'Monthly', val: fmt(monthly, 2) },
+        { label: 'Bi-Weekly', val: fmt(biweekly, 2) },
+        { label: 'Weekly', val: fmt(weekly, 2) },
+        { label: 'Daily', val: fmt(daily, 2) },
+        { label: 'Hourly', val: fmt(hourly, 2) },
+      ];
+      let cardsHTML = '';
+      cards.forEach(c => {
+        cardsHTML += `<div class="summary-card"><div class="s-label">${c.label}</div><div class="s-val">${c.val}</div></div>`;
+      });
+      $('summaryGrid').innerHTML = cardsHTML;
+
+      // Bar chart
+      const maxVal = annual;
+      const barData = [
+        { label: 'Per Year', val: annual, color: '#0077b6' },
+        { label: 'Per Month', val: monthly, color: '#0096c7' },
+        { label: 'Bi-Weekly', val: biweekly, color: '#00b4d8' },
+        { label: 'Per Week', val: weekly, color: '#48cae4' },
+        { label: 'Per Day', val: daily, color: '#90e0ef' },
+      ];
+      let barHTML = '<div class="section-title">Pay Scale Visual Breakdown</div>';
+      barData.forEach(b => {
+        const pct = maxVal > 0 ? Math.max(2, (b.val / maxVal) * 100) : 2;
+        barHTML += `<div class="bar-row">
+          <div class="bar-row-label">${b.label}</div>
+          <div class="bar-track"><div class="bar-fill" style="width:${pct.toFixed(1)}%;background:${b.color};"></div></div>
+          <div class="bar-row-val">${fmt(b.val, 0)}</div>
+        </div>`;
+      });
+      $('barChart').innerHTML = barHTML;
+
+      // Breakdown table rows
+      allRows = [
+        { period: 'Annual',     gross: annual,    hours: hrsPerYear,    eff: hourly },
+        { period: 'Semi-Annual',gross: annual/2,  hours: hrsPerYear/2,  eff: hourly },
+        { period: 'Quarterly',  gross: annual/4,  hours: hrsPerYear/4,  eff: hourly },
+        { period: 'Monthly',    gross: monthly,   hours: hrsPerMonth,   eff: hourly },
+        { period: 'Bi-Weekly',  gross: biweekly,  hours: hrsPerBiweek,  eff: hourly },
+        { period: 'Weekly',     gross: weekly,    hours: hrsPerWeek,    eff: hourly },
+        { period: 'Daily',      gross: daily,     hours: hrsPerDay,     eff: hourly },
+        { period: 'Hourly',     gross: hourly,    hours: 1,             eff: hourly },
+      ];
+
+      renderTableRows(showingAll ? allRows.length : Math.min(allRows.length, 8));
+
+      const showAllBtn = $('showAllBtn');
+      if (allRows.length > 8) {
+        showAllBtn.style.display = 'block';
+        showAllBtn.textContent = showingAll ? 'Show Less' : 'Show All Rows';
+      } else {
+        showAllBtn.style.display = 'none';
+      }
+
+      const resultsEl = $('results');
+      resultsEl.style.display = 'block';
+      requestAnimationFrame(() => { resultsEl.classList.add('visible'); });
     });
-
-    // Bar chart
-    const barData = [
-      { label: 'Hourly', val: hourly },
-      { label: 'Daily', val: hourly * 8 },
-      { label: 'Weekly', val: weekly },
-      { label: 'Monthly', val: monthly },
-    ];
-    const maxVal = Math.max(...barData.map(d => d.val));
-    barChart.innerHTML = barData.map(d => {
-      const pct = maxVal > 0 ? (d.val / maxVal * 100).toFixed(1) : 0;
-      return `<div style="margin-bottom:10px;">
-        <div style="display:flex;justify-content:space-between;font-size:0.82rem;color:#444;margin-bottom:3px;">
-          <span>${d.label}</span><span style="font-weight:600;color:#0077b6;">${fmtDollar(d.val)}</span>
-        </div>
-        <div class="bar-container"><div class="bar-fill" style="width:${pct}%"></div></div>
-      </div>`;
-    }).join('');
-
-    // Store copy data
-    copyBtn._data = { hourly, weekly, monthly, annual, hours, workedWeeks };
-
-    resultsSection.classList.add('visible');
-    resultsSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 
-  // --- Events ---
-  calcBtn.addEventListener('click', calculate);
-  [salaryInput, hoursInput, weeksInput, vacationInput].forEach(inp => {
-    inp.addEventListener('keydown', function(e){ if(e.key === 'Enter') calculate(); });
+  function renderTableRows(count) {
+    const rows = allRows.slice(0, count);
+    let html = '';
+    rows.forEach(r => {
+      html += `<tr>
+        <td>${r.period}</td>
+        <td>${fmt(r.gross, 2)}</td>
+        <td>${fmtHrs(r.hours)}</td>
+        <td>${fmt(r.eff, 2)}</td>
+      </tr>`;
+    });
+    $('breakdownBody').innerHTML = html;
+  }
+
+  $('showAllBtn').addEventListener('click', function() {
+    showingAll = !showingAll;
+    renderTableRows(showingAll ? allRows.length : Math.min(allRows.length, 8));
+    this.textContent = showingAll ? 'Show Less' : 'Show All Rows';
   });
 
-  // --- Copy ---
-  copyBtn.addEventListener('click', function(){
-    const d = this._data;
-    if (!d) return;
-    const text = [
-      'Salary to Hourly Results',
-      '------------------------',
-      `Hourly Rate:   ${fmtDollar(d.hourly)}`,
-      `Weekly:        ${fmtDollar(d.weekly)}`,
-      `Monthly:       ${fmtDollar(d.monthly)}`,
-      `Annual:        ${fmtDollar(d.annual)}`,
-      `Hours/week:    ${fmt(d.hours,1)}`,
-      `Worked weeks:  ${fmt(d.workedWeeks,1)}`,
-      '',
-      'Calculated at calcstack.dev/salary-to-hourly-calculator/'
-    ].join('\n');
-
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(() => {
-        copyBtn.textContent = 'Copied!';
-        copyBtn.classList.add('copied');
-        setTimeout(() => { copyBtn.textContent = 'Copy Results'; copyBtn.classList.remove('copied'); }, 2000);
-      });
-    } else {
-      const ta = document.createElement('textarea');
-      ta.value = text;
-      ta.style.position = 'fixed'; ta.style.opacity = '0';
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand('copy');
-      document.body.removeChild(ta);
-      copyBtn.textContent = 'Copied!';
-      copyBtn.classList.add('copied');
-      setTimeout(() => { copyBtn.textContent = 'Copy Results'; copyBtn.classList.remove('copied'); }, 2000);
-    }
+  $('copyBtn').addEventListener('click', function() {
+    const rows = allRows;
+    if (!rows.length) return;
+    let text = 'Salary to Hourly Breakdown\n';
+    text += '='.repeat(40) + '\n';
+    text += `${'Period'.padEnd(14)}${'Gross Pay'.padStart(14)}${'Hours'.padStart(10)}${'Hourly Rate'.padStart(14)}\n`;
+    rows.forEach(r => {
+      text += `${r.period.padEnd(14)}${fmt(r.gross,2).padStart(14)}${fmtHrs(r.hours).padStart(10)}${fmt(r.eff,2).padStart(14)}\n`;
+    });
+    navigator.clipboard.writeText(text).then(() => {
+      const orig = this.textContent;
+      this.textContent = 'Copied!';
+      setTimeout(() => { this.textContent = orig; }, 2000);
+    }).catch(() => {
+      this.textContent = 'Copy failed';
+      setTimeout(() => { this.textContent = 'Copy Results'; }, 2000);
+    });
   });
 
-  // --- Footer year ---
-  document.getElementById('footer-year').textContent = new Date().getFullYear();
-
+  // Auto-calc on load with defaults if salary is pre-filled
+  // (no pre-fill, so skip)
 })();
 </script>
 </body>
