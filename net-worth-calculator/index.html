@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Net Worth Calculator — Free Online Tool | calcstack.dev</title>
-<meta name="description" content="Calculate your net worth instantly. Enter your assets and liabilities to see your true financial picture. Free, private, no signup required.">
+<meta name="description" content="Calculate your net worth instantly. Add assets and liabilities to see your financial snapshot, visual breakdown, and track your wealth over time.">
 <link rel="canonical" href="https://calcstack.dev/net-worth-calculator/">
 <script type="application/ld+json">
 {
@@ -12,120 +12,124 @@
   "@type": "WebApplication",
   "name": "Net Worth Calculator",
   "url": "https://calcstack.dev/net-worth-calculator/",
-  "description": "Calculate your net worth by entering your assets and liabilities. See a detailed breakdown of your financial position.",
+  "description": "Free online net worth calculator. Input your assets and liabilities to instantly calculate your net worth with a visual breakdown.",
   "applicationCategory": "FinanceApplication",
   "operatingSystem": "Any",
-  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
-  "publisher": {"@type": "Organization", "name": "calcstack.dev", "url": "https://calcstack.dev"}
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
 }
 </script>
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #fff; color: #1a1a2e; line-height: 1.6; font-size: 16px; }
-a { color: #0077b6; text-decoration: none; }
-a:hover { text-decoration: underline; }
-nav { border-bottom: 1px solid #e0e0e0; padding: 14px 1.5rem; }
-nav .nav-inner { max-width: 640px; margin: 0 auto; display: flex; align-items: center; }
-nav .site-name { font-weight: 700; font-size: 1.1rem; color: #1a1a2e; }
-nav .site-name:hover { text-decoration: none; color: #0077b6; }
-.container { max-width: 640px; margin: 0 auto; padding: 2rem 1.5rem; }
-h1 { font-size: 1.75rem; font-weight: 700; margin-bottom: 0.5rem; color: #1a1a2e; }
-.subtitle { color: #555; margin-bottom: 2rem; font-size: 0.95rem; }
-.card { background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 2rem; }
-.section-title { font-size: 1rem; font-weight: 700; color: #0077b6; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 1.25rem; padding-bottom: 0.5rem; border-bottom: 2px solid #e8f4fd; }
-.input-group { margin-bottom: 1rem; }
-label { display: block; font-size: 0.85rem; font-weight: 500; color: #444; margin-bottom: 5px; }
-input[type="number"], input[type="text"] { width: 100%; padding: 12px 16px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.95rem; font-family: inherit; color: #1a1a2e; transition: border-color 0.2s, box-shadow 0.2s; background: #fff; min-height: 44px; }
-input:focus { outline: none; border-color: #0077b6; box-shadow: 0 0 0 3px rgba(0,119,182,0.15); }
-input.error { border-color: #e74c3c; box-shadow: 0 0 0 3px rgba(231,76,60,0.12); }
-.error-msg { color: #e74c3c; font-size: 0.8rem; margin-top: 4px; display: none; }
-.error-msg.show { display: block; }
-.row-item { display: flex; gap: 10px; align-items: flex-end; margin-bottom: 0.75rem; }
-.row-item .input-group { margin-bottom: 0; flex: 1; }
-.row-item .remove-btn { background: #fff; border: 1px solid #ddd; border-radius: 6px; color: #999; font-size: 1.1rem; cursor: pointer; padding: 0 12px; min-height: 44px; line-height: 1; transition: color 0.2s, border-color 0.2s; flex-shrink: 0; }
-.row-item .remove-btn:hover { color: #e74c3c; border-color: #e74c3c; }
-.add-btn { background: #f0f7ff; border: 1px dashed #0077b6; color: #0077b6; border-radius: 6px; padding: 10px 16px; font-size: 0.9rem; cursor: pointer; width: 100%; font-family: inherit; font-weight: 500; min-height: 44px; transition: background 0.2s; margin-top: 0.25rem; }
-.add-btn:hover { background: #e0f0ff; }
-.btn-row { display: flex; gap: 10px; margin-top: 1.5rem; flex-wrap: wrap; }
-.calc-btn { background: #0077b6; color: #fff; border: none; border-radius: 6px; padding: 12px 24px; font-size: 1rem; font-weight: 600; cursor: pointer; font-family: inherit; min-height: 44px; flex: 1; transition: background 0.2s; }
-.calc-btn:hover { background: #006299; }
-.clear-btn { background: #f8f9fa; color: #555; border: 1px solid #ddd; border-radius: 6px; padding: 12px 24px; font-size: 1rem; cursor: pointer; font-family: inherit; min-height: 44px; transition: background 0.2s; }
-.clear-btn:hover { background: #e9ecef; }
-.results { opacity: 0; transition: opacity 0.3s ease; pointer-events: none; }
-.results.visible { opacity: 1; pointer-events: all; }
-.net-worth-display { text-align: center; padding: 2rem; background: #f0f7ff; border-radius: 8px; margin-bottom: 1.5rem; }
-.net-worth-label { font-size: 0.9rem; color: #555; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; }
-.net-worth-value { font-size: 2.8rem; font-weight: 800; color: #0077b6; line-height: 1.1; }
-.net-worth-value.negative { color: #e74c3c; }
-.summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
-.summary-card { padding: 1.25rem; border-radius: 8px; text-align: center; }
-.summary-card.assets { background: #f0fdf4; border: 1px solid #bbf7d0; }
-.summary-card.debts { background: #fff5f5; border: 1px solid #fecaca; }
-.summary-card .sc-label { font-size: 0.8rem; font-weight: 500; color: #666; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 4px; }
-.summary-card .sc-value { font-size: 1.45rem; font-weight: 700; }
-.summary-card.assets .sc-value { color: #16a34a; }
-.summary-card.debts .sc-value { color: #dc2626; }
-.breakdown-title { font-size: 0.95rem; font-weight: 600; color: #444; margin-bottom: 0.75rem; }
-.bar-container { margin-bottom: 1.5rem; }
-.bar-section { margin-bottom: 1rem; }
-.bar-label-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
-.bar-label { font-size: 0.82rem; font-weight: 500; color: #555; }
-.bar-amount { font-size: 0.82rem; font-weight: 600; color: #1a1a2e; }
-.bar-track { height: 10px; background: #f0f0f0; border-radius: 5px; overflow: hidden; }
-.bar-fill { height: 100%; border-radius: 5px; transition: width 0.5s ease; min-width: 2px; }
-.bar-fill.green { background: #22c55e; }
-.bar-fill.red { background: #ef4444; }
-.bar-fill.blue { background: #0077b6; }
-.bar-fill.orange { background: #f59e0b; }
-.bar-fill.purple { background: #8b5cf6; }
-.bar-fill.teal { background: #14b8a6; }
-.breakdown-table-wrap { overflow-x: auto; margin-top: 0.5rem; }
-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
-thead th { background: #f0f0f0; padding: 9px 12px; text-align: left; font-weight: 600; color: #444; border-bottom: 1px solid #ddd; white-space: nowrap; }
-thead th.num { text-align: right; }
-tbody tr:nth-child(even) { background: #fafafa; }
-tbody tr:nth-child(odd) { background: #fff; }
-tbody td { padding: 9px 12px; border-bottom: 1px solid #f0f0f0; }
-tbody td.num { text-align: right; font-variant-numeric: tabular-nums; }
-tbody td.cat { font-weight: 500; }
-tbody td.pos { color: #16a34a; font-weight: 600; }
-tbody td.neg { color: #dc2626; font-weight: 600; }
-.copy-btn { background: #f8f9fa; border: 1px solid #ddd; border-radius: 6px; padding: 8px 16px; font-size: 0.82rem; color: #555; cursor: pointer; font-family: inherit; min-height: 36px; transition: background 0.2s; }
-.copy-btn:hover { background: #e9ecef; }
-.copy-btn.copied { color: #16a34a; border-color: #22c55e; }
-.actions-row { display: flex; justify-content: flex-end; margin-bottom: 1rem; }
-.ad-slot { min-height: 0; margin: 0; }
-.content-section { margin-bottom: 2rem; }
-.content-section h2 { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.75rem; color: #1a1a2e; margin-top: 1.5rem; }
-.content-section p { color: #444; margin-bottom: 0.75rem; font-size: 0.95rem; }
-.content-section ul { color: #444; padding-left: 1.5rem; margin-bottom: 0.75rem; font-size: 0.95rem; }
-.content-section ul li { margin-bottom: 0.4rem; }
-details { border: 1px solid #e0e0e0; border-radius: 6px; margin-bottom: 0.75rem; }
-summary { padding: 12px 16px; font-weight: 600; font-size: 0.95rem; cursor: pointer; color: #1a1a2e; list-style: none; display: flex; justify-content: space-between; align-items: center; }
-summary::-webkit-details-marker { display: none; }
-summary::after { content: '+'; color: #0077b6; font-size: 1.2rem; font-weight: 400; }
-details[open] summary::after { content: '−'; }
-details[open] summary { border-bottom: 1px solid #e0e0e0; }
-.details-body { padding: 12px 16px; font-size: 0.92rem; color: #444; }
-.related-tools { background: #f8f9fa; border-radius: 8px; padding: 1.5rem; margin-bottom: 2rem; }
-.related-tools h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; color: #1a1a2e; }
-.related-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
-.related-grid a { background: #fff; border: 1px solid #e0e0e0; border-radius: 6px; padding: 10px 14px; font-size: 0.87rem; color: #0077b6; font-weight: 500; transition: border-color 0.2s, background 0.2s; }
-.related-grid a:hover { border-color: #0077b6; background: #f0f7ff; text-decoration: none; }
-footer { border-top: 1px solid #e0e0e0; padding: 1.5rem; text-align: center; font-size: 0.85rem; color: #666; }
-footer a { color: #555; margin: 0 8px; }
-footer a:hover { color: #0077b6; }
-.formula-box { background: #f8f9fa; border-left: 3px solid #0077b6; padding: 12px 16px; border-radius: 0 6px 6px 0; font-family: 'Courier New', monospace; font-size: 0.9rem; color: #1a1a2e; margin: 0.75rem 0; }
-@media (max-width: 640px) {
-  .container { padding: 1.5rem 1rem; }
-  h1 { font-size: 1.4rem; }
-  .net-worth-value { font-size: 2.2rem; }
-  .card { padding: 1.25rem; }
-  .summary-grid { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
-  .summary-card .sc-value { font-size: 1.2rem; }
-  .related-grid { grid-template-columns: 1fr; }
-  .btn-row { flex-direction: column; }
-  .calc-btn, .clear-btn { width: 100%; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f4f6f9;color:#1a1a2e;font-size:16px;line-height:1.6}
+a{color:#0077b6;text-decoration:none}
+a:hover{text-decoration:underline}
+nav{background:#fff;border-bottom:1px solid #e0e0e0;padding:0 1.5rem}
+.nav-inner{max-width:640px;margin:0 auto;display:flex;align-items:center;height:52px}
+.nav-brand{font-weight:700;font-size:1.1rem;color:#1a1a2e}
+.nav-brand span{color:#0077b6}
+main{max-width:640px;margin:0 auto;padding:1.5rem 1rem 2rem}
+h1{font-size:1.6rem;font-weight:800;color:#1a1a2e;margin-bottom:0.3rem}
+.subtitle{color:#555;font-size:0.95rem;margin-bottom:1.5rem}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;box-shadow:0 1px 4px rgba(0,0,0,0.06);margin-bottom:2rem}
+.section-title{font-size:1rem;font-weight:700;color:#1a1a2e;margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:2px solid #0077b6;display:flex;align-items:center;gap:0.5rem}
+.section-title .icon{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;color:#fff}
+.icon-assets{background:#27ae60}
+.icon-liabilities{background:#e74c3c}
+label{display:block;font-size:0.85rem;font-weight:500;color:#444;margin-bottom:4px}
+input[type=text],input[type=number]{width:100%;border:1px solid #ddd;border-radius:6px;padding:10px 14px;font-size:0.95rem;color:#1a1a2e;background:#fff;transition:border-color 0.2s,box-shadow 0.2s;height:44px}
+input[type=text]:focus,input[type=number]:focus{outline:none;border-color:#0077b6;box-shadow:0 0 0 3px rgba(0,119,182,0.15)}
+input.error{border-color:#e74c3c;box-shadow:0 0 0 3px rgba(231,76,60,0.1)}
+.error-msg{color:#e74c3c;font-size:0.8rem;margin-top:4px;display:none}
+.row-item{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center;margin-bottom:8px}
+.row-item input{min-width:0}
+.row-item .name-input{grid-column:1}
+.amount-wrap{display:flex;align-items:center;gap:4px;position:relative}
+.amount-wrap .dollar{position:absolute;left:12px;color:#888;font-size:0.9rem;pointer-events:none}
+.amount-wrap input{padding-left:24px}
+.remove-btn{background:none;border:none;cursor:pointer;color:#ccc;font-size:1.2rem;line-height:1;padding:4px;border-radius:4px;transition:color 0.2s;flex-shrink:0;height:44px;width:36px;display:flex;align-items:center;justify-content:center}
+.remove-btn:hover{color:#e74c3c}
+.add-btn{background:none;border:1px dashed #0077b6;color:#0077b6;border-radius:6px;padding:8px 16px;font-size:0.85rem;cursor:pointer;width:100%;margin-top:4px;transition:background 0.2s;height:44px}
+.add-btn:hover{background:rgba(0,119,182,0.06)}
+.calc-btn{background:#0077b6;color:#fff;border:none;border-radius:6px;padding:14px 24px;font-size:1rem;font-weight:600;cursor:pointer;width:100%;transition:background 0.2s;height:52px;letter-spacing:0.02em}
+.calc-btn:hover{background:#006299}
+.results{opacity:0;transition:opacity 0.3s ease;pointer-events:none}
+.results.visible{opacity:1;pointer-events:auto}
+.net-hero{text-align:center;padding:1.5rem 0 1rem}
+.net-label{font-size:0.9rem;color:#888;font-weight:500;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.3rem}
+.net-value{font-size:2.8rem;font-weight:800;line-height:1.1}
+.net-value.positive{color:#27ae60}
+.net-value.negative{color:#e74c3c}
+.net-value.zero{color:#888}
+.net-badge{display:inline-block;margin-top:0.5rem;padding:4px 14px;border-radius:20px;font-size:0.8rem;font-weight:600}
+.badge-positive{background:#e8f8f0;color:#27ae60}
+.badge-negative{background:#fdecea;color:#e74c3c}
+.badge-zero{background:#f0f0f0;color:#888}
+.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.2rem 0}
+.summary-card{border-radius:8px;padding:1rem;text-align:center}
+.summary-card.assets-card{background:#e8f8f0;border:1px solid #b8e6cc}
+.summary-card.liab-card{background:#fdecea;border:1px solid #f5c6c6}
+.summary-card .sc-label{font-size:0.78rem;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px}
+.assets-card .sc-label{color:#27ae60}
+.liab-card .sc-label{color:#e74c3c}
+.summary-card .sc-value{font-size:1.4rem;font-weight:800}
+.assets-card .sc-value{color:#27ae60}
+.liab-card .sc-value{color:#e74c3c}
+.bar-section{margin:1.2rem 0}
+.bar-label-row{display:flex;justify-content:space-between;font-size:0.8rem;color:#666;margin-bottom:6px}
+.bar-track{background:#f0f0f0;border-radius:6px;height:20px;overflow:hidden;display:flex}
+.bar-assets{background:#27ae60;height:100%;transition:width 0.5s ease;border-radius:6px 0 0 6px}
+.bar-liabilities{background:#e74c3c;height:100%;transition:width 0.5s ease;border-radius:0 6px 6px 0}
+.bar-only{border-radius:6px}
+.bar-legend{display:flex;gap:1rem;margin-top:8px;flex-wrap:wrap}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:0.78rem;color:#555}
+.legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.breakdown-table-wrap{overflow-x:auto;margin-top:1rem}
+table{width:100%;border-collapse:collapse;font-size:0.85rem}
+th{background:#f0f0f0;padding:8px 10px;text-align:left;font-weight:600;font-size:0.8rem;color:#555;white-space:nowrap}
+th.num,td.num{text-align:right}
+td{padding:8px 10px;border-bottom:1px solid #f0f0f0;color:#1a1a2e}
+tr:nth-child(even) td{background:#fafafa}
+tr:last-child td{border-bottom:none}
+.tag{display:inline-block;padding:2px 8px;border-radius:10px;font-size:0.72rem;font-weight:600}
+.tag-asset{background:#e8f8f0;color:#27ae60}
+.tag-liab{background:#fdecea;color:#e74c3c}
+.pct-bar{display:inline-block;height:8px;border-radius:4px;vertical-align:middle;margin-left:4px}
+.pct-bar-a{background:#27ae60}
+.pct-bar-l{background:#e74c3c}
+.copy-btn{background:#f8f9fa;border:1px solid #ddd;border-radius:6px;padding:7px 16px;font-size:0.82rem;cursor:pointer;color:#0077b6;transition:all 0.2s;float:right;margin-top:-2px}
+.copy-btn:hover{background:#e8f3f9}
+.toggle-btn{background:none;border:1px solid #ddd;border-radius:6px;padding:7px 16px;font-size:0.82rem;cursor:pointer;color:#0077b6;transition:all 0.2s;display:block;margin:0.8rem auto 0}
+.toggle-btn:hover{background:#e8f3f9}
+.ad-slot{min-height:0;margin:0}
+.content-section{margin-bottom:2rem}
+.content-section h2{font-size:1.15rem;font-weight:700;color:#1a1a2e;margin-bottom:0.6rem;margin-top:1.5rem}
+.content-section p{color:#444;font-size:0.92rem;margin-bottom:0.8rem}
+.content-section ul{color:#444;font-size:0.92rem;padding-left:1.2rem;margin-bottom:0.8rem}
+.content-section ul li{margin-bottom:0.4rem}
+details{border:1px solid #e0e0e0;border-radius:6px;padding:0;margin-bottom:0.6rem;overflow:hidden}
+summary{padding:0.8rem 1rem;font-weight:600;font-size:0.9rem;cursor:pointer;color:#1a1a2e;background:#f8f9fa;list-style:none;display:flex;justify-content:space-between;align-items:center}
+summary::-webkit-details-marker{display:none}
+summary::after{content:'＋';color:#0077b6;font-size:1rem;flex-shrink:0}
+details[open] summary::after{content:'－'}
+details p{padding:0.8rem 1rem;font-size:0.88rem;color:#444;background:#fff}
+.related-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;margin-top:0.8rem}
+.related-link{display:block;padding:0.7rem 1rem;background:#f8f9fa;border:1px solid #e0e0e0;border-radius:6px;font-size:0.85rem;color:#0077b6;transition:background 0.2s}
+.related-link:hover{background:#e8f3f9;text-decoration:none}
+footer{background:#fff;border-top:1px solid #e0e0e0;padding:1.2rem 1rem;margin-top:1rem}
+.footer-inner{max-width:640px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:0.5rem}
+.footer-links{display:flex;gap:1rem;flex-wrap:wrap}
+.footer-links a{font-size:0.82rem;color:#666}
+.footer-copy{font-size:0.78rem;color:#999}
+.col-headers{display:grid;grid-template-columns:1fr auto;gap:8px;margin-bottom:4px;padding:0 0 0 0}
+.col-h{font-size:0.75rem;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:0.04em}
+.col-h.right{text-align:right}
+@media(max-width:640px){
+  .summary-grid{grid-template-columns:1fr}
+  .related-grid{grid-template-columns:1fr}
+  .row-item{grid-template-columns:1fr auto auto}
+  h1{font-size:1.3rem}
+  .net-value{font-size:2.2rem}
+  .card{padding:1.2rem}
 }
 </style>
 </head>
@@ -133,429 +137,387 @@ footer a:hover { color: #0077b6; }
 
 <nav>
   <div class="nav-inner">
-    <a href="/" class="site-name">calcstack.dev</a>
+    <a href="/" class="nav-brand">calc<span>stack</span>.dev</a>
   </div>
 </nav>
 
-<div class="container">
+<main>
   <h1>Net Worth Calculator</h1>
-  <p class="subtitle">Add your assets and liabilities to see your complete financial picture in seconds.</p>
+  <p class="subtitle">Add your assets and liabilities to get your complete financial snapshot.</p>
 
   <div class="card">
     <!-- ASSETS -->
-    <div class="section-title">🏦 Assets (What You Own)</div>
+    <div class="section-title">
+      <span class="icon icon-assets">$</span> Assets — What You Own
+    </div>
+    <div class="col-headers">
+      <div class="col-h">Description</div>
+      <div class="col-h right" style="padding-right:44px">Value</div>
+    </div>
+    <div id="assets-list"></div>
+    <button class="add-btn" onclick="addRow('assets')">+ Add Asset</button>
 
-    <div style="margin-bottom:1rem;">
-      <div class="breakdown-title" style="font-size:0.8rem;color:#666;margin-bottom:0.5rem;">CASH & SAVINGS</div>
-      <div id="cash-list"></div>
-      <button class="add-btn" onclick="addRow('cash')">+ Add Cash / Savings Account</button>
+    <div style="margin:1.8rem 0 1rem;border-top:1px solid #f0f0f0;padding-top:1.5rem">
+      <div class="section-title">
+        <span class="icon icon-liabilities">$</span> Liabilities — What You Owe
+      </div>
+      <div class="col-headers">
+        <div class="col-h">Description</div>
+        <div class="col-h right" style="padding-right:44px">Balance</div>
+      </div>
+      <div id="liabilities-list"></div>
+      <button class="add-btn" onclick="addRow('liabilities')">+ Add Liability</button>
     </div>
 
-    <div style="margin-bottom:1rem;">
-      <div class="breakdown-title" style="font-size:0.8rem;color:#666;margin-bottom:0.5rem;">INVESTMENTS & RETIREMENT</div>
-      <div id="invest-list"></div>
-      <button class="add-btn" onclick="addRow('invest')">+ Add Investment / Retirement Account</button>
+    <div style="margin-top:1.5rem">
+      <button class="calc-btn" id="calcBtn">Calculate Net Worth</button>
     </div>
-
-    <div style="margin-bottom:1rem;">
-      <div class="breakdown-title" style="font-size:0.8rem;color:#666;margin-bottom:0.5rem;">REAL ESTATE</div>
-      <div id="realestate-list"></div>
-      <button class="add-btn" onclick="addRow('realestate')">+ Add Property</button>
-    </div>
-
-    <div style="margin-bottom:1rem;">
-      <div class="breakdown-title" style="font-size:0.8rem;color:#666;margin-bottom:0.5rem;">VEHICLES & OTHER ASSETS</div>
-      <div id="other-assets-list"></div>
-      <button class="add-btn" onclick="addRow('other-assets')">+ Add Vehicle / Other Asset</button>
-    </div>
-
-    <!-- LIABILITIES -->
-    <div class="section-title" style="margin-top:1.5rem;">💳 Liabilities (What You Owe)</div>
-
-    <div style="margin-bottom:1rem;">
-      <div class="breakdown-title" style="font-size:0.8rem;color:#666;margin-bottom:0.5rem;">MORTGAGE & REAL ESTATE DEBT</div>
-      <div id="mortgage-list"></div>
-      <button class="add-btn" onclick="addRow('mortgage')">+ Add Mortgage / Home Loan</button>
-    </div>
-
-    <div style="margin-bottom:1rem;">
-      <div class="breakdown-title" style="font-size:0.8rem;color:#666;margin-bottom:0.5rem;">LOANS & CREDIT CARDS</div>
-      <div id="loans-list"></div>
-      <button class="add-btn" onclick="addRow('loans')">+ Add Loan / Credit Card</button>
-    </div>
-
-    <div style="margin-bottom:1rem;">
-      <div class="breakdown-title" style="font-size:0.8rem;color:#666;margin-bottom:0.5rem;">OTHER LIABILITIES</div>
-      <div id="other-debts-list"></div>
-      <button class="add-btn" onclick="addRow('other-debts')">+ Add Other Liability</button>
-    </div>
-
-    <div class="btn-row">
-      <button class="calc-btn" onclick="calculate()">Calculate Net Worth</button>
-      <button class="clear-btn" onclick="clearAll()">Clear All</button>
-    </div>
-    <div id="global-error" class="error-msg"></div>
   </div>
 
   <!-- RESULTS -->
   <div class="results card" id="results">
-    <div class="net-worth-display">
-      <div class="net-worth-label">Your Estimated Net Worth</div>
-      <div class="net-worth-value" id="net-worth-val">$0</div>
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:0.5rem">
+      <div class="section-title" style="margin-bottom:0;border:none;padding:0">Your Financial Snapshot</div>
+      <button class="copy-btn" id="copyBtn" onclick="copyResults()">Copy Summary</button>
+    </div>
+
+    <div class="net-hero">
+      <div class="net-label">Total Net Worth</div>
+      <div class="net-value" id="netValue">$0</div>
+      <div id="netBadge" class="net-badge badge-zero">—</div>
     </div>
 
     <div class="summary-grid">
-      <div class="summary-card assets">
+      <div class="summary-card assets-card">
         <div class="sc-label">Total Assets</div>
-        <div class="sc-value" id="total-assets-val">$0</div>
+        <div class="sc-value" id="totalAssets">$0</div>
       </div>
-      <div class="summary-card debts">
+      <div class="summary-card liab-card">
         <div class="sc-label">Total Liabilities</div>
-        <div class="sc-value" id="total-debts-val">$0</div>
+        <div class="sc-value" id="totalLiab">$0</div>
       </div>
     </div>
 
-    <div class="actions-row">
-      <button class="copy-btn" id="copy-btn" onclick="copyResults()">📋 Copy Summary</button>
+    <div class="bar-section">
+      <div class="bar-label-row">
+        <span id="assetsPct">Assets 0%</span>
+        <span id="liabPct">Liabilities 0%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-assets" id="barAssets" style="width:0%"></div>
+        <div class="bar-liabilities" id="barLiab" style="width:0%"></div>
+      </div>
+      <div class="bar-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#27ae60"></div>Assets</div>
+        <div class="legend-dot" style="background:#e74c3c"></div><div style="font-size:0.78rem;color:#555">Liabilities</div>
+        <div class="legend-item" style="margin-left:0.2rem"><div class="legend-dot" style="background:#0077b6"></div>Net Worth</div>
+      </div>
     </div>
 
-    <!-- Asset Breakdown Bars -->
-    <div class="breakdown-title">Asset Breakdown</div>
-    <div class="bar-container" id="asset-bars"></div>
-
-    <!-- Debt Breakdown Bars -->
-    <div class="breakdown-title">Liability Breakdown</div>
-    <div class="bar-container" id="debt-bars"></div>
-
-    <!-- Detailed Table -->
-    <div class="breakdown-title" style="margin-top:1rem;">Detailed Breakdown</div>
     <div class="breakdown-table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Category</th>
-            <th>Item</th>
-            <th class="num">Amount</th>
-            <th class="num">% of Total</th>
-          </tr>
-        </thead>
-        <tbody id="breakdown-tbody"></tbody>
+      <table id="breakdownTable">
+        <thead><tr><th>Item</th><th>Type</th><th class="num">Value</th><th class="num">% of Assets</th></tr></thead>
+        <tbody id="breakdownBody"></tbody>
       </table>
     </div>
+    <button class="toggle-btn" id="toggleBtn" onclick="toggleRows()" style="display:none">Show All Items</button>
   </div>
 
   <div class="ad-slot" id="ad-mid"></div>
 
-  <!-- CONTENT -->
-  <div class="content-section">
+  <!-- CONTENT SECTION -->
+  <div class="content-section card">
     <h2>How to Use This Net Worth Calculator</h2>
-    <p>Enter each of your assets (things you own) and liabilities (things you owe) in the fields above. Use the "+ Add" buttons to add as many rows as you need in each category — name each item and enter its current value. Click <strong>Calculate Net Worth</strong> to instantly see your total net worth, a visual breakdown by category, and a detailed table of every item.</p>
+    <p>Enter the names and current values of everything you own — called assets — in the top section. Then list everything you owe — called liabilities — in the bottom section. Hit <strong>Calculate Net Worth</strong> to see your result instantly. You can add as many rows as you need for each category.</p>
 
     <h2>Why This Matters</h2>
-    <p>Net worth is the single most important number in personal finance — more telling than income. A person earning $200,000 per year with $400,000 in debt is actually less financially secure than someone earning $60,000 who has been steadily building assets for a decade.</p>
-    <p>Knowing your net worth lets you track real progress. Someone who pays down $10,000 in student loans while contributing $5,000 to a 401(k) increased their net worth by $15,000 — but their paycheck didn't change. Tracking net worth monthly or annually reveals the true trajectory of your financial life.</p>
-    <p>According to the Federal Reserve, the median US household net worth is around $192,000 — but that figure varies wildly by age. People in their 30s typically have a net worth under $100,000, while those approaching retirement often exceed $400,000. Your goal isn't to beat a median — it's to trend upward every year.</p>
-    <p>This calculator is also useful for estate planning, applying for loans, or simply setting financial goals. Many financial advisors recommend calculating your net worth at least once per year, ideally at the same time (New Year's Day is popular).</p>
+    <p>Net worth is the single most important number in personal finance. It tells you exactly where you stand — not just how much you earn or spend, but the actual wealth you've accumulated. A 35-year-old earning $90,000 per year could have a negative net worth if they carry $50,000 in student loans, $15,000 in car debt, and $8,000 on credit cards. Meanwhile, someone earning $60,000 who has diligently paid down debt and invested could have a positive net worth of $150,000.</p>
+    <p>Financial advisors recommend checking your net worth at least once a year, ideally every quarter. If your net worth is growing — even slowly — you're building real wealth. The average American net worth by age 35 is roughly $76,000, but the median (more representative) is just $36,000, showing how concentrated wealth is. Knowing your number gives you a realistic baseline to set goals, track progress, and make smarter financial decisions.</p>
+    <p>Whether you're planning to buy a home, retire early, or just get out of debt, your net worth is the scoreboard. Use this tool before major financial decisions.</p>
 
     <h2>How It's Calculated</h2>
-    <p>The formula is beautifully simple:</p>
-    <div class="formula-box">Net Worth = Total Assets − Total Liabilities</div>
-    <p><strong>Assets</strong> include: cash, checking/savings accounts, investments, retirement accounts (401k, IRA, Roth), real estate market value, vehicles (current resale value), and valuables like jewelry or art.</p>
-    <p><strong>Liabilities</strong> include: mortgage balances, car loans, student loans, credit card balances, personal loans, medical debt, and any other amounts owed.</p>
-    <p>Note: use <em>current market value</em> for assets (not what you paid), and <em>outstanding balance</em> for liabilities (not the original loan amount). This gives the most accurate snapshot of your financial position today.</p>
+    <p>The formula is simple:</p>
+    <p><strong>Net Worth = Total Assets − Total Liabilities</strong></p>
+    <p>Assets include cash, checking/savings accounts, investment accounts, retirement funds (401k, IRA), real estate equity, vehicles, and valuable personal property. Liabilities include mortgage balances, car loans, student loans, credit card balances, medical debt, and any other money owed. This calculator totals each column and subtracts liabilities from assets to produce your net worth figure.</p>
 
-    <h2>Tips &amp; Common Mistakes</h2>
+    <h2>Tips & Common Mistakes</h2>
     <ul>
-      <li><strong>Use current market value for property:</strong> If you bought your home for $300,000 but it's worth $420,000 today, enter $420,000 as the asset — and enter your remaining mortgage as the liability.</li>
-      <li><strong>Don't forget retirement accounts:</strong> A 401(k) or IRA counts as an asset even if you can't access it penalty-free yet. It represents real wealth.</li>
-      <li><strong>Include vehicle depreciation:</strong> Cars lose value rapidly. Check Kelley Blue Book for a realistic current resale estimate, not your purchase price.</li>
-      <li><strong>Be honest about credit card debt:</strong> Include every card balance. Underestimating liabilities is the most common mistake that inflates a false sense of security.</li>
-      <li><strong>Recalculate annually:</strong> Track your net worth year-over-year to measure real progress. A $10,000 increase per year means roughly $1M more over a 40-year career.</li>
+      <li><strong>Use current market values for assets</strong> — your home is worth what it would sell for today, not what you paid. Check Zillow or a recent appraisal.</li>
+      <li><strong>Don't forget retirement accounts</strong> — your 401(k) and IRA balances count as assets even if you can't touch them yet.</li>
+      <li><strong>List loan balances, not monthly payments</strong> — your car liability is the full remaining loan balance (e.g., $12,500), not your $350/month payment.</li>
+      <li><strong>Don't include income</strong> — net worth is a snapshot of what you own and owe, not what flows in and out monthly.</li>
+      <li><strong>Negative net worth is normal at first</strong> — most people in their 20s have negative net worth due to student loans. The trend matters more than the number.</li>
     </ul>
 
     <h2>Frequently Asked Questions</h2>
     <details>
-      <summary>What is a "good" net worth?</summary>
-      <div class="details-body">A good benchmark is to multiply your age by your gross annual income and divide by 10. At 35 earning $80,000, a target net worth would be $280,000. That said, starting later or recovering from setbacks doesn't mean you can't build wealth — the direction of change matters more than the current number.</div>
+      <summary>Is a negative net worth bad?</summary>
+      <p>Not necessarily, especially early in life. If you have student loans or a new mortgage, a negative net worth is common and expected. What matters is the trajectory — if your net worth is improving month over month, you're on the right track. Focus on reducing liabilities and growing assets steadily.</p>
     </details>
     <details>
-      <summary>Should I include my home as an asset?</summary>
-      <div class="details-body">Yes — enter the current estimated market value as an asset, and your remaining mortgage balance as a liability. The difference (your home equity) is what contributes to your net worth. Just be aware that home equity is illiquid; you can't easily spend it without selling or borrowing against it.</div>
+      <summary>Should I include my home in net worth?</summary>
+      <p>Yes — your home's current market value goes in assets, and any remaining mortgage balance goes in liabilities. The difference represents your home equity, which counts toward net worth. Use a realistic current market estimate, not the original purchase price.</p>
+    </details>
+    <details>
+      <summary>What's a good net worth for my age?</summary>
+      <p>A common rule of thumb: by 30, aim for net worth equal to your annual salary; by 40, 3× salary; by 50, 6× salary. These are benchmarks, not rules — factors like location, family obligations, and career path vary widely. The most important thing is consistent growth over time.</p>
     </details>
     <details>
       <summary>How often should I calculate my net worth?</summary>
-      <div class="details-body">Most financial experts recommend once per quarter or at minimum once per year. Checking too frequently (like weekly) can cause anxiety from market fluctuations that don't reflect real progress. Annual reviews give a clear, noise-free picture of your financial trajectory.</div>
-    </details>
-    <details>
-      <summary>Can my net worth be negative?</summary>
-      <div class="details-body">Absolutely, and it's very common — especially for recent graduates with student loans or young families with a new mortgage. A negative net worth just means your liabilities currently exceed your assets. The goal is to trend it upward over time through saving, investing, and debt paydown.</div>
+      <p>At least annually — ideally quarterly. Many people do it monthly when paying bills or reviewing investments. Tracking over time helps you spot trends, stay motivated, and adjust your financial strategy when things aren't moving in the right direction.</p>
     </details>
   </div>
 
-  <div class="related-tools">
-    <h2>Related Financial Tools</h2>
+  <!-- RELATED TOOLS -->
+  <div class="card">
+    <div class="section-title" style="border:none;padding:0;margin-bottom:0.8rem">Related Tools</div>
     <div class="related-grid">
-      <a href="/inflation-adjuster-calculator/">Inflation Adjuster Calculator</a>
-      <a href="/savings-goal-calculator/">Savings Goal Calculator</a>
-      <a href="/rent-vs-buy-calculator/">Rent vs Buy Calculator</a>
-      <a href="/debt-payoff-calculator/">Debt Payoff Calculator</a>
-      <a href="/investment-growth-calculator/">Investment Growth Calculator</a>
-      <a href="/salary-to-hourly-calculator/">Salary to Hourly Calculator</a>
+      <a href="/inflation-adjuster-calculator/" class="related-link">Inflation Adjuster Calculator</a>
+      <a href="/savings-goal-calculator/" class="related-link">Savings Goal Calculator</a>
+      <a href="/rent-vs-buy-calculator/" class="related-link">Rent vs Buy Calculator</a>
+      <a href="/debt-payoff-calculator/" class="related-link">Debt Payoff Calculator</a>
+      <a href="/investment-growth-calculator/" class="related-link">Investment Growth Calculator</a>
+      <a href="/salary-to-hourly-calculator/" class="related-link">Salary to Hourly Calculator</a>
     </div>
   </div>
 
   <div class="ad-slot" id="ad-bottom"></div>
+</main>
 
-  <footer>
-    <div>
+<footer>
+  <div class="footer-inner">
+    <div class="footer-links">
       <a href="/about/">About</a>
       <a href="/privacy/">Privacy</a>
       <a href="/contact/">Contact</a>
     </div>
-    <div style="margin-top:0.5rem;">© <span id="year"></span> calcstack.dev</div>
-  </footer>
-</div>
+    <div class="footer-copy">© 2024 calcstack.dev</div>
+  </div>
+</footer>
 
 <script>
-document.getElementById('year').textContent = new Date().getFullYear();
+// ── State ──────────────────────────────────────────────────────────────────
+let assetRows = [];
+let liabRows = [];
+let showAll = false;
+const MAX_VISIBLE = 10;
 
-const categories = {
-  'cash': { label: 'Cash & Savings', type: 'asset', color: 'green' },
-  'invest': { label: 'Investments & Retirement', type: 'asset', color: 'blue' },
-  'realestate': { label: 'Real Estate', type: 'asset', color: 'teal' },
-  'other-assets': { label: 'Vehicles & Other Assets', type: 'asset', color: 'purple' },
-  'mortgage': { label: 'Mortgage & RE Debt', type: 'liability', color: 'red' },
-  'loans': { label: 'Loans & Credit Cards', type: 'liability', color: 'orange' },
-  'other-debts': { label: 'Other Liabilities', type: 'liability', color: 'red' }
-};
+// ── Init ───────────────────────────────────────────────────────────────────
+(function init() {
+  const defaultAssets = [
+    { name: 'Checking / Savings', amount: '' },
+    { name: 'Investment Accounts', amount: '' },
+    { name: 'Retirement Accounts (401k/IRA)', amount: '' },
+    { name: 'Home / Real Estate', amount: '' },
+    { name: 'Vehicle(s)', amount: '' }
+  ];
+  const defaultLiabs = [
+    { name: 'Mortgage Balance', amount: '' },
+    { name: 'Car Loan', amount: '' },
+    { name: 'Student Loans', amount: '' },
+    { name: 'Credit Card Debt', amount: '' }
+  ];
+  defaultAssets.forEach(r => { assetRows.push({ id: uid(), name: r.name, amount: r.amount }); });
+  defaultLiabs.forEach(r => { liabRows.push({ id: uid(), name: r.name, amount: r.amount }); });
+  renderRows('assets');
+  renderRows('liabilities');
+})();
 
-const defaultItems = {
-  'cash': [{ name: 'Checking Account', value: '' }, { name: 'Savings Account', value: '' }],
-  'invest': [{ name: '401(k) / IRA', value: '' }],
-  'realestate': [],
-  'other-assets': [{ name: 'Vehicle', value: '' }],
-  'mortgage': [],
-  'loans': [{ name: 'Credit Card', value: '' }],
-  'other-debts': []
-};
+// ── Helpers ────────────────────────────────────────────────────────────────
+function uid() { return '_' + Math.random().toString(36).slice(2, 9); }
+function fmt(n) { return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+function fmtPlain(n) { return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
 
-function fmt(n) {
-  if (isNaN(n)) return '$0';
-  const abs = Math.abs(n);
-  const str = abs.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
-  return (n < 0 ? '-$' : '$') + str;
-}
-
-function fmtPct(n) {
-  return (Math.round(n * 10) / 10) + '%';
-}
-
-function createRow(catId, nameVal, amtVal) {
-  const row = document.createElement('div');
-  row.className = 'row-item';
-  row.innerHTML = `
-    <div class="input-group" style="flex:1.4">
-      <input type="text" placeholder="Name (e.g. Chase Savings)" value="${nameVal}" aria-label="Item name" onkeydown="handleKey(event)">
-    </div>
-    <div class="input-group" style="flex:1">
-      <input type="number" placeholder="$0" value="${amtVal}" min="0" step="any" aria-label="Amount" onkeydown="handleKey(event)">
-    </div>
-    <button class="remove-btn" onclick="removeRow(this)" aria-label="Remove">✕</button>
-  `;
-  return row;
-}
-
-function addRow(catId, nameVal = '', amtVal = '') {
-  const list = document.getElementById(catId + '-list');
-  list.appendChild(createRow(catId, nameVal, amtVal));
-}
-
-function removeRow(btn) {
-  btn.closest('.row-item').remove();
-}
-
-function handleKey(e) {
-  if (e.key === 'Enter') calculate();
-}
-
-function getRows(catId) {
-  const list = document.getElementById(catId + '-list');
-  const rows = list.querySelectorAll('.row-item');
-  const items = [];
-  rows.forEach(row => {
-    const nameInput = row.querySelectorAll('input')[0];
-    const amtInput = row.querySelectorAll('input')[1];
-    const name = nameInput.value.trim() || 'Unnamed';
-    const val = parseFloat(amtInput.value);
-    items.push({ name, value: isNaN(val) ? 0 : Math.max(0, val) });
+// ── Render Rows ────────────────────────────────────────────────────────────
+function renderRows(type) {
+  const list = type === 'assets' ? assetRows : liabRows;
+  const container = document.getElementById(type + '-list');
+  let html = '';
+  list.forEach(row => {
+    html += `<div class="row-item" id="row-${row.id}">
+      <input type="text" class="name-input" placeholder="Description" value="${escHtml(row.name)}"
+        oninput="updateField('${type}','${row.id}','name',this.value)"
+        onkeydown="handleEnter(event)">
+      <div class="amount-wrap">
+        <span class="dollar">$</span>
+        <input type="number" min="0" step="any" placeholder="0.00" value="${row.amount}"
+          oninput="updateField('${type}','${row.id}','amount',this.value)"
+          onkeydown="handleEnter(event)" style="width:130px">
+      </div>
+      <button class="remove-btn" onclick="removeRow('${type}','${row.id}')" title="Remove">×</button>
+    </div>`;
   });
-  return items;
+  container.innerHTML = html;
 }
 
-function getCategoryTotal(catId) {
-  return getRows(catId).reduce((sum, r) => sum + r.value, 0);
+function escHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function updateField(type, id, field, val) {
+  const list = type === 'assets' ? assetRows : liabRows;
+  const row = list.find(r => r.id === id);
+  if (row) row[field] = val;
+}
+
+function addRow(type) {
+  const list = type === 'assets' ? assetRows : liabRows;
+  list.push({ id: uid(), name: '', amount: '' });
+  renderRows(type);
+  // focus last name input
+  const inputs = document.querySelectorAll(`#${type}-list .row-item:last-child input`);
+  if (inputs[0]) inputs[0].focus();
+}
+
+function removeRow(type, id) {
+  if (type === 'assets') {
+    assetRows = assetRows.filter(r => r.id !== id);
+    renderRows('assets');
+  } else {
+    liabRows = liabRows.filter(r => r.id !== id);
+    renderRows('liabilities');
+  }
+}
+
+function handleEnter(e) {
+  if (e.key === 'Enter') {
+    requestAnimationFrame(() => { calculate(); });
+  }
+}
+
+// ── Calculate ──────────────────────────────────────────────────────────────
+document.getElementById('calcBtn').addEventListener('click', () => {
+  requestAnimationFrame(() => { calculate(); });
+});
+
+function parseAmt(v) {
+  const n = parseFloat(String(v).replace(/[^0-9.\-]/g, ''));
+  return isNaN(n) ? 0 : Math.max(0, n);
 }
 
 function calculate() {
-  const errEl = document.getElementById('global-error');
-  errEl.classList.remove('show');
+  // Sync values from DOM (in case direct input without oninput firing in some browsers)
+  syncFromDOM('assets');
+  syncFromDOM('liabilities');
 
-  const totals = {};
-  let totalAssets = 0, totalDebts = 0;
-  Object.keys(categories).forEach(cat => {
-    totals[cat] = getCategoryTotal(cat);
-    if (categories[cat].type === 'asset') totalAssets += totals[cat];
-    else totalDebts += totals[cat];
+  const totalAssets = assetRows.reduce((s, r) => s + parseAmt(r.amount), 0);
+  const totalLiab   = liabRows.reduce((s, r) => s + parseAmt(r.amount), 0);
+  const netWorth    = totalAssets - totalLiab;
+  const total       = totalAssets + totalLiab;
+
+  const aPct = total > 0 ? (totalAssets / total * 100) : 0;
+  const lPct = total > 0 ? (totalLiab / total * 100) : 0;
+  const aOfTotal = totalAssets > 0 ? 100 : 0;
+
+  // Build breakdown rows
+  const allItems = [];
+  assetRows.forEach(r => {
+    const v = parseAmt(r.amount);
+    if (v > 0 || r.name) allItems.push({ name: r.name || 'Asset', type: 'asset', value: v });
+  });
+  liabRows.forEach(r => {
+    const v = parseAmt(r.amount);
+    if (v > 0 || r.name) allItems.push({ name: r.name || 'Liability', type: 'liab', value: v });
   });
 
-  const netWorth = totalAssets - totalDebts;
+  // Sort by value desc
+  allItems.sort((a, b) => b.value - a.value);
 
-  // Update main display
-  const nwEl = document.getElementById('net-worth-val');
-  nwEl.textContent = fmt(netWorth);
-  nwEl.className = 'net-worth-value' + (netWorth < 0 ? ' negative' : '');
-  document.getElementById('total-assets-val').textContent = fmt(totalAssets);
-  document.getElementById('total-debts-val').textContent = fmt(totalDebts);
+  let tableRows = '';
+  allItems.forEach((item, i) => {
+    const pctNum = totalAssets > 0 && item.type === 'asset' ? (item.value / totalAssets * 100).toFixed(1) : (totalLiab > 0 && item.type === 'liab' ? (item.value / totalLiab * 100).toFixed(1) : '—');
+    const barColor = item.type === 'asset' ? 'pct-bar-a' : 'pct-bar-l';
+    const barW = pctNum !== '—' ? Math.round(parseFloat(pctNum) * 0.7) : 0;
+    const hidden = i >= MAX_VISIBLE && !showAll ? ' style="display:none"' : '';
+    tableRows += `<tr${hidden}>
+      <td>${escHtml(item.name)}</td>
+      <td><span class="tag ${item.type === 'asset' ? 'tag-asset' : 'tag-liab'}">${item.type === 'asset' ? 'Asset' : 'Liability'}</span></td>
+      <td class="num">${item.value > 0 ? fmt(item.value) : '—'}</td>
+      <td class="num">${pctNum !== '—' ? `${pctNum}%<span class="pct-bar ${barColor}" style="width:${barW}px"></span>` : '—'}</td>
+    </tr>`;
+  });
 
-  // Asset bars
-  const assetBarsEl = document.getElementById('asset-bars');
-  assetBarsEl.innerHTML = '';
-  const assetCats = Object.keys(categories).filter(c => categories[c].type === 'asset');
-  assetCats.forEach(cat => {
-    if (totals[cat] > 0) {
-      const pct = totalAssets > 0 ? (totals[cat] / totalAssets * 100) : 0;
-      const div = document.createElement('div');
-      div.className = 'bar-section';
-      div.innerHTML = `
-        <div class="bar-label-row">
-          <span class="bar-label">${categories[cat].label}</span>
-          <span class="bar-amount">${fmt(totals[cat])} (${fmtPct(pct)})</span>
-        </div>
-        <div class="bar-track"><div class="bar-fill ${categories[cat].color}" style="width:${pct}%"></div></div>
-      `;
-      assetBarsEl.appendChild(div);
+  // Badge
+  let badgeClass, badgeText;
+  if (netWorth > 0)      { badgeClass = 'net-badge badge-positive'; badgeText = '✓ Positive Net Worth'; }
+  else if (netWorth < 0) { badgeClass = 'net-badge badge-negative'; badgeText = '⚠ Negative Net Worth'; }
+  else                   { badgeClass = 'net-badge badge-zero';     badgeText = '— Net Worth is Zero'; }
+
+  const netClass = netWorth > 0 ? 'net-value positive' : netWorth < 0 ? 'net-value negative' : 'net-value zero';
+
+  requestAnimationFrame(() => {
+    document.getElementById('netValue').className = netClass;
+    document.getElementById('netValue').textContent = fmt(Math.abs(netWorth)) + (netWorth < 0 ? ' (negative)' : '');
+    document.getElementById('netBadge').className = badgeClass;
+    document.getElementById('netBadge').textContent = badgeText;
+    document.getElementById('totalAssets').textContent = fmt(totalAssets);
+    document.getElementById('totalLiab').textContent   = fmt(totalLiab);
+    document.getElementById('assetsPct').textContent   = `Assets ${aPct.toFixed(0)}%`;
+    document.getElementById('liabPct').textContent     = `Liabilities ${lPct.toFixed(0)}%`;
+    document.getElementById('barAssets').style.width   = aPct.toFixed(1) + '%';
+    document.getElementById('barLiab').style.width     = lPct.toFixed(1) + '%';
+    document.getElementById('breakdownBody').innerHTML = tableRows;
+
+    const toggleBtn = document.getElementById('toggleBtn');
+    if (allItems.length > MAX_VISIBLE) {
+      toggleBtn.style.display = 'block';
+      toggleBtn.textContent = showAll ? 'Show Less' : `Show All ${allItems.length} Items`;
+    } else {
+      toggleBtn.style.display = 'none';
     }
+
+    const results = document.getElementById('results');
+    results.classList.add('visible');
+    results.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   });
-  if (totalAssets === 0) assetBarsEl.innerHTML = '<p style="color:#999;font-size:0.88rem;">No assets entered.</p>';
-
-  // Debt bars
-  const debtBarsEl = document.getElementById('debt-bars');
-  debtBarsEl.innerHTML = '';
-  const debtCats = Object.keys(categories).filter(c => categories[c].type === 'liability');
-  debtCats.forEach(cat => {
-    if (totals[cat] > 0) {
-      const pct = totalDebts > 0 ? (totals[cat] / totalDebts * 100) : 0;
-      const div = document.createElement('div');
-      div.className = 'bar-section';
-      div.innerHTML = `
-        <div class="bar-label-row">
-          <span class="bar-label">${categories[cat].label}</span>
-          <span class="bar-amount">${fmt(totals[cat])} (${fmtPct(pct)})</span>
-        </div>
-        <div class="bar-track"><div class="bar-fill ${categories[cat].color}" style="width:${pct}%"></div></div>
-      `;
-      debtBarsEl.appendChild(div);
-    }
-  });
-  if (totalDebts === 0) debtBarsEl.innerHTML = '<p style="color:#999;font-size:0.88rem;">No liabilities entered.</p>';
-
-  // Build detail table
-  const tbody = document.getElementById('breakdown-tbody');
-  tbody.innerHTML = '';
-  const grandTotal = totalAssets + totalDebts;
-
-  Object.keys(categories).forEach(cat => {
-    const rows = getRows(cat);
-    const type = categories[cat].type;
-    rows.forEach((r, i) => {
-      if (r.value > 0 || rows.length > 0) {
-        const pct = grandTotal > 0 ? (r.value / grandTotal * 100) : 0;
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td class="cat">${i === 0 ? categories[cat].label : ''}</td>
-          <td>${r.name}</td>
-          <td class="num ${type === 'asset' ? 'pos' : (r.value > 0 ? 'neg' : '')}">${r.value > 0 ? fmt(r.value) : '—'}</td>
-          <td class="num">${r.value > 0 ? fmtPct(pct) : '—'}</td>
-        `;
-        tbody.appendChild(tr);
-      }
-    });
-  });
-
-  // Totals rows
-  const trAssets = document.createElement('tr');
-  trAssets.style.cssText = 'background:#f0fdf4!important;font-weight:700;';
-  trAssets.innerHTML = `<td colspan="2" style="font-weight:700;">Total Assets</td><td class="num pos">${fmt(totalAssets)}</td><td class="num"></td>`;
-  tbody.appendChild(trAssets);
-
-  const trDebts = document.createElement('tr');
-  trDebts.style.cssText = 'background:#fff5f5!important;font-weight:700;';
-  trDebts.innerHTML = `<td colspan="2" style="font-weight:700;">Total Liabilities</td><td class="num neg">${totalDebts > 0 ? fmt(totalDebts) : '$0'}</td><td class="num"></td>`;
-  tbody.appendChild(trDebts);
-
-  const trNW = document.createElement('tr');
-  trNW.style.cssText = 'background:#f0f7ff!important;font-weight:800;font-size:1rem;';
-  trNW.innerHTML = `<td colspan="2" style="font-weight:800;">Net Worth</td><td class="num" style="color:${netWorth >= 0 ? '#0077b6' : '#dc2626'};font-weight:800;">${fmt(netWorth)}</td><td class="num"></td>`;
-  tbody.appendChild(trNW);
-
-  // Show results
-  document.getElementById('results').classList.add('visible');
-  document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-  // Store for copy
-  window._lastResults = { netWorth, totalAssets, totalDebts, totals };
 }
 
+function syncFromDOM(type) {
+  const list = type === 'assets' ? assetRows : liabRows;
+  const container = document.getElementById(type + '-list');
+  const rowEls = container.querySelectorAll('.row-item');
+  rowEls.forEach(el => {
+    const id = el.id.replace('row-', '');
+    const row = list.find(r => r.id === id);
+    if (!row) return;
+    const inputs = el.querySelectorAll('input');
+    if (inputs[0]) row.name   = inputs[0].value;
+    if (inputs[1]) row.amount = inputs[1].value;
+  });
+}
+
+// ── Toggle Show All ────────────────────────────────────────────────────────
+function toggleRows() {
+  showAll = !showAll;
+  calculate();
+}
+
+// ── Copy Results ───────────────────────────────────────────────────────────
 function copyResults() {
-  const r = window._lastResults;
-  if (!r) return;
-  let text = `NET WORTH SUMMARY\n`;
-  text += `==================\n`;
-  text += `Net Worth:        ${fmt(r.netWorth)}\n`;
-  text += `Total Assets:     ${fmt(r.totalAssets)}\n`;
-  text += `Total Liabilities: ${fmt(r.totalDebts)}\n\n`;
-  text += `ASSET BREAKDOWN\n`;
-  Object.keys(categories).filter(c => categories[c].type === 'asset').forEach(cat => {
-    if (r.totals[cat] > 0) text += `  ${categories[cat].label}: ${fmt(r.totals[cat])}\n`;
-  });
-  text += `\nLIABILITY BREAKDOWN\n`;
-  Object.keys(categories).filter(c => categories[c].type === 'liability').forEach(cat => {
-    if (r.totals[cat] > 0) text += `  ${categories[cat].label}: ${fmt(r.totals[cat])}\n`;
-  });
+  const nv = document.getElementById('netValue').textContent;
+  const ta = document.getElementById('totalAssets').textContent;
+  const tl = document.getElementById('totalLiab').textContent;
+  let text = `Net Worth Summary\n`;
+  text += `─────────────────\n`;
+  text += `Total Assets:      ${ta}\n`;
+  text += `Total Liabilities: ${tl}\n`;
+  text += `Net Worth:         ${nv}\n`;
   text += `\nCalculated at calcstack.dev/net-worth-calculator/`;
 
-  navigator.clipboard.writeText(text).then(() => {
-    const btn = document.getElementById('copy-btn');
-    btn.textContent = '✓ Copied!';
-    btn.classList.add('copied');
-    setTimeout(() => { btn.textContent = '📋 Copy Summary'; btn.classList.remove('copied'); }, 2000);
-  }).catch(() => {
-    const ta = document.createElement('textarea');
-    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
-    document.body.appendChild(ta); ta.select(); document.execCommand('copy');
-    document.body.removeChild(ta);
-    const btn = document.getElementById('copy-btn');
-    btn.textContent = '✓ Copied!'; btn.classList.add('copied');
-    setTimeout(() => { btn.textContent = '📋 Copy Summary'; btn.classList.remove('copied'); }, 2000);
-  });
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(() => showCopied());
+  } else {
+    const ta2 = document.createElement('textarea');
+    ta2.value = text; document.body.appendChild(ta2);
+    ta2.select(); document.execCommand('copy');
+    document.body.removeChild(ta2); showCopied();
+  }
 }
 
-function clearAll() {
-  Object.keys(categories).forEach(cat => {
-    document.getElementById(cat + '-list').innerHTML = '';
-  });
-  document.getElementById('results').classList.remove('visible');
-  document.getElementById('global-error').classList.remove('show');
-  initDefaults();
+function showCopied() {
+  const btn = document.getElementById('copyBtn');
+  btn.textContent = 'Copied!';
+  btn.style.color = '#27ae60';
+  setTimeout(() => { btn.textContent = 'Copy Summary'; btn.style.color = '#0077b6'; }, 2000);
 }
-
-function initDefaults() {
-  Object.keys(defaultItems).forEach(cat => {
-    defaultItems[cat].forEach(item => addRow(cat, item.name, item.value));
-  });
-}
-
-initDefaults();
 </script>
 </body>
 </html>
