@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tip Calculator — Free Online Tool | calcstack.dev</title>
+<meta name="description" content="Calculate the perfect tip instantly. Split bills, customize tip percentages, and see per-person totals. Free tip calculator for restaurants, delivery, and more.">
+<link rel="canonical" href="https://calcstack.dev/tip-calculator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Tip Calculator",
+  "url": "https://calcstack.dev/tip-calculator/",
+  "description": "Calculate tips, split bills, and find per-person totals instantly.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#fff;color:#1a1a2e;font-size:16px;line-height:1.6}
+a{color:#0077b6;text-decoration:none}
+a:hover{text-decoration:underline}
+nav{background:#fff;border-bottom:1px solid #e0e0e0;padding:0 1.5rem}
+.nav-inner{max-width:640px;margin:0 auto;display:flex;align-items:center;height:52px}
+.nav-brand{font-weight:700;font-size:1.1rem;color:#1a1a2e}
+.nav-brand:hover{text-decoration:none;color:#0077b6}
+main{max-width:640px;margin:0 auto;padding:1.5rem}
+h1{font-size:1.75rem;font-weight:700;margin-bottom:0.4rem;color:#1a1a2e}
+.subtitle{color:#555;margin-bottom:1.5rem;font-size:0.95rem}
+.tool-card{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;box-shadow:0 2px 8px rgba(0,0,0,0.06);margin-bottom:2rem}
+label{display:block;font-size:0.85rem;font-weight:500;color:#444;margin-bottom:5px}
+input[type=number],input[type=text]{width:100%;border:1px solid #ddd;border-radius:6px;padding:12px 16px;font-size:1rem;font-family:inherit;outline:none;transition:box-shadow 0.2s,border-color 0.2s;background:#fff;color:#1a1a2e}
+input:focus{border-color:#0077b6;box-shadow:0 0 0 3px rgba(0,119,182,0.15)}
+input.error{border-color:#e74c3c;box-shadow:0 0 0 3px rgba(231,76,60,0.12)}
+.error-msg{color:#e74c3c;font-size:0.8rem;margin-top:4px;display:none}
+.error-msg.show{display:block}
+.form-group{margin-bottom:1.2rem}
+.tip-presets{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.2rem}
+.preset-btn{background:#f8f9fa;border:1px solid #ddd;border-radius:6px;padding:10px 16px;font-size:0.9rem;cursor:pointer;font-family:inherit;color:#1a1a2e;transition:all 0.15s;min-height:44px;flex:1;min-width:60px}
+.preset-btn:hover{background:#e8f4fd;border-color:#0077b6;color:#0077b6}
+.preset-btn.active{background:#0077b6;border-color:#0077b6;color:#fff;font-weight:600}
+.slider-row{display:flex;align-items:center;gap:12px}
+input[type=range]{flex:1;accent-color:#0077b6;height:6px;cursor:pointer}
+.slider-val{font-weight:700;color:#0077b6;min-width:42px;text-align:right;font-size:1rem}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media(max-width:480px){.row2{grid-template-columns:1fr}}
+.calc-btn{width:100%;background:#0077b6;color:#fff;border:none;border-radius:6px;padding:14px 24px;font-size:1rem;font-weight:600;cursor:pointer;font-family:inherit;transition:background 0.2s;min-height:44px;margin-top:0.5rem}
+.calc-btn:hover{background:#006299}
+.results{opacity:0;transition:opacity 0.3s ease;pointer-events:none}
+.results.visible{opacity:1;pointer-events:all}
+.big-numbers{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+@media(max-width:480px){.big-numbers{grid-template-columns:1fr 1fr}}
+.big-card{background:#f8f9fa;border:1px solid #e0e0e0;border-radius:8px;padding:1rem;text-align:center}
+.big-card .lbl{font-size:0.75rem;color:#666;font-weight:500;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:4px}
+.big-card .val{font-size:1.5rem;font-weight:700;color:#0077b6}
+.big-card.highlight{background:#e8f4fd;border-color:#0077b6}
+.big-card.highlight .val{color:#0077b6;font-size:1.7rem}
+.section-title{font-size:0.9rem;font-weight:700;color:#444;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:0.75rem}
+.bar-section{margin-bottom:1.5rem}
+.bar-item{margin-bottom:10px}
+.bar-label-row{display:flex;justify-content:space-between;font-size:0.85rem;margin-bottom:4px}
+.bar-label-row .blbl{color:#555}
+.bar-label-row .bval{font-weight:600;color:#1a1a2e}
+.bar-track{background:#e9ecef;border-radius:4px;height:14px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;transition:width 0.4s ease}
+.bar-bill{background:#0077b6}
+.bar-tip{background:#00b4d8}
+.bar-total{background:#023e8a}
+.split-section{margin-bottom:1.5rem}
+.split-table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:0.9rem}
+th{background:#f0f0f0;padding:10px 12px;text-align:left;font-weight:600;font-size:0.82rem;color:#444;border-bottom:2px solid #ddd}
+th.right,td.right{text-align:right}
+td{padding:9px 12px;border-bottom:1px solid #eee;color:#1a1a2e}
+tr:nth-child(even) td{background:#fafafa}
+.copy-btn{background:#f8f9fa;border:1px solid #ddd;border-radius:5px;padding:6px 14px;font-size:0.8rem;cursor:pointer;font-family:inherit;color:#444;transition:all 0.15s;float:right}
+.copy-btn:hover{background:#e8f4fd;border-color:#0077b6;color:#0077b6}
+.copy-btn.copied{color:#27ae60;border-color:#27ae60;background:#eafaf1}
+.results-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.results-header h2{font-size:1.1rem;color:#1a1a2e}
+.ad-slot{min-height:0;margin:0}
+.content-section{margin-bottom:2rem}
+.content-section h2{font-size:1.2rem;font-weight:700;color:#1a1a2e;margin-bottom:0.75rem;padding-top:0.5rem}
+.content-section p{color:#444;margin-bottom:0.75rem;font-size:0.95rem}
+.content-section ul{color:#444;margin-left:1.4rem;margin-bottom:0.75rem;font-size:0.95rem}
+.content-section ul li{margin-bottom:0.4rem}
+details{border:1px solid #e0e0e0;border-radius:6px;padding:0;margin-bottom:0.75rem}
+summary{padding:12px 16px;cursor:pointer;font-weight:600;font-size:0.95rem;color:#1a1a2e;list-style:none;display:flex;justify-content:space-between;align-items:center}
+summary::after{content:'＋';color:#0077b6;font-size:1rem}
+details[open] summary::after{content:'－'}
+summary::-webkit-details-marker{display:none}
+details .faq-body{padding:0 16px 14px;color:#444;font-size:0.9rem;line-height:1.6}
+.related-tools{background:#f8f9fa;border-radius:8px;padding:1.5rem;margin-bottom:2rem}
+.related-tools h2{font-size:1rem;font-weight:700;color:#1a1a2e;margin-bottom:0.75rem}
+.related-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.5rem}
+@media(max-width:480px){.related-grid{grid-template-columns:1fr}}
+.related-grid a{background:#fff;border:1px solid #ddd;border-radius:6px;padding:10px 14px;font-size:0.88rem;color:#0077b6;transition:border-color 0.15s}
+.related-grid a:hover{border-color:#0077b6;text-decoration:none;background:#e8f4fd}
+footer{background:#f8f9fa;border-top:1px solid #e0e0e0;padding:1.5rem;text-align:center;font-size:0.85rem;color:#666}
+footer a{color:#0077b6;margin:0 8px}
+footer .copy{margin-top:6px;font-size:0.8rem;color:#999}
+.divider{border:none;border-top:1px solid #e0e0e0;margin:1.5rem 0}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">calcstack.dev</a>
+  </div>
+</nav>
+
+<main>
+  <h1>Tip Calculator</h1>
+  <p class="subtitle">Calculate tips, split bills, and find per-person totals in seconds.</p>
+
+  <div class="tool-card">
+    <div class="form-group">
+      <label for="billAmt">Bill Amount ($)</label>
+      <input type="number" id="billAmt" placeholder="e.g. 85.50" min="0" step="0.01">
+      <div class="error-msg" id="billErr">Please enter a valid bill amount greater than $0.</div>
+    </div>
+
+    <div class="form-group">
+      <label>Tip Percentage — Quick Select</label>
+      <div class="tip-presets" id="presets">
+        <button class="preset-btn" data-val="10">10%</button>
+        <button class="preset-btn" data-val="15">15%</button>
+        <button class="preset-btn active" data-val="18">18%</button>
+        <button class="preset-btn" data-val="20">20%</button>
+        <button class="preset-btn" data-val="25">25%</button>
+        <button class="preset-btn" data-val="custom">Custom</button>
+      </div>
+      <div class="slider-row">
+        <input type="range" id="tipSlider" min="0" max="50" step="1" value="18">
+        <span class="slider-val" id="sliderLabel">18%</span>
+      </div>
+    </div>
+
+    <div class="row2">
+      <div class="form-group">
+        <label for="tipInput">Tip % (manual entry)</label>
+        <input type="number" id="tipInput" placeholder="18" min="0" max="100" step="0.5" value="18">
+        <div class="error-msg" id="tipErr">Enter a tip % between 0 and 100.</div>
+      </div>
+      <div class="form-group">
+        <label for="numPeople">Number of People</label>
+        <input type="number" id="numPeople" placeholder="1" min="1" step="1" value="1">
+        <div class="error-msg" id="peopleErr">Enter at least 1 person.</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="taxAmt">Tax Amount (optional, $)</label>
+      <input type="number" id="taxAmt" placeholder="0.00" min="0" step="0.01" value="">
+    </div>
+
+    <button class="calc-btn" id="calcBtn">Calculate Tip</button>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="results" id="results">
+    <div class="tool-card">
+      <div class="results-header">
+        <h2>Results</h2>
+        <button class="copy-btn" id="copyBtn">Copy Summary</button>
+      </div>
+
+      <div class="big-numbers" id="bigNumbers"></div>
+
+      <hr class="divider">
+
+      <div class="bar-section">
+        <div class="section-title">Bill Breakdown</div>
+        <div id="barChart"></div>
+      </div>
+
+      <hr class="divider">
+
+      <div class="split-section">
+        <div class="section-title">Per Person Split</div>
+        <div class="split-table-wrap">
+          <table id="splitTable">
+            <thead>
+              <tr>
+                <th>Person</th>
+                <th class="right">Bill Share</th>
+                <th class="right">Tip Share</th>
+                <th class="right">Total</th>
+              </tr>
+            </thead>
+            <tbody id="splitBody"></tbody>
+          </table>
+        </div>
+        <p id="showAllWrap" style="text-align:center;margin-top:10px;display:none">
+          <button class="preset-btn" id="showAllBtn" style="min-width:140px">Show All People</button>
+        </p>
+      </div>
+
+      <hr class="divider">
+
+      <div>
+        <div class="section-title">Tip Quick Reference</div>
+        <div class="split-table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Tip %</th>
+                <th class="right">Tip Amount</th>
+                <th class="right">Total Bill</th>
+                <th class="right">Per Person</th>
+              </tr>
+            </thead>
+            <tbody id="refTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-mid"></div>
+
+  <!-- CONTENT -->
+  <div class="content-section">
+    <h2>How to Use This Tip Calculator</h2>
+    <p>Enter your <strong>bill amount</strong>, choose a tip percentage using the quick-select buttons or the slider, and specify how many people are splitting the bill. Optionally add a tax amount if you want it included in the total. Hit <em>Calculate Tip</em> and you'll instantly see the tip amount, total bill, and each person's share — along with a visual breakdown and a reference table for common tip percentages.</p>
+
+    <h2>Why This Matters</h2>
+    <p>Tipping is deeply woven into everyday life — restaurants, rideshares, hair salons, delivery services, hotel staff, and more. Yet many people either over-tip out of confusion, under-tip by accident, or spend precious moments doing mental math at the table when they'd rather be enjoying the moment.</p>
+    <p>Consider this: a group of four splitting a $120 dinner should leave somewhere between $18 (15%) and $30 (25%) as a tip. That's $4.50–$7.50 each — a small difference per person but a big deal for the server. Getting this right matters both financially and ethically. Service workers in the U.S. often depend on tips as their primary income, sometimes earning as little as $2.13/hour in base wages.</p>
+    <p>For delivery orders, a $5 tip on a $40 order (12.5%) barely covers a driver's fuel costs — most etiquette experts suggest 15–20% minimum. For restaurant dining with excellent service, 20–25% is increasingly the standard. This calculator helps you be intentional about tipping while keeping your own budget in check.</p>
+
+    <h2>How It's Calculated</h2>
+    <p>The math is straightforward but worth knowing:</p>
+    <ul>
+      <li><strong>Tip Amount</strong> = Bill Amount × (Tip % ÷ 100)</li>
+      <li><strong>Total Bill</strong> = Bill Amount + Tip Amount + Tax Amount</li>
+      <li><strong>Per Person</strong> = Total Bill ÷ Number of People</li>
+      <li><strong>Per Person Tip</strong> = Tip Amount ÷ Number of People</li>
+    </ul>
+    <p>Example: $85.50 bill, 20% tip, 3 people → Tip = $17.10 → Total = $102.60 → Each person pays $34.20, contributing $5.70 in tip.</p>
+
+    <h2>Tips &amp; Common Mistakes</h2>
+    <ul>
+      <li><strong>Tip on the pre-tax amount</strong> — In most U.S. states, tipping on the subtotal (before tax) is standard. This calculator lets you add tax separately so your tip isn't inflated.</li>
+      <li><strong>Don't round down too aggressively</strong> — Rounding from $17.10 to $15 looks like a 17.5% cut in the server's income.</li>
+      <li><strong>For large parties, check for auto-gratuity</strong> — Many restaurants add 18–20% automatically for groups of 6 or more. Tipping on top means you double-tip.</li>
+      <li><strong>Delivery tip ≠ restaurant tip</strong> — Delivery drivers cover fuel, wear, and time. A 10% delivery tip often ends up less than $3 — consider a flat $5+ minimum.</li>
+      <li><strong>Split evenly vs. split by items</strong> — This calculator splits the total evenly. If one person ordered steak and one ordered salad, consider splitting by individual orders instead.</li>
+    </ul>
+
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>What is the standard tip percentage for a restaurant?</summary>
+      <div class="faq-body">In the U.S., 15–20% is considered standard for sit-down restaurants, with 20–25% for excellent service. The standard has shifted upward over time — many etiquette experts now consider 20% the new baseline. For buffets or counter service, 10% is typical.</div>
+    </details>
+    <details>
+      <summary>Should I tip on the pre-tax or post-tax amount?</summary>
+      <div class="faq-body">The traditional etiquette is to tip on the pre-tax (subtotal) amount, since tax is a government charge and not a reflection of the service. However, tipping on the post-tax total is increasingly common and appreciated. The difference on a $100 bill with 8% tax is only about $1.60 at 20% tip — so either approach is acceptable.</div>
+    </details>
+    <details>
+      <summary>How do I split a bill unevenly?</summary>
+      <div class="faq-body">This calculator splits the bill evenly among all people. For uneven splits, calculate each person's individual subtotal first, then add that person's share of the tip. For example, if Person A spent $40 and Person B spent $60 on a $100 bill with 20% tip ($20), Person A pays $8 in tip and Person B pays $12.</div>
+    </details>
+    <details>
+      <summary>How much should I tip for delivery or takeout?</summary>
+      <div class="faq-body">For delivery, 15–20% is standard, with a $5 minimum recommended regardless of order size. For takeout, 10–15% is appreciated but not mandatory. Counter service with a tip jar is optional — $1–2 for simple orders is a nice gesture without being obligatory.</div>
+    </details>
+  </div>
+
+  <div class="related-tools">
+    <h2>Related Tools</h2>
+    <div class="related-grid">
+      <a href="/car-loan-calculator/">Car Loan Calculator</a>
+      <a href="/break-even-analysis-calculator/">Break-Even Analysis Calculator</a>
+      <a href="/roi-calculator/">ROI Calculator</a>
+      <a href="/net-worth-calculator/">Net Worth Calculator</a>
+      <a href="/inflation-adjuster-calculator/">Inflation Adjuster Calculator</a>
+      <a href="/savings-goal-calculator/">Savings Goal Calculator</a>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-bottom"></div>
+</main>
+
+<footer>
+  <div>
+    <a href="/about/">About</a>
+    <a href="/privacy/">Privacy</a>
+    <a href="/contact/">Contact</a>
+  </div>
+  <div class="copy">© <span id="yr"></span> calcstack.dev — Free Online Calculators</div>
+</footer>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+// --- State ---
+let tipPct = 18;
+let allRows = [];
+let showingAll = false;
+const PREVIEW_ROWS = 5;
+
+// --- Slider & Preset Sync ---
+const slider = document.getElementById('tipSlider');
+const tipInput = document.getElementById('tipInput');
+const sliderLabel = document.getElementById('sliderLabel');
+const presetBtns = document.querySelectorAll('.preset-btn[data-val]');
+
+function syncSlider(val) {
+  tipPct = Math.min(50, Math.max(0, parseFloat(val) || 0));
+  slider.value = Math.min(50, tipPct);
+  sliderLabel.textContent = tipPct + '%';
+  tipInput.value = tipPct;
+  // Sync active preset
+  presetBtns.forEach(b => {
+    b.classList.toggle('active', b.dataset.val === String(tipPct));
+  });
+}
+
+slider.addEventListener('input', () => {
+  tipInput.value = slider.value;
+  syncSlider(slider.value);
+});
+
+tipInput.addEventListener('input', () => {
+  syncSlider(tipInput.value);
+});
+
+presetBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (btn.dataset.val === 'custom') {
+      tipInput.focus();
+      presetBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      return;
+    }
+    syncSlider(btn.dataset.val);
+  });
+});
+
+// Enter key on inputs
+document.querySelectorAll('input').forEach(inp => {
+  inp.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
+});
+
+document.getElementById('calcBtn').addEventListener('click', () => {
+  requestAnimationFrame(() => calculate());
+});
+
+document.getElementById('showAllBtn').addEventListener('click', () => {
+  showingAll = !showingAll;
+  requestAnimationFrame(() => renderSplitTable());
+});
+
+function fmt(n, dec=2) {
+  return '$' + n.toFixed(dec).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+function pct(n, total) {
+  return total === 0 ? 0 : Math.round((n / total) * 100);
+}
+
+function barHtml(label, value, total, cls) {
+  const w = pct(value, total);
+  return `<div class="bar-item">
+    <div class="bar-label-row"><span class="blbl">${label}</span><span class="bval">${fmt(value)}</span></div>
+    <div class="bar-track"><div class="bar-fill ${cls}" style="width:${w}%"></div></div>
+  </div>`;
+}
+
+function renderSplitTable() {
+  const rows = showingAll ? allRows : allRows.slice(0, PREVIEW_ROWS);
+  let html = '';
+  rows.forEach(r => {
+    html += `<tr><td>${r.person}</td><td class="right">${fmt(r.bill)}</td><td class="right">${fmt(r.tip)}</td><td class="right">${fmt(r.total)}</td></tr>`;
+  });
+  document.getElementById('splitBody').innerHTML = html;
+  const wrap = document.getElementById('showAllWrap');
+  const btn = document.getElementById('showAllBtn');
+  if (allRows.length > PREVIEW_ROWS) {
+    wrap.style.display = '';
+    btn.textContent = showingAll ? 'Show Less' : `Show All ${allRows.length} People`;
+  } else {
+    wrap.style.display = 'none';
+  }
+}
+
+function calculate() {
+  let valid = true;
+
+  // Validate bill
+  const billEl = document.getElementById('billAmt');
+  const billErrEl = document.getElementById('billErr');
+  const bill = parseFloat(billEl.value);
+  if (!billEl.value || isNaN(bill) || bill <= 0) {
+    billEl.classList.add('error');
+    billErrEl.classList.add('show');
+    valid = false;
+  } else {
+    billEl.classList.remove('error');
+    billErrEl.classList.remove('show');
+  }
+
+  // Validate tip
+  const tipEl = document.getElementById('tipInput');
+  const tipErrEl = document.getElementById('tipErr');
+  const tip = parseFloat(tipEl.value);
+  if (isNaN(tip) || tip < 0 || tip > 100) {
+    tipEl.classList.add('error');
+    tipErrEl.classList.add('show');
+    valid = false;
+  } else {
+    tipEl.classList.remove('error');
+    tipErrEl.classList.remove('show');
+  }
+
+  // Validate people
+  const peopleEl = document.getElementById('numPeople');
+  const peopleErrEl = document.getElementById('peopleErr');
+  const people = parseInt(peopleEl.value);
+  if (!peopleEl.value || isNaN(people) || people < 1) {
+    peopleEl.classList.add('error');
+    peopleErrEl.classList.add('show');
+    valid = false;
+  } else {
+    peopleEl.classList.remove('error');
+    peopleErrEl.classList.remove('show');
+  }
+
+  if (!valid) return;
+
+  const taxVal = parseFloat(document.getElementById('taxAmt').value) || 0;
+  const tipAmount = bill * (tip / 100);
+  const total = bill + tipAmount + taxVal;
+  const perPersonBill = bill / people;
+  const perPersonTip = tipAmount / people;
+  const perPersonTotal = total / people;
+
+  // Big numbers
+  const bigHTML = `
+    <div class="big-card"><div class="lbl">Tip Amount</div><div class="val">${fmt(tipAmount)}</div></div>
+    <div class="big-card highlight"><div class="lbl">Total Bill</div><div class="val">${fmt(total)}</div></div>
+    <div class="big-card"><div class="lbl">Per Person</div><div class="val">${fmt(perPersonTotal)}</div></div>
+  `;
+
+  // Bar chart
+  let barHTML = barHtml('Bill Subtotal', bill, total, 'bar-bill');
+  if (tipAmount > 0) barHTML += barHtml('Tip (' + tip + '%)', tipAmount, total, 'bar-tip');
+  if (taxVal > 0) barHTML += barHtml('Tax', taxVal, total, 'bar-total');
+
+  // Build split rows
+  allRows = [];
+  for (let i = 1; i <= people; i++) {
+    allRows.push({ person: 'Person ' + i, bill: perPersonBill, tip: perPersonTip, total: perPersonTotal });
+  }
+
+  // Reference table
+  const refPcts = [10, 15, 18, 20, 25];
+  let refHTML = '';
+  refPcts.forEach(p => {
+    const t = bill * (p / 100);
+    const tot = bill + t + taxVal;
+    const pp = tot / people;
+    const isCurrent = p === tip;
+    refHTML += `<tr${isCurrent ? ' style="background:#e8f4fd;font-weight:600"' : ''}>
+      <td>${p}%${isCurrent ? ' ✓' : ''}</td>
+      <td class="right">${fmt(t)}</td>
+      <td class="right">${fmt(tot)}</td>
+      <td class="right">${fmt(pp)}</td>
+    </tr>`;
+  });
+
+  // Summary text for copy
+  const summaryText = [
+    `Tip Calculator Summary`,
+    `Bill: ${fmt(bill)}`,
+    `Tip: ${tip}% = ${fmt(tipAmount)}`,
+    taxVal > 0 ? `Tax: ${fmt(taxVal)}` : null,
+    `Total: ${fmt(total)}`,
+    people > 1 ? `Per Person: ${fmt(perPersonTotal)}` : null
+  ].filter(Boolean).join('\n');
+  document.getElementById('copyBtn').dataset.summary = summaryText;
+
+  requestAnimationFrame(() => {
+    document.getElementById('bigNumbers').innerHTML = bigHTML;
+    document.getElementById('barChart').innerHTML = barHTML;
+    document.getElementById('refTable').innerHTML = refHTML;
+
+    showingAll = false;
+    renderSplitTable();
+
+    const resultsEl = document.getElementById('results');
+    resultsEl.classList.add('visible');
+    resultsEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+}
+
+// Copy button
+document.getElementById('copyBtn').addEventListener('click', function() {
+  const text = this.dataset.summary || '';
+  if (!text) return;
+  navigator.clipboard.writeText(text).then(() => {
+    this.textContent = 'Copied!';
+    this.classList.add('copied');
+    setTimeout(() => {
+      this.textContent = 'Copy Summary';
+      this.classList.remove('copied');
+    }, 2000);
+  }).catch(() => {
+    // Fallback
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    this.textContent = 'Copied!';
+    this.classList.add('copied');
+    setTimeout(() => {
+      this.textContent = 'Copy Summary';
+      this.classList.remove('copied');
+    }, 2000);
+  });
+});
+
+// Init sync
+syncSlider(18);
+</script>
+</body>
+</html>
