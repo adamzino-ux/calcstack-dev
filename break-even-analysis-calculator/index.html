@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Break-Even Analysis Calculator — Free Online Tool | calcstack.dev</title>
+<meta name="description" content="Calculate your break-even point instantly. Enter fixed costs, variable costs, and price to find how many units you need to sell to cover all costs.">
+<link rel="canonical" href="https://calcstack.dev/break-even-analysis-calculator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Break-Even Analysis Calculator",
+  "url": "https://calcstack.dev/break-even-analysis-calculator/",
+  "description": "Free break-even analysis calculator. Determine the exact number of units or revenue needed to cover all fixed and variable costs.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "All",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f4f6f9;color:#1a1a2e;font-size:16px;line-height:1.6}
+a{color:#0077b6;text-decoration:none}
+a:hover{text-decoration:underline}
+nav{background:#fff;border-bottom:1px solid #e0e0e0;padding:0 1.5rem}
+.nav-inner{max-width:640px;margin:0 auto;display:flex;align-items:center;height:52px}
+.nav-brand{font-weight:700;font-size:1.1rem;color:#1a1a2e}
+.nav-brand span{color:#0077b6}
+main{max-width:640px;margin:0 auto;padding:1.5rem 1rem 3rem}
+h1{font-size:1.6rem;font-weight:800;color:#1a1a2e;margin-bottom:.4rem}
+.subtitle{color:#555;font-size:.95rem;margin-bottom:1.5rem}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;box-shadow:0 2px 8px rgba(0,0,0,.05);margin-bottom:2rem}
+.form-group{margin-bottom:1.2rem}
+label{display:block;font-size:.85rem;font-weight:500;color:#444;margin-bottom:.4rem}
+.input-wrap{position:relative}
+.input-prefix{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#888;font-size:.95rem;pointer-events:none}
+input[type=number],input[type=text]{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:6px;font-size:.95rem;color:#1a1a2e;outline:none;transition:border-color .2s,box-shadow .2s;-moz-appearance:textfield}
+input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none}
+.has-prefix input{padding-left:28px}
+input:focus{border-color:#0077b6;box-shadow:0 0 0 3px rgba(0,119,182,.15)}
+input.error{border-color:#e74c3c;box-shadow:0 0 0 3px rgba(231,76,60,.12)}
+.error-msg{color:#e74c3c;font-size:.8rem;margin-top:.3rem;display:none}
+.error-msg.show{display:block}
+.row-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.slider-row{margin-top:.5rem;display:flex;align-items:center;gap:.8rem}
+input[type=range]{flex:1;accent-color:#0077b6;height:4px;cursor:pointer}
+.slider-val{font-size:.85rem;font-weight:600;color:#0077b6;min-width:60px;text-align:right}
+button.btn-primary{background:#0077b6;color:#fff;border:none;padding:13px 24px;border-radius:6px;font-size:1rem;font-weight:600;cursor:pointer;width:100%;min-height:44px;transition:background .2s}
+button.btn-primary:hover{background:#006299}
+button.btn-secondary{background:#f0f0f0;color:#1a1a2e;border:1px solid #ddd;padding:8px 16px;border-radius:6px;font-size:.85rem;font-weight:500;cursor:pointer;min-height:36px;transition:background .2s}
+button.btn-secondary:hover{background:#e4e4e4}
+.results{opacity:0;transition:opacity .3s ease;pointer-events:none}
+.results.visible{opacity:1;pointer-events:all}
+.key-metric{text-align:center;background:linear-gradient(135deg,#e8f4fd,#f0f8ff);border:1px solid #cce4f7;border-radius:8px;padding:1.5rem;margin-bottom:1.5rem}
+.key-metric .label{font-size:.85rem;color:#555;font-weight:500;margin-bottom:.3rem}
+.key-metric .big-num{font-size:2.8rem;font-weight:800;color:#0077b6;line-height:1}
+.key-metric .sub{font-size:.9rem;color:#555;margin-top:.4rem}
+.metrics-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+.metric-box{background:#f8f9fa;border:1px solid #e8e8e8;border-radius:6px;padding:1rem;text-align:center}
+.metric-box .m-label{font-size:.8rem;color:#666;font-weight:500}
+.metric-box .m-val{font-size:1.25rem;font-weight:700;color:#1a1a2e;margin-top:.2rem}
+.metric-box .m-val.accent{color:#0077b6}
+.section-title{font-size:1rem;font-weight:700;color:#1a1a2e;margin-bottom:.8rem;display:flex;align-items:center;justify-content:space-between}
+/* Bar chart */
+.bar-chart{margin-bottom:1.5rem}
+.bar-row{margin-bottom:.7rem}
+.bar-label{font-size:.8rem;color:#555;margin-bottom:.25rem;display:flex;justify-content:space-between}
+.bar-track{background:#eee;border-radius:4px;height:20px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;transition:width .6s ease}
+.bar-fixed{background:#0077b6}
+.bar-variable{background:#00b4d8}
+.bar-revenue{background:#2ecc71}
+.bar-profit{background:#f39c12}
+/* Legend */
+.legend{display:flex;flex-wrap:wrap;gap:.6rem .8rem;margin-bottom:1rem;font-size:.8rem}
+.legend-item{display:flex;align-items:center;gap:.35rem}
+.legend-dot{width:12px;height:12px;border-radius:2px;flex-shrink:0}
+/* Scenario comparison */
+.scenario-tabs{display:flex;gap:.5rem;margin-bottom:1rem;flex-wrap:wrap}
+.tab-btn{padding:7px 14px;border:1px solid #ddd;border-radius:20px;font-size:.82rem;font-weight:500;cursor:pointer;background:#fff;transition:all .2s;min-height:36px}
+.tab-btn.active{background:#0077b6;color:#fff;border-color:#0077b6}
+.tab-panel{display:none}.tab-panel.active{display:block}
+/* Table */
+.table-wrap{overflow-x:auto;border-radius:6px;border:1px solid #e0e0e0}
+table{width:100%;border-collapse:collapse;font-size:.85rem;min-width:360px}
+thead th{background:#f0f0f0;padding:10px 12px;text-align:left;font-weight:600;color:#333;border-bottom:1px solid #ddd}
+thead th:not(:first-child){text-align:right}
+tbody tr:nth-child(even){background:#fafafa}
+tbody tr:nth-child(odd){background:#fff}
+tbody td{padding:9px 12px;border-bottom:1px solid #f0f0f0;color:#333}
+tbody td:not(:first-child){text-align:right}
+tbody tr.be-row{background:#fffbe6!important;font-weight:700}
+.show-all-wrap{text-align:center;margin-top:.8rem}
+/* Copy btn */
+.copy-wrap{display:flex;justify-content:flex-end;margin-bottom:.8rem}
+.copy-btn{background:#f0f0f0;border:1px solid #ddd;border-radius:6px;padding:6px 14px;font-size:.8rem;cursor:pointer;transition:background .2s;min-height:34px}
+.copy-btn:hover{background:#e0e0e0}
+/* Content */
+.content-section{margin-bottom:2rem}
+.content-section h2{font-size:1.2rem;font-weight:700;color:#1a1a2e;margin-bottom:.7rem;margin-top:1.5rem}
+.content-section p{color:#444;font-size:.95rem;margin-bottom:.8rem}
+.content-section ul{padding-left:1.4rem;color:#444;font-size:.95rem}
+.content-section ul li{margin-bottom:.4rem}
+details{border:1px solid #e0e0e0;border-radius:6px;padding:.8rem 1rem;margin-bottom:.6rem;background:#fafafa}
+summary{font-weight:600;font-size:.9rem;cursor:pointer;color:#1a1a2e}
+details p{font-size:.9rem;color:#555;margin-top:.5rem;margin-bottom:0}
+.related-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.related-link{display:block;background:#f8f9fa;border:1px solid #e0e0e0;border-radius:6px;padding:.7rem 1rem;font-size:.88rem;font-weight:500;color:#0077b6;transition:background .2s}
+.related-link:hover{background:#e8f4fd;text-decoration:none}
+.ad-slot{min-height:0;margin:0}
+footer{background:#fff;border-top:1px solid #e0e0e0;padding:1.2rem 1.5rem;text-align:center;font-size:.82rem;color:#888}
+footer a{color:#0077b6;margin:0 .5rem}
+.formula-box{background:#f0f8ff;border-left:3px solid #0077b6;padding:.8rem 1rem;border-radius:0 6px 6px 0;font-size:.88rem;font-family:monospace;color:#1a1a2e;margin:.5rem 0 .8rem}
+@media(max-width:640px){
+  .row-2{grid-template-columns:1fr}
+  .metrics-grid{grid-template-columns:1fr 1fr}
+  .key-metric .big-num{font-size:2.2rem}
+  .related-grid{grid-template-columns:1fr}
+  h1{font-size:1.35rem}
+}
+@media(max-width:400px){
+  .metrics-grid{grid-template-columns:1fr}
+  .card{padding:1.25rem}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">calc<span>stack</span>.dev</a>
+  </div>
+</nav>
+
+<main>
+  <h1>Break-Even Analysis Calculator</h1>
+  <p class="subtitle">Find exactly how many units you need to sell — and at what revenue — to cover all your costs.</p>
+
+  <div class="card">
+    <div class="row-2">
+      <div class="form-group">
+        <label for="fixedCosts">Total Fixed Costs (monthly/period)</label>
+        <div class="input-wrap has-prefix">
+          <span class="input-prefix">$</span>
+          <input type="number" id="fixedCosts" min="0" step="0.01" placeholder="5,000" value="5000">
+        </div>
+        <div class="slider-row">
+          <input type="range" id="fixedSlider" min="0" max="100000" step="100" value="5000">
+          <span class="slider-val" id="fixedSliderVal">$5,000</span>
+        </div>
+        <div class="error-msg" id="fixedErr">Please enter a valid fixed cost (≥ 0).</div>
+      </div>
+      <div class="form-group">
+        <label for="sellingPrice">Selling Price per Unit</label>
+        <div class="input-wrap has-prefix">
+          <span class="input-prefix">$</span>
+          <input type="number" id="sellingPrice" min="0.01" step="0.01" placeholder="50" value="50">
+        </div>
+        <div class="slider-row">
+          <input type="range" id="priceSlider" min="0.01" max="1000" step="0.01" value="50">
+          <span class="slider-val" id="priceSliderVal">$50.00</span>
+        </div>
+        <div class="error-msg" id="priceErr">Selling price must be greater than variable cost.</div>
+      </div>
+    </div>
+    <div class="row-2">
+      <div class="form-group">
+        <label for="variableCost">Variable Cost per Unit</label>
+        <div class="input-wrap has-prefix">
+          <span class="input-prefix">$</span>
+          <input type="number" id="variableCost" min="0" step="0.01" placeholder="20" value="20">
+        </div>
+        <div class="slider-row">
+          <input type="range" id="variableSlider" min="0" max="999" step="0.01" value="20">
+          <span class="slider-val" id="variableSliderVal">$20.00</span>
+        </div>
+        <div class="error-msg" id="variableErr">Please enter a valid variable cost (≥ 0).</div>
+      </div>
+      <div class="form-group">
+        <label for="targetProfit">Target Profit (optional)</label>
+        <div class="input-wrap has-prefix">
+          <span class="input-prefix">$</span>
+          <input type="number" id="targetProfit" min="0" step="0.01" placeholder="0" value="0">
+        </div>
+        <div class="slider-row">
+          <input type="range" id="profitSlider" min="0" max="50000" step="100" value="0">
+          <span class="slider-val" id="profitSliderVal">$0</span>
+        </div>
+        <div class="error-msg" id="profitErr">Please enter a valid target profit (≥ 0).</div>
+      </div>
+    </div>
+    <button class="btn-primary" id="calcBtn">Calculate Break-Even</button>
+  </div>
+
+  <!-- Results -->
+  <div class="results card" id="results">
+    <div class="key-metric" id="keyMetric"></div>
+
+    <div class="copy-wrap">
+      <button class="copy-btn" id="copyBtn">📋 Copy Results</button>
+    </div>
+
+    <div class="metrics-grid" id="metricsGrid"></div>
+
+    <div class="section-title">Cost vs Revenue Breakdown</div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#0077b6"></div>Fixed Costs</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#00b4d8"></div>Variable Costs</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#2ecc71"></div>Revenue</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#f39c12"></div>Contribution Margin</div>
+    </div>
+    <div class="bar-chart" id="barChart"></div>
+
+    <div class="section-title">Scenario Comparison</div>
+    <div class="scenario-tabs" id="scenarioTabs"></div>
+    <div id="scenarioPanels"></div>
+
+    <div class="section-title" style="margin-top:1.5rem">
+      <span>Unit-by-Unit Breakdown</span>
+    </div>
+    <div class="table-wrap" id="tableWrap"></div>
+    <div class="show-all-wrap" id="showAllWrap"></div>
+  </div>
+
+  <div class="ad-slot" id="ad-mid"></div>
+
+  <!-- Content -->
+  <div class="content-section">
+    <h2>How to Use This Break-Even Analysis Calculator</h2>
+    <p>Enter your <strong>total fixed costs</strong> (rent, salaries, insurance — costs that don't change with output), your <strong>selling price per unit</strong>, and your <strong>variable cost per unit</strong> (materials, packaging, commissions). Optionally add a <strong>target profit</strong> to see how many units you'd need to hit that goal. Hit "Calculate" to instantly see your break-even point in units and dollars.</p>
+    <p>Use the sliders to model different scenarios in real time. The table shows how profit or loss changes at each sales level.</p>
+
+    <h2>Why This Matters</h2>
+    <p>Break-even analysis is one of the most fundamental tools in business finance — yet many entrepreneurs skip it entirely. That's a costly mistake. Before launching a product, raising prices, or hiring new staff, you need to know the exact threshold where revenue covers every dollar of cost.</p>
+    <p>Consider a small bakery with $4,000/month in fixed costs (rent, equipment payments, one part-time employee). If each cake sells for $45 and costs $15 in ingredients and packaging, the contribution margin is $30. That means they need to sell just 134 cakes a month — about 4–5 per day — before making a single dollar of profit. Knowing this number changes everything: it tells you whether your pricing is viable, how aggressive your marketing needs to be, and whether a new product line is worth pursuing.</p>
+    <p>Investors and lenders often ask for break-even analysis before funding a business. It shows financial literacy and realistic planning. Whether you're a freelancer, a startup founder, a restaurant owner, or a product manager evaluating a new SKU, this number belongs in every financial decision.</p>
+
+    <h2>How It's Calculated</h2>
+    <p>The core formula uses the <strong>contribution margin</strong> — the amount each unit contributes to covering fixed costs after variable costs are paid:</p>
+    <div class="formula-box">Contribution Margin = Selling Price − Variable Cost per Unit</div>
+    <div class="formula-box">Break-Even Units = Fixed Costs ÷ Contribution Margin</div>
+    <div class="formula-box">Break-Even Revenue = Break-Even Units × Selling Price</div>
+    <p>If you include a target profit, the formula adjusts:</p>
+    <div class="formula-box">Units Needed = (Fixed Costs + Target Profit) ÷ Contribution Margin</div>
+    <p>The <strong>contribution margin ratio</strong> (CMR) expresses this as a percentage of revenue and is useful for comparing products: CMR = Contribution Margin ÷ Selling Price × 100.</p>
+
+    <h2>Tips & Common Mistakes</h2>
+    <ul>
+      <li><strong>Don't forget your own salary in fixed costs.</strong> Many sole proprietors exclude owner pay, then wonder why they're "profitable" but broke. Include a reasonable market-rate salary.</li>
+      <li><strong>Variable costs change at scale.</strong> Bulk discounts, overtime wages, and shipping tiers mean your variable cost per unit isn't always constant. Recalculate at different volume levels.</li>
+      <li><strong>Use realistic prices, not aspirational ones.</strong> Many businesses set an optimistic selling price when modeling break-even. Check actual market rates and factor in discounts, returns, and promotions.</li>
+      <li><strong>Break-even changes with product mix.</strong> If you sell multiple products at different margins, the mix of sales affects when you break even overall. Calculate per product line.</li>
+      <li><strong>Lower break-even by reducing fixed costs first.</strong> Cutting variable costs is harder — they scale with volume. Renegotiating rent or eliminating underused subscriptions lowers the bar permanently.</li>
+    </ul>
+
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>What is a good break-even point?</summary>
+      <p>There's no universal "good" number — it depends entirely on your industry, capacity, and time horizon. The key is whether your break-even volume is realistically achievable given your market size. If you need to sell 10,000 units/month in a niche market of 500 buyers, that's a problem. If you need to sell 50 units and have 2,000 leads, you're well-positioned.</p>
+    </details>
+    <details>
+      <summary>What's the difference between break-even units and break-even revenue?</summary>
+      <p>Break-even units is the number of items (or services, hours, etc.) you need to sell. Break-even revenue is the total dollar value of sales at that unit count, calculated by multiplying units by the selling price. Revenue is often more meaningful when pitching to investors or setting monthly sales targets.</p>
+    </details>
+    <details>
+      <summary>Can I use this for a service business?</summary>
+      <p>Absolutely. For services, "units" can be hours billed, client engagements, subscriptions, or any billable deliverable. Fixed costs are your overhead (office, tools, insurance), and variable costs per unit might include contractor fees, software used per client, or direct material costs. The math is identical.</p>
+    </details>
+    <details>
+      <summary>How does the contribution margin ratio help me?</summary>
+      <p>The contribution margin ratio (CMR) tells you what percentage of each sales dollar goes toward covering fixed costs and profit. A CMR of 60% means $0.60 of every $1 in sales contributes to overhead and profit. Higher CMR = more scalable business. Use it to compare products and prioritize high-margin items.</p>
+    </details>
+  </div>
+
+  <div class="content-section">
+    <h2>Related Tools</h2>
+    <div class="related-grid">
+      <a class="related-link" href="/roi-calculator/">ROI Calculator</a>
+      <a class="related-link" href="/net-worth-calculator/">Net Worth Calculator</a>
+      <a class="related-link" href="/inflation-adjuster-calculator/">Inflation Adjuster Calculator</a>
+      <a class="related-link" href="/savings-goal-calculator/">Savings Goal Calculator</a>
+      <a class="related-link" href="/rent-vs-buy-calculator/">Rent vs Buy Calculator</a>
+      <a class="related-link" href="/debt-payoff-calculator/">Debt Payoff Calculator</a>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-bottom"></div>
+</main>
+
+<footer>
+  <a href="/about/">About</a>
+  <a href="/privacy/">Privacy</a>
+  <a href="/contact/">Contact</a>
+  <span style="margin-left:.5rem">© <span id="yr"></span> calcstack.dev</span>
+</footer>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+// ---- Helpers ----
+function fmt(n, dec=0){ return isNaN(n) ? '—' : '$'+Number(n.toFixed(dec)).toLocaleString('en-US',{minimumFractionDigits:dec,maximumFractionDigits:dec}); }
+function fmtN(n,dec=0){ return isNaN(n) ? '—' : Number(n.toFixed(dec)).toLocaleString('en-US',{minimumFractionDigits:dec,maximumFractionDigits:dec}); }
+
+// ---- Slider sync ----
+function syncSlider(inputId, sliderId, displayId, isPrice){
+  const inp = document.getElementById(inputId);
+  const sld = document.getElementById(sliderId);
+  const disp = document.getElementById(displayId);
+  const update = (v) => {
+    const num = parseFloat(v)||0;
+    disp.textContent = isPrice ? fmt(num,2) : fmt(num,0);
+  };
+  inp.addEventListener('input', ()=>{ sld.value=inp.value; update(inp.value); });
+  sld.addEventListener('input', ()=>{ inp.value=sld.value; update(sld.value); });
+  update(inp.value);
+}
+syncSlider('fixedCosts','fixedSlider','fixedSliderVal',false);
+syncSlider('sellingPrice','priceSlider','priceSliderVal',true);
+syncSlider('variableCost','variableSlider','variableSliderVal',true);
+syncSlider('targetProfit','profitSlider','profitSliderVal',false);
+
+// ---- Enter key ----
+document.querySelectorAll('input[type=number]').forEach(el=>{
+  el.addEventListener('keydown', e=>{ if(e.key==='Enter') document.getElementById('calcBtn').click(); });
+});
+
+// ---- Validate ----
+function validate(){
+  let ok = true;
+  const fields = [
+    {id:'fixedCosts',  errId:'fixedErr',    min:0,     msg:'Please enter a valid fixed cost (≥ 0).'},
+    {id:'sellingPrice',errId:'priceErr',    min:0.01,  msg:'Selling price must be greater than variable cost.'},
+    {id:'variableCost',errId:'variableErr', min:0,     msg:'Please enter a valid variable cost (≥ 0).'},
+    {id:'targetProfit',errId:'profitErr',   min:0,     msg:'Please enter a valid target profit (≥ 0).'},
+  ];
+  fields.forEach(f=>{
+    const el = document.getElementById(f.id);
+    const err = document.getElementById(f.errId);
+    const v = parseFloat(el.value);
+    if(isNaN(v)||v<f.min){ el.classList.add('error'); err.textContent=f.msg; err.classList.add('show'); ok=false; }
+    else { el.classList.remove('error'); err.classList.remove('show'); }
+  });
+  const price = parseFloat(document.getElementById('sellingPrice').value)||0;
+  const variable = parseFloat(document.getElementById('variableCost').value)||0;
+  if(!isNaN(price)&&!isNaN(variable)&&price<=variable&&price>=0.01){
+    const el = document.getElementById('sellingPrice');
+    const err = document.getElementById('priceErr');
+    el.classList.add('error');
+    err.textContent='Selling price must be greater than variable cost per unit.';
+    err.classList.add('show');
+    ok=false;
+  }
+  return ok;
+}
+
+// ---- State for Show All ----
+let tableData = [];
+let showingAll = false;
+
+function renderTable(all){
+  const rows = all ? tableData : tableData.slice(0,15);
+  let html='<table><thead><tr><th>Units Sold</th><th>Revenue</th><th>Variable Costs</th><th>Total Costs</th><th>Profit/Loss</th></tr></thead><tbody>';
+  rows.forEach(r=>{
+    const cls = r.isBreakEven ? ' class="be-row"' : '';
+    const pl = r.profit>=0 ? '<span style="color:#27ae60">'+fmt(r.profit,2)+'</span>' : '<span style="color:#e74c3c">'+fmt(r.profit,2)+'</span>';
+    html+=`<tr${cls}><td>${fmtN(r.units)}</td><td>${fmt(r.revenue,2)}</td><td>${fmt(r.varCosts,2)}</td><td>${fmt(r.totalCosts,2)}</td><td>${pl}</td></tr>`;
+  });
+  html+='</tbody></table>';
+  return html;
+}
+
+document.getElementById('calcBtn').addEventListener('click', ()=>{
+  requestAnimationFrame(()=>{ calculate(); });
+});
+
+function calculate(){
+  if(!validate()) return;
+
+  const fixed = parseFloat(document.getElementById('fixedCosts').value)||0;
+  const price = parseFloat(document.getElementById('sellingPrice').value)||0;
+  const variable = parseFloat(document.getElementById('variableCost').value)||0;
+  const target = parseFloat(document.getElementById('targetProfit').value)||0;
+
+  const cm = price - variable;
+  const cmRatio = (cm/price)*100;
+  const beUnits = Math.ceil(fixed/cm);
+  const beRevenue = beUnits * price;
+  const beVarCosts = beUnits * variable;
+
+  const targetUnits = Math.ceil((fixed+target)/cm);
+  const targetRevenue = targetUnits * price;
+
+  const marginOfSafety = target > 0 ? ((targetRevenue - beRevenue)/targetRevenue)*100 : null;
+
+  // Table data
+  const maxUnits = Math.max(beUnits*2, 30);
+  const step = Math.max(1, Math.floor(maxUnits/30));
+  tableData = [];
+  for(let u=step; u<=maxUnits+step; u+=step){
+    const rev = u*price;
+    const vc = u*variable;
+    const tc = fixed+vc;
+    const profit = rev-tc;
+    const isBreakEven = (u>=beUnits && u-step<beUnits);
+    tableData.push({units:u,revenue:rev,varCosts:vc,totalCosts:tc,profit,isBreakEven});
+  }
+  showingAll = false;
+
+  // Bar chart values (at break-even)
+  const maxBar = beRevenue;
+  const barFixed = Math.min(100,(fixed/maxBar)*100);
+  const barVariable = Math.min(100,(beVarCosts/maxBar)*100);
+  const barRevenue = 100;
+  const barCM = Math.min(100,(cm*beUnits/maxBar)*100);
+
+  // Scenario data: pessimistic (-20% price), base, optimistic (+20% price)
+  const scenarios = [
+    {label:'Pessimistic', price:price*0.8, fixed, variable},
+    {label:'Base Case',   price:price,     fixed, variable},
+    {label:'Optimistic',  price:price*1.2, fixed, variable},
+  ];
+
+  const resultsEl = document.getElementById('results');
+
+  // Key metric
+  const keyMetricHTML = `
+    <div class="label">Break-Even Point</div>
+    <div class="big-num">${fmtN(beUnits)}</div>
+    <div class="sub">units &nbsp;|&nbsp; ${fmt(beRevenue,2)} in revenue</div>
+    ${target>0 ? `<div style="margin-top:.6rem;font-size:.85rem;color:#555">To hit ${fmt(target,0)} profit → <strong>${fmtN(targetUnits)} units</strong> (${fmt(targetRevenue,2)})</div>` : ''}
+  `;
+
+  const metricsHTML = `
+    <div class="metric-box"><div class="m-label">Contribution Margin</div><div class="m-val accent">${fmt(cm,2)}/unit</div></div>
+    <div class="metric-box"><div class="m-label">CM Ratio</div><div class="m-val accent">${cmRatio.toFixed(1)}%</div></div>
+    <div class="metric-box"><div class="m-label">Fixed Costs</div><div class="m-val">${fmt(fixed,2)}</div></div>
+    <div class="metric-box"><div class="m-label">Variable Cost/Unit</div><div class="m-val">${fmt(variable,2)}</div></div>
+    ${target>0 ? `<div class="metric-box"><div class="m-label">Units for Target Profit</div><div class="m-val">${fmtN(targetUnits)}</div></div><div class="metric-box"><div class="m-label">Margin of Safety</div><div class="m-val">${marginOfSafety!==null?marginOfSafety.toFixed(1)+'%':'—'}</div></div>` : ''}
+  `;
+
+  const barHTML = `
+    <div class="bar-row"><div class="bar-label"><span>Fixed Costs at Break-Even</span><span>${fmt(fixed,2)}</span></div><div class="bar-track"><div class="bar-fill bar-fixed" style="width:${barFixed.toFixed(1)}%"></div></div></div>
+    <div class="bar-row"><div class="bar-label"><span>Variable Costs at Break-Even</span><span>${fmt(beVarCosts,2)}</span></div><div class="bar-track"><div class="bar-fill bar-variable" style="width:${barVariable.toFixed(1)}%"></div></div></div>
+    <div class="bar-row"><div class="bar-label"><span>Break-Even Revenue</span><span>${fmt(beRevenue,2)}</span></div><div class="bar-track"><div class="bar-fill bar-revenue" style="width:${barRevenue}%"></div></div></div>
+    <div class="bar-row"><div class="bar-label"><span>Total Contribution Margin</span><span>${fmt(cm*beUnits,2)}</span></div><div class="bar-track"><div class="bar-fill bar-profit" style="width:${barCM.toFixed(1)}%"></div></div></div>
+  `;
+
+  // Scenario tabs
+  let tabHTML = '';
+  let panelHTML = '';
+  scenarios.forEach((s,i)=>{
+    const scm = s.price - s.variable;
+    if(scm<=0){ tabHTML+=`<button class="tab-btn${i===1?' active':''}" onclick="switchTab(${i})">${s.label}</button>`; panelHTML+=`<div class="tab-panel${i===1?' active':''}" id="panel${i}"><p style="color:#e74c3c;font-size:.88rem">Price must exceed variable cost at this scenario.</p></div>`; return; }
+    const sbe = Math.ceil(s.fixed/scm);
+    const srev = sbe*s.price;
+    tabHTML+=`<button class="tab-btn${i===1?' active':''}" onclick="switchTab(${i})">${s.label}</button>`;
+    panelHTML+=`<div class="tab-panel${i===1?' active':''}" id="panel${i}">
+      <div class="metrics-grid" style="margin-bottom:.5rem">
+        <div class="metric-box"><div class="m-label">Selling Price</div><div class="m-val">${fmt(s.price,2)}</div></div>
+        <div class="metric-box"><div class="m-label">Contribution Margin</div><div class="m-val accent">${fmt(scm,2)}</div></div>
+        <div class="metric-box"><div class="m-label">Break-Even Units</div><div class="m-val">${fmtN(sbe)}</div></div>
+        <div class="metric-box"><div class="m-label">Break-Even Revenue</div><div class="m-val">${fmt(srev,2)}</div></div>
+      </div>
+    </div>`;
+  });
+
+  const tableHTML = renderTable(false);
+  const showAllBtnHTML = tableData.length > 15
+    ? `<button class="btn-secondary" id="toggleAllBtn" onclick="toggleAll()">Show All ${tableData.length} Rows</button>`
+    : '';
+
+  requestAnimationFrame(()=>{
+    document.getElementById('keyMetric').innerHTML = keyMetricHTML;
+    document.getElementById('metricsGrid').innerHTML = metricsHTML;
+    document.getElementById('barChart').innerHTML = barHTML;
+    document.getElementById('scenarioTabs').innerHTML = tabHTML;
+    document.getElementById('scenarioPanels').innerHTML = panelHTML;
+    document.getElementById('tableWrap').innerHTML = tableHTML;
+    document.getElementById('showAllWrap').innerHTML = showAllBtnHTML;
+    resultsEl.classList.add('visible');
+  });
+}
+
+function switchTab(idx){
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',i===idx));
+  document.querySelectorAll('.tab-panel').forEach((p,i)=>p.classList.toggle('active',i===idx));
+}
+
+function toggleAll(){
+  showingAll = !showingAll;
+  requestAnimationFrame(()=>{
+    document.getElementById('tableWrap').innerHTML = renderTable(showingAll);
+    const btn = document.getElementById('toggleAllBtn');
+    if(btn) btn.textContent = showingAll ? 'Show Less' : `Show All ${tableData.length} Rows`;
+  });
+}
+
+// Copy
+document.getElementById('copyBtn').addEventListener('click', ()=>{
+  const fixed = parseFloat(document.getElementById('fixedCosts').value)||0;
+  const price = parseFloat(document.getElementById('sellingPrice').value)||0;
+  const variable = parseFloat(document.getElementById('variableCost').value)||0;
+  const cm = price - variable;
+  const beUnits = Math.ceil(fixed/cm);
+  const beRevenue = beUnits * price;
+  const cmRatio = (cm/price)*100;
+  const text = [
+    'Break-Even Analysis Results',
+    '----------------------------',
+    `Fixed Costs: ${fmt(fixed,2)}`,
+    `Selling Price/Unit: ${fmt(price,2)}`,
+    `Variable Cost/Unit: ${fmt(variable,2)}`,
+    `Contribution Margin: ${fmt(cm,2)}/unit (${cmRatio.toFixed(1)}%)`,
+    `Break-Even Units: ${fmtN(beUnits)}`,
+    `Break-Even Revenue: ${fmt(beRevenue,2)}`,
+    '',
+    'Calculated at calcstack.dev/break-even-analysis-calculator/'
+  ].join('\n');
+  navigator.clipboard.writeText(text).then(()=>{
+    const btn = document.getElementById('copyBtn');
+    btn.textContent='✅ Copied!';
+    setTimeout(()=>btn.textContent='📋 Copy Results',2000);
+  });
+});
+
+// Auto-calculate on load
+requestAnimationFrame(()=>{ calculate(); });
+</script>
+</body>
+</html>
