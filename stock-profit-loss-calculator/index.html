@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stock Profit and Loss Calculator — Free Online Tool | calcstack.dev</title>
+<meta name="description" content="Calculate your stock profit or loss instantly. Enter buy price, sell price, shares, and fees to see net gain, ROI, and a full cost breakdown.">
+<link rel="canonical" href="https://calcstack.dev/stock-profit-loss-calculator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Stock Profit and Loss Calculator",
+  "url": "https://calcstack.dev/stock-profit-loss-calculator/",
+  "description": "Calculate your stock profit or loss instantly. Enter buy price, sell price, shares, and fees to see net gain, ROI, and a full cost breakdown.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#fff;color:#1a1a2e;font-size:16px;line-height:1.6}
+a{color:#0077b6;text-decoration:none}
+a:hover{text-decoration:underline;color:#006299}
+nav{border-bottom:1px solid #e0e0e0;padding:12px 16px;background:#fff}
+nav .nav-inner{max-width:640px;margin:0 auto;display:flex;align-items:center}
+nav .site-name{font-weight:700;font-size:1.1rem;color:#1a1a2e}
+nav .site-name:hover{color:#0077b6;text-decoration:none}
+.container{max-width:640px;margin:0 auto;padding:1.5rem 1rem 3rem}
+h1{font-size:1.6rem;font-weight:700;color:#1a1a2e;margin-bottom:0.4rem}
+.subtitle{color:#555;font-size:0.95rem;margin-bottom:1.5rem}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;box-shadow:0 1px 4px rgba(0,0,0,0.06);margin-bottom:2rem}
+.form-group{margin-bottom:1.2rem}
+label{display:block;font-size:0.85rem;font-weight:500;color:#444;margin-bottom:5px}
+label .hint{font-weight:400;color:#888;font-size:0.8rem;margin-left:4px}
+input[type="number"],select{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:6px;font-size:1rem;color:#1a1a2e;background:#fff;transition:border-color 0.2s,box-shadow 0.2s;-moz-appearance:textfield}
+input[type="number"]::-webkit-inner-spin-button,input[type="number"]::-webkit-outer-spin-button{-webkit-appearance:none}
+input[type="number"]:focus,select:focus{outline:none;border-color:#0077b6;box-shadow:0 0 0 3px rgba(0,119,182,0.15)}
+input.error{border-color:#e74c3c;box-shadow:0 0 0 3px rgba(231,76,60,0.1)}
+.error-msg{color:#e74c3c;font-size:0.8rem;margin-top:4px;display:none}
+.error-msg.show{display:block}
+.row-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.btn{background:#0077b6;color:#fff;border:none;padding:12px 24px;border-radius:6px;font-size:1rem;font-weight:600;cursor:pointer;width:100%;min-height:44px;transition:background 0.2s}
+.btn:hover{background:#006299}
+.btn-secondary{background:#f0f0f0;color:#1a1a2e;font-size:0.85rem;padding:8px 16px;border-radius:6px;border:1px solid #ddd;cursor:pointer;min-height:36px;transition:background 0.2s;font-weight:500}
+.btn-secondary:hover{background:#e0e0e0}
+.results{opacity:0;transition:opacity 0.3s ease;pointer-events:none}
+.results.visible{opacity:1;pointer-events:auto}
+.result-hero{text-align:center;padding:1.5rem;background:#f8f9fa;border-radius:8px;margin-bottom:1.5rem;border:1px solid #e0e0e0}
+.result-hero .big-number{font-size:2.4rem;font-weight:700;line-height:1.1;margin-bottom:4px}
+.result-hero .big-number.gain{color:#0077b6}
+.result-hero .big-number.loss{color:#e74c3c}
+.result-hero .big-label{font-size:0.9rem;color:#666;font-weight:500}
+.result-hero .roi{font-size:1.1rem;font-weight:600;margin-top:6px}
+.result-hero .roi.gain{color:#0a7a3e}
+.result-hero .roi.loss{color:#e74c3c}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:1.5rem}
+.stat-box{background:#f8f9fa;border:1px solid #e0e0e0;border-radius:6px;padding:0.9rem 1rem}
+.stat-box .stat-val{font-size:1.1rem;font-weight:700;color:#1a1a2e}
+.stat-box .stat-lbl{font-size:0.78rem;color:#666;margin-top:2px}
+.section-title{font-size:0.95rem;font-weight:600;color:#333;margin-bottom:0.75rem;padding-bottom:4px;border-bottom:2px solid #e0e0e0}
+.bar-section{margin-bottom:1.5rem}
+.bar-wrap{margin-bottom:0.6rem}
+.bar-label-row{display:flex;justify-content:space-between;align-items:center;font-size:0.82rem;color:#444;margin-bottom:3px}
+.bar-track{background:#e8e8e8;border-radius:4px;height:18px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;transition:width 0.4s ease}
+.bar-cost{background:#0077b6}
+.bar-fees{background:#f0a500}
+.bar-profit{background:#0a7a3e}
+.bar-loss{background:#e74c3c}
+.stacked-bar-track{background:#e8e8e8;border-radius:4px;height:24px;overflow:hidden;display:flex}
+.stacked-fill{height:100%;transition:width 0.4s ease}
+.stacked-legend{display:flex;flex-wrap:wrap;gap:0.5rem 1rem;margin-top:0.5rem}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:0.8rem;color:#444}
+.legend-dot{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:0.88rem}
+table th{background:#f0f0f0;padding:9px 12px;text-align:left;font-weight:600;color:#333;border-bottom:2px solid #ddd}
+table td{padding:8px 12px;border-bottom:1px solid #eee;color:#333}
+table tr:nth-child(even) td{background:#fafafa}
+.num{text-align:right}
+.tag-gain{color:#0a7a3e;font-weight:600}
+.tag-loss{color:#e74c3c;font-weight:600}
+.copy-row{display:flex;justify-content:flex-end;margin-top:0.75rem}
+.copy-btn{background:#f0f0f0;color:#333;border:1px solid #ddd;padding:6px 14px;border-radius:5px;font-size:0.8rem;cursor:pointer;min-height:32px;transition:background 0.2s}
+.copy-btn:hover{background:#e0e0e0}
+.content-section h2{font-size:1.15rem;font-weight:700;color:#1a1a2e;margin:1.8rem 0 0.5rem}
+.content-section p{color:#444;margin-bottom:0.75rem;font-size:0.95rem}
+.content-section ul{color:#444;font-size:0.95rem;padding-left:1.2rem;margin-bottom:0.75rem}
+.content-section ul li{margin-bottom:0.4rem}
+details{border:1px solid #e0e0e0;border-radius:6px;padding:0.75rem 1rem;margin-bottom:0.5rem}
+details summary{font-weight:600;font-size:0.95rem;cursor:pointer;color:#1a1a2e}
+details p{margin-top:0.5rem;font-size:0.9rem;color:#444}
+.related-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;margin-top:0.75rem}
+.related-link{background:#f8f9fa;border:1px solid #e0e0e0;border-radius:6px;padding:10px 14px;font-size:0.88rem;color:#0077b6;font-weight:500;transition:background 0.2s}
+.related-link:hover{background:#e8f4fb;text-decoration:none}
+.ad-slot{min-height:0;margin:0}
+footer{border-top:1px solid #e0e0e0;padding:1.5rem 1rem;margin-top:2rem}
+footer .footer-inner{max-width:640px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:0.5rem;font-size:0.85rem;color:#666}
+footer a{color:#666}
+footer a:hover{color:#0077b6}
+.show-all-row{text-align:center;margin-top:0.75rem}
+@media(max-width:500px){
+  .row-2{grid-template-columns:1fr}
+  .stats-grid{grid-template-columns:1fr 1fr}
+  h1{font-size:1.3rem}
+  .result-hero .big-number{font-size:2rem}
+  .related-grid{grid-template-columns:1fr}
+  footer .footer-inner{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="site-name">calcstack.dev</a>
+  </div>
+</nav>
+
+<div class="container">
+  <h1>Stock Profit and Loss Calculator</h1>
+  <p class="subtitle">Calculate your exact profit, loss, ROI, and cost breakdown from any stock trade.</p>
+
+  <div class="card">
+    <div class="row-2">
+      <div class="form-group">
+        <label for="buyPrice">Buy Price (per share) <span class="hint">$</span></label>
+        <input type="number" id="buyPrice" placeholder="e.g. 150.00" min="0" step="0.01">
+        <div class="error-msg" id="err-buyPrice">Enter a valid buy price (> 0)</div>
+      </div>
+      <div class="form-group">
+        <label for="sellPrice">Sell Price (per share) <span class="hint">$</span></label>
+        <input type="number" id="sellPrice" placeholder="e.g. 185.00" min="0" step="0.01">
+        <div class="error-msg" id="err-sellPrice">Enter a valid sell price (≥ 0)</div>
+      </div>
+    </div>
+    <div class="row-2">
+      <div class="form-group">
+        <label for="shares">Number of Shares</label>
+        <input type="number" id="shares" placeholder="e.g. 50" min="1" step="1">
+        <div class="error-msg" id="err-shares">Enter a valid number of shares (> 0)</div>
+      </div>
+      <div class="form-group">
+        <label for="feeType">Commission / Fee Type</label>
+        <select id="feeType">
+          <option value="flat">Flat Fee ($)</option>
+          <option value="percent">Percentage (%)</option>
+        </select>
+      </div>
+    </div>
+    <div class="row-2">
+      <div class="form-group">
+        <label for="buyFee">Buy Commission <span class="hint" id="buyFeeHint">$</span></label>
+        <input type="number" id="buyFee" placeholder="0.00" min="0" step="0.01" value="0">
+        <div class="error-msg" id="err-buyFee">Enter a valid fee (≥ 0)</div>
+      </div>
+      <div class="form-group">
+        <label for="sellFee">Sell Commission <span class="hint" id="sellFeeHint">$</span></label>
+        <input type="number" id="sellFee" placeholder="0.00" min="0" step="0.01" value="0">
+        <div class="error-msg" id="err-sellFee">Enter a valid fee (≥ 0)</div>
+      </div>
+    </div>
+    <div class="row-2">
+      <div class="form-group">
+        <label for="taxRate">Tax Rate on Gains <span class="hint">%</span></label>
+        <input type="number" id="taxRate" placeholder="e.g. 15" min="0" max="100" step="0.1" value="0">
+        <div class="error-msg" id="err-taxRate">Enter 0–100</div>
+      </div>
+      <div class="form-group">
+        <label for="currency">Currency</label>
+        <select id="currency">
+          <option value="$">USD ($)</option>
+          <option value="€">EUR (€)</option>
+          <option value="£">GBP (£)</option>
+          <option value="¥">JPY (¥)</option>
+          <option value="C$">CAD (C$)</option>
+          <option value="A$">AUD (A$)</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn" id="calcBtn">Calculate Profit / Loss</button>
+  </div>
+
+  <div class="results" id="results">
+    <div class="card" id="resultsCard">
+      <div id="heroSection"></div>
+      <div id="statsSection"></div>
+      <div id="barSection"></div>
+      <div id="breakdownSection"></div>
+      <div class="copy-row">
+        <button class="copy-btn" id="copyBtn">📋 Copy Results</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-mid"></div>
+
+  <div class="content-section">
+    <h2>How to Use This Stock Profit Calculator</h2>
+    <p>Enter your buy price per share, sell price per share, and the number of shares traded. Add any commissions paid on the buy and sell side, choose whether they're flat fees or percentages, and optionally enter your capital gains tax rate. Hit Calculate to see your net profit or loss, return on investment, and a full cost breakdown.</p>
+
+    <h2>Why This Matters</h2>
+    <p>Knowing your actual profit after fees and taxes is very different from knowing your gross gain. Many investors see a 10% move in a stock and assume they're up 10%—but broker commissions, exchange fees, and capital gains tax can quietly erode returns, especially on smaller positions or high-frequency trading.</p>
+    <p>Consider this: you buy 100 shares of a stock at $50 ($5,000 invested), it rises to $58, and you sell. That's an $800 gross gain—16% ROI. But if you're paying $10 each way in commissions and owe 20% capital gains tax, your net profit drops to $620, and your real ROI falls to about 12.4%. On a $500 position, fees could wipe out an entire month of gains.</p>
+    <p>This calculator is useful for active traders tracking individual positions, long-term investors evaluating whether to sell, tax planning before year-end, and anyone comparing a stock's performance against other investments like ETFs or bonds.</p>
+
+    <h2>How It's Calculated</h2>
+    <p>The formulas used in this calculator:</p>
+    <ul>
+      <li><strong>Total Buy Cost</strong> = (Buy Price × Shares) + Buy Commission</li>
+      <li><strong>Total Sell Revenue</strong> = (Sell Price × Shares) − Sell Commission</li>
+      <li><strong>Gross Profit/Loss</strong> = Sell Revenue − Buy Cost</li>
+      <li><strong>Tax Amount</strong> = Gross Profit × (Tax Rate ÷ 100)  <em>(only if profit > 0)</em></li>
+      <li><strong>Net Profit/Loss</strong> = Gross Profit − Tax Amount</li>
+      <li><strong>ROI (%)</strong> = (Net Profit ÷ Total Buy Cost) × 100</li>
+      <li><strong>Break-Even Price</strong> = (Total Buy Cost + Sell Commission) ÷ Shares</li>
+    </ul>
+    <p>When you select percentage fees, the commission is calculated as: Buy Fee % × (Buy Price × Shares), and similarly for the sell side.</p>
+
+    <h2>Tips & Common Mistakes</h2>
+    <ul>
+      <li><strong>Don't forget both sides of the trade.</strong> Many people only account for the buy commission, but broker fees are charged on entry and exit.</li>
+      <li><strong>Use the correct tax rate.</strong> Short-term gains (held under 1 year in the US) are taxed as ordinary income (up to 37%), while long-term gains are taxed at 0%, 15%, or 20%.</li>
+      <li><strong>Losses have tax value too.</strong> A realized loss can offset capital gains elsewhere — this calculator shows your total loss so you can factor it into tax-loss harvesting.</li>
+      <li><strong>Check your break-even price.</strong> This is the price the stock must reach just to cover all your costs. It's often higher than people expect.</li>
+      <li><strong>Compare ROI vs. time held.</strong> A 5% gain sounds great, but if it took 3 years, that's less than 2% annualized—potentially less than a savings account.</li>
+    </ul>
+
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>What is ROI in stock trading?</summary>
+      <p>ROI (Return on Investment) measures how much profit you made relative to your initial investment, expressed as a percentage. A 20% ROI means you earned $20 for every $100 invested. It helps you compare the performance of different trades or investments on equal footing, regardless of how much capital was deployed.</p>
+    </details>
+    <details>
+      <summary>Does this calculator work for short selling?</summary>
+      <p>Yes — for a short sale, enter your sell price as the "Buy Price" (where you opened the position) and your buy-to-cover price as the "Sell Price." The calculator will correctly show profit if the stock fell and a loss if it rose. Just reverse the labels mentally.</p>
+    </details>
+    <details>
+      <summary>How do I handle fractional shares?</summary>
+      <p>You can enter decimal values for shares (e.g., 2.5 shares). The calculator handles fractional quantities correctly, making it useful for brokers like Robinhood or Fidelity that offer fractional share investing in stocks and ETFs.</p>
+    </details>
+    <details>
+      <summary>What's the difference between gross and net profit?</summary>
+      <p>Gross profit is your gain before deducting fees and taxes — just the difference between what you sold for and what you paid. Net profit is what you actually keep after commissions and any applicable capital gains tax. Net profit is the number that matters for your real-world financial outcome.</p>
+    </details>
+
+    <h2>Related Tools</h2>
+    <div class="related-grid">
+      <a href="/roi-calculator/" class="related-link">📈 ROI Calculator</a>
+      <a href="/break-even-analysis-calculator/" class="related-link">⚖️ Break-Even Analysis Calculator</a>
+      <a href="/retirement-savings-calculator/" class="related-link">🏦 Retirement Savings Calculator</a>
+      <a href="/emergency-fund-calculator/" class="related-link">🛡️ Emergency Fund Calculator</a>
+      <a href="/car-loan-calculator/" class="related-link">🚗 Car Loan Calculator</a>
+      <a href="/tip-calculator/" class="related-link">💵 Tip Calculator</a>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-bottom"></div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <span>© <span id="yr"></span> calcstack.dev</span>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap">
+      <a href="/about/">About</a>
+      <a href="/privacy/">Privacy</a>
+      <a href="/contact/">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+// Update fee hints when type changes
+document.getElementById('feeType').addEventListener('change', function() {
+  const sym = this.value === 'percent' ? '%' : '$';
+  document.getElementById('buyFeeHint').textContent = sym;
+  document.getElementById('sellFeeHint').textContent = sym;
+  document.getElementById('buyFee').placeholder = this.value === 'percent' ? 'e.g. 0.5' : '0.00';
+  document.getElementById('sellFee').placeholder = this.value === 'percent' ? 'e.g. 0.5' : '0.00';
+});
+
+function fmt(n, sym) {
+  if (Math.abs(n) >= 1000) {
+    return sym + n.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+  }
+  return sym + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+function fmtPct(n) {
+  return (n >= 0 ? '+' : '') + n.toFixed(2) + '%';
+}
+
+function fmtNum(n) {
+  return n.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+}
+
+function clearErrors() {
+  ['buyPrice','sellPrice','shares','buyFee','sellFee','taxRate'].forEach(id => {
+    document.getElementById(id).classList.remove('error');
+    document.getElementById('err-' + id).classList.remove('show');
+  });
+}
+
+function showError(id, msg) {
+  const el = document.getElementById(id);
+  const err = document.getElementById('err-' + id);
+  el.classList.add('error');
+  if (msg) err.textContent = msg;
+  err.classList.add('show');
+}
+
+function validate() {
+  clearErrors();
+  let ok = true;
+  const bp = parseFloat(document.getElementById('buyPrice').value);
+  const sp = parseFloat(document.getElementById('sellPrice').value);
+  const sh = parseFloat(document.getElementById('shares').value);
+  const bf = parseFloat(document.getElementById('buyFee').value);
+  const sf = parseFloat(document.getElementById('sellFee').value);
+  const tx = parseFloat(document.getElementById('taxRate').value);
+  const ft = document.getElementById('feeType').value;
+
+  if (isNaN(bp) || bp <= 0) { showError('buyPrice', 'Enter a valid buy price (> 0)'); ok = false; }
+  if (isNaN(sp) || sp < 0) { showError('sellPrice', 'Enter a valid sell price (≥ 0)'); ok = false; }
+  if (isNaN(sh) || sh <= 0) { showError('shares', 'Enter a valid number of shares (> 0)'); ok = false; }
+  if (isNaN(bf) || bf < 0) { showError('buyFee', 'Enter a valid fee (≥ 0)'); ok = false; }
+  if (isNaN(sf) || sf < 0) { showError('sellFee', 'Enter a valid fee (≥ 0)'); ok = false; }
+  if (ft === 'percent' && (!isNaN(bf) && bf > 100)) { showError('buyFee', 'Percentage must be 0–100'); ok = false; }
+  if (ft === 'percent' && (!isNaN(sf) && sf > 100)) { showError('sellFee', 'Percentage must be 0–100'); ok = false; }
+  if (isNaN(tx) || tx < 0 || tx > 100) { showError('taxRate', 'Enter 0–100'); ok = false; }
+  return ok;
+}
+
+function calculate() {
+  if (!validate()) return;
+
+  const bp = parseFloat(document.getElementById('buyPrice').value);
+  const sp = parseFloat(document.getElementById('sellPrice').value);
+  const sh = parseFloat(document.getElementById('shares').value);
+  let bf = parseFloat(document.getElementById('buyFee').value) || 0;
+  let sf = parseFloat(document.getElementById('sellFee').value) || 0;
+  const tx = parseFloat(document.getElementById('taxRate').value) || 0;
+  const ft = document.getElementById('feeType').value;
+  const sym = document.getElementById('currency').value;
+
+  const grossBuy = bp * sh;
+  const grossSell = sp * sh;
+
+  if (ft === 'percent') {
+    bf = grossBuy * (bf / 100);
+    sf = grossSell * (sf / 100);
+  }
+
+  const totalCost = grossBuy + bf;
+  const totalRevenue = grossSell - sf;
+  const grossProfit = grossSell - grossBuy;
+  const totalFees = bf + sf;
+  const profitAfterFees = totalRevenue - totalCost;
+  const taxAmount = profitAfterFees > 0 ? profitAfterFees * (tx / 100) : 0;
+  const netProfit = profitAfterFees - taxAmount;
+  const roi = totalCost > 0 ? (netProfit / totalCost) * 100 : 0;
+  const breakEven = sh > 0 ? (totalCost + sf) / sh : 0;
+  const isGain = netProfit >= 0;
+
+  // Scenario rows: what if sell price was ±10%, ±5%, 0%
+  const scenarios = [
+    { label: 'Sell at +20%', price: bp * 1.20 },
+    { label: 'Sell at +10%', price: bp * 1.10 },
+    { label: 'Sell at +5%', price: bp * 1.05 },
+    { label: 'Your Sale', price: sp, highlight: true },
+    { label: 'Break Even', price: breakEven },
+    { label: 'Sell at -5%', price: bp * 0.95 },
+    { label: 'Sell at -10%', price: bp * 0.10 < 0 ? 0 : bp * 0.90 },
+    { label: 'Sell at -20%', price: bp * 0.80 < 0 ? 0 : bp * 0.80 },
+  ].filter(s => s.price >= 0);
+
+  // Bar proportions
+  const totalInvolved = totalCost + Math.max(0, netProfit);
+  const pctCost = totalCost > 0 ? Math.min((grossBuy / totalCost) * 100, 100) : 0;
+  const pctFees = totalCost > 0 ? Math.min((totalFees / totalCost) * 100, 100) : 0;
+  const pctProfit = totalCost > 0 ? Math.abs(Math.min((netProfit / totalCost) * 100, 200)) : 0;
+
+  // Stacked bar: cost breakdown of total invested
+  const stackedTotal = totalCost;
+  const pStockCost = stackedTotal > 0 ? (grossBuy / stackedTotal) * 100 : 0;
+  const pFeesCost = stackedTotal > 0 ? (bf / stackedTotal) * 100 : 0;
+
+  const scenarioRows = scenarios.map((s, i) => {
+    const gS = s.price * sh;
+    const profitNoTax = (gS - sf) - totalCost;
+    const taxA = profitNoTax > 0 ? profitNoTax * (tx / 100) : 0;
+    const net = profitNoTax - taxA;
+    const r = totalCost > 0 ? (net / totalCost) * 100 : 0;
+    const cls = net >= 0 ? 'tag-gain' : 'tag-loss';
+    const rowStyle = s.highlight ? ' style="background:#e8f4fb;font-weight:600"' : '';
+    return `<tr${rowStyle}>
+      <td>${s.label}</td>
+      <td class="num">${sym}${fmtNum(s.price)}</td>
+      <td class="num">${sym}${fmtNum(gS)}</td>
+      <td class="num ${cls}">${net >= 0 ? '+' : ''}${sym}${fmtNum(net)}</td>
+      <td class="num ${cls}">${fmtPct(r)}</td>
+    </tr>`;
+  }).join('');
+
+  requestAnimationFrame(() => {
+    document.getElementById('heroSection').innerHTML = `
+      <div class="result-hero">
+        <div class="big-number ${isGain ? 'gain' : 'loss'}">${isGain ? '+' : ''}${sym}${fmtNum(netProfit)}</div>
+        <div class="big-label">Net Profit / Loss</div>
+        <div class="roi ${isGain ? 'gain' : 'loss'}">${fmtPct(roi)} Return on Investment</div>
+      </div>`;
+
+    document.getElementById('statsSection').innerHTML = `
+      <div class="stats-grid">
+        <div class="stat-box"><div class="stat-val">${sym}${fmtNum(totalCost)}</div><div class="stat-lbl">Total Cost (Buy)</div></div>
+        <div class="stat-box"><div class="stat-val">${sym}${fmtNum(totalRevenue)}</div><div class="stat-lbl">Net Revenue (Sell)</div></div>
+        <div class="stat-box"><div class="stat-val ${grossProfit >= 0 ? 'tag-gain' : 'tag-loss'}">${grossProfit >= 0 ? '+' : ''}${sym}${fmtNum(grossProfit)}</div><div class="stat-lbl">Gross Profit/Loss</div></div>
+        <div class="stat-box"><div class="stat-val">${sym}${fmtNum(totalFees)}</div><div class="stat-lbl">Total Fees</div></div>
+        <div class="stat-box"><div class="stat-val">${sym}${fmtNum(taxAmount)}</div><div class="stat-lbl">Tax on Gains (${tx}%)</div></div>
+        <div class="stat-box"><div class="stat-val">${sym}${fmtNum(breakEven)}</div><div class="stat-lbl">Break-Even Price</div></div>
+      </div>`;
+
+    document.getElementById('barSection').innerHTML = `
+      <div class="bar-section">
+        <div class="section-title">Visual Breakdown</div>
+        <div class="bar-wrap">
+          <div class="bar-label-row"><span>Stock Cost</span><span>${sym}${fmtNum(grossBuy)}</span></div>
+          <div class="bar-track"><div class="bar-fill bar-cost" style="width:100%"></div></div>
+        </div>
+        <div class="bar-wrap">
+          <div class="bar-label-row"><span>Total Fees</span><span>${sym}${fmtNum(totalFees)}</span></div>
+          <div class="bar-track"><div class="bar-fill bar-fees" style="width:${Math.min(pctFees, 100).toFixed(1)}%"></div></div>
+        </div>
+        ${taxAmount > 0 ? `<div class="bar-wrap">
+          <div class="bar-label-row"><span>Tax on Gains</span><span>${sym}${fmtNum(taxAmount)}</span></div>
+          <div class="bar-track"><div class="bar-fill bar-fees" style="width:${Math.min((taxAmount/totalCost)*100, 100).toFixed(1)}%;opacity:0.7"></div></div>
+        </div>` : ''}
+        <div class="bar-wrap">
+          <div class="bar-label-row"><span>Net ${isGain ? 'Profit' : 'Loss'}</span><span>${isGain ? '+' : ''}${sym}${fmtNum(netProfit)}</span></div>
+          <div class="bar-track"><div class="bar-fill ${isGain ? 'bar-profit' : 'bar-loss'}" style="width:${Math.min(pctProfit, 100).toFixed(1)}%"></div></div>
+        </div>
+        <div style="margin-top:1rem">
+          <div class="bar-label-row"><span style="font-weight:600">Total Buy Cost Composition</span></div>
+          <div class="stacked-bar-track">
+            <div class="stacked-fill bar-cost" style="width:${pStockCost.toFixed(1)}%"></div>
+            <div class="stacked-fill bar-fees" style="width:${pFeesCost.toFixed(1)}%"></div>
+          </div>
+          <div class="stacked-legend">
+            <div class="legend-item"><div class="legend-dot" style="background:#0077b6"></div>Stock Cost (${pStockCost.toFixed(1)}%)</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#f0a500"></div>Buy Commission (${pFeesCost.toFixed(1)}%)</div>
+          </div>
+        </div>
+      </div>`;
+
+    document.getElementById('breakdownSection').innerHTML = `
+      <div class="section-title">Scenario Comparison</div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th>Scenario</th>
+            <th class="num">Sell Price</th>
+            <th class="num">Gross Revenue</th>
+            <th class="num">Net P/L</th>
+            <th class="num">ROI</th>
+          </tr></thead>
+          <tbody>${scenarioRows}</tbody>
+        </table>
+      </div>
+      <div style="margin-top:1.25rem">
+        <div class="section-title">Trade Summary</div>
+        <div class="table-wrap">
+          <table>
+            <tbody>
+              <tr><td>Shares Traded</td><td class="num">${sh.toLocaleString('en-US', {maximumFractionDigits:4})}</td></tr>
+              <tr><td>Buy Price / Share</td><td class="num">${sym}${fmtNum(bp)}</td></tr>
+              <tr><td>Sell Price / Share</td><td class="num">${sym}${fmtNum(sp)}</td></tr>
+              <tr><td>Gross Buy Value</td><td class="num">${sym}${fmtNum(grossBuy)}</td></tr>
+              <tr><td>Buy Commission</td><td class="num">${sym}${fmtNum(bf)}</td></tr>
+              <tr><td>Total Cost Basis</td><td class="num">${sym}${fmtNum(totalCost)}</td></tr>
+              <tr><td>Gross Sell Value</td><td class="num">${sym}${fmtNum(grossSell)}</td></tr>
+              <tr><td>Sell Commission</td><td class="num">${sym}${fmtNum(sf)}</td></tr>
+              <tr><td>Net Sell Revenue</td><td class="num">${sym}${fmtNum(totalRevenue)}</td></tr>
+              <tr><td>Gross Profit/Loss</td><td class="num ${grossProfit >= 0 ? 'tag-gain' : 'tag-loss'}">${grossProfit >= 0 ? '+' : ''}${sym}${fmtNum(grossProfit)}</td></tr>
+              <tr><td>Total Fees</td><td class="num">${sym}${fmtNum(totalFees)}</td></tr>
+              <tr><td>Profit After Fees</td><td class="num ${profitAfterFees >= 0 ? 'tag-gain' : 'tag-loss'}">${profitAfterFees >= 0 ? '+' : ''}${sym}${fmtNum(profitAfterFees)}</td></tr>
+              <tr><td>Tax on Gains (${tx}%)</td><td class="num">${sym}${fmtNum(taxAmount)}</td></tr>
+              <tr><td><strong>Net Profit/Loss</strong></td><td class="num ${isGain ? 'tag-gain' : 'tag-loss'}"><strong>${isGain ? '+' : ''}${sym}${fmtNum(netProfit)}</strong></td></tr>
+              <tr><td><strong>ROI</strong></td><td class="num ${isGain ? 'tag-gain' : 'tag-loss'}"><strong>${fmtPct(roi)}</strong></td></tr>
+              <tr><td>Break-Even Price</td><td class="num">${sym}${fmtNum(breakEven)}</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>`;
+
+    // Store results for copy
+    window._lastResults = {sym, bp, sp, sh, totalCost, totalRevenue, grossProfit, totalFees, taxAmount, netProfit, roi, breakEven, profitAfterFees};
+
+    const resultsEl = document.getElementById('results');
+    resultsEl.classList.add('visible');
+    resultsEl.scrollIntoView({behavior: 'smooth', block: 'start'});
+  });
+}
+
+document.getElementById('calcBtn').addEventListener('click', () => {
+  requestAnimationFrame(() => calculate());
+});
+
+['buyPrice','sellPrice','shares','buyFee','sellFee','taxRate'].forEach(id => {
+  document.getElementById(id).addEventListener('keydown', e => {
+    if (e.key === 'Enter') requestAnimationFrame(() => calculate());
+  });
+});
+
+document.getElementById('copyBtn').addEventListener('click', function() {
+  const r = window._lastResults;
+  if (!r) return;
+  const text = [
+    'Stock Profit/Loss Summary',
+    '-------------------------',
+    `Buy Price: ${r.sym}${fmtNum(r.bp)} × ${r.sh} shares = ${r.sym}${fmtNum(r.bp * r.sh)}`,
+    `Sell Price: ${r.sym}${fmtNum(r.sp)} × ${r.sh} shares = ${r.sym}${fmtNum(r.sp * r.sh)}`,
+    `Total Cost Basis: ${r.sym}${fmtNum(r.totalCost)}`,
+    `Net Sell Revenue: ${r.sym}${fmtNum(r.totalRevenue)}`,
+    `Gross Profit/Loss: ${r.grossProfit >= 0 ? '+' : ''}${r.sym}${fmtNum(r.grossProfit)}`,
+    `Total Fees: ${r.sym}${fmtNum(r.totalFees)}`,
+    `Tax on Gains: ${r.sym}${fmtNum(r.taxAmount)}`,
+    `Net Profit/Loss: ${r.netProfit >= 0 ? '+' : ''}${r.sym}${fmtNum(r.netProfit)}`,
+    `ROI: ${fmtPct(r.roi)}`,
+    `Break-Even Price: ${r.sym}${fmtNum(r.breakEven)}`,
+    '',
+    'Calculated at: https://calcstack.dev/stock-profit-loss-calculator/'
+  ].join('\n');
+
+  navigator.clipboard.writeText(text).then(() => {
+    this.textContent = '✓ Copied!';
+    setTimeout(() => { this.textContent = '📋 Copy Results'; }, 2000);
+  }).catch(() => {
+    this.textContent = 'Copy failed';
+    setTimeout(() => { this.textContent = '📋 Copy Results'; }, 2000);
+  });
+});
+</script>
+</body>
+</html>
