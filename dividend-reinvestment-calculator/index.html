@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dividend Reinvestment Calculator — Free Online Tool | calcstack.dev</title>
+<meta name="description" content="Calculate your DRIP returns with our free dividend reinvestment calculator. See how reinvesting dividends compounds your wealth over time with year-by-year breakdowns.">
+<link rel="canonical" href="https://calcstack.dev/dividend-reinvestment-calculator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Dividend Reinvestment Calculator",
+  "url": "https://calcstack.dev/dividend-reinvestment-calculator/",
+  "description": "Calculate dividend reinvestment (DRIP) returns with compounding growth, year-by-year breakdown, and visual comparisons.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f8f9fa;color:#1a1a2e;font-size:16px;line-height:1.6}
+a{color:#0077b6;text-decoration:none}
+a:hover{text-decoration:underline}
+nav{background:#fff;border-bottom:1px solid #e0e0e0;padding:0 1.5rem}
+.nav-inner{max-width:640px;margin:0 auto;display:flex;align-items:center;height:52px}
+.nav-brand{font-weight:700;font-size:1.1rem;color:#1a1a2e}
+.nav-brand:hover{text-decoration:none;color:#0077b6}
+main{max-width:640px;margin:0 auto;padding:1.5rem 1rem 3rem}
+h1{font-size:1.6rem;font-weight:700;margin-bottom:0.4rem;color:#1a1a2e}
+.subtitle{color:#555;font-size:0.95rem;margin-bottom:1.5rem}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;box-shadow:0 1px 4px rgba(0,0,0,0.06);margin-bottom:2rem}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem 1.2rem}
+@media(max-width:480px){.form-grid{grid-template-columns:1fr}}
+.form-group{display:flex;flex-direction:column;gap:4px}
+.form-group.full{grid-column:1/-1}
+label{font-size:0.85rem;font-weight:500;color:#444}
+input,select{width:100%;border:1px solid #ddd;border-radius:5px;padding:12px 16px;font-size:0.95rem;font-family:inherit;color:#1a1a2e;background:#fff;transition:border-color 0.2s,box-shadow 0.2s;min-height:44px}
+input:focus,select:focus{outline:none;border-color:#0077b6;box-shadow:0 0 0 3px rgba(0,119,182,0.15)}
+input.error{border-color:#e74c3c;box-shadow:0 0 0 3px rgba(231,76,60,0.12)}
+.error-msg{font-size:0.8rem;color:#e74c3c;margin-top:2px;display:none}
+.error-msg.show{display:block}
+.range-row{display:flex;align-items:center;gap:10px}
+.range-row input[type=range]{flex:1;padding:0;min-height:auto;border:none;box-shadow:none;accent-color:#0077b6}
+.range-val{font-size:0.85rem;font-weight:600;color:#0077b6;min-width:42px;text-align:right}
+.btn{background:#0077b6;color:#fff;border:none;border-radius:6px;padding:12px 24px;font-size:1rem;font-weight:600;cursor:pointer;transition:background 0.2s;min-height:44px;width:100%;margin-top:0.5rem}
+.btn:hover{background:#006299}
+.btn-secondary{background:#f0f0f0;color:#1a1a2e;font-size:0.82rem;padding:6px 14px;border-radius:5px;border:1px solid #ddd;cursor:pointer;min-height:36px;transition:background 0.2s}
+.btn-secondary:hover{background:#e0e0e0}
+.results-section{opacity:0;transition:opacity 0.3s ease;pointer-events:none}
+.results-section.visible{opacity:1;pointer-events:all}
+.big-result{text-align:center;padding:1.5rem 1rem 1rem;border-bottom:1px solid #eee;margin-bottom:1.5rem}
+.big-label{font-size:0.85rem;color:#666;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.04em}
+.big-number{font-size:2.4rem;font-weight:800;color:#0077b6;line-height:1.1}
+.big-sub{font-size:0.9rem;color:#555;margin-top:4px}
+.summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#eee;border-radius:6px;overflow:hidden;margin-bottom:1.5rem}
+@media(max-width:480px){.summary-grid{grid-template-columns:1fr 1fr}}
+.sum-item{background:#fff;padding:1rem 0.8rem;text-align:center}
+.sum-item .s-label{font-size:0.75rem;color:#666;text-transform:uppercase;letter-spacing:0.03em;margin-bottom:2px}
+.sum-item .s-val{font-size:1.1rem;font-weight:700;color:#1a1a2e}
+.sum-item .s-val.accent{color:#0077b6}
+.sum-item .s-val.green{color:#2e7d32}
+.section-title{font-size:0.9rem;font-weight:600;color:#444;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:0.8rem}
+.bar-section{margin-bottom:1.5rem}
+.bar-wrapper{background:#f0f0f0;border-radius:6px;overflow:hidden;height:32px;display:flex;margin-bottom:6px}
+.bar-seg{height:100%;display:flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:600;color:#fff;transition:width 0.5s ease;overflow:hidden;min-width:0}
+.bar-seg.principal{background:#0077b6}
+.bar-seg.dividends{background:#2e7d32}
+.bar-seg.growth{background:#f9a825}
+.bar-legend{display:flex;flex-wrap:wrap;gap:0.5rem 1.2rem}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:0.82rem;color:#444}
+.legend-dot{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+.legend-dot.principal{background:#0077b6}
+.legend-dot.dividends{background:#2e7d32}
+.legend-dot.growth{background:#f9a825}
+.compare-row{display:flex;gap:0.5rem;align-items:center;margin-bottom:0.5rem;font-size:0.88rem}
+.compare-label{width:130px;flex-shrink:0;color:#555}
+.compare-bar-wrap{flex:1;background:#f0f0f0;border-radius:4px;height:20px;overflow:hidden}
+.compare-bar{height:100%;border-radius:4px;transition:width 0.5s ease}
+.compare-bar.drip{background:#0077b6}
+.compare-bar.nodrip{background:#aaa}
+.compare-val{width:100px;text-align:right;font-weight:600;color:#1a1a2e;flex-shrink:0}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:0.85rem}
+thead th{background:#f0f0f0;padding:8px 10px;text-align:left;font-weight:600;color:#333;white-space:nowrap;border-bottom:2px solid #ddd}
+thead th.num{text-align:right}
+tbody tr:nth-child(even){background:#fafafa}
+tbody tr:nth-child(odd){background:#fff}
+tbody td{padding:7px 10px;border-bottom:1px solid #eee;white-space:nowrap}
+tbody td.num{text-align:right;font-variant-numeric:tabular-nums}
+.show-all-row{text-align:center;padding:0.8rem}
+.ad-slot{min-height:0;margin:0}
+.content-section h2{font-size:1.15rem;font-weight:700;color:#1a1a2e;margin:1.8rem 0 0.6rem}
+.content-section p{color:#444;margin-bottom:0.8rem;font-size:0.95rem}
+.content-section ul{padding-left:1.2rem;margin-bottom:0.8rem}
+.content-section ul li{color:#444;font-size:0.95rem;margin-bottom:0.4rem}
+details{border:1px solid #e0e0e0;border-radius:6px;margin-bottom:0.6rem;background:#fff}
+details summary{padding:0.75rem 1rem;font-weight:600;font-size:0.92rem;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+details summary::after{content:"＋";font-size:1rem;color:#0077b6}
+details[open] summary::after{content:"－"}
+details .detail-body{padding:0.75rem 1rem 0.9rem;font-size:0.9rem;color:#444;border-top:1px solid #eee}
+.related-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.6rem}
+@media(max-width:400px){.related-grid{grid-template-columns:1fr}}
+.related-link{display:block;background:#fff;border:1px solid #e0e0e0;border-radius:6px;padding:0.7rem 1rem;font-size:0.88rem;color:#0077b6;transition:background 0.15s}
+.related-link:hover{background:#f0f7ff;text-decoration:none}
+footer{background:#fff;border-top:1px solid #e0e0e0;padding:1.2rem 1.5rem;text-align:center;font-size:0.82rem;color:#666}
+footer a{color:#555;margin:0 8px}
+footer a:hover{color:#0077b6}
+.copy-wrap{display:flex;justify-content:flex-end;margin-bottom:0.8rem}
+.toast{display:inline-block;font-size:0.8rem;color:#2e7d32;opacity:0;transition:opacity 0.3s;margin-left:8px}
+.toast.show{opacity:1}
+</style>
+</head>
+<body>
+<nav><div class="nav-inner"><a href="/" class="nav-brand">calcstack.dev</a></div></nav>
+<main>
+<h1>Dividend Reinvestment Calculator</h1>
+<p class="subtitle">See how DRIP (Dividend Reinvestment Plan) compounds your wealth over time</p>
+
+<div class="card">
+  <div class="form-grid">
+    <div class="form-group">
+      <label for="initialInvestment">Initial Investment ($)</label>
+      <input type="number" id="initialInvestment" placeholder="10000" min="0" step="100" value="10000">
+      <span class="error-msg" id="err-initial">Please enter a valid amount.</span>
+    </div>
+    <div class="form-group">
+      <label for="sharePrice">Share Price ($)</label>
+      <input type="number" id="sharePrice" placeholder="50" min="0.01" step="0.01" value="50">
+      <span class="error-msg" id="err-share">Please enter a valid share price.</span>
+    </div>
+    <div class="form-group">
+      <label for="dividendYield">Annual Dividend Yield (%)</label>
+      <div class="range-row">
+        <input type="range" id="dividendYieldRange" min="0.1" max="15" step="0.1" value="4">
+        <span class="range-val" id="dividendYieldDisplay">4.0%</span>
+      </div>
+      <input type="number" id="dividendYield" placeholder="4.0" min="0" max="100" step="0.1" value="4.0">
+      <span class="error-msg" id="err-yield">Please enter a valid yield (0–100%).</span>
+    </div>
+    <div class="form-group">
+      <label for="dividendGrowth">Annual Dividend Growth (%)</label>
+      <div class="range-row">
+        <input type="range" id="dividendGrowthRange" min="0" max="20" step="0.1" value="5">
+        <span class="range-val" id="dividendGrowthDisplay">5.0%</span>
+      </div>
+      <input type="number" id="dividendGrowth" placeholder="5.0" min="0" max="100" step="0.1" value="5.0">
+      <span class="error-msg" id="err-growth">Please enter a valid growth rate.</span>
+    </div>
+    <div class="form-group">
+      <label for="stockGrowth">Annual Stock Price Growth (%)</label>
+      <div class="range-row">
+        <input type="range" id="stockGrowthRange" min="0" max="30" step="0.1" value="7">
+        <span class="range-val" id="stockGrowthDisplay">7.0%</span>
+      </div>
+      <input type="number" id="stockGrowth" placeholder="7.0" min="0" max="100" step="0.1" value="7.0">
+      <span class="error-msg" id="err-stock">Please enter a valid growth rate.</span>
+    </div>
+    <div class="form-group">
+      <label for="additionalContrib">Monthly Additional Investment ($)</label>
+      <input type="number" id="additionalContrib" placeholder="0" min="0" step="10" value="0">
+      <span class="error-msg" id="err-contrib">Please enter a valid amount.</span>
+    </div>
+    <div class="form-group">
+      <label for="years">Investment Period (Years)</label>
+      <div class="range-row">
+        <input type="range" id="yearsRange" min="1" max="50" step="1" value="20">
+        <span class="range-val" id="yearsDisplay">20 yrs</span>
+      </div>
+      <input type="number" id="years" placeholder="20" min="1" max="100" step="1" value="20">
+      <span class="error-msg" id="err-years">Please enter 1–100 years.</span>
+    </div>
+    <div class="form-group">
+      <label for="taxRate">Dividend Tax Rate (%)</label>
+      <input type="number" id="taxRate" placeholder="15" min="0" max="100" step="0.1" value="15">
+      <span class="error-msg" id="err-tax">Please enter a valid tax rate (0–100%).</span>
+    </div>
+    <div class="form-group">
+      <label for="dividendFreq">Dividend Frequency</label>
+      <select id="dividendFreq">
+        <option value="4" selected>Quarterly</option>
+        <option value="12">Monthly</option>
+        <option value="2">Semi-Annual</option>
+        <option value="1">Annual</option>
+      </select>
+    </div>
+  </div>
+  <button class="btn" id="calcBtn">Calculate DRIP Returns</button>
+</div>
+
+<div class="results-section" id="resultsSection">
+  <div class="card">
+    <div class="copy-wrap">
+      <button class="btn-secondary" id="copyBtn">Copy Summary</button>
+      <span class="toast" id="copyToast">Copied!</span>
+    </div>
+    <div id="resultsInner"></div>
+  </div>
+  <div class="ad-slot" id="ad-mid"></div>
+  <div class="card">
+    <div class="section-title">Year-by-Year Breakdown</div>
+    <div class="table-wrap" id="tableWrap"></div>
+  </div>
+</div>
+
+<div class="ad-slot" id="ad-bottom-pre"></div>
+
+<div class="content-section">
+  <h2>How to Use This DRIP Calculator</h2>
+  <p>Enter your initial investment amount, the current share price, and your stock's annual dividend yield. Set the dividend growth rate, stock price growth rate, and how many years you plan to invest. Add any monthly contributions you plan to make. Click "Calculate DRIP Returns" to see your full projection including reinvested dividends compounded over time.</p>
+  <p>The tax rate field lets you account for taxes on dividends before reinvestment — useful for taxable brokerage accounts. Set it to 0% for tax-advantaged accounts like IRAs or 401(k)s.</p>
+
+  <h2>Why This Matters</h2>
+  <p>Dividend reinvestment is one of the most powerful — and most underestimated — wealth-building strategies available to individual investors. When you reinvest dividends instead of spending them, you buy additional shares, which then generate their own dividends, creating a compounding snowball effect.</p>
+  <p>Consider a real example: $10,000 invested in a stock with a 4% dividend yield and 7% annual price growth, reinvesting dividends over 30 years, turns into roughly $147,000 — nearly three times more than the same investment without reinvestment. That's the compounding effect at work.</p>
+  <p>DRIP investing is especially powerful for income-focused investors building toward retirement. Someone in their 30s who invests $500/month in dividend-paying stocks with a 3.5% yield and reinvests every dollar could accumulate enough by 60 to generate $30,000–$50,000 per year in passive income. Many major brokerages — Fidelity, Schwab, Vanguard — offer automatic DRIP programs at no cost.</p>
+
+  <h2>How It's Calculated</h2>
+  <p>Each period, the calculator:</p>
+  <ul>
+    <li><strong>Applies stock price growth</strong> to the current share price</li>
+    <li><strong>Calculates dividends earned</strong>: Shares × (Annual Yield / Frequency)</li>
+    <li><strong>Deducts tax</strong>: Net dividend = Gross dividend × (1 − tax rate)</li>
+    <li><strong>Reinvests net dividends</strong>: Additional shares = Net dividend ÷ current price</li>
+    <li><strong>Adds monthly contributions</strong> converted to shares at current price</li>
+  </ul>
+  <p>The formula for dividend income per period: <strong>D = Shares × (Yield × PriceGrowthFactor / Frequency)</strong>. After the tax deduction, those funds purchase fractional shares, which then participate in future dividend payments. Dividend yield is also grown annually at the dividend growth rate.</p>
+
+  <h2>Tips & Common Mistakes</h2>
+  <ul>
+    <li><strong>Don't ignore taxes in taxable accounts.</strong> Even if you reinvest dividends, the IRS still considers them taxable income. Use qualified dividend rates (15–20% for most investors) unless dividends are non-qualified.</li>
+    <li><strong>Be realistic with growth rates.</strong> The S&P 500 historically averages ~7% price growth and ~1.5–2% dividend yield. Individual stocks with 5–6% yields often have slower price growth — there's usually a trade-off.</li>
+    <li><strong>Start early.</strong> The compounding benefit between starting at 25 vs. 35 is often 2–3x more wealth by retirement, even with identical contribution amounts.</li>
+    <li><strong>Factor in dividend cuts.</strong> High-yield stocks (8%+) carry more risk of dividend cuts. Conservative projections with 3–4% yields are often more achievable long-term.</li>
+    <li><strong>Use 0% tax rate for IRAs.</strong> Inside a Roth IRA, dividends grow and compound completely tax-free. This is one of the most powerful uses of DRIP investing.</li>
+  </ul>
+
+  <h2>Frequently Asked Questions</h2>
+  <details>
+    <summary>What is a DRIP and how does it work?</summary>
+    <div class="detail-body">A Dividend Reinvestment Plan (DRIP) automatically uses your dividend payments to purchase additional shares of the same stock, often including fractional shares. Instead of receiving cash dividends, each payment is converted directly into more ownership. Most major brokerages offer automatic DRIP enrollment for free, and some companies offer direct DRIPs with no brokerage fees.</div>
+  </details>
+  <details>
+    <summary>Is dividend reinvestment better than taking cash dividends?</summary>
+    <div class="detail-body">For long-term investors who don't need income now, reinvesting is almost always better due to compounding. A 4% yield reinvested over 25 years can more than double your total return compared to taking the cash. However, once you need the income — such as in retirement — taking cash dividends makes perfect sense.</div>
+  </details>
+  <details>
+    <summary>Do I pay taxes on reinvested dividends?</summary>
+    <div class="detail-body">Yes, in taxable accounts you owe taxes on dividends in the year they're paid, even if reinvested. Qualified dividends are taxed at 0%, 15%, or 20% depending on your income. In tax-advantaged accounts like Roth IRAs or traditional IRAs, dividends are not taxed until withdrawal (or never, for Roth accounts).</div>
+  </details>
+  <details>
+    <summary>What dividend yield is considered good?</summary>
+    <div class="detail-body">A yield of 2–5% is generally considered healthy and sustainable for most dividend stocks. Yields above 6–7% can signal that the stock price has fallen sharply or the dividend is at risk of being cut. The "best" yield depends on your strategy — growth investors may prefer a 1–2% yield with strong price appreciation, while income investors often target 4–6%.</div>
+  </details>
+
+  <h2>Related Tools</h2>
+  <div class="related-grid">
+    <a href="/401k-contribution-calculator/" class="related-link">401k Contribution Calculator</a>
+    <a href="/debt-to-income-ratio-calculator/" class="related-link">Debt-to-Income Ratio Calculator</a>
+    <a href="/home-affordability-calculator/" class="related-link">Home Affordability Calculator</a>
+    <a href="/stock-profit-loss-calculator/" class="related-link">Stock Profit and Loss Calculator</a>
+    <a href="/emergency-fund-calculator/" class="related-link">Emergency Fund Calculator</a>
+    <a href="/retirement-savings-calculator/" class="related-link">Retirement Savings Calculator</a>
+  </div>
+</div>
+
+<div class="ad-slot" id="ad-bottom"></div>
+</main>
+
+<footer>
+  <div>
+    <a href="/about/">About</a>
+    <a href="/privacy/">Privacy</a>
+    <a href="/contact/">Contact</a>
+  </div>
+  <div style="margin-top:6px">© <span id="yr"></span> calcstack.dev</div>
+</footer>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+// Slider sync
+function syncSlider(rangeId, inputId, displayId, suffix){
+  const range = document.getElementById(rangeId);
+  const input = document.getElementById(inputId);
+  const display = document.getElementById(displayId);
+  function updateDisplay(v){
+    display.textContent = suffix === ' yrs' ? v + suffix : parseFloat(v).toFixed(1) + '%';
+  }
+  range.addEventListener('input', ()=>{ input.value = range.value; updateDisplay(range.value); });
+  input.addEventListener('input', ()=>{ 
+    const v = parseFloat(input.value);
+    if(!isNaN(v)) { range.value = v; updateDisplay(v); }
+  });
+}
+syncSlider('dividendYieldRange','dividendYield','dividendYieldDisplay','%');
+syncSlider('dividendGrowthRange','dividendGrowth','dividendGrowthDisplay','%');
+syncSlider('stockGrowthRange','stockGrowth','stockGrowthDisplay','%');
+syncSlider('yearsRange','years','yearsDisplay',' yrs');
+
+function fmt(n, dec=0){ return '$'+Number(n.toFixed(dec)).toLocaleString('en-US',{minimumFractionDigits:dec,maximumFractionDigits:dec}); }
+function fmtN(n, dec=2){ return Number(n.toFixed(dec)).toLocaleString('en-US',{minimumFractionDigits:dec,maximumFractionDigits:dec}); }
+function pct(n){ return n.toFixed(2)+'%'; }
+
+function clearErrors(){
+  document.querySelectorAll('.error-msg').forEach(e=>e.classList.remove('show'));
+  document.querySelectorAll('input').forEach(e=>e.classList.remove('error'));
+}
+
+function showError(inputId, msgId){
+  document.getElementById(inputId).classList.add('error');
+  document.getElementById(msgId).classList.add('show');
+}
+
+function validate(){
+  clearErrors();
+  let ok = true;
+  const initial = parseFloat(document.getElementById('initialInvestment').value);
+  const sharePrice = parseFloat(document.getElementById('sharePrice').value);
+  const divYield = parseFloat(document.getElementById('dividendYield').value);
+  const divGrowth = parseFloat(document.getElementById('dividendGrowth').value);
+  const stockGrowth = parseFloat(document.getElementById('stockGrowth').value);
+  const contrib = parseFloat(document.getElementById('additionalContrib').value)||0;
+  const yrs = parseInt(document.getElementById('years').value);
+  const taxRate = parseFloat(document.getElementById('taxRate').value);
+
+  if(isNaN(initial)||initial<0){showError('initialInvestment','err-initial');ok=false;}
+  if(isNaN(sharePrice)||sharePrice<=0){showError('sharePrice','err-share');ok=false;}
+  if(isNaN(divYield)||divYield<0||divYield>100){showError('dividendYield','err-yield');ok=false;}
+  if(isNaN(divGrowth)||divGrowth<0||divGrowth>100){showError('dividendGrowth','err-growth');ok=false;}
+  if(isNaN(stockGrowth)||stockGrowth<0||stockGrowth>100){showError('stockGrowth','err-stock');ok=false;}
+  if(isNaN(yrs)||yrs<1||yrs>100){showError('years','err-years');ok=false;}
+  if(isNaN(taxRate)||taxRate<0||taxRate>100){showError('taxRate','err-tax');ok=false;}
+  if(isNaN(contrib)||contrib<0){showError('additionalContrib','err-contrib');ok=false;}
+  return ok;
+}
+
+function calculate(){
+  if(!validate()) return;
+
+  const initial = parseFloat(document.getElementById('initialInvestment').value);
+  const sharePrice0 = parseFloat(document.getElementById('sharePrice').value);
+  const divYieldAnnual = parseFloat(document.getElementById('dividendYield').value)/100;
+  const divGrowthAnnual = parseFloat(document.getElementById('dividendGrowth').value)/100;
+  const stockGrowthAnnual = parseFloat(document.getElementById('stockGrowth').value)/100;
+  const monthlyContrib = parseFloat(document.getElementById('additionalContrib').value)||0;
+  const totalYears = parseInt(document.getElementById('years').value);
+  const taxRate = parseFloat(document.getElementById('taxRate').value)/100;
+  const freq = parseInt(document.getElementById('dividendFreq').value);
+
+  // Per-period rates
+  const periodsPerYear = freq;
+  const stockGrowthPerPeriod = Math.pow(1 + stockGrowthAnnual, 1/periodsPerYear) - 1;
+  const totalPeriods = totalYears * periodsPerYear;
+  const monthsPerPeriod = 12 / periodsPerYear;
+
+  let shares = initial / sharePrice0;
+  let price = sharePrice0;
+  let currentYield = divYieldAnnual;
+  let totalDividendsGross = 0;
+  let totalTaxesPaid = 0;
+  let totalContributions = initial;
+  let period = 0;
+
+  const yearlyData = [];
+  let yearShares = shares;
+  let yearPrice = price;
+  let yearDivGross = 0;
+  let yearDivNet = 0;
+  let yearTax = 0;
+  let yearContrib = 0;
+
+  for(let p = 1; p <= totalPeriods; p++){
+    // Apply stock growth
+    price = price * (1 + stockGrowthPerPeriod);
+
+    // Dividends this period
+    const grossDiv = shares * (currentYield / periodsPerYear) * price / price * price;
+    // Actually: dividend per share = price * yield/freq (yield applied to current price)
+    const grossDivPS = price * (currentYield / periodsPerYear);
+    const grossDivTotal = shares * grossDivPS;
+    const taxAmount = grossDivTotal * taxRate;
+    const netDiv = grossDivTotal - taxAmount;
+
+    totalDividendsGross += grossDivTotal;
+    totalTaxesPaid += taxAmount;
+    yearDivGross += grossDivTotal;
+    yearDivNet += netDiv;
+    yearTax += taxAmount;
+
+    // Reinvest net dividends
+    const newShares = netDiv / price;
+    shares += newShares;
+
+    // Monthly contributions — convert to shares over period
+    const periodContrib = monthlyContrib * monthsPerPeriod;
+    if(periodContrib > 0){
+      shares += periodContrib / price;
+      totalContributions += periodContrib;
+      yearContrib += periodContrib;
+    }
+
+    // Dividend growth applied annually
+    if(p % periodsPerYear === 0){
+      currentYield = currentYield * (1 + divGrowthAnnual);
+      const yr = p / periodsPerYear;
+      yearlyData.push({
+        year: yr,
+        shares: shares,
+        price: price,
+        value: shares * price,
+        yearDivGross,
+        yearDivNet,
+        yearTax,
+        yearContrib,
+        totalContrib: totalContributions,
+        totalDivGross: totalDividendsGross,
+        totalTaxPaid: totalTaxesPaid
+      });
+      yearDivGross = 0; yearDivNet = 0; yearTax = 0; yearContrib = 0;
+    }
+  }
+
+  const finalValue = shares * price;
+  const finalValueNoDrip = calcNoDrip(initial, sharePrice0, divYieldAnnual, divGrowthAnnual, stockGrowthAnnual, monthlyContrib, totalYears);
+  const totalContrib = totalContributions;
+  const principalGain = finalValue - totalContrib;
+  const dripBenefit = finalValue - finalValueNoDrip;
+
+  const pctPrincipal = (totalContrib / finalValue) * 100;
+  const pctDivReinvested = Math.min(((totalDividendsGross * (1-taxRate)) / finalValue) * 100, 100 - pctPrincipal);
+  const pctGrowth = Math.max(0, 100 - pctPrincipal - pctDivReinvested);
+
+  const annualIncome = shares * price * (divYieldAnnual * Math.pow(1+divGrowthAnnual, totalYears));
+  const lastYear = yearlyData[yearlyData.length-1];
+
+  // Build results HTML
+  const maxVal = Math.max(finalValue, finalValueNoDrip);
+
+  let html = `
+    <div class="big-result">
+      <div class="big-label">Final Portfolio Value (with DRIP)</div>
+      <div class="big-number">${fmt(finalValue, 0)}</div>
+      <div class="big-sub">vs. ${fmt(finalValueNoDrip,0)} without reinvestment &nbsp;|&nbsp; DRIP advantage: <strong style="color:#2e7d32">+${fmt(dripBenefit,0)}</strong></div>
+    </div>
+    <div class="summary-grid">
+      <div class="sum-item"><div class="s-label">Total Invested</div><div class="s-val">${fmt(totalContrib,0)}</div></div>
+      <div class="sum-item"><div class="s-label">Dividends Earned</div><div class="s-val green">${fmt(totalDividendsGross,0)}</div></div>
+      <div class="sum-item"><div class="s-label">Taxes Paid</div><div class="s-val">${fmt(totalTaxesPaid,0)}</div></div>
+      <div class="sum-item"><div class="s-label">Total Gain</div><div class="s-val accent">${fmt(principalGain,0)}</div></div>
+      <div class="sum-item"><div class="s-label">Final Shares</div><div class="s-val">${fmtN(shares,2)}</div></div>
+      <div class="sum-item"><div class="s-label">Annual Income (Yr ${totalYears})</div><div class="s-val green">${fmt(lastYear ? lastYear.yearDivNet : 0, 0)}</div></div>
+    </div>
+    <div class="bar-section">
+      <div class="section-title">Portfolio Composition at Year ${totalYears}</div>
+      <div class="bar-wrapper">
+        <div class="bar-seg principal" style="width:${pctPrincipal.toFixed(1)}%" title="Principal">${pctPrincipal>8?Math.round(pctPrincipal)+'%':''}</div>
+        <div class="bar-seg dividends" style="width:${pctDivReinvested.toFixed(1)}%" title="Dividends Reinvested">${pctDivReinvested>8?Math.round(pctDivReinvested)+'%':''}</div>
+        <div class="bar-seg growth" style="width:${pctGrowth.toFixed(1)}%" title="Price Appreciation">${pctGrowth>8?Math.round(pctGrowth)+'%':''}</div>
+      </div>
+      <div class="bar-legend">
+        <span class="legend-item"><span class="legend-dot principal"></span>Principal (${pctPrincipal.toFixed(1)}%)</span>
+        <span class="legend-item"><span class="legend-dot dividends"></span>Dividends Reinvested (${pctDivReinvested.toFixed(1)}%)</span>
+        <span class="legend-item"><span class="legend-dot growth"></span>Price Appreciation (${pctGrowth.toFixed(1)}%)</span>
+      </div>
+    </div>
+    <div class="bar-section">
+      <div class="section-title">DRIP vs. No Reinvestment</div>
+      <div class="compare-row">
+        <span class="compare-label">With DRIP</span>
+        <div class="compare-bar-wrap"><div class="compare-bar drip" style="width:${Math.min((finalValue/maxVal*100),100).toFixed(1)}%"></div></div>
+        <span class="compare-val">${fmt(finalValue,0)}</span>
+      </div>
+      <div class="compare-row">
+        <span class="compare-label">Without DRIP</span>
+        <div class="compare-bar-wrap"><div class="compare-bar nodrip" style="width:${Math.min((finalValueNoDrip/maxVal*100),100).toFixed(1)}%"></div></div>
+        <span class="compare-val">${fmt(finalValueNoDrip,0)}</span>
+      </div>
+    </div>
+  `;
+
+  // Table
+  const PREVIEW = 10;
+  let tableHTML = `<table><thead><tr>
+    <th>Year</th>
+    <th class="num">Share Price</th>
+    <th class="num">Shares</th>
+    <th class="num">Portfolio Value</th>
+    <th class="num">Annual Div (Net)</th>
+    <th class="num">Taxes Paid</th>
+    <th class="num">Total Invested</th>
+  </tr></thead><tbody>`;
+
+  for(let i=0;i<yearlyData.length;i++){
+    const d = yearlyData[i];
+    const hidden = i >= PREVIEW ? ' class="hidden-row" style="display:none"' : '';
+    tableHTML += `<tr${hidden}>
+      <td>${d.year}</td>
+      <td class="num">${fmt(d.price,2)}</td>
+      <td class="num">${fmtN(d.shares,2)}</td>
+      <td class="num">${fmt(d.value,0)}</td>
+      <td class="num">${fmt(d.yearDivNet,0)}</td>
+      <td class="num">${fmt(d.yearTax,0)}</td>
+      <td class="num">${fmt(d.totalContrib,0)}</td>
+    </tr>`;
+  }
+
+  tableHTML += '</tbody></table>';
+  if(yearlyData.length > PREVIEW){
+    tableHTML += `<div class="show-all-row"><button class="btn-secondary" id="showAllBtn">Show All ${yearlyData.length} Years</button></div>`;
+  }
+
+  requestAnimationFrame(()=>{
+    document.getElementById('resultsInner').innerHTML = html;
+    document.getElementById('tableWrap').innerHTML = tableHTML;
+    document.getElementById('resultsSection').classList.add('visible');
+
+    const showAllBtn = document.getElementById('showAllBtn');
+    if(showAllBtn){
+      showAllBtn.addEventListener('click', ()=>{
+        document.querySelectorAll('.hidden-row').forEach(r=>r.style.display='');
+        showAllBtn.parentElement.style.display='none';
+      });
+    }
+
+    document.getElementById('resultsSection').scrollIntoView({behavior:'smooth',block:'start'});
+
+    // Copy button
+    document.getElementById('copyBtn').onclick = ()=>{
+      const text = `DRIP Calculator Results\n` +
+        `Final Value (with DRIP): ${fmt(finalValue,0)}\n` +
+        `Without DRIP: ${fmt(finalValueNoDrip,0)}\n` +
+        `DRIP Advantage: +${fmt(dripBenefit,0)}\n` +
+        `Total Invested: ${fmt(totalContrib,0)}\n` +
+        `Total Dividends Earned: ${fmt(totalDividendsGross,0)}\n` +
+        `Taxes Paid: ${fmt(totalTaxesPaid,0)}\n` +
+        `Final Shares: ${fmtN(shares,2)}\n` +
+        `Annual Income (Year ${totalYears}): ${fmt(lastYear ? lastYear.yearDivNet : 0,0)}`;
+      navigator.clipboard.writeText(text).then(()=>{
+        const toast = document.getElementById('copyToast');
+        toast.classList.add('show');
+        setTimeout(()=>toast.classList.remove('show'),2000);
+      });
+    };
+  });
+}
+
+function calcNoDrip(initial, sharePrice0, divYield, divGrowth, stockGrowth, monthlyContrib, years){
+  // No reinvestment: dividends taken as cash, only price appreciation and additional shares from contributions
+  let shares = initial / sharePrice0;
+  let price = sharePrice0;
+  let cashFromDivs = 0;
+  let totalContrib = initial;
+  let currentYield = divYield;
+  const freq = parseInt(document.getElementById('dividendFreq').value);
+  const periodsPerYear = freq;
+  const totalPeriods = years * periodsPerYear;
+  const stockGrowthPerPeriod = Math.pow(1 + stockGrowth, 1/periodsPerYear) - 1;
+  const monthsPerPeriod = 12 / periodsPerYear;
+  const taxRate = parseFloat(document.getElementById('taxRate').value)/100;
+
+  for(let p=1;p<=totalPeriods;p++){
+    price = price * (1 + stockGrowthPerPeriod);
+    const grossDiv = shares * price * (currentYield / periodsPerYear);
+    cashFromDivs += grossDiv * (1 - taxRate);
+    const periodContrib = monthlyContrib * monthsPerPeriod;
+    if(periodContrib > 0){
+      shares += periodContrib / price;
+      totalContrib += periodContrib;
+    }
+    if(p % periodsPerYear === 0) currentYield *= (1 + divGrowth);
+  }
+  return shares * price + cashFromDivs;
+}
+
+document.getElementById('calcBtn').addEventListener('click', ()=>{
+  requestAnimationFrame(()=>{ calculate(); });
+});
+
+document.querySelectorAll('input').forEach(inp=>{
+  inp.addEventListener('keydown', e=>{ if(e.key==='Enter') requestAnimationFrame(()=>calculate()); });
+});
+</script>
+</body>
+</html>
