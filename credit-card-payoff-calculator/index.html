@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Credit Card Payoff Calculator — Free Online Tool | calcstack.dev</title>
+<meta name="description" content="Calculate exactly when you'll pay off your credit card, total interest paid, and how extra payments save you money. Free credit card payoff calculator.">
+<link rel="canonical" href="https://calcstack.dev/credit-card-payoff-calculator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Credit Card Payoff Calculator",
+  "url": "https://calcstack.dev/credit-card-payoff-calculator/",
+  "description": "Calculate exactly when you'll pay off your credit card, total interest paid, and how extra payments save you money.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f4f6f9;color:#1a1a2e;font-size:16px;line-height:1.6}
+a{color:#0077b6;text-decoration:none}
+a:hover{text-decoration:underline}
+nav{background:#fff;border-bottom:1px solid #e0e0e0;padding:0 1.5rem}
+.nav-inner{max-width:640px;margin:0 auto;display:flex;align-items:center;height:52px}
+.nav-logo{font-weight:700;font-size:1.1rem;color:#1a1a2e}
+.nav-logo span{color:#0077b6}
+main{max-width:640px;margin:0 auto;padding:1.5rem 1rem 2rem}
+h1{font-size:1.6rem;font-weight:700;color:#1a1a2e;margin-bottom:.35rem}
+.subtitle{color:#555;font-size:.95rem;margin-bottom:1.5rem}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:1.5rem}
+.form-group{margin-bottom:1.2rem}
+label{display:block;font-size:.85rem;font-weight:500;color:#444;margin-bottom:.4rem}
+label .hint{font-weight:400;color:#888;font-size:.8rem}
+input[type=number],input[type=text]{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:6px;font-size:1rem;color:#1a1a2e;background:#fff;transition:border-color .2s,box-shadow .2s;-moz-appearance:textfield}
+input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none}
+input:focus{outline:none;border-color:#0077b6;box-shadow:0 0 0 3px rgba(0,119,182,.15)}
+input.error{border-color:#e74c3c}
+.error-msg{color:#e74c3c;font-size:.8rem;margin-top:.3rem;display:none}
+.error-msg.show{display:block}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.slider-row{display:flex;align-items:center;gap:.75rem;margin-top:.5rem}
+input[type=range]{flex:1;accent-color:#0077b6;height:4px;cursor:pointer}
+.slider-val{font-size:.85rem;color:#0077b6;font-weight:600;min-width:60px;text-align:right}
+.btn{background:#0077b6;color:#fff;border:none;padding:13px 24px;border-radius:6px;font-size:1rem;font-weight:600;cursor:pointer;width:100%;min-height:44px;transition:background .2s}
+.btn:hover{background:#006299}
+.btn-secondary{background:#f0f0f0;color:#1a1a2e;font-size:.85rem;padding:8px 16px;border-radius:6px;border:1px solid #ddd;cursor:pointer;font-weight:500;min-height:36px;transition:background .2s}
+.btn-secondary:hover{background:#e0e0e0}
+.results{opacity:0;transition:opacity .3s ease;pointer-events:none}
+.results.show{opacity:1;pointer-events:all}
+.key-stat{text-align:center;padding:1.5rem 1rem;background:#f8f9fa;border-radius:8px;border:1px solid #e8e8e8;margin-bottom:1.2rem}
+.key-stat .label{font-size:.85rem;color:#666;margin-bottom:.3rem}
+.key-stat .value{font-size:2.2rem;font-weight:700;color:#0077b6;line-height:1}
+.key-stat .sub{font-size:.85rem;color:#888;margin-top:.4rem}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+.stat-box{background:#f8f9fa;border:1px solid #e8e8e8;border-radius:8px;padding:1rem;text-align:center}
+.stat-box .s-label{font-size:.78rem;color:#666;margin-bottom:.3rem}
+.stat-box .s-val{font-size:1.3rem;font-weight:700;color:#1a1a2e}
+.stat-box .s-sub{font-size:.75rem;color:#888;margin-top:.2rem}
+.savings-box{background:linear-gradient(135deg,#e8f5e9,#f1f8e9);border:1px solid #a5d6a7;border-radius:8px;padding:1rem 1.2rem;margin-bottom:1.5rem;display:none}
+.savings-box.show{display:block}
+.savings-box .s-title{font-size:.85rem;font-weight:600;color:#2e7d32;margin-bottom:.4rem}
+.savings-box .s-items{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+.savings-box .s-item .sl{font-size:.78rem;color:#555}
+.savings-box .s-item .sv{font-size:1.05rem;font-weight:700;color:#2e7d32}
+h3{font-size:1rem;font-weight:600;color:#1a1a2e;margin-bottom:.85rem}
+.bar-section{margin-bottom:1.5rem}
+.bar-wrap{background:#f0f0f0;border-radius:6px;height:28px;overflow:hidden;display:flex;margin-bottom:.6rem}
+.bar-principal{background:#0077b6;height:100%;transition:width .5s ease}
+.bar-interest{background:#e74c3c;height:100%;transition:width .5s ease}
+.bar-legend{display:flex;gap:1.2rem;font-size:.82rem;color:#555}
+.legend-dot{width:12px;height:12px;border-radius:50%;display:inline-block;margin-right:.3rem;vertical-align:middle}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:.75rem}
+table{width:100%;border-collapse:collapse;font-size:.85rem;min-width:380px}
+thead tr{background:#f0f0f0}
+thead th{padding:9px 10px;text-align:left;font-weight:600;color:#444;border-bottom:2px solid #ddd;white-space:nowrap}
+thead th:not(:first-child){text-align:right}
+tbody tr:nth-child(even){background:#fafafa}
+tbody tr{border-bottom:1px solid #eee}
+tbody td{padding:8px 10px;color:#333}
+tbody td:not(:first-child){text-align:right}
+.show-all-btn{text-align:center;margin-top:.5rem}
+.copy-btn{display:inline-flex;align-items:center;gap:.4rem;font-size:.8rem;padding:6px 14px;margin-left:.5rem;vertical-align:middle}
+.copy-btn svg{width:14px;height:14px}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.85rem;flex-wrap:wrap;gap:.5rem}
+.ad-slot{min-height:0;margin:0}
+.content-section{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;margin-bottom:1.5rem;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.content-section h2{font-size:1.15rem;font-weight:700;color:#1a1a2e;margin-bottom:.65rem;margin-top:1.5rem}
+.content-section h2:first-of-type{margin-top:0}
+.content-section p{color:#444;font-size:.93rem;margin-bottom:.75rem;line-height:1.7}
+.content-section ul{color:#444;font-size:.93rem;padding-left:1.3rem;margin-bottom:.75rem}
+.content-section ul li{margin-bottom:.4rem;line-height:1.6}
+details{border:1px solid #e8e8e8;border-radius:6px;padding:0;margin-bottom:.6rem;background:#f8f9fa}
+details summary{padding:.75rem 1rem;font-weight:600;font-size:.9rem;cursor:pointer;list-style:none;color:#1a1a2e}
+details summary::-webkit-details-marker{display:none}
+details[open] summary{border-bottom:1px solid #e8e8e8}
+details p{padding:.75rem 1rem;font-size:.9rem;color:#444;line-height:1.7}
+.related-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.related-link{background:#f8f9fa;border:1px solid #e0e0e0;border-radius:6px;padding:.75rem 1rem;font-size:.9rem;color:#0077b6;display:block;transition:background .15s}
+.related-link:hover{background:#eef6fb;text-decoration:none}
+footer{background:#fff;border-top:1px solid #e0e0e0;padding:1.2rem 1rem;text-align:center;font-size:.83rem;color:#666;margin-top:1rem}
+footer a{color:#0077b6;margin:0 .5rem}
+.mode-tabs{display:flex;gap:.5rem;margin-bottom:1.5rem}
+.tab-btn{flex:1;padding:10px;border:1px solid #ddd;background:#f8f9fa;border-radius:6px;font-size:.88rem;font-weight:600;cursor:pointer;color:#555;min-height:44px;transition:all .15s}
+.tab-btn.active{background:#0077b6;color:#fff;border-color:#0077b6}
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+@media(max-width:640px){
+  .row2{grid-template-columns:1fr}
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .key-stat .value{font-size:1.8rem}
+  .related-grid{grid-template-columns:1fr}
+  .savings-box .s-items{grid-template-columns:1fr 1fr}
+  h1{font-size:1.35rem}
+}
+@media(max-width:400px){
+  .stats-grid{grid-template-columns:1fr}
+  .savings-box .s-items{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">calc<span>stack</span>.dev</a>
+  </div>
+</nav>
+
+<main>
+  <h1>Credit Card Payoff Calculator</h1>
+  <p class="subtitle">Find out when your card will be paid off, total interest, and how extra payments help.</p>
+
+  <div class="card">
+    <div class="mode-tabs" role="tablist">
+      <button class="tab-btn active" onclick="switchTab('fixed')" id="tab-fixed" role="tab" aria-selected="true">Fixed Monthly Payment</button>
+      <button class="tab-btn" onclick="switchTab('months')" id="tab-months" role="tab" aria-selected="false">Payoff by Target Date</button>
+    </div>
+
+    <div class="tab-pane active" id="pane-fixed">
+      <div class="form-group">
+        <label for="balance">Current Balance <span class="hint">(what you owe right now)</span></label>
+        <input type="number" id="balance" placeholder="e.g. 5000" min="0" step="0.01">
+        <div class="error-msg" id="err-balance">Please enter a valid balance greater than $0.</div>
+      </div>
+      <div class="row2">
+        <div class="form-group">
+          <label for="apr">Annual Interest Rate (APR %)</label>
+          <input type="number" id="apr" placeholder="e.g. 22.99" min="0" max="100" step="0.01" value="22.99">
+          <div class="error-msg" id="err-apr">Enter a valid APR between 0% and 100%.</div>
+        </div>
+        <div class="form-group">
+          <label for="payment">Monthly Payment ($)</label>
+          <input type="number" id="payment" placeholder="e.g. 200" min="0" step="0.01">
+          <div class="error-msg" id="err-payment">Payment must exceed the minimum interest charge.</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Extra Monthly Payment: <span class="slider-val" id="extra-disp">$0</span></label>
+        <div class="slider-row">
+          <span style="font-size:.8rem;color:#888">$0</span>
+          <input type="range" id="extra-slider" min="0" max="500" step="5" value="0" oninput="updateSlider()">
+          <span style="font-size:.8rem;color:#888">$500</span>
+        </div>
+        <input type="number" id="extra-payment" placeholder="Or type amount" min="0" step="1" value="0" style="margin-top:.6rem">
+      </div>
+    </div>
+
+    <div class="tab-pane" id="pane-months">
+      <div class="form-group">
+        <label for="balance2">Current Balance</label>
+        <input type="number" id="balance2" placeholder="e.g. 5000" min="0" step="0.01">
+        <div class="error-msg" id="err-balance2">Please enter a valid balance greater than $0.</div>
+      </div>
+      <div class="row2">
+        <div class="form-group">
+          <label for="apr2">Annual Interest Rate (APR %)</label>
+          <input type="number" id="apr2" placeholder="e.g. 22.99" min="0" max="100" step="0.01" value="22.99">
+          <div class="error-msg" id="err-apr2">Enter a valid APR between 0% and 100%.</div>
+        </div>
+        <div class="form-group">
+          <label for="months-target">Months to Pay Off</label>
+          <input type="number" id="months-target" placeholder="e.g. 24" min="1" step="1">
+          <div class="error-msg" id="err-months">Enter a number of months (at least 1).</div>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn" onclick="calculate()">Calculate Payoff Plan</button>
+  </div>
+
+  <div class="results card" id="results">
+    <div class="key-stat" id="key-payoff">
+      <div class="label">Time to Pay Off</div>
+      <div class="value" id="payoff-time">—</div>
+      <div class="sub" id="payoff-date">—</div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-box">
+        <div class="s-label">Total Paid</div>
+        <div class="s-val" id="total-paid">—</div>
+      </div>
+      <div class="stat-box">
+        <div class="s-label">Total Interest</div>
+        <div class="s-val" id="total-interest">—</div>
+      </div>
+      <div class="stat-box">
+        <div class="s-label">Monthly Payment</div>
+        <div class="s-val" id="monthly-pmt">—</div>
+      </div>
+      <div class="stat-box">
+        <div class="s-label">Interest % of Total</div>
+        <div class="s-val" id="interest-pct">—</div>
+      </div>
+    </div>
+
+    <div class="savings-box" id="savings-box">
+      <div class="s-title">💰 Extra Payment Savings</div>
+      <div class="s-items" id="savings-items"></div>
+    </div>
+
+    <div class="bar-section">
+      <h3>Principal vs. Interest Breakdown</h3>
+      <div class="bar-wrap">
+        <div class="bar-principal" id="bar-p" style="width:50%"></div>
+        <div class="bar-interest" id="bar-i" style="width:50%"></div>
+      </div>
+      <div class="bar-legend">
+        <span><span class="legend-dot" style="background:#0077b6"></span>Principal <strong id="bar-p-pct">—</strong></span>
+        <span><span class="legend-dot" style="background:#e74c3c"></span>Interest <strong id="bar-i-pct">—</strong></span>
+      </div>
+    </div>
+
+    <div>
+      <div class="section-header">
+        <h3 style="margin-bottom:0">Month-by-Month Schedule</h3>
+        <div>
+          <button class="btn-secondary copy-btn" id="copy-btn" onclick="copyResults()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            Copy Summary
+          </button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table id="amort-table">
+          <thead><tr><th>#</th><th>Payment</th><th>Principal</th><th>Interest</th><th>Balance</th></tr></thead>
+          <tbody id="amort-body"></tbody>
+        </table>
+      </div>
+      <div class="show-all-btn" id="show-all-wrap" style="display:none">
+        <button class="btn-secondary" onclick="toggleAll()">Show All Months</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-mid"></div>
+
+  <div class="content-section">
+    <h2>How to Use This Credit Card Payoff Calculator</h2>
+    <p>Enter your current credit card balance, the annual interest rate (APR — found on your statement), and either a fixed monthly payment amount or a target number of months to be debt-free. Hit "Calculate Payoff Plan" to see your full amortization schedule, total interest cost, and payoff date. Use the extra payment slider to instantly see how adding even $25–$50 a month dramatically cuts both time and interest.</p>
+
+    <h2>Why This Matters</h2>
+    <p>Credit card debt is the most expensive debt most Americans carry. The average APR in 2024 sits above 21%, meaning a $5,000 balance paying only the minimum (typically 2% of balance or $25, whichever is higher) could take over 17 years to pay off and cost more than $6,000 in interest alone — more than the original debt.</p>
+    <p>This calculator helps you take control. A $5,000 balance at 22.99% APR paid at $150/month takes 48 months and costs $2,152 in interest. Bump that to $200/month and you're done in 33 months, saving $847. Increasing to $300/month? You're out in 21 months and save $1,400. Small changes in your monthly payment create enormous differences in outcome — and seeing the numbers makes the decision concrete.</p>
+    <p>This tool is useful for anyone consolidating cards, setting a budget, negotiating a payoff plan, or just trying to understand exactly where their money is going each month.</p>
+
+    <h2>How It's Calculated</h2>
+    <p>Each month, interest is calculated on your remaining balance:</p>
+    <p><strong>Monthly Interest = Balance × (APR ÷ 12)</strong></p>
+    <p>Your payment first covers the interest charge; the remainder reduces your principal balance. For the "payoff by target date" mode, the required monthly payment is calculated using the standard loan payment formula:</p>
+    <p><strong>PMT = PV × [r(1+r)ⁿ] ÷ [(1+r)ⁿ – 1]</strong></p>
+    <p>Where PV = present value (balance), r = monthly rate (APR÷12), n = number of months. If APR is 0%, it simply divides the balance by the number of months.</p>
+
+    <h2>Tips & Common Mistakes</h2>
+    <ul>
+      <li><strong>Never pay only the minimum.</strong> Minimum payments are designed to maximize interest revenue for the card issuer. Pay as much above the minimum as you can.</li>
+      <li><strong>Check your real APR.</strong> Many cards have different rates for purchases vs. cash advances vs. balance transfers. Use the purchase APR for most calculations.</li>
+      <li><strong>Account for new charges.</strong> This calculator assumes no new spending on the card. If you keep charging, your payoff date moves. Consider freezing the card during payoff.</li>
+      <li><strong>Avalanche method:</strong> If you have multiple cards, pay the minimum on all and throw every extra dollar at the highest-APR card first. This minimizes total interest paid.</li>
+      <li><strong>Refinancing options:</strong> A 0% APR balance transfer card (typically 15–21 months) or personal loan at a lower rate can dramatically reduce total cost — run both scenarios before committing.</li>
+    </ul>
+
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>What is the minimum payment on a credit card?</summary>
+      <p>Most credit card issuers charge the greater of $25–$35 or 1–2% of your outstanding balance each month. Some use a flat percentage of 2–3%. Paying only the minimum is extremely costly because nearly all of the payment goes toward interest, leaving your principal barely reduced each month.</p>
+    </details>
+    <details>
+      <summary>How does APR affect my payoff time?</summary>
+      <p>APR has a massive effect. On a $3,000 balance with $100/month payments: at 15% APR you pay off in 38 months ($806 interest); at 22% APR it takes 48 months ($1,469 interest); at 29% APR it takes 77 months ($2,685 interest). Every percentage point matters. Even negotiating a 2–3% rate reduction with your card issuer can save hundreds of dollars.</p>
+    </details>
+    <details>
+      <summary>Should I pay off my credit card or invest?</summary>
+      <p>If your credit card APR is above 10–12%, paying off the card almost always beats investing — it's a guaranteed risk-free return equal to your interest rate. S&P 500 averages ~10% historically, but it's not guaranteed. A card at 22% APR means every dollar paid off is like earning 22% risk-free, which is nearly impossible to beat through investing.</p>
+    </details>
+    <details>
+      <summary>What if my payment is less than the monthly interest?</summary>
+      <p>If your monthly payment doesn't cover the interest charge, your balance will actually grow — this is called negative amortization. In this case, you'll never pay off the card at that payment level. The calculator will show an error message and suggest a minimum viable payment to avoid this.</p>
+    </details>
+  </div>
+
+  <div class="content-section">
+    <h2 style="margin-top:0">Related Tools</h2>
+    <div class="related-grid">
+      <a href="/refinance-break-even-calculator/" class="related-link">Refinance Break-Even Calculator</a>
+      <a href="/dividend-reinvestment-calculator/" class="related-link">Dividend Reinvestment Calculator</a>
+      <a href="/401k-contribution-calculator/" class="related-link">401k Contribution Calculator</a>
+      <a href="/debt-to-income-ratio-calculator/" class="related-link">Debt-to-Income Ratio Calculator</a>
+      <a href="/home-affordability-calculator/" class="related-link">Home Affordability Calculator</a>
+      <a href="/retirement-income-estimator/" class="related-link">Retirement Income Estimator</a>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-bottom"></div>
+</main>
+
+<footer>
+  <div>calcstack.dev</div>
+  <div style="margin-top:.4rem">
+    <a href="/about/">About</a>
+    <a href="/privacy/">Privacy</a>
+    <a href="/contact/">Contact</a>
+  </div>
+  <div style="margin-top:.4rem">© 2024 calcstack.dev</div>
+</footer>
+
+<script>
+let currentMode = 'fixed';
+let allRows = [];
+let showingAll = false;
+
+function switchTab(mode) {
+  currentMode = mode;
+  document.getElementById('pane-fixed').classList.toggle('active', mode === 'fixed');
+  document.getElementById('pane-months').classList.toggle('active', mode === 'months');
+  document.getElementById('tab-fixed').classList.toggle('active', mode === 'fixed');
+  document.getElementById('tab-months').classList.toggle('active', mode === 'months');
+  document.getElementById('tab-fixed').setAttribute('aria-selected', mode === 'fixed');
+  document.getElementById('tab-months').setAttribute('aria-selected', mode === 'months');
+  document.getElementById('results').classList.remove('show');
+}
+
+function updateSlider() {
+  const v = document.getElementById('extra-slider').value;
+  document.getElementById('extra-disp').textContent = '$' + Number(v).toLocaleString();
+  document.getElementById('extra-payment').value = v;
+}
+
+document.getElementById('extra-payment').addEventListener('input', function() {
+  const v = Math.min(500, Math.max(0, Number(this.value) || 0));
+  document.getElementById('extra-slider').value = v;
+  document.getElementById('extra-disp').textContent = '$' + Number(this.value || 0).toLocaleString();
+});
+
+function fmt(n) {
+  return '$' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+function fmtM(n) {
+  return '$' + Math.round(n).toLocaleString();
+}
+
+function clearErrors() {
+  document.querySelectorAll('.error-msg').forEach(e => e.classList.remove('show'));
+  document.querySelectorAll('input').forEach(e => e.classList.remove('error'));
+}
+
+function showError(field, msgId) {
+  document.getElementById(field).classList.add('error');
+  document.getElementById(msgId).classList.add('show');
+}
+
+function buildAmortization(balance, monthlyRate, payment) {
+  const rows = [];
+  let bal = balance;
+  let totalInterest = 0;
+  let month = 0;
+  const MAX = 600;
+  while (bal > 0.005 && month < MAX) {
+    month++;
+    const interest = bal * monthlyRate;
+    let principal = payment - interest;
+    if (principal > bal) principal = bal;
+    if (principal < 0) return null; // payment too low
+    const pmt = principal + interest;
+    totalInterest += interest;
+    bal -= principal;
+    if (bal < 0.005) bal = 0;
+    rows.push({ month, payment: pmt, principal, interest, balance: bal, totalInterest });
+  }
+  if (bal > 0.005) return null;
+  return rows;
+}
+
+function monthsToText(n) {
+  const y = Math.floor(n / 12);
+  const m = n % 12;
+  const parts = [];
+  if (y > 0) parts.push(y + ' year' + (y > 1 ? 's' : ''));
+  if (m > 0) parts.push(m + ' month' + (m > 1 ? 's' : ''));
+  return parts.join(', ');
+}
+
+function payoffDate(months) {
+  const d = new Date();
+  d.setMonth(d.getMonth() + months);
+  return d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+}
+
+function buildTableRows(rows, limit) {
+  const shown = limit ? rows.slice(0, limit) : rows;
+  let html = '';
+  for (const r of shown) {
+    html += `<tr><td>${r.month}</td><td>${fmt(r.payment)}</td><td>${fmt(r.principal)}</td><td>${fmt(r.interest)}</td><td>${fmt(r.balance)}</td></tr>`;
+  }
+  return html;
+}
+
+function toggleAll() {
+  showingAll = !showingAll;
+  const btn = document.querySelector('#show-all-wrap button');
+  requestAnimationFrame(() => {
+    document.getElementById('amort-body').innerHTML = buildTableRows(allRows, showingAll ? null : 12);
+    btn.textContent = showingAll ? 'Show Less' : 'Show All Months';
+  });
+}
+
+function calculate() {
+  clearErrors();
+  let balance, apr, payment, extra = 0;
+  let hasError = false;
+
+  if (currentMode === 'fixed') {
+    balance = parseFloat(document.getElementById('balance').value);
+    apr = parseFloat(document.getElementById('apr').value);
+    payment = parseFloat(document.getElementById('payment').value);
+    extra = parseFloat(document.getElementById('extra-payment').value) || 0;
+
+    if (!balance || balance <= 0) { showError('balance', 'err-balance'); hasError = true; }
+    if (isNaN(apr) || apr < 0 || apr > 100) { showError('apr', 'err-apr'); hasError = true; }
+    if (!payment || payment <= 0) { showError('payment', 'err-payment'); hasError = true; }
+    if (hasError) return;
+
+    const monthlyRate = apr / 100 / 12;
+    const minInterest = balance * monthlyRate;
+
+    if (payment <= minInterest) {
+      document.getElementById('err-payment').textContent = `Payment must exceed monthly interest ($${minInterest.toFixed(2)}). Try at least $${Math.ceil(minInterest + 1)}.`;
+      showError('payment', 'err-payment');
+      return;
+    }
+
+    const rows = buildAmortization(balance, monthlyRate, payment + extra);
+    if (!rows) {
+      document.getElementById('err-payment').textContent = 'Payment too low to pay off card. Please increase it.';
+      showError('payment', 'err-payment');
+      return;
+    }
+
+    const rowsBase = extra > 0 ? buildAmortization(balance, monthlyRate, payment) : null;
+    renderResults(balance, rows, rowsBase, payment + extra, extra);
+
+  } else {
+    balance = parseFloat(document.getElementById('balance2').value);
+    apr = parseFloat(document.getElementById('apr2').value);
+    const months = parseInt(document.getElementById('months-target').value);
+
+    if (!balance || balance <= 0) { showError('balance2', 'err-balance2'); hasError = true; }
+    if (isNaN(apr) || apr < 0 || apr > 100) { showError('apr2', 'err-apr2'); hasError = true; }
+    if (!months || months < 1) { showError('months-target', 'err-months'); hasError = true; }
+    if (hasError) return;
+
+    const monthlyRate = apr / 100 / 12;
+    let pmt;
+    if (monthlyRate === 0) {
+      pmt = balance / months;
+    } else {
+      pmt = balance * (monthlyRate * Math.pow(1 + monthlyRate, months)) / (Math.pow(1 + monthlyRate, months) - 1);
+    }
+
+    const rows = buildAmortization(balance, monthlyRate, pmt);
+    if (!rows) {
+      document.getElementById('err-months').textContent = 'Could not build schedule. Try more months.';
+      showError('months-target', 'err-months');
+      return;
+    }
+
+    renderResults(balance, rows, null, pmt, 0);
+  }
+}
+
+function renderResults(balance, rows, rowsBase, payment, extra) {
+  const totalPaid = rows.reduce((s, r) => s + r.payment, 0);
+  const totalInterest = rows.reduce((s, r) => s + r.interest, 0);
+  const months = rows.length;
+  const interestPct = (totalInterest / totalPaid * 100).toFixed(1);
+  const principalPct = (100 - parseFloat(interestPct)).toFixed(1);
+
+  let savingsHTML = '';
+  if (rowsBase && extra > 0) {
+    const basePaid = rowsBase.reduce((s, r) => s + r.payment, 0);
+    const baseInterest = rowsBase.reduce((s, r) => s + r.interest, 0);
+    const savedInterest = baseInterest - totalInterest;
+    const savedMonths = rowsBase.length - months;
+    savingsHTML = `
+      <div class="s-item"><div class="sl">Interest Saved</div><div class="sv">${fmt(savedInterest)}</div></div>
+      <div class="s-item"><div class="sl">Months Saved</div><div class="sv">${savedMonths} mo</div></div>
+      <div class="s-item"><div class="sl">Without Extra</div><div class="sv">${monthsToText(rowsBase.length)}</div></div>
+      <div class="s-item"><div class="sl">With Extra</div><div class="sv">${monthsToText(months)}</div></div>
+    `;
+  }
+
+  allRows = rows;
+  showingAll = false;
+  const tableRows = buildTableRows(rows, 12);
+  const showAllVisible = rows.length > 12;
+
+  requestAnimationFrame(() => {
+    document.getElementById('payoff-time').textContent = monthsToText(months);
+    document.getElementById('payoff-date').textContent = 'Paid off: ' + payoffDate(months);
+    document.getElementById('total-paid').textContent = fmt(totalPaid);
+    document.getElementById('total-interest').textContent = fmt(totalInterest);
+    document.getElementById('monthly-pmt').textContent = fmt(payment);
+    document.getElementById('interest-pct').textContent = interestPct + '%';
+    document.getElementById('bar-p').style.width = principalPct + '%';
+    document.getElementById('bar-i').style.width = interestPct + '%';
+    document.getElementById('bar-p-pct').textContent = principalPct + '%';
+    document.getElementById('bar-i-pct').textContent = interestPct + '%';
+
+    const sb = document.getElementById('savings-box');
+    if (savingsHTML) {
+      document.getElementById('savings-items').innerHTML = savingsHTML;
+      sb.classList.add('show');
+    } else {
+      sb.classList.remove('show');
+    }
+
+    document.getElementById('amort-body').innerHTML = tableRows;
+    const saw = document.getElementById('show-all-wrap');
+    if (showAllVisible) {
+      saw.style.display = 'block';
+      saw.querySelector('button').textContent = 'Show All Months';
+    } else {
+      saw.style.display = 'none';
+    }
+
+    document.getElementById('results').classList.add('show');
+    document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+}
+
+function copyResults() {
+  const payoff = document.getElementById('payoff-time').textContent;
+  const totalPaid = document.getElementById('total-paid').textContent;
+  const totalInt = document.getElementById('total-interest').textContent;
+  const pmt = document.getElementById('monthly-pmt').textContent;
+  const date = document.getElementById('payoff-date').textContent;
+  const text = `Credit Card Payoff Summary\n${date}\nTime to Pay Off: ${payoff}\nMonthly Payment: ${pmt}\nTotal Paid: ${totalPaid}\nTotal Interest: ${totalInt}\ncalcstack.dev/credit-card-payoff-calculator/`;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copy-btn');
+    btn.textContent = 'Copied!';
+    setTimeout(() => {
+      btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy Summary`;
+    }, 2000);
+  }).catch(() => {
+    alert(text);
+  });
+}
+
+// Enter key support
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') {
+    const active = document.activeElement;
+    if (active && active.tagName === 'INPUT' && active.type !== 'range') {
+      calculate();
+    }
+  }
+});
+</script>
+</body>
+</html>
