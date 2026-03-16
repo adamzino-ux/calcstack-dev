@@ -55,6 +55,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://calcstack.dev/budget-planner-calculator/</loc>
+    <lastmod>2026-03-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://calcstack.dev/retirement-savings-calculator/</loc>
     <lastmod>2026-03-15</lastmod>
     <changefreq>monthly</changefreq>
