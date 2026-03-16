@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Refinance Break-Even Calculator — Free Online Tool | calcstack.dev</title>
+<meta name="description" content="Calculate your refinance break-even point instantly. See exactly how many months until your closing costs are recovered and whether refinancing makes financial sense.">
+<link rel="canonical" href="https://calcstack.dev/refinance-break-even-calculator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Refinance Break-Even Calculator",
+  "url": "https://calcstack.dev/refinance-break-even-calculator/",
+  "description": "Calculate your refinance break-even point. Enter your current loan details, new loan terms, and closing costs to find out when refinancing pays off.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "calcstack.dev",
+    "url": "https://calcstack.dev"
+  }
+}
+</script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #fff; color: #1a1a2e; font-size: 16px; line-height: 1.6; }
+a { color: #0077b6; text-decoration: none; }
+a:hover { color: #006299; text-decoration: underline; }
+nav { border-bottom: 1px solid #e0e0e0; padding: 0 1.5rem; background: #fff; }
+.nav-inner { max-width: 640px; margin: 0 auto; display: flex; align-items: center; height: 52px; }
+.nav-brand { font-weight: 700; font-size: 1.1rem; color: #1a1a2e; }
+.nav-brand:hover { text-decoration: none; color: #0077b6; }
+.container { max-width: 640px; margin: 0 auto; padding: 2rem 1.5rem; }
+h1 { font-size: 1.75rem; font-weight: 700; color: #1a1a2e; margin-bottom: 0.5rem; }
+.subtitle { color: #555; margin-bottom: 2rem; font-size: 0.95rem; }
+.card { background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 2rem; box-shadow: 0 1px 4px rgba(0,0,0,0.06); margin-bottom: 2rem; }
+.section-title { font-size: 1rem; font-weight: 700; color: #1a1a2e; margin-bottom: 1.25rem; padding-bottom: 0.5rem; border-bottom: 2px solid #0077b6; display: inline-block; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.form-group { margin-bottom: 1rem; }
+.form-group.full { grid-column: 1 / -1; }
+label { display: block; font-size: 0.85rem; font-weight: 500; color: #444; margin-bottom: 0.35rem; }
+input[type="number"], input[type="text"], select {
+  width: 100%; border: 1px solid #ddd; border-radius: 6px;
+  padding: 12px 16px; font-size: 1rem; color: #1a1a2e;
+  background: #fff; transition: border-color 0.2s, box-shadow 0.2s;
+  -webkit-appearance: none; appearance: none; min-height: 44px;
+}
+input:focus, select:focus { outline: none; border-color: #0077b6; box-shadow: 0 0 0 3px rgba(0,119,182,0.15); }
+input.error { border-color: #e74c3c; }
+.error-msg { color: #e74c3c; font-size: 0.78rem; margin-top: 0.3rem; display: none; }
+.error-msg.show { display: block; }
+.input-prefix { position: relative; }
+.input-prefix span { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #777; font-size: 0.95rem; pointer-events: none; }
+.input-prefix input { padding-left: 28px; }
+.input-suffix { position: relative; }
+.input-suffix span { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: #777; font-size: 0.95rem; pointer-events: none; }
+.input-suffix input { padding-right: 28px; }
+.btn { background: #0077b6; color: #fff; border: none; border-radius: 6px; padding: 12px 24px; font-size: 1rem; font-weight: 600; cursor: pointer; width: 100%; min-height: 44px; transition: background 0.2s; margin-top: 0.5rem; }
+.btn:hover { background: #006299; }
+.btn-secondary { background: #f0f0f0; color: #444; font-size: 0.85rem; padding: 8px 16px; min-height: 36px; width: auto; margin-top: 0; border-radius: 6px; border: 1px solid #ddd; cursor: pointer; transition: background 0.2s; }
+.btn-secondary:hover { background: #e0e0e0; }
+.results { opacity: 0; transition: opacity 0.3s ease; pointer-events: none; }
+.results.visible { opacity: 1; pointer-events: all; }
+.key-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
+.metric-card { background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 8px; padding: 1rem 1.25rem; text-align: center; }
+.metric-card.highlight { background: #e8f4fd; border-color: #0077b6; }
+.metric-value { font-size: 1.75rem; font-weight: 800; color: #0077b6; line-height: 1.1; }
+.metric-value.good { color: #16a34a; }
+.metric-value.warn { color: #d97706; }
+.metric-value.bad { color: #e74c3c; }
+.metric-label { font-size: 0.78rem; color: #666; margin-top: 0.25rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.02em; }
+.verdict { border-radius: 8px; padding: 1rem 1.25rem; margin-bottom: 1.5rem; font-size: 0.95rem; font-weight: 600; }
+.verdict.good { background: #f0fdf4; border: 1px solid #86efac; color: #16a34a; }
+.verdict.warn { background: #fffbeb; border: 1px solid #fcd34d; color: #92400e; }
+.verdict.bad { background: #fef2f2; border: 1px solid #fca5a5; color: #991b1b; }
+.comparison-section { margin-bottom: 1.5rem; }
+.comparison-section h3 { font-size: 0.9rem; font-weight: 700; color: #444; margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.03em; }
+.bar-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.6rem; }
+.bar-label { font-size: 0.82rem; color: #555; width: 90px; flex-shrink: 0; text-align: right; }
+.bar-track { flex: 1; background: #f0f0f0; border-radius: 4px; height: 22px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 4px; transition: width 0.4s ease; display: flex; align-items: center; justify-content: flex-end; padding-right: 6px; }
+.bar-fill span { font-size: 0.72rem; font-weight: 600; color: #fff; white-space: nowrap; }
+.bar-fill.blue { background: #0077b6; }
+.bar-fill.teal { background: #0d9488; }
+.bar-fill.orange { background: #f59e0b; }
+.bar-fill.red { background: #e74c3c; }
+.info-table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+thead th { background: #f0f0f0; font-weight: 700; padding: 10px 12px; text-align: left; color: #333; white-space: nowrap; }
+thead th.num { text-align: right; }
+tbody tr:nth-child(even) { background: #fafafa; }
+tbody tr:nth-child(odd) { background: #fff; }
+tbody td { padding: 9px 12px; border-bottom: 1px solid #eee; color: #333; }
+tbody td.num { text-align: right; font-variant-numeric: tabular-nums; }
+tbody tr.break-even-row { background: #e8f4fd !important; font-weight: 700; }
+.hidden-rows { display: none; }
+.show-all-btn { width: 100%; background: #f8f9fa; border: 1px solid #ddd; color: #0077b6; font-size: 0.85rem; padding: 10px; border-radius: 6px; cursor: pointer; margin-top: 0.5rem; min-height: 44px; transition: background 0.2s; font-weight: 600; }
+.show-all-btn:hover { background: #e8f4fd; }
+.copy-row { display: flex; justify-content: flex-end; margin-bottom: 0.75rem; }
+.copy-btn { background: #f0f0f0; border: 1px solid #ddd; color: #444; font-size: 0.8rem; padding: 6px 14px; border-radius: 6px; cursor: pointer; min-height: 36px; transition: background 0.2s; font-weight: 500; }
+.copy-btn:hover { background: #e0e0e0; }
+.ad-slot { min-height: 0; margin: 0; }
+.content-section { margin-bottom: 2rem; }
+.content-section h2 { font-size: 1.2rem; font-weight: 700; color: #1a1a2e; margin-bottom: 0.75rem; margin-top: 1.75rem; }
+.content-section h2:first-child { margin-top: 0; }
+.content-section p { color: #444; margin-bottom: 0.75rem; font-size: 0.95rem; }
+.content-section ul { padding-left: 1.25rem; color: #444; font-size: 0.95rem; }
+.content-section ul li { margin-bottom: 0.4rem; }
+details { border: 1px solid #e0e0e0; border-radius: 6px; margin-bottom: 0.75rem; }
+summary { padding: 0.75rem 1rem; font-weight: 600; cursor: pointer; font-size: 0.95rem; color: #1a1a2e; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+summary::-webkit-details-marker { display: none; }
+summary::after { content: '+'; font-size: 1.2rem; color: #0077b6; flex-shrink: 0; }
+details[open] summary::after { content: '−'; }
+details[open] summary { border-bottom: 1px solid #e0e0e0; }
+.details-body { padding: 0.75rem 1rem; font-size: 0.9rem; color: #444; }
+.related-tools { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-top: 0.75rem; }
+.related-link { background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 6px; padding: 0.75rem 1rem; font-size: 0.87rem; font-weight: 500; color: #0077b6; transition: background 0.2s; }
+.related-link:hover { background: #e8f4fd; text-decoration: none; }
+footer { border-top: 1px solid #e0e0e0; padding: 1.5rem; text-align: center; color: #888; font-size: 0.82rem; }
+footer a { color: #888; margin: 0 0.5rem; }
+footer a:hover { color: #0077b6; }
+.formula-box { background: #f8f9fa; border-left: 3px solid #0077b6; border-radius: 0 6px 6px 0; padding: 0.75rem 1rem; font-family: monospace; font-size: 0.88rem; color: #1a1a2e; margin: 0.5rem 0 0.75rem; }
+.divider { border: none; border-top: 1px solid #e8e8e8; margin: 1.5rem 0; }
+@media (max-width: 640px) {
+  h1 { font-size: 1.4rem; }
+  .form-grid { grid-template-columns: 1fr; }
+  .key-metrics { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+  .metric-value { font-size: 1.4rem; }
+  .card { padding: 1.25rem; }
+  .related-tools { grid-template-columns: 1fr; }
+  .bar-label { width: 70px; font-size: 0.75rem; }
+}
+@media (max-width: 400px) {
+  .key-metrics { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">calcstack.dev</a>
+  </div>
+</nav>
+
+<div class="container">
+  <h1>Refinance Break-Even Calculator</h1>
+  <p class="subtitle">Find out exactly when refinancing pays off — enter your current loan, new terms, and closing costs.</p>
+
+  <div class="card">
+    <div class="section-title">Current Loan</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="currentBalance">Remaining Loan Balance</label>
+        <div class="input-prefix">
+          <span>$</span>
+          <input type="number" id="currentBalance" placeholder="250,000" min="1" step="1">
+        </div>
+        <div class="error-msg" id="err-currentBalance">Please enter a valid balance.</div>
+      </div>
+      <div class="form-group">
+        <label for="currentRate">Current Interest Rate</label>
+        <div class="input-suffix">
+          <span>%</span>
+          <input type="number" id="currentRate" placeholder="6.75" min="0.01" max="30" step="0.01">
+        </div>
+        <div class="error-msg" id="err-currentRate">Enter a rate between 0.01% and 30%.</div>
+      </div>
+      <div class="form-group">
+        <label for="currentTerm">Remaining Term (months)</label>
+        <input type="number" id="currentTerm" placeholder="300" min="1" max="480" step="1">
+        <div class="error-msg" id="err-currentTerm">Enter months remaining (1–480).</div>
+      </div>
+      <div class="form-group">
+        <label for="currentPayment">Current Monthly Payment</label>
+        <div class="input-prefix">
+          <span>$</span>
+          <input type="number" id="currentPayment" placeholder="Auto-calculated" min="1" step="0.01" readonly style="background:#f8f9fa;color:#777;">
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+    <div class="section-title">New Loan</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="newRate">New Interest Rate</label>
+        <div class="input-suffix">
+          <span>%</span>
+          <input type="number" id="newRate" placeholder="5.75" min="0.01" max="30" step="0.01">
+        </div>
+        <div class="error-msg" id="err-newRate">Enter a rate between 0.01% and 30%.</div>
+      </div>
+      <div class="form-group">
+        <label for="newTerm">New Loan Term (months)</label>
+        <input type="number" id="newTerm" placeholder="360" min="1" max="480" step="1">
+        <div class="error-msg" id="err-newTerm">Enter months (1–480).</div>
+      </div>
+      <div class="form-group">
+        <label for="newBalance">New Loan Amount</label>
+        <div class="input-prefix">
+          <span>$</span>
+          <input type="number" id="newBalance" placeholder="Same as balance" min="1" step="1">
+        </div>
+        <div class="error-msg" id="err-newBalance">Enter a valid loan amount.</div>
+      </div>
+      <div class="form-group">
+        <label for="closingCosts">Total Closing Costs</label>
+        <div class="input-prefix">
+          <span>$</span>
+          <input type="number" id="closingCosts" placeholder="5,000" min="0" step="1">
+        </div>
+        <div class="error-msg" id="err-closingCosts">Enter closing costs (0 or more).</div>
+      </div>
+    </div>
+
+    <button class="btn" id="calcBtn">Calculate Break-Even</button>
+  </div>
+
+  <div class="results card" id="results">
+    <div class="copy-row">
+      <button class="copy-btn" id="copyBtn">📋 Copy Summary</button>
+    </div>
+
+    <div id="verdictBox" class="verdict good"></div>
+
+    <div class="key-metrics" id="keyMetrics"></div>
+
+    <div class="comparison-section">
+      <h3>Monthly Payment Comparison</h3>
+      <div id="paymentBars"></div>
+    </div>
+
+    <div class="comparison-section">
+      <h3>Total Interest Comparison</h3>
+      <div id="interestBars"></div>
+    </div>
+
+    <hr class="divider">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;">
+      <strong style="font-size:0.9rem;color:#333;">Month-by-Month Cumulative Savings</strong>
+    </div>
+    <div class="info-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Month</th>
+            <th class="num">Cumul. Savings</th>
+            <th class="num">Old Balance</th>
+            <th class="num">New Balance</th>
+            <th class="num">Net Benefit</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+    <button class="show-all-btn" id="showAllBtn" style="display:none;">Show All Months ▼</button>
+  </div>
+
+  <div class="ad-slot" id="ad-mid"></div>
+
+  <div class="content-section">
+    <h2>How to Use This Refinance Break-Even Calculator</h2>
+    <p>Enter your current loan's remaining balance, interest rate, and months left. Then enter your new loan's proposed rate, term, and closing costs. The calculator instantly shows your break-even month — the point where cumulative monthly savings equal the upfront closing costs you paid.</p>
+    <p>The new loan amount defaults to your current balance, but you can override it if you're rolling in closing costs or doing a cash-out refinance. The month-by-month table shows exactly how savings accumulate over time.</p>
+
+    <h2>Why This Matters</h2>
+    <p>Refinancing isn't free — you pay thousands in closing costs upfront (typically 2–5% of the loan amount). A $300,000 refinance at 3% closing costs means $9,000 out of pocket before you save a single dollar. If your new rate saves you $200/month, you'd need 45 months (3.75 years) just to break even.</p>
+    <p>This is exactly why the break-even point matters. If you plan to sell or move in 2 years, paying $9,000 in closing costs to save $200/month makes no sense — you'd lose $4,200 overall. But if you're staying 10+ years, that same refinance saves you $15,000 after break-even.</p>
+    <p>The decision becomes more nuanced when you also change your loan term. Refinancing from a 30-year to a 15-year loan usually raises your monthly payment but cuts total interest dramatically. This tool handles all scenarios — lower rate same term, shorter term, and cash-out situations.</p>
+
+    <h2>How It's Calculated</h2>
+    <p>The monthly payment for each loan uses the standard amortization formula:</p>
+    <div class="formula-box">M = P × [r(1+r)ⁿ] / [(1+r)ⁿ − 1]</div>
+    <p>Where <strong>P</strong> = loan principal, <strong>r</strong> = monthly interest rate (annual ÷ 12), and <strong>n</strong> = number of monthly payments.</p>
+    <p>The <strong>monthly savings</strong> = Current Payment − New Payment. The <strong>break-even month</strong> = Closing Costs ÷ Monthly Savings (rounded up to the nearest month). Total interest for each loan is the sum of all interest portions across the full amortization schedule.</p>
+    <div class="formula-box">Break-Even Months = Closing Costs ÷ Monthly Payment Savings</div>
+
+    <h2>Tips & Common Mistakes</h2>
+    <ul>
+      <li><strong>Don't ignore how long you'll stay.</strong> The break-even month is only meaningful if you plan to stay in the home past that point. Most experts recommend you need at least 2–3 years past break-even to make refinancing worth it.</li>
+      <li><strong>Watch out for extending your term.</strong> Refinancing a 20-year remaining mortgage back to 30 years lowers payments but dramatically increases total interest paid, even at a lower rate.</li>
+      <li><strong>Rolling closing costs into the loan.</strong> Adding closing costs to your loan balance avoids upfront cash but you'll pay interest on those costs for the life of the loan.</li>
+      <li><strong>The 1% rule is outdated.</strong> You've likely heard "refinance if rates drop 1%." That's a rough heuristic. Your actual break-even depends heavily on loan size, closing costs, and remaining term.</li>
+      <li><strong>Consider tax implications.</strong> Mortgage interest is deductible if you itemize. A lower rate means less deductible interest — factor this in for high-income borrowers.</li>
+    </ul>
+
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>What are typical closing costs for a refinance?</summary>
+      <div class="details-body">Closing costs typically range from 2% to 5% of the loan amount. On a $250,000 loan, that's $5,000–$12,500. Common costs include loan origination fees (0.5–1%), appraisal ($300–$600), title insurance, and government recording fees. Some lenders offer "no-closing-cost" refinances that roll costs into the rate — you still pay, just differently.</div>
+    </details>
+    <details>
+      <summary>Is a shorter break-even always better?</summary>
+      <div class="details-body">Generally yes, but it depends on your plans. A 12-month break-even is great if you're staying long-term, but if you're planning to sell in 18 months, even a short break-even period matters. The key question is always: how long do I plan to keep this loan?</div>
+    </details>
+    <details>
+      <summary>Should I refinance if rates only dropped slightly?</summary>
+      <div class="details-body">It depends on your loan size and closing costs. A 0.5% rate drop on a $500,000 loan saves about $200/month — enough to justify $5,000 in closing costs in 25 months. On a $150,000 loan, the same rate drop saves ~$60/month, meaning a 7-year break-even. Run the numbers, don't use rules of thumb.</div>
+    </details>
+    <details>
+      <summary>What if the new loan amount is different from my current balance?</summary>
+      <div class="details-body">This tool lets you enter a different new loan amount. You might do this if you're rolling closing costs into the loan (new amount = balance + closing costs), doing a cash-out refinance, or if your lender requires slight adjustments. Just enter the actual amount you'll be borrowing.</div>
+    </details>
+  </div>
+
+  <hr class="divider">
+  <div class="content-section">
+    <h2>Related Tools</h2>
+    <div class="related-tools">
+      <a href="/dividend-reinvestment-calculator/" class="related-link">Dividend Reinvestment Calculator</a>
+      <a href="/401k-contribution-calculator/" class="related-link">401k Contribution Calculator</a>
+      <a href="/debt-to-income-ratio-calculator/" class="related-link">Debt-to-Income Ratio Calculator</a>
+      <a href="/home-affordability-calculator/" class="related-link">Home Affordability Calculator</a>
+      <a href="/stock-profit-loss-calculator/" class="related-link">Stock Profit and Loss Calculator</a>
+      <a href="/emergency-fund-calculator/" class="related-link">Emergency Fund Calculator</a>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-bottom"></div>
+</div>
+
+<footer>
+  <div>© <span id="yr"></span> calcstack.dev</div>
+  <div style="margin-top:0.4rem;">
+    <a href="/about/">About</a>
+    <a href="/privacy/">Privacy</a>
+    <a href="/contact/">Contact</a>
+  </div>
+</footer>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+function fmt(n, dec=0) {
+  if (isNaN(n) || !isFinite(n)) return '—';
+  return n.toLocaleString('en-US', { minimumFractionDigits: dec, maximumFractionDigits: dec });
+}
+function fmtCur(n) {
+  if (isNaN(n) || !isFinite(n)) return '—';
+  return '$' + fmt(n, 2);
+}
+
+function monthlyPayment(principal, annualRate, months) {
+  if (annualRate === 0) return principal / months;
+  const r = annualRate / 100 / 12;
+  return principal * (r * Math.pow(1 + r, months)) / (Math.pow(1 + r, months) - 1);
+}
+
+function totalInterest(principal, annualRate, months) {
+  return monthlyPayment(principal, annualRate, months) * months - principal;
+}
+
+function getField(id) {
+  return parseFloat(document.getElementById(id).value);
+}
+
+// Auto-calculate current payment when inputs change
+function updateCurrentPayment() {
+  const bal = getField('currentBalance');
+  const rate = getField('currentRate');
+  const term = getField('currentTerm');
+  const el = document.getElementById('currentPayment');
+  if (bal > 0 && rate > 0 && term > 0) {
+    const pmt = monthlyPayment(bal, rate, term);
+    el.value = pmt.toFixed(2);
+  } else {
+    el.value = '';
+  }
+}
+
+['currentBalance','currentRate','currentTerm'].forEach(id => {
+  document.getElementById(id).addEventListener('input', updateCurrentPayment);
+});
+
+function clearError(id) {
+  document.getElementById(id).classList.remove('error');
+  document.getElementById('err-'+id).classList.remove('show');
+}
+function showError(id) {
+  document.getElementById(id).classList.add('error');
+  document.getElementById('err-'+id).classList.add('show');
+}
+
+function validate() {
+  let ok = true;
+  const checks = [
+    ['currentBalance', v => v > 0],
+    ['currentRate', v => v > 0 && v <= 30],
+    ['currentTerm', v => v >= 1 && v <= 480],
+    ['newRate', v => v > 0 && v <= 30],
+    ['newTerm', v => v >= 1 && v <= 480],
+    ['closingCosts', v => v >= 0],
+  ];
+  checks.forEach(([id, fn]) => {
+    const v = getField(id);
+    if (!fn(v)) { showError(id); ok = false; }
+    else clearError(id);
+  });
+  const nb = document.getElementById('newBalance').value.trim();
+  if (nb !== '') {
+    if (getField('newBalance') <= 0) { showError('newBalance'); ok = false; }
+    else clearError('newBalance');
+  } else clearError('newBalance');
+  return ok;
+}
+
+let allRows = [];
+let showingAll = false;
+
+function calculate() {
+  if (!validate()) return;
+
+  const curBal = getField('currentBalance');
+  const curRate = getField('currentRate');
+  const curTerm = getField('currentTerm');
+  const newRate = getField('newRate');
+  const newTerm = getField('newTerm');
+  const closingCosts = getField('closingCosts');
+  const nbInput = document.getElementById('newBalance').value.trim();
+  const newBal = nbInput !== '' ? getField('newBalance') : curBal;
+
+  const curPmt = monthlyPayment(curBal, curRate, curTerm);
+  const newPmt = monthlyPayment(newBal, newRate, newTerm);
+  const monthlySavings = curPmt - newPmt;
+  const curTotalInterest = totalInterest(curBal, curRate, curTerm);
+  const newTotalInterest = totalInterest(newBal, newRate, newTerm);
+  const interestSavings = curTotalInterest - newTotalInterest;
+
+  let breakEvenMonth = null;
+  if (closingCosts === 0) {
+    breakEvenMonth = monthlySavings > 0 ? 0 : null;
+  } else if (monthlySavings > 0) {
+    breakEvenMonth = Math.ceil(closingCosts / monthlySavings);
+  }
+
+  // Build amortization data
+  const maxMonths = Math.max(curTerm, newTerm);
+  allRows = [];
+
+  let curBalance = curBal;
+  let newBalance = newBal;
+  const curR = curRate / 100 / 12;
+  const newR = newRate / 100 / 12;
+  let cumSavings = -closingCosts;
+
+  for (let m = 1; m <= maxMonths; m++) {
+    if (m <= curTerm) {
+      const interest = curBalance * curR;
+      const principal = curPmt - interest;
+      curBalance = Math.max(0, curBalance - principal);
+    } else {
+      curBalance = 0;
+    }
+    if (m <= newTerm) {
+      const interest = newBalance * newR;
+      const principal = newPmt - interest;
+      newBalance = Math.max(0, newBalance - principal);
+    } else {
+      newBalance = 0;
+    }
+    cumSavings += monthlySavings;
+    allRows.push({ m, cumSavings, curBalance, newBalance, netBenefit: interestSavings - closingCosts });
+  }
+
+  requestAnimationFrame(() => {
+    renderResults(curPmt, newPmt, monthlySavings, closingCosts, breakEvenMonth, curTotalInterest, newTotalInterest, interestSavings, curRate, newRate, newTerm, newBal, curBal);
+  });
+}
+
+function renderResults(curPmt, newPmt, monthlySavings, closingCosts, breakEvenMonth, curTotalInterest, newTotalInterest, interestSavings, curRate, newRate, newTerm, newBal, curBal) {
+  const results = document.getElementById('results');
+
+  // Verdict
+  const verdictBox = document.getElementById('verdictBox');
+  let verdictClass, verdictText;
+  if (monthlySavings <= 0) {
+    verdictClass = 'bad';
+    verdictText = '⚠️ Refinancing increases your monthly payment. This may only make sense if you\'re shortening your loan term to save on total interest.';
+  } else if (breakEvenMonth === null) {
+    verdictClass = 'bad';
+    verdictText = '⚠️ You cannot break even — monthly savings are zero or negative.';
+  } else if (breakEvenMonth === 0) {
+    verdictClass = 'good';
+    verdictText = '✅ Excellent! No closing costs means you save immediately with every payment.';
+  } else if (breakEvenMonth <= 24) {
+    verdictClass = 'good';
+    verdictText = `✅ Great deal! You'll break even in ${breakEvenMonth} months (${(breakEvenMonth/12).toFixed(1)} years). If you stay past that, you come out ahead.`;
+  } else if (breakEvenMonth <= 48) {
+    verdictClass = 'warn';
+    verdictText = `⚡ Moderate. Break-even is ${breakEvenMonth} months (${(breakEvenMonth/12).toFixed(1)} years). Consider whether you'll stay in the home that long.`;
+  } else {
+    verdictClass = 'bad';
+    verdictText = `🔴 Long break-even of ${breakEvenMonth} months (${(breakEvenMonth/12).toFixed(1)} years). Only beneficial if you stay in the home well past that point.`;
+  }
+  verdictBox.className = 'verdict ' + verdictClass;
+  verdictBox.textContent = verdictText;
+
+  // Key metrics
+  const beColor = !breakEvenMonth || breakEvenMonth === 0 ? 'good' : breakEvenMonth <= 24 ? 'good' : breakEvenMonth <= 48 ? 'warn' : 'bad';
+  const beDisplay = breakEvenMonth === null ? 'Never' : breakEvenMonth === 0 ? 'Now' : breakEvenMonth + ' mo';
+  const savingsColor = interestSavings > 0 ? 'good' : 'bad';
+
+  document.getElementById('keyMetrics').innerHTML = `
+    <div class="metric-card highlight">
+      <div class="metric-value ${beColor}">${beDisplay}</div>
+      <div class="metric-label">Break-Even Point</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-value ${monthlySavings > 0 ? 'good' : 'bad'}">${monthlySavings >= 0 ? '+' : ''}${fmtCur(monthlySavings)}</div>
+      <div class="metric-label">Monthly Savings</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-value ${savingsColor}">${interestSavings >= 0 ? '' : '-'}$${fmt(Math.abs(interestSavings))}</div>
+      <div class="metric-label">Total Interest ${interestSavings >= 0 ? 'Saved' : 'Added'}</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-value">${fmtCur(closingCosts)}</div>
+      <div class="metric-label">Closing Costs</div>
+    </div>
+  `;
+
+  // Payment bars
+  const maxPmt = Math.max(curPmt, newPmt);
+  const curPctPmt = (curPmt / maxPmt * 100).toFixed(1);
+  const newPctPmt = (newPmt / maxPmt * 100).toFixed(1);
+  document.getElementById('paymentBars').innerHTML = `
+    <div class="bar-row"><div class="bar-label">Current</div><div class="bar-track"><div class="bar-fill blue" style="width:${curPctPmt}%"><span>${fmtCur(curPmt)}/mo</span></div></div></div>
+    <div class="bar-row"><div class="bar-label">New</div><div class="bar-track"><div class="bar-fill teal" style="width:${newPctPmt}%"><span>${fmtCur(newPmt)}/mo</span></div></div></div>
+  `;
+
+  // Interest bars
+  const maxInt = Math.max(curTotalInterest, newTotalInterest, 1);
+  const curPctInt = (curTotalInterest / maxInt * 100).toFixed(1);
+  const newPctInt = (newTotalInterest / maxInt * 100).toFixed(1);
+  document.getElementById('interestBars').innerHTML = `
+    <div class="bar-row"><div class="bar-label">Current</div><div class="bar-track"><div class="bar-fill orange" style="width:${curPctInt}%"><span>$${fmt(curTotalInterest)}</span></div></div></div>
+    <div class="bar-row"><div class="bar-label">New</div><div class="bar-track"><div class="bar-fill teal" style="width:${newPctInt}%"><span>$${fmt(newTotalInterest)}</span></div></div></div>
+  `;
+
+  // Table
+  const visibleCount = 24;
+  let tbHtml = '';
+  allRows.forEach((row, i) => {
+    const isBreakEven = breakEvenMonth && row.m === breakEvenMonth;
+    const trClass = isBreakEven ? ' class="break-even-row"' : i >= visibleCount ? ' class="hidden-rows"' : '';
+    const cumColor = row.cumSavings >= 0 ? 'color:#16a34a' : 'color:#e74c3c';
+    tbHtml += `<tr${trClass}${isBreakEven ? '' : (i >= visibleCount ? ' data-hidden="true"' : '')}>
+      <td>${row.m}${isBreakEven ? ' ⭐' : ''}</td>
+      <td class="num" style="${cumColor}">${fmtCur(row.cumSavings)}</td>
+      <td class="num">${fmtCur(row.curBalance)}</td>
+      <td class="num">${fmtCur(row.newBalance)}</td>
+      <td class="num" style="${row.netBenefit >= 0 ? 'color:#16a34a' : 'color:#e74c3c'}">${fmtCur(row.netBenefit)}</td>
+    </tr>`;
+  });
+
+  document.getElementById('tableBody').innerHTML = tbHtml;
+
+  const showAllBtn = document.getElementById('showAllBtn');
+  if (allRows.length > visibleCount) {
+    showAllBtn.style.display = 'block';
+    showAllBtn.textContent = `Show All ${allRows.length} Months ▼`;
+    showingAll = false;
+  } else {
+    showAllBtn.style.display = 'none';
+  }
+
+  results.classList.add('visible');
+
+  // Store for copy
+  window._copyData = {
+    curPmt, newPmt, monthlySavings, closingCosts, breakEvenMonth,
+    curTotalInterest, newTotalInterest, interestSavings
+  };
+}
+
+document.getElementById('showAllBtn').addEventListener('click', function() {
+  const hidden = document.querySelectorAll('#tableBody tr[data-hidden="true"]');
+  if (!showingAll) {
+    hidden.forEach(r => r.style.display = '');
+    this.textContent = 'Show Less ▲';
+    showingAll = true;
+  } else {
+    hidden.forEach(r => r.style.display = 'none');
+    this.textContent = `Show All ${allRows.length} Months ▼`;
+    showingAll = false;
+  }
+});
+
+document.getElementById('calcBtn').addEventListener('click', () => {
+  requestAnimationFrame(() => { calculate(); });
+});
+
+document.querySelectorAll('input[type="number"]').forEach(inp => {
+  inp.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      requestAnimationFrame(() => { calculate(); });
+    }
+  });
+});
+
+document.getElementById('copyBtn').addEventListener('click', function() {
+  const d = window._copyData;
+  if (!d) return;
+  const be = d.breakEvenMonth === null ? 'Never' : d.breakEvenMonth === 0 ? 'Immediately' : d.breakEvenMonth + ' months';
+  const text = `Refinance Break-Even Summary\n` +
+    `Current Monthly Payment: ${fmtCur(d.curPmt)}\n` +
+    `New Monthly Payment: ${fmtCur(d.newPmt)}\n` +
+    `Monthly Savings: ${fmtCur(d.monthlySavings)}\n` +
+    `Closing Costs: ${fmtCur(d.closingCosts)}\n` +
+    `Break-Even Point: ${be}\n` +
+    `Total Interest Saved: ${fmtCur(d.interestSavings)}\n` +
+    `Calculated at calcstack.dev/refinance-break-even-calculator/`;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copyBtn');
+    const orig = btn.textContent;
+    btn.textContent = '✅ Copied!';
+    setTimeout(() => btn.textContent = orig, 2000);
+  });
+});
+
+// Hide hidden rows on table rebuild
+const origBodyObserver = new MutationObserver(() => {
+  if (!showingAll) {
+    document.querySelectorAll('#tableBody tr[data-hidden="true"]').forEach(r => r.style.display = 'none');
+  }
+});
+origBodyObserver.observe(document.getElementById('tableBody'), { childList: true });
+</script>
+</body>
+</html>
