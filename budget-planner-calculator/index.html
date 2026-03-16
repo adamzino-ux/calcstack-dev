@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Budget Planner Calculator — Free Online Tool | calcstack.dev</title>
+<meta name="description" content="Plan your monthly budget with our free Budget Planner Calculator. Track income, expenses, and savings to see exactly where your money goes.">
+<link rel="canonical" href="https://calcstack.dev/budget-planner-calculator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Budget Planner Calculator",
+  "url": "https://calcstack.dev/budget-planner-calculator/",
+  "description": "Plan your monthly budget by tracking income and expenses to see how much you can save each month.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f4f6f9;color:#1a1a2e;font-size:16px;line-height:1.6}
+a{color:#0077b6;text-decoration:none}
+a:hover{text-decoration:underline}
+nav{background:#fff;border-bottom:1px solid #e0e0e0;padding:0 1.5rem;position:sticky;top:0;z-index:100}
+nav .nav-inner{max-width:640px;margin:0 auto;display:flex;align-items:center;height:52px}
+nav .site-name{font-weight:700;font-size:1.1rem;color:#1a1a2e}
+nav .site-name span{color:#0077b6}
+main{max-width:640px;margin:0 auto;padding:1.5rem 1rem 3rem}
+h1{font-size:1.6rem;font-weight:700;margin-bottom:0.4rem;color:#1a1a2e}
+.subtitle{color:#555;font-size:0.95rem;margin-bottom:1.5rem}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:1.75rem;margin-bottom:1.5rem;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.section-title{font-size:1rem;font-weight:700;color:#0077b6;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:1rem;padding-bottom:0.4rem;border-bottom:2px solid #e8f4fd}
+.form-group{margin-bottom:1rem}
+.form-group label{display:block;font-size:0.85rem;font-weight:500;color:#444;margin-bottom:0.35rem}
+.form-group input{width:100%;border:1px solid #ddd;border-radius:5px;padding:12px 16px;font-size:1rem;color:#1a1a2e;background:#fff;transition:border-color 0.2s,box-shadow 0.2s;min-height:44px}
+.form-group input:focus{outline:none;border-color:#0077b6;box-shadow:0 0 0 3px rgba(0,119,182,0.15)}
+.form-group input.error{border-color:#e74c3c;box-shadow:0 0 0 3px rgba(231,76,60,0.12)}
+.error-msg{font-size:0.78rem;color:#e74c3c;margin-top:0.3rem}
+.input-prefix{position:relative}
+.input-prefix span{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#777;font-size:1rem;pointer-events:none}
+.input-prefix input{padding-left:28px}
+.row-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.expense-row{display:grid;grid-template-columns:1fr auto auto;gap:0.5rem;align-items:end;margin-bottom:0.6rem}
+.expense-row input{min-height:44px}
+.expense-row .input-prefix{flex:1}
+.btn-remove{background:none;border:1px solid #ddd;border-radius:5px;width:38px;height:44px;cursor:pointer;font-size:1.1rem;color:#999;display:flex;align-items:center;justify-content:center;transition:all 0.2s;flex-shrink:0}
+.btn-remove:hover{border-color:#e74c3c;color:#e74c3c;background:#fff5f5}
+.btn-add{background:none;border:1px dashed #0077b6;color:#0077b6;border-radius:5px;padding:8px 16px;font-size:0.9rem;cursor:pointer;width:100%;margin-top:0.3rem;min-height:40px;transition:all 0.2s}
+.btn-add:hover{background:#e8f4fd}
+.btn-primary{background:#0077b6;color:#fff;border:none;border-radius:6px;padding:13px 28px;font-size:1rem;font-weight:600;cursor:pointer;width:100%;min-height:48px;transition:background 0.2s;margin-top:0.5rem}
+.btn-primary:hover{background:#006299}
+.results{opacity:0;transition:opacity 0.3s ease;pointer-events:none}
+.results.visible{opacity:1;pointer-events:all}
+.summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;margin-bottom:1.25rem}
+.summary-card{background:#f8f9fa;border-radius:7px;padding:1rem 0.75rem;text-align:center;border:1px solid #e8e8e8}
+.summary-card .label{font-size:0.75rem;font-weight:500;color:#666;text-transform:uppercase;letter-spacing:0.03em;margin-bottom:0.3rem}
+.summary-card .value{font-size:1.35rem;font-weight:700;color:#0077b6}
+.summary-card.surplus .value{color:#27ae60}
+.summary-card.deficit .value{color:#e74c3c}
+.summary-card.neutral .value{color:#888}
+.bar-section{margin-bottom:1.25rem}
+.bar-label-row{display:flex;justify-content:space-between;font-size:0.82rem;color:#555;margin-bottom:0.35rem}
+.bar-track{background:#f0f0f0;border-radius:20px;height:14px;overflow:hidden;margin-bottom:0.6rem}
+.bar-fill{height:100%;border-radius:20px;transition:width 0.5s ease}
+.bar-fill.income{background:#0077b6}
+.bar-fill.expenses{background:#e74c3c}
+.bar-fill.savings{background:#27ae60}
+.stacked-bar{display:flex;height:22px;border-radius:6px;overflow:hidden;margin-bottom:0.5rem}
+.stacked-seg{height:100%;transition:width 0.5s ease}
+.stacked-legend{display:flex;flex-wrap:wrap;gap:0.5rem 1rem;font-size:0.78rem;margin-bottom:0.75rem}
+.legend-item{display:flex;align-items:center;gap:0.3rem}
+.legend-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+table{width:100%;border-collapse:collapse;font-size:0.88rem}
+thead th{background:#f0f0f0;padding:9px 10px;text-align:left;font-weight:600;font-size:0.8rem;color:#444;border-bottom:2px solid #ddd}
+thead th.num{text-align:right}
+tbody tr:nth-child(even){background:#fafafa}
+tbody tr:hover{background:#f0f7ff}
+tbody td{padding:9px 10px;border-bottom:1px solid #eee;color:#333}
+tbody td.num{text-align:right;font-variant-numeric:tabular-nums}
+.tfoot-row td{font-weight:700;background:#f0f0f0;border-top:2px solid #ddd}
+.show-all-btn{background:none;border:1px solid #ddd;border-radius:5px;padding:7px 18px;font-size:0.85rem;color:#0077b6;cursor:pointer;display:block;margin:0.75rem auto 0;transition:all 0.2s}
+.show-all-btn:hover{background:#e8f4fd;border-color:#0077b6}
+.copy-btn{background:none;border:1px solid #ddd;border-radius:5px;padding:6px 14px;font-size:0.82rem;color:#555;cursor:pointer;transition:all 0.2s;float:right}
+.copy-btn:hover{border-color:#0077b6;color:#0077b6}
+.copy-btn.copied{color:#27ae60;border-color:#27ae60}
+.hidden-rows{display:none}
+.hidden-rows.show{display:table-row-group}
+.ad-slot{min-height:0;margin:0}
+.content-section{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:1.75rem;margin-bottom:1.5rem}
+.content-section h2{font-size:1.15rem;font-weight:700;color:#1a1a2e;margin:1.5rem 0 0.6rem}
+.content-section h2:first-child{margin-top:0}
+.content-section p{color:#444;font-size:0.93rem;margin-bottom:0.75rem}
+.content-section ul,.content-section ol{color:#444;font-size:0.93rem;padding-left:1.3rem;margin-bottom:0.75rem}
+.content-section li{margin-bottom:0.35rem}
+details{border:1px solid #e8e8e8;border-radius:6px;padding:0.8rem 1rem;margin-bottom:0.6rem;background:#fafafa}
+details summary{font-weight:600;font-size:0.92rem;cursor:pointer;color:#1a1a2e;list-style:none;display:flex;justify-content:space-between;align-items:center}
+details summary::after{content:"＋";color:#0077b6;font-size:1rem}
+details[open] summary::after{content:"－"}
+details p{margin-top:0.6rem;font-size:0.88rem;color:#555;margin-bottom:0}
+.related-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.6rem}
+.related-link{display:block;background:#f8f9fa;border:1px solid #e8e8e8;border-radius:6px;padding:0.7rem 1rem;font-size:0.88rem;color:#0077b6;transition:all 0.2s}
+.related-link:hover{background:#e8f4fd;border-color:#0077b6;text-decoration:none}
+footer{background:#fff;border-top:1px solid #e0e0e0;padding:1.25rem 1rem;text-align:center;font-size:0.82rem;color:#777;margin-top:2rem}
+footer a{color:#555;margin:0 0.5rem}
+footer a:hover{color:#0077b6}
+.tabs{display:flex;gap:0;margin-bottom:1.25rem;border-bottom:2px solid #e0e0e0}
+.tab-btn{background:none;border:none;padding:10px 18px;font-size:0.9rem;font-weight:500;color:#777;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all 0.2s;min-height:44px}
+.tab-btn.active{color:#0077b6;border-bottom-color:#0077b6;font-weight:600}
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+.tip-badge{display:inline-block;background:#e8f4fd;color:#0077b6;border-radius:12px;padding:2px 9px;font-size:0.75rem;font-weight:600;margin-bottom:0.5rem}
+@media(max-width:640px){
+  .row-2{grid-template-columns:1fr}
+  .summary-grid{grid-template-columns:1fr 1fr}
+  .summary-grid .summary-card:last-child{grid-column:span 2}
+  .related-grid{grid-template-columns:1fr}
+  .expense-row{grid-template-columns:1fr auto}
+  .expense-row .cat-input{display:none}
+  h1{font-size:1.3rem}
+}
+@media(max-width:400px){
+  .summary-grid{grid-template-columns:1fr}
+  .summary-grid .summary-card:last-child{grid-column:span 1}
+}
+.table-scroll{overflow-x:auto}
+.color-1{background:#0077b6}
+.color-2{background:#e74c3c}
+.color-3{background:#f39c12}
+.color-4{background:#27ae60}
+.color-5{background:#9b59b6}
+.color-6{background:#16a085}
+.color-7{background:#e67e22}
+.color-8{background:#2980b9}
+.color-9{background:#c0392b}
+.color-10{background:#8e44ad}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="site-name">calc<span>stack</span>.dev</a>
+  </div>
+</nav>
+
+<main>
+  <h1>Budget Planner Calculator</h1>
+  <p class="subtitle">Plan your monthly budget, track expenses by category, and see exactly how much you can save.</p>
+
+  <!-- INCOME SECTION -->
+  <div class="card">
+    <div class="section-title">Monthly Income</div>
+    <div id="income-rows">
+      <div class="expense-row income-row">
+        <div class="form-group" style="margin:0;flex:1">
+          <label>Source</label>
+          <input type="text" class="inc-name" placeholder="e.g. Primary Job" value="Primary Job">
+        </div>
+        <div class="form-group input-prefix" style="margin:0;flex:1">
+          <label>Amount (after tax)</label>
+          <span>$</span>
+          <input type="number" class="inc-amount" placeholder="0" min="0" step="0.01">
+        </div>
+        <button class="btn-remove" onclick="removeRow(this,'income-rows','income-row')" title="Remove" style="align-self:flex-end;margin-bottom:0">✕</button>
+      </div>
+    </div>
+    <button class="btn-add" onclick="addIncomeRow()">+ Add Income Source</button>
+  </div>
+
+  <!-- EXPENSES SECTION -->
+  <div class="card">
+    <div class="section-title">Monthly Expenses</div>
+    <div class="tabs" id="cat-tabs">
+      <button class="tab-btn active" onclick="switchTab('housing')">Housing</button>
+      <button class="tab-btn" onclick="switchTab('transport')">Transport</button>
+      <button class="tab-btn" onclick="switchTab('food')">Food</button>
+      <button class="tab-btn" onclick="switchTab('other')">Other</button>
+    </div>
+
+    <div id="tab-housing" class="tab-pane active">
+      <div id="housing-rows">
+        <div class="expense-row">
+          <div class="form-group" style="margin:0;flex:1">
+            <label>Item</label>
+            <input type="text" class="exp-name" data-cat="Housing" placeholder="e.g. Rent/Mortgage" value="Rent / Mortgage">
+          </div>
+          <div class="form-group input-prefix" style="margin:0;flex:1">
+            <label>Amount</label>
+            <span>$</span>
+            <input type="number" class="exp-amount" data-cat="Housing" placeholder="0" min="0" step="0.01">
+          </div>
+          <button class="btn-remove" onclick="removeRow(this,'housing-rows','expense-row')" title="Remove" style="align-self:flex-end;margin-bottom:0">✕</button>
+        </div>
+        <div class="expense-row">
+          <div class="form-group" style="margin:0;flex:1">
+            <label>Item</label>
+            <input type="text" class="exp-name" data-cat="Housing" placeholder="e.g. Utilities" value="Utilities">
+          </div>
+          <div class="form-group input-prefix" style="margin:0;flex:1">
+            <label>Amount</label>
+            <span>$</span>
+            <input type="number" class="exp-amount" data-cat="Housing" placeholder="0" min="0" step="0.01">
+          </div>
+          <button class="btn-remove" onclick="removeRow(this,'housing-rows','expense-row')" title="Remove" style="align-self:flex-end;margin-bottom:0">✕</button>
+        </div>
+        <div class="expense-row">
+          <div class="form-group" style="margin:0;flex:1">
+            <label>Item</label>
+            <input type="text" class="exp-name" data-cat="Housing" placeholder="e.g. Internet" value="Internet">
+          </div>
+          <div class="form-group input-prefix" style="margin:0;flex:1">
+            <label>Amount</label>
+            <span>$</span>
+            <input type="number" class="exp-amount" data-cat="Housing" placeholder="0" min="0" step="0.01">
+          </div>
+          <button class="btn-remove" onclick="removeRow(this,'housing-rows','expense-row')" title="Remove" style="align-self:flex-end;margin-bottom:0">✕</button>
+        </div>
+      </div>
+      <button class="btn-add" onclick="addExpenseRow('housing-rows','Housing')">+ Add Housing Expense</button>
+    </div>
+
+    <div id="tab-transport" class="tab-pane">
+      <div id="transport-rows">
+        <div class="expense-row">
+          <div class="form-group" style="margin:0;flex:1">
+            <label>Item</label>
+            <input type="text" class="exp-name" data-cat="Transport" placeholder="e.g. Car Payment" value="Car Payment">
+          </div>
+          <div class="form-group input-prefix" style="margin:0;flex:1">
+            <label>Amount</label>
+            <span>$</span>
+            <input type="number" class="exp-amount" data-cat="Transport" placeholder="0" min="0" step="0.01">
+          </div>
+          <button class="btn-remove" onclick="removeRow(this,'transport-rows','expense-row')" title="Remove" style="align-self:flex-end;margin-bottom:0">✕</button>
+        </div>
+        <div class="expense-row">
+          <div class="form-group" style="margin:0;flex:1">
+            <label>Item</label>
+            <input type="text" class="exp-name" data-cat="Transport" placeholder="e.g. Gas" value="Gas">
+          </div>
+          <div class="form-group input-prefix" style="margin:0;flex:1">
+            <label>Amount</label>
+            <span>$</span>
+            <input type="number" class="exp-amount" data-cat="Transport" placeholder="0" min="0" step="0.01">
+          </div>
+          <button class="btn-remove" onclick="removeRow(this,'transport-rows','expense-row')" title="Remove" style="align-self:flex-end;margin-bottom:0">✕</button>
+        </div>
+        <div class="expense-row">
+          <div class="form-group" style="margin:0;flex:1">
+            <label>Item</label>
+            <input type="text" class="exp-name" data-cat="Transport" placeholder="e.g. Car Insurance" value="Car Insurance">
+          </div>
+          <div class="form-group input-prefix" style="margin:0;flex:1">
+            <label>Amount</label>
+            <span>$</span>
+            <input type="number" class="exp-amount" data-cat="Transport" placeholder="0" min="0" step="0.01">
+          </div>
+          <button class="btn-remove" onclick="removeRow(this,'transport-rows','expense-row')" title="Remove" style="align-self:flex-end;margin-bottom:0">✕</button>
+        </div>
+      </div>
+      <button class="btn-add" onclick="addExpenseRow('transport-rows','Transport')">+ Add Transport Expense</button>
+    </div>
+
+    <div id="tab-food" class="tab-pane">
+      <div id="food-rows">
+        <div class="expense-row">
+          <div class="form-group" style="margin:0;flex:1">
+            <label>Item</label>
+            <input type="text" class="exp-name" data-cat="Food" placeholder="e.g. Groceries" value="Groceries">
+          </div>
+          <div class="form-group input-prefix" style="margin:0;flex:1">
+            <label>Amount</label>
+            <span>$</span>
+            <input type="number" class="exp-amount" data-cat="Food" placeholder="0" min="0" step="0.01">
+          </div>
+          <button class="btn-remove" onclick="removeRow(this,'food-rows','expense-row')" title="Remove" style="align-self:flex-end;margin-bottom:0">✕</button>
+        </div>
+        <div class="expense-row">
+          <div class="form-group" style="margin:0;flex:1">
+            <label>Item</label>
+            <input type="text" class="exp-name" data-cat="Food" placeholder="e.g. Dining Out" value="Dining Out">
+          </div>
+          <div class="form-group input-prefix" style="margin:0;flex:1">
+            <label>Amount</label>
+            <span>$</span>
+            <input type="number" class="exp-amount" data-cat="Food" placeholder="0" min="0" step="0.01">
+          </div>
+          <button class="btn-remove" onclick="removeRow(this,'food-rows','expense-row')" title="Remove" style="align-self:flex-end;margin-bottom:0">✕</button>
+        </div>
+      </div>
+      <button class="btn-add" onclick="addExpenseRow('food-rows','Food')">+ Add Food Expense</button>
+    </div>
+
+    <div id="tab-other" class="tab-pane">
+      <div id="other-rows">
+        <div class="expense-row">
+          <div class="form-group" style="margin:0;flex:1">
+            <label>Item</label>
+            <input type="text" class="exp-name" data-cat="Other" placeholder="e.g. Health Insurance" value="Health Insurance">
+          </div>
+          <div class="form-group input-prefix" style="margin:0;flex:1">
+            <label>Amount</label>
+            <span>$</span>
+            <input type="number" class="exp-amount" data-cat="Other" placeholder="0" min="0" step="0.01">
+          </div>
+          <button class="btn-remove" onclick="removeRow(this,'other-rows','expense-row')" title="Remove" style="align-self:flex-end;margin-bottom:0">✕</button>
+        </div>
+        <div class="expense-row">
+          <div class="form-group" style="margin:0;flex:1">
+            <label>Item</label>
+            <input type="text" class="exp-name" data-cat="Other" placeholder="e.g. Subscriptions" value="Subscriptions">
+          </div>
+          <div class="form-group input-prefix" style="margin:0;flex:1">
+            <label>Amount</label>
+            <span>$</span>
+            <input type="number" class="exp-amount" data-cat="Other" placeholder="0" min="0" step="0.01">
+          </div>
+          <button class="btn-remove" onclick="removeRow(this,'other-rows','expense-row')" title="Remove" style="align-self:flex-end;margin-bottom:0">✕</button>
+        </div>
+        <div class="expense-row">
+          <div class="form-group" style="margin:0;flex:1">
+            <label>Item</label>
+            <input type="text" class="exp-name" data-cat="Other" placeholder="e.g. Entertainment" value="Entertainment">
+          </div>
+          <div class="form-group input-prefix" style="margin:0;flex:1">
+            <label>Amount</label>
+            <span>$</span>
+            <input type="number" class="exp-amount" data-cat="Other" placeholder="0" min="0" step="0.01">
+          </div>
+          <button class="btn-remove" onclick="removeRow(this,'other-rows','expense-row')" title="Remove" style="align-self:flex-end;margin-bottom:0">✕</button>
+        </div>
+      </div>
+      <button class="btn-add" onclick="addExpenseRow('other-rows','Other')">+ Add Other Expense</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div id="global-error" class="error-msg" style="display:none;margin-bottom:0.75rem"></div>
+    <button class="btn-primary" id="calcBtn">Calculate My Budget</button>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="card results" id="results">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
+      <div class="section-title" style="margin:0;border:none;padding:0">Your Budget Summary</div>
+      <button class="copy-btn" id="copyBtn" onclick="copyResults()">Copy Summary</button>
+    </div>
+
+    <div class="summary-grid" id="summary-grid"></div>
+
+    <div id="bar-visuals"></div>
+
+    <div class="section-title" style="margin-top:1.25rem">Expense Breakdown by Category</div>
+    <div class="table-scroll">
+      <table id="cat-table">
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th class="num">Amount</th>
+            <th class="num">% of Income</th>
+            <th class="num">% of Expenses</th>
+          </tr>
+        </thead>
+        <tbody id="cat-tbody"></tbody>
+        <tfoot><tr class="tfoot-row" id="cat-tfoot"></tr></tfoot>
+      </table>
+    </div>
+
+    <div class="section-title" style="margin-top:1.5rem">All Line Items</div>
+    <div class="table-scroll">
+      <table id="items-table">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Category</th>
+            <th class="num">Monthly</th>
+            <th class="num">Annual</th>
+            <th class="num">% of Income</th>
+          </tr>
+        </thead>
+        <tbody id="visible-tbody"></tbody>
+        <tbody id="hidden-tbody" class="hidden-rows"></tbody>
+        <tfoot><tr class="tfoot-row" id="items-tfoot"></tr></tfoot>
+      </table>
+    </div>
+    <button class="show-all-btn" id="showAllBtn" onclick="toggleRows()" style="display:none">Show All Items</button>
+
+    <div id="annual-section" style="margin-top:1.25rem"></div>
+  </div>
+
+  <div class="ad-slot" id="ad-mid"></div>
+
+  <!-- CONTENT SECTION -->
+  <div class="content-section">
+    <h2>How to Use This Budget Planner Calculator</h2>
+    <p>Enter all of your monthly after-tax income sources at the top, then fill in your expenses across four categories: Housing, Transport, Food, and Other. Click <strong>Calculate My Budget</strong> to instantly see your surplus or deficit, a visual spending breakdown, and a full line-item table. You can add or remove rows in each category to match your real financial picture.</p>
+
+    <h2>Why This Matters</h2>
+    <p>Most people have no idea where their money actually goes. A 2023 NFCC survey found that only 41% of Americans use a budget — and those who do are significantly more likely to meet savings goals. Here's why a monthly budget calculator matters in practical terms:</p>
+    <ul>
+      <li><strong>Find hidden leaks.</strong> $15 here for a streaming service, $12 there for cloud storage — these micro-subscriptions add up to $200+ a year without anyone noticing. A budget surfaces them instantly.</li>
+      <li><strong>Set realistic goals.</strong> Want to save a $10,000 emergency fund? If you're currently saving $400/month, you'll reach it in 25 months. If the calculator shows you're in deficit, you know exactly what to cut first.</li>
+      <li><strong>Benchmark against guidelines.</strong> The classic 50/30/20 rule suggests 50% of income on needs, 30% on wants, and 20% on savings. This tool shows you your actual percentages so you can see how far off — or on track — you are.</li>
+      <li><strong>Prepare for life changes.</strong> Moving to a new city? Adding a child? Switching jobs? Re-running your budget with updated numbers takes 2 minutes and reveals the real financial impact before it hits your bank account.</li>
+    </ul>
+
+    <h2>How It's Calculated</h2>
+    <p>The calculator sums all income sources, then sums all expense line items across every category. The key formula is:</p>
+    <ul>
+      <li><strong>Monthly Surplus / Deficit</strong> = Total Income − Total Expenses</li>
+      <li><strong>Savings Rate</strong> = (Surplus ÷ Total Income) × 100</li>
+      <li><strong>% of Income per category</strong> = (Category Total ÷ Total Income) × 100</li>
+      <li><strong>Annual projections</strong> = Monthly figures × 12</li>
+    </ul>
+    <p>All percentages are calculated against gross after-tax income, which reflects your actual spending power. The visual bar charts are proportional CSS widths scaled to your total income, making it immediately obvious when one category dominates your budget.</p>
+
+    <h2>Tips & Common Mistakes</h2>
+    <ul>
+      <li><strong>Use net (after-tax) income.</strong> Budgeting on gross income inflates your apparent spending power. Always enter what actually lands in your bank account.</li>
+      <li><strong>Don't forget irregular expenses.</strong> Annual costs like car registration, holiday gifts, or yearly subscriptions should be divided by 12 and entered as monthly amounts.</li>
+      <li><strong>Include a savings line item.</strong> Treat savings as a non-negotiable expense. Enter your monthly savings goal under "Other" so it's budgeted before discretionary spending.</li>
+      <li><strong>Re-run it every 3 months.</strong> Life changes — so should your budget. A quarterly review catches spending creep before it becomes a crisis.</li>
+      <li><strong>Aim for 20%+ savings rate.</strong> If your surplus is below 20% of income, look at the largest categories first. Cutting $200 from housing has more impact than eliminating a $15 subscription.</li>
+    </ul>
+
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>Should I enter gross income or net income?</summary>
+      <p>Always enter your net (after-tax, after-deductions) income — the actual dollar amount deposited into your bank account. Using gross income will make your budget look more comfortable than it really is, since taxes and benefits come out before you ever see the money.</p>
+    </details>
+    <details>
+      <summary>What's a healthy savings rate?</summary>
+      <p>Most financial advisors recommend saving at least 20% of your take-home pay. Within that, aim for 3–6 months of expenses in an emergency fund before investing aggressively. If 20% isn't achievable right now, even 10% is far better than 0% — start where you are and increase it by 1% each quarter.</p>
+    </details>
+    <details>
+      <summary>What if my expenses exceed my income?</summary>
+      <p>The calculator will show a deficit (red). This means you're spending more than you earn, which leads to debt accumulation over time. Look at the category breakdown table first — the largest categories are your best targets for cuts. Even reducing your top expense category by 10% can flip a deficit to a surplus.</p>
+    </details>
+    <details>
+      <summary>How does this relate to the 50/30/20 rule?</summary>
+      <p>The 50/30/20 rule suggests allocating 50% of income to needs (housing, transport, food), 30% to wants (dining out, entertainment, subscriptions), and 20% to savings and debt repayment. This calculator shows your actual percentages per category, so you can see how your real spending compares to this guideline and adjust accordingly.</p>
+    </details>
+  </div>
+
+  <!-- RELATED TOOLS -->
+  <div class="content-section">
+    <h2 style="margin-top:0">Related Financial Tools</h2>
+    <div class="related-grid">
+      <a href="/refinance-break-even-calculator/" class="related-link">Refinance Break-Even Calculator</a>
+      <a href="/dividend-reinvestment-calculator/" class="related-link">Dividend Reinvestment Calculator</a>
+      <a href="/401k-contribution-calculator/" class="related-link">401k Contribution Calculator</a>
+      <a href="/debt-to-income-ratio-calculator/" class="related-link">Debt-to-Income Ratio Calculator</a>
+      <a href="/home-affordability-calculator/" class="related-link">Home Affordability Calculator</a>
+      <a href="/retirement-income-estimator/" class="related-link">Retirement Income Estimator</a>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-bottom"></div>
+</main>
+
+<footer>
+  <div style="margin-bottom:0.4rem">
+    <a href="/about/">About</a>
+    <a href="/privacy/">Privacy</a>
+    <a href="/contact/">Contact</a>
+  </div>
+  <div>© <span id="yr"></span> calcstack.dev — Free Online Calculators</div>
+</footer>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+const COLORS = ['color-1','color-2','color-3','color-4','color-5','color-6','color-7','color-8','color-9','color-10'];
+const HEX_COLORS = ['#0077b6','#e74c3c','#f39c12','#27ae60','#9b59b6','#16a085','#e67e22','#2980b9','#c0392b','#8e44ad'];
+
+let showingAll = false;
+
+function fmt(n){
+  if(isNaN(n)||n===null||n===undefined) return '$0.00';
+  return '$' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+function fmtPct(n){
+  if(!isFinite(n)) return '—';
+  return n.toFixed(1) + '%';
+}
+
+function switchTab(name){
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+
+function addIncomeRow(){
+  const container = document.getElementById('income-rows');
+  const div = document.createElement('div');
+  div.className = 'expense-row income-row';
+  div.innerHTML = `
+    <div class="form-group" style="margin:0;flex:1">
+      <label>Source</label>
+      <input type="text" class="inc-name" placeholder="e.g. Freelance">
+    </div>
+    <div class="form-group input-prefix" style="margin:0;flex:1">
+      <label>Amount (after tax)</label>
+      <span>$</span>
+      <input type="number" class="inc-amount" placeholder="0" min="0" step="0.01">
+    </div>
+    <button class="btn-remove" onclick="removeRow(this,'income-rows','income-row')" title="Remove" style="align-self:flex-end;margin-bottom:0">✕</button>`;
+  container.appendChild(div);
+  div.querySelector('.inc-name').focus();
+}
+
+function addExpenseRow(containerId, cat){
+  const container = document.getElementById(containerId);
+  const div = document.createElement('div');
+  div.className = 'expense-row';
+  div.innerHTML = `
+    <div class="form-group" style="margin:0;flex:1">
+      <label>Item</label>
+      <input type="text" class="exp-name" data-cat="${cat}" placeholder="e.g. New item">
+    </div>
+    <div class="form-group input-prefix" style="margin:0;flex:1">
+      <label>Amount</label>
+      <span>$</span>
+      <input type="number" class="exp-amount" data-cat="${cat}" placeholder="0" min="0" step="0.01">
+    </div>
+    <button class="btn-remove" onclick="removeRow(this,'${containerId}','expense-row')" title="Remove" style="align-self:flex-end;margin-bottom:0">✕</button>`;
+  container.appendChild(div);
+  div.querySelector('.exp-name').focus();
+}
+
+function removeRow(btn, containerId, rowClass){
+  const container = document.getElementById(containerId);
+  const rows = container.querySelectorAll('.' + rowClass);
+  if(rows.length <= 1){
+    const amounts = btn.closest('.' + rowClass).querySelectorAll('input');
+    amounts.forEach(i => { i.value = ''; });
+    return;
+  }
+  btn.closest('.' + rowClass).remove();
+}
+
+function collectData(){
+  const incomes = [];
+  document.querySelectorAll('#income-rows .income-row').forEach(row => {
+    const name = (row.querySelector('.inc-name').value || '').trim() || 'Income';
+    const amt = parseFloat(row.querySelector('.inc-amount').value) || 0;
+    if(amt > 0) incomes.push({name, amt});
+  });
+
+  const expenses = [];
+  document.querySelectorAll('.exp-amount').forEach(input => {
+    const amt = parseFloat(input.value) || 0;
+    const nameInput = input.closest('.expense-row').querySelector('.exp-name');
+    const name = (nameInput ? nameInput.value.trim() : '') || 'Expense';
+    const cat = input.dataset.cat || 'Other';
+    if(amt > 0) expenses.push({name, amt, cat});
+  });
+
+  return {incomes, expenses};
+}
+
+function calculate(){
+  const err = document.getElementById('global-error');
+  err.style.display = 'none';
+
+  const {incomes, expenses} = collectData();
+
+  if(incomes.length === 0){
+    err.textContent = 'Please enter at least one income source with an amount greater than $0.';
+    err.style.display = 'block';
+    return;
+  }
+
+  const totalIncome = incomes.reduce((s,i) => s + i.amt, 0);
+  const totalExpenses = expenses.reduce((s,e) => s + e.amt, 0);
+  const surplus = totalIncome - totalExpenses;
+  const savingsRate = totalIncome > 0 ? (surplus / totalIncome) * 100 : 0;
+
+  // Category totals
+  const catMap = {};
+  expenses.forEach(e => {
+    if(!catMap[e.cat]) catMap[e.cat] = 0;
+    catMap[e.cat] += e.amt;
+  });
+  const cats = Object.entries(catMap).sort((a,b) => b[1]-a[1]);
+
+  requestAnimationFrame(() => {
+    const results = document.getElementById('results');
+
+    // Summary grid
+    const surplusClass = surplus > 0 ? 'surplus' : surplus < 0 ? 'deficit' : 'neutral';
+    const surplusLabel = surplus >= 0 ? 'Monthly Surplus' : 'Monthly Deficit';
+    document.getElementById('summary-grid').innerHTML = `
+      <div class="summary-card">
+        <div class="label">Total Income</div>
+        <div class="value">${fmt(totalIncome)}</div>
+      </div>
+      <div class="summary-card">
+        <div class="label">Total Expenses</div>
+        <div class="value" style="color:#e74c3c">${fmt(totalExpenses)}</div>
+      </div>
+      <div class="summary-card ${surplusClass}">
+        <div class="label">${surplusLabel}</div>
+        <div class="value">${fmt(Math.abs(surplus))}</div>
+      </div>
+      <div class="summary-card">
+        <div class="label">Savings Rate</div>
+        <div class="value" style="color:${savingsRate>=20?'#27ae60':savingsRate>=10?'#f39c12':'#e74c3c'}">${fmtPct(savingsRate)}</div>
+      </div>
+      <div class="summary-card">
+        <div class="label">Annual Income</div>
+        <div class="value">${fmt(totalIncome*12)}</div>
+      </div>
+      <div class="summary-card ${surplusClass}">
+        <div class="label">Annual ${surplus>=0?'Savings':'Deficit'}</div>
+        <div class="value">${fmt(Math.abs(surplus)*12)}</div>
+      </div>`;
+
+    // Bar visuals
+    let barsHTML = '<div class="bar-section">';
+    barsHTML += '<div class="section-title">Spending at a Glance</div>';
+
+    // Income vs Expenses bar
+    const expPct = totalIncome > 0 ? Math.min((totalExpenses/totalIncome)*100,100) : 0;
+    const savePct = totalIncome > 0 ? Math.max(Math.min((surplus/totalIncome)*100,100),0) : 0;
+    barsHTML += `
+      <div class="bar-label-row"><span>Income vs Expenses</span><span>${fmt(totalExpenses)} spent of ${fmt(totalIncome)}</span></div>
+      <div class="stacked-bar" style="margin-bottom:0.4rem">
+        <div class="stacked-seg" style="width:${expPct.toFixed(1)}%;background:#e74c3c"></div>
+        <div class="stacked-seg" style="width:${savePct.toFixed(1)}%;background:#27ae60"></div>
+      </div>
+      <div class="stacked-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#e74c3c"></div>Expenses (${fmtPct(expPct)})</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#27ae60"></div>${surplus>=0?'Surplus':'Deficit'} (${fmtPct(Math.abs(savingsRate))})</div>
+      </div>`;
+
+    // Category breakdown bars
+    if(cats.length > 0){
+      barsHTML += '<div style="margin-top:0.75rem"><div class="bar-label-row" style="font-weight:600"><span>By Category</span><span>% of income</span></div>';
+      barsHTML += '<div class="stacked-bar" style="height:28px;border-radius:6px;margin-bottom:0.5rem">';
+      cats.forEach(([cat,amt],i) => {
+        const pct = totalIncome > 0 ? (amt/totalIncome)*100 : 0;
+        barsHTML += `<div class="stacked-seg" style="width:${pct.toFixed(1)}%;background:${HEX_COLORS[i % HEX_COLORS.length]}" title="${cat}: ${fmt(amt)} (${fmtPct(pct)})"></div>`;
+      });
+      barsHTML += '</div>';
+      barsHTML += '<div class="stacked-legend">';
+      cats.forEach(([cat,amt],i) => {
+        const pct = totalIncome > 0 ? (amt/totalIncome)*100 : 0;
+        barsHTML += `<div class="legend-item"><div class="legend-dot" style="background:${HEX_COLORS[i % HEX_COLORS.length]}"></div>${cat} — ${fmt(amt)} (${fmtPct(pct)})</div>`;
+      });
+      barsHTML += '</div>';
+
+      // Individual bars per category
+      cats.forEach(([cat,amt],i) => {
+        const pct = totalIncome > 0 ? (amt/totalIncome)*100 : 0;
+        const fillPct = Math.min(pct,100);
+        barsHTML += `
+          <div class="bar-label-row" style="margin-top:0.5rem"><span>${cat}</span><span>${fmt(amt)} (${fmtPct(pct)} of income)</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:${fillPct.toFixed(1)}%;background:${HEX_COLORS[i % HEX_COLORS.length]}"></div></div>`;
+      });
+      barsHTML += '</div>';
+    }
+    barsHTML += '</div>';
+    document.getElementById('bar-visuals').innerHTML = barsHTML;
+
+    // Category table
+    let catTbodyHTML = '';
+    cats.forEach(([cat,amt],i) => {
+      const pctInc = totalIncome > 0 ? (amt/totalIncome)*100 : 0;
+      const pctExp = totalExpenses > 0 ? (amt/totalExpenses)*100 : 0;
+      catTbodyHTML += `<tr>
+        <td><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:${HEX_COLORS[i%HEX_COLORS.length]};margin-right:6px;vertical-align:middle"></span>${cat}</td>
+        <td class="num">${fmt(amt)}</td>
+        <td class="num">${fmtPct(pctInc)}</td>
+        <td class="num">${fmtPct(pctExp)}</td>
+      </tr>`;
+    });
+    document.getElementById('cat-tbody').innerHTML = catTbodyHTML;
+    document.getElementById('cat-tfoot').innerHTML = `<td><strong>Total</strong></td><td class="num">${fmt(totalExpenses)}</td><td class="num">${fmtPct(totalIncome>0?(totalExpenses/totalIncome)*100:0)}</td><td class="num">100.0%</td>`;
+
+    // Line items table
+    const allItems = [];
+    incomes.forEach(i => allItems.push({name:i.name, cat:'Income', amt:i.amt, isIncome:true}));
+    expenses.forEach(e => allItems.push({name:e.name, cat:e.cat, amt:e.amt, isIncome:false}));
+    const expItems = expenses;
+
+    const VISIBLE_LIMIT = 10;
+    let visHTML = '';
+    let hidHTML = '';
+    expItems.forEach((e, idx) => {
+      const pctInc = totalIncome > 0 ? (e.amt/totalIncome)*100 : 0;
+      const row = `<tr>
+        <td>${e.name}</td>
+        <td>${e.cat}</td>
+        <td class="num">${fmt(e.amt)}</td>
+        <td class="num">${fmt(e.amt*12)}</td>
+        <td class="num">${fmtPct(pctInc)}</td>
+      </tr>`;
+      if(idx < VISIBLE_LIMIT) visHTML += row;
+      else hidHTML += row;
+    });
+
+    document.getElementById('visible-tbody').innerHTML = visHTML;
+    document.getElementById('hidden-tbody').innerHTML = hidHTML;
+    document.getElementById('items-tfoot').innerHTML = `<td colspan="2"><strong>Total Expenses</strong></td><td class="num">${fmt(totalExpenses)}</td><td class="num">${fmt(totalExpenses*12)}</td><td class="num">${fmtPct(totalIncome>0?(totalExpenses/totalIncome)*100:0)}</td>`;
+
+    const showAllBtn = document.getElementById('showAllBtn');
+    if(expItems.length > VISIBLE_LIMIT){
+      showAllBtn.style.display = 'block';
+      showAllBtn.textContent = showingAll ? 'Show Less' : `Show All ${expItems.length} Items`;
+      if(showingAll) document.getElementById('hidden-tbody').classList.add('show');
+      else document.getElementById('hidden-tbody').classList.remove('show');
+    } else {
+      showAllBtn.style.display = 'none';
+    }
+
+    // Annual section
+    document.getElementById('annual-section').innerHTML = `
+      <div class="section-title">Annual Projections</div>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>Metric</th><th class="num">Monthly</th><th class="num">Annual</th></tr></thead>
+          <tbody>
+            <tr><td>Total Income</td><td class="num">${fmt(totalIncome)}</td><td class="num">${fmt(totalIncome*12)}</td></tr>
+            <tr><td>Total Expenses</td><td class="num">${fmt(totalExpenses)}</td><td class="num">${fmt(totalExpenses*12)}</td></tr>
+            <tr><td>${surplus>=0?'Surplus (Savings)':'Deficit'}</td><td class="num" style="color:${surplus>=0?'#27ae60':'#e74c3c'}">${fmt(Math.abs(surplus))}</td><td class="num" style="color:${surplus>=0?'#27ae60':'#e74c3c'}">${fmt(Math.abs(surplus)*12)}</td></tr>
+            ${cats.map(([cat,amt],i) => `<tr><td>${cat}</td><td class="num">${fmt(amt)}</td><td class="num">${fmt(amt*12)}</td></tr>`).join('')}
+          </tbody>
+        </table>
+      </div>`;
+
+    results.classList.add('visible');
+    results.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+}
+
+function toggleRows(){
+  showingAll = !showingAll;
+  const hidden = document.getElementById('hidden-tbody');
+  const btn = document.getElementById('showAllBtn');
+  if(showingAll){
+    hidden.classList.add('show');
+    btn.textContent = 'Show Less';
+  } else {
+    hidden.classList.remove('show');
+    const count = hidden.querySelectorAll('tr').length + 10;
+    btn.textContent = `Show All ${count} Items`;
+  }
+}
+
+function copyResults(){
+  const {incomes, expenses} = collectData();
+  const totalIncome = incomes.reduce((s,i) => s + i.amt, 0);
+  const totalExpenses = expenses.reduce((s,e) => s + e.amt, 0);
+  const surplus = totalIncome - totalExpenses;
+  const savingsRate = totalIncome > 0 ? (surplus/totalIncome)*100 : 0;
+
+  let text = `MONTHLY BUDGET SUMMARY\n${'='.repeat(30)}\n`;
+  text += `Total Income:    ${fmt(totalIncome)}\n`;
+  text += `Total Expenses:  ${fmt(totalExpenses)}\n`;
+  text += `${surplus>=0?'Surplus':'Deficit'}:        ${fmt(Math.abs(surplus))}\n`;
+  text += `Savings Rate:    ${fmtPct(savingsRate)}\n\n`;
+  text += `EXPENSE BREAKDOWN\n${'-'.repeat(30)}\n`;
+  expenses.forEach(e => { text += `${e.name} (${e.cat}): ${fmt(e.amt)}\n`; });
+  text += `\nANNUAL PROJECTIONS\n${'-'.repeat(30)}\n`;
+  text += `Annual Income:   ${fmt(totalIncome*12)}\n`;
+  text += `Annual Expenses: ${fmt(totalExpenses*12)}\n`;
+  text += `Annual ${surplus>=0?'Savings':'Deficit'}: ${fmt(Math.abs(surplus)*12)}\n`;
+
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy Summary'; btn.classList.remove('copied'); }, 2000);
+  }).catch(() => {
+    alert('Copy failed. Please select and copy manually.');
+  });
+}
+
+document.getElementById('calcBtn').addEventListener('click', () => {
+  requestAnimationFrame(() => { calculate(); });
+});
+
+document.addEventListener('keydown', (e) => {
+  if(e.key === 'Enter' && (e.target.tagName === 'INPUT')){
+    requestAnimationFrame(() => { calculate(); });
+  }
+});
+</script>
+</body>
+</html>
