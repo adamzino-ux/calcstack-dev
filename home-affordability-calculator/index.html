@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home Affordability Calculator — Free Online Tool | calcstack.dev</title>
+<meta name="description" content="Find out how much house you can afford based on your income, debts, and down payment. Free home affordability calculator with instant results.">
+<link rel="canonical" href="https://calcstack.dev/home-affordability-calculator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Home Affordability Calculator",
+  "url": "https://calcstack.dev/home-affordability-calculator/",
+  "description": "Calculate how much house you can afford based on your annual income, monthly debts, down payment, interest rate, and loan term.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f0f4f8;color:#1a1a2e;font-size:16px;line-height:1.6}
+a{color:#0077b6;text-decoration:none}
+a:hover{text-decoration:underline}
+nav{background:#fff;border-bottom:1px solid #e0e0e0;padding:0 1.5rem}
+.nav-inner{max-width:640px;margin:0 auto;display:flex;align-items:center;height:52px}
+.nav-brand{font-weight:700;font-size:1.1rem;color:#1a1a2e}
+.nav-brand span{color:#0077b6}
+main{max-width:640px;margin:0 auto;padding:1.5rem 1rem 3rem}
+h1{font-size:1.65rem;font-weight:800;color:#1a1a2e;margin-bottom:.4rem;line-height:1.25}
+.subtitle{color:#555;font-size:.95rem;margin-bottom:1.5rem}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;box-shadow:0 2px 8px rgba(0,0,0,.05);margin-bottom:2rem}
+.form-group{margin-bottom:1.25rem}
+label{display:block;font-size:.85rem;font-weight:500;color:#444;margin-bottom:.4rem}
+label .hint{font-weight:400;color:#888;font-size:.8rem;margin-left:.3rem}
+input[type=number],input[type=text],select{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:6px;font-size:1rem;color:#1a1a2e;background:#fff;transition:border-color .2s,box-shadow .2s;-webkit-appearance:none;appearance:none}
+input:focus,select:focus{outline:none;border-color:#0077b6;box-shadow:0 0 0 3px rgba(0,119,182,.15)}
+input.error{border-color:#e74c3c;box-shadow:0 0 0 3px rgba(231,76,60,.1)}
+.error-msg{color:#e74c3c;font-size:.8rem;margin-top:.3rem;display:none}
+.error-msg.show{display:block}
+.input-prefix{position:relative}
+.input-prefix input{padding-left:32px}
+.input-prefix::before{content:attr(data-prefix);position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#888;font-size:1rem;pointer-events:none}
+.row-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.slider-group{margin-bottom:1.25rem}
+.slider-row{display:flex;align-items:center;gap:.75rem}
+input[type=range]{flex:1;height:6px;-webkit-appearance:none;appearance:none;background:#ddd;border-radius:3px;outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:#0077b6;cursor:pointer}
+input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#0077b6;cursor:pointer;border:none}
+.slider-value{min-width:60px;text-align:right;font-weight:600;color:#0077b6;font-size:.95rem}
+.btn{display:inline-block;background:#0077b6;color:#fff;border:none;padding:13px 28px;border-radius:6px;font-size:1rem;font-weight:600;cursor:pointer;transition:background .2s;width:100%;min-height:44px}
+.btn:hover{background:#006299}
+.btn-sm{display:inline-block;background:#f0f4f8;color:#0077b6;border:1px solid #0077b6;padding:6px 14px;border-radius:5px;font-size:.8rem;font-weight:600;cursor:pointer;transition:background .2s;min-height:36px}
+.btn-sm:hover{background:#e2eef5}
+#results{opacity:0;transition:opacity .3s ease}
+#results.visible{opacity:1}
+.result-hero{text-align:center;padding:1.5rem 1rem;background:linear-gradient(135deg,#e8f4fd,#f0f8ff);border-radius:8px;margin-bottom:1.5rem;border:1px solid #cce5f5}
+.result-hero .label{font-size:.85rem;color:#555;font-weight:500;text-transform:uppercase;letter-spacing:.05em}
+.result-hero .big-num{font-size:2.8rem;font-weight:800;color:#0077b6;line-height:1.1;margin:.3rem 0}
+.result-hero .sub{font-size:.9rem;color:#666}
+.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+.result-box{background:#f8f9fa;border:1px solid #e0e0e0;border-radius:6px;padding:1rem;text-align:center}
+.result-box .r-label{font-size:.78rem;color:#666;font-weight:500;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.3rem}
+.result-box .r-val{font-size:1.3rem;font-weight:700;color:#1a1a2e}
+.result-box .r-val.green{color:#2ecc71}
+.result-box .r-val.orange{color:#e67e22}
+.result-box .r-val.red{color:#e74c3c}
+h2.section-title{font-size:1.05rem;font-weight:700;color:#1a1a2e;margin-bottom:.9rem;padding-bottom:.4rem;border-bottom:2px solid #e0e0e0}
+.bar-section{margin-bottom:1.5rem}
+.bar-label-row{display:flex;justify-content:space-between;font-size:.82rem;color:#555;margin-bottom:.3rem}
+.bar-track{background:#e8ecf0;border-radius:4px;height:22px;overflow:hidden;margin-bottom:.6rem}
+.bar-fill{height:100%;border-radius:4px;transition:width .6s ease}
+.bar-legend{display:flex;flex-wrap:wrap;gap:.5rem .75rem;font-size:.78rem;color:#555}
+.legend-dot{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:.3rem;vertical-align:middle}
+.stacked-bar{display:flex;height:26px;border-radius:4px;overflow:hidden;margin-bottom:.6rem}
+.stacked-seg{height:100%;transition:width .6s ease}
+.ratio-indicator{display:flex;align-items:center;gap:.5rem;margin-top:.5rem;font-size:.85rem}
+.ratio-badge{padding:3px 10px;border-radius:12px;font-weight:700;font-size:.8rem}
+.badge-green{background:#d4efdf;color:#1e8449}
+.badge-orange{background:#fdebd0;color:#b7770d}
+.badge-red{background:#fadbd8;color:#c0392b}
+table{width:100%;border-collapse:collapse;font-size:.85rem}
+th{background:#f0f0f0;padding:9px 12px;text-align:left;font-weight:600;color:#333;border-bottom:1px solid #ddd}
+th.num,td.num{text-align:right}
+td{padding:8px 12px;border-bottom:1px solid #eee;color:#333}
+tr:nth-child(even) td{background:#fafafa}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid #e0e0e0;border-radius:6px}
+.copy-bar{display:flex;justify-content:flex-end;margin-top:.6rem}
+.copy-btn{background:#f8f9fa;border:1px solid #ddd;color:#555;padding:5px 12px;border-radius:5px;font-size:.78rem;cursor:pointer;transition:all .2s}
+.copy-btn:hover{background:#e8edf2;color:#1a1a2e}
+#showAllBtn{display:block;width:100%;margin-top:.75rem;background:#f8f9fa;color:#0077b6;border:1px solid #0077b6;padding:9px;border-radius:6px;font-size:.85rem;font-weight:600;cursor:pointer;transition:background .2s}
+#showAllBtn:hover{background:#e2eef5}
+.content-section{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;box-shadow:0 2px 8px rgba(0,0,0,.05);margin-bottom:2rem}
+.content-section h2{font-size:1.15rem;font-weight:700;color:#1a1a2e;margin:1.5rem 0 .5rem}
+.content-section h2:first-child{margin-top:0}
+.content-section p{color:#444;margin-bottom:.75rem;font-size:.95rem}
+.content-section ul{padding-left:1.3rem;margin-bottom:.75rem}
+.content-section li{color:#444;font-size:.95rem;margin-bottom:.4rem}
+details{border:1px solid #e0e0e0;border-radius:6px;margin-bottom:.6rem;overflow:hidden}
+summary{padding:.75rem 1rem;font-weight:600;font-size:.9rem;cursor:pointer;background:#f8f9fa;list-style:none;display:flex;justify-content:space-between;align-items:center}
+summary::-webkit-details-marker{display:none}
+summary::after{content:'+';font-size:1.1rem;color:#0077b6}
+details[open] summary::after{content:'−'}
+details[open] summary{background:#eef6fb}
+details p{padding:.75rem 1rem;font-size:.9rem;color:#444;background:#fff}
+.related-tools{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:1.5rem;margin-bottom:2rem}
+.related-tools h2{font-size:1.05rem;font-weight:700;margin-bottom:.9rem;color:#1a1a2e}
+.related-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+.related-grid a{padding:.6rem .8rem;background:#f8f9fa;border:1px solid #e0e0e0;border-radius:5px;font-size:.85rem;color:#0077b6;transition:background .2s}
+.related-grid a:hover{background:#eef6fb;text-decoration:none}
+.ad-slot{min-height:0;margin:0}
+footer{background:#fff;border-top:1px solid #e0e0e0;padding:1.2rem 1.5rem;text-align:center;font-size:.82rem;color:#777}
+footer a{color:#0077b6;margin:0 .4rem}
+footer .copy{margin-top:.3rem}
+@media(max-width:640px){
+  .row-2{grid-template-columns:1fr}
+  .result-grid{grid-template-columns:1fr 1fr}
+  .related-grid{grid-template-columns:1fr}
+  h1{font-size:1.35rem}
+  .result-hero .big-num{font-size:2.2rem}
+  main{padding:1rem .75rem 2rem}
+  .card,.content-section{padding:1.25rem}
+}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">calc<span>stack</span>.dev</a>
+  </div>
+</nav>
+<main>
+  <h1>Home Affordability Calculator</h1>
+  <p class="subtitle">Find out how much house you can afford based on your income, debts, and down payment.</p>
+
+  <div class="card">
+    <div class="row-2">
+      <div class="form-group">
+        <label>Annual Gross Income <span class="hint">(before taxes)</span></label>
+        <div class="input-prefix" data-prefix="$">
+          <input type="number" id="income" placeholder="85,000" min="0" step="1000" value="">
+        </div>
+        <div class="error-msg" id="incomeErr">Please enter a valid annual income.</div>
+      </div>
+      <div class="form-group">
+        <label>Monthly Debt Payments <span class="hint">(car, student, etc.)</span></label>
+        <div class="input-prefix" data-prefix="$">
+          <input type="number" id="debts" placeholder="400" min="0" step="50" value="">
+        </div>
+        <div class="error-msg" id="debtsErr">Please enter a valid amount (0 or more).</div>
+      </div>
+    </div>
+
+    <div class="row-2">
+      <div class="form-group">
+        <label>Down Payment</label>
+        <div class="input-prefix" data-prefix="$">
+          <input type="number" id="downpayment" placeholder="40,000" min="0" step="1000" value="">
+        </div>
+        <div class="error-msg" id="downErr">Please enter a valid down payment.</div>
+      </div>
+      <div class="form-group">
+        <label>Loan Term</label>
+        <select id="loanTerm">
+          <option value="30" selected>30 Years</option>
+          <option value="20">20 Years</option>
+          <option value="15">15 Years</option>
+          <option value="10">10 Years</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="slider-group">
+      <label>Interest Rate: <span id="rateDisplay" style="color:#0077b6;font-weight:700">6.50%</span></label>
+      <div class="slider-row">
+        <input type="range" id="interestRate" min="1" max="15" step="0.05" value="6.50">
+        <span class="slider-value" id="rateVal">6.50%</span>
+      </div>
+    </div>
+
+    <div class="slider-group">
+      <label>Annual Property Tax Rate: <span id="taxDisplay" style="color:#0077b6;font-weight:700">1.20%</span></label>
+      <div class="slider-row">
+        <input type="range" id="propTax" min="0.1" max="4" step="0.05" value="1.20">
+        <span class="slider-value" id="taxVal">1.20%</span>
+      </div>
+    </div>
+
+    <div class="row-2">
+      <div class="form-group">
+        <label>Monthly HOA Fees <span class="hint">(optional)</span></label>
+        <div class="input-prefix" data-prefix="$">
+          <input type="number" id="hoa" placeholder="0" min="0" step="25" value="0">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Annual Home Insurance <span class="hint">(optional)</span></label>
+        <div class="input-prefix" data-prefix="$">
+          <input type="number" id="insurance" placeholder="1,200" min="0" step="100" value="1200">
+        </div>
+      </div>
+    </div>
+
+    <button class="btn" id="calcBtn">Calculate Affordability</button>
+  </div>
+
+  <div id="results">
+    <div class="card">
+      <div class="result-hero">
+        <div class="label">Maximum Home Price You Can Afford</div>
+        <div class="big-num" id="maxHomePrice">—</div>
+        <div class="sub" id="heroSub">Based on 28% front-end and 36% back-end DTI ratios</div>
+      </div>
+
+      <div class="result-grid">
+        <div class="result-box">
+          <div class="r-label">Max Monthly Payment</div>
+          <div class="r-val" id="maxPayment">—</div>
+        </div>
+        <div class="result-box">
+          <div class="r-label">Loan Amount</div>
+          <div class="r-val" id="loanAmount">—</div>
+        </div>
+        <div class="result-box">
+          <div class="r-label">Monthly P&amp;I</div>
+          <div class="r-val" id="piPayment">—</div>
+        </div>
+        <div class="result-box">
+          <div class="r-label">Total Interest Paid</div>
+          <div class="r-val" id="totalInterest">—</div>
+        </div>
+      </div>
+
+      <h2 class="section-title">Monthly Payment Breakdown</h2>
+      <div class="bar-section" id="breakdownBars"></div>
+
+      <h2 class="section-title">Debt-to-Income Ratios</h2>
+      <div id="dtiSection"></div>
+
+      <h2 class="section-title">Income &amp; Debt Overview</h2>
+      <div class="bar-section" id="incomeBars"></div>
+    </div>
+
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.9rem;flex-wrap:wrap;gap:.5rem">
+        <h2 class="section-title" style="margin-bottom:0;border-bottom:none">Year-by-Year Amortization</h2>
+        <div style="display:flex;gap:.5rem">
+          <button class="copy-btn" id="copyTableBtn">Copy Summary</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table id="amortTable">
+          <thead>
+            <tr>
+              <th>Year</th>
+              <th class="num">Principal</th>
+              <th class="num">Interest</th>
+              <th class="num">Balance</th>
+              <th class="num">Equity</th>
+            </tr>
+          </thead>
+          <tbody id="amortBody"></tbody>
+        </table>
+      </div>
+      <button id="showAllBtn" style="display:none">Show All Years</button>
+    </div>
+
+    <div class="ad-slot" id="ad-mid"></div>
+  </div>
+
+  <div class="content-section">
+    <h2>How to Use This Home Affordability Calculator</h2>
+    <p>Enter your annual gross income (before taxes), total monthly debt payments (car loans, student loans, credit cards), and your planned down payment. Adjust the interest rate slider to match current mortgage rates, set your loan term, and optionally add property tax rate, HOA fees, and home insurance costs. Hit "Calculate Affordability" to instantly see the maximum home price you can afford, your estimated monthly payment, and a full year-by-year amortization breakdown.</p>
+
+    <h2>Why This Matters</h2>
+    <p>Buying a home is likely the largest financial decision you'll ever make — and going in without knowing your budget is like grocery shopping without a wallet. Lenders use two key rules: the <strong>28% front-end rule</strong> (your total housing payment shouldn't exceed 28% of gross monthly income) and the <strong>36% back-end rule</strong> (all monthly debts including housing shouldn't exceed 36% of gross income). The more conservative figure wins.</p>
+    <p>For example, a household earning $90,000/year has a gross monthly income of $7,500. Their max housing payment is $2,100 (28%). If they also carry $600/month in car and student loans, the back-end cap is $2,700 total debt — leaving only $2,100 for housing anyway. With a 6.5% rate, 30-year term, and 10% down, this translates to roughly a $330,000 home price. That number shifts dramatically with a larger down payment or lower interest rate — which is exactly why running scenarios before you start house-hunting can save you from falling in love with a house that will break your budget.</p>
+
+    <h2>How It's Calculated</h2>
+    <p>The calculator uses standard mortgage affordability formulas:</p>
+    <ul>
+      <li><strong>Max PITI payment:</strong> Min(Gross Monthly Income × 28%, Gross Monthly Income × 36% − Monthly Debts)</li>
+      <li><strong>Monthly PI budget:</strong> Max PITI − Monthly Taxes − Monthly Insurance − Monthly HOA</li>
+      <li><strong>Loan amount:</strong> P = PI × [(1−(1+r)^−n) / r] where r = monthly rate, n = total months</li>
+      <li><strong>Max home price:</strong> Loan Amount + Down Payment</li>
+      <li><strong>Total interest:</strong> (Monthly PI × n) − Loan Amount</li>
+    </ul>
+    <p>Each year's amortization is calculated by summing 12 months of standard amortization: each month, interest = remaining balance × monthly rate; principal = monthly payment − interest.</p>
+
+    <h2>Tips &amp; Common Mistakes</h2>
+    <ul>
+      <li><strong>Don't forget closing costs.</strong> Budget 2–5% of the home price ($6,000–$15,000 on a $300K home) on top of your down payment — these must be paid at closing.</li>
+      <li><strong>Pre-approval ≠ affordability.</strong> Lenders may approve you for more than you're comfortable paying. Use this calculator to find your comfort zone, not just your maximum.</li>
+      <li><strong>Property taxes vary widely.</strong> New Jersey averages ~2.2%, while Hawaii is ~0.3%. Always use your target area's actual rate.</li>
+      <li><strong>PMI adds cost.</strong> If your down payment is less than 20%, expect to add Private Mortgage Insurance (~0.5–1.5% of the loan annually) to your monthly payment.</li>
+      <li><strong>Emergency fund matters.</strong> Don't drain your savings for a larger down payment. Experts recommend keeping 3–6 months of expenses liquid even after closing.</li>
+    </ul>
+
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>What's the difference between front-end and back-end DTI?</summary>
+      <p>Front-end DTI (debt-to-income) only counts your housing costs — principal, interest, taxes, and insurance — as a percentage of your gross monthly income. Back-end DTI includes all monthly debt obligations including housing, car loans, student loans, and credit cards. Most conventional lenders want front-end below 28% and back-end below 36–43%.</p>
+    </details>
+    <details>
+      <summary>How much should I put down on a house?</summary>
+      <p>The traditional target is 20%, which avoids PMI (Private Mortgage Insurance) and results in lower monthly payments. However, many loan programs allow 3–10% down, and FHA loans allow as little as 3.5%. A larger down payment lowers your loan amount and total interest paid, but make sure you keep enough cash reserves for closing costs and emergencies.</p>
+    </details>
+    <details>
+      <summary>Does this calculator account for PMI?</summary>
+      <p>This calculator doesn't automatically add PMI, but you should factor it in manually if your down payment is less than 20%. PMI typically costs 0.5–1.5% of the loan amount per year. Simply add that monthly cost to the "HOA fees" field as a workaround to see the true monthly payment impact.</p>
+    </details>
+    <details>
+      <summary>What interest rate should I use?</summary>
+      <p>Use current 30-year fixed mortgage rates from a site like Freddie Mac's weekly survey or your lender's website. Rates change daily and vary based on your credit score, loan type, and down payment amount. For planning purposes, it's wise to run scenarios at current rates plus 0.5–1% to stress-test your budget against potential rate increases.</p>
+    </details>
+  </div>
+
+  <div class="related-tools">
+    <h2>Related Tools</h2>
+    <div class="related-grid">
+      <a href="/stock-profit-loss-calculator/">Stock Profit &amp; Loss Calculator</a>
+      <a href="/emergency-fund-calculator/">Emergency Fund Calculator</a>
+      <a href="/retirement-savings-calculator/">Retirement Savings Calculator</a>
+      <a href="/tip-calculator/">Tip Calculator</a>
+      <a href="/car-loan-calculator/">Car Loan Calculator</a>
+      <a href="/break-even-analysis-calculator/">Break-Even Analysis Calculator</a>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-bottom"></div>
+</main>
+
+<footer>
+  <div>
+    <a href="/about/">About</a>
+    <a href="/privacy/">Privacy</a>
+    <a href="/contact/">Contact</a>
+  </div>
+  <div class="copy">© 2024 calcstack.dev — Free Online Calculators</div>
+</footer>
+
+<script>
+(function(){
+  const fmt = n => '$' + Math.round(n).toLocaleString('en-US');
+  const fmtD = (n,d=2) => '$' + n.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
+  const pct = n => n.toFixed(1) + '%';
+
+  // Sliders
+  const rateSlider = document.getElementById('interestRate');
+  const taxSlider = document.getElementById('propTax');
+  const rateVal = document.getElementById('rateVal');
+  const taxVal = document.getElementById('taxVal');
+  const rateDisplay = document.getElementById('rateDisplay');
+  const taxDisplay = document.getElementById('taxDisplay');
+
+  rateSlider.addEventListener('input', () => {
+    const v = parseFloat(rateSlider.value).toFixed(2) + '%';
+    rateVal.textContent = v; rateDisplay.textContent = v;
+  });
+  taxSlider.addEventListener('input', () => {
+    const v = parseFloat(taxSlider.value).toFixed(2) + '%';
+    taxVal.textContent = v; taxDisplay.textContent = v;
+  });
+
+  function clearErrors(){
+    ['income','debts','downpayment'].forEach(id=>{
+      document.getElementById(id).classList.remove('error');
+    });
+    document.getElementById('incomeErr').classList.remove('show');
+    document.getElementById('debtsErr').classList.remove('show');
+    document.getElementById('downErr').classList.remove('show');
+  }
+
+  function showError(field, msgId){
+    document.getElementById(field).classList.add('error');
+    document.getElementById(msgId).classList.add('show');
+  }
+
+  function calculate(){
+    clearErrors();
+    const incomeRaw = parseFloat(document.getElementById('income').value);
+    const debtsRaw = parseFloat(document.getElementById('debts').value) || 0;
+    const downRaw = parseFloat(document.getElementById('downpayment').value) || 0;
+    const term = parseInt(document.getElementById('loanTerm').value);
+    const annualRate = parseFloat(rateSlider.value) / 100;
+    const propTaxRate = parseFloat(taxSlider.value) / 100;
+    const hoaMonth = parseFloat(document.getElementById('hoa').value) || 0;
+    const insuranceYear = parseFloat(document.getElementById('insurance').value) || 0;
+
+    let valid = true;
+    if (!incomeRaw || incomeRaw <= 0){ showError('income','incomeErr'); valid=false; }
+    if (isNaN(debtsRaw) || debtsRaw < 0){ showError('debts','debtsErr'); valid=false; }
+    if (isNaN(downRaw) || downRaw < 0){ showError('downpayment','downErr'); valid=false; }
+    if (!valid) return;
+
+    const grossMonthly = incomeRaw / 12;
+    const frontEndMax = grossMonthly * 0.28;
+    const backEndMax = grossMonthly * 0.36 - debtsRaw;
+    const maxPITI = Math.max(0, Math.min(frontEndMax, backEndMax));
+
+    const monthlyTax = (propTaxRate * 1) * 1; // placeholder computed from home price below
+    const monthlyIns = insuranceYear / 12;
+
+    // We need to solve for home price P where:
+    // monthly tax = P * propTaxRate / 12
+    // loan = P - downRaw
+    // PI payment derived from loan
+    // PI + P*propTaxRate/12 + ins/12 + hoa = maxPITI
+    // PI = maxPITI - P*propTaxRate/12 - ins/12 - hoa
+    // Loan = PI * [(1-(1+r)^-n)/r]
+    // P - down = Loan => P = down + PI * factor
+
+    const r = annualRate / 12;
+    const n = term * 12;
+    const factor = r === 0 ? n : (1 - Math.pow(1+r,-n)) / r;
+
+    // maxPITI = PI + P*propTaxRate/12 + ins/12 + hoa
+    // P = down + PI * factor
+    // maxPITI = PI + (down + PI*factor)*propTaxRate/12 + ins/12 + hoa
+    // maxPITI - ins/12 - hoa - down*propTaxRate/12 = PI * (1 + factor*propTaxRate/12)
+    const fixedCosts = monthlyIns + hoaMonth + downRaw * propTaxRate / 12;
+    const numerator = maxPITI - fixedCosts;
+    const denominator = 1 + factor * propTaxRate / 12;
+    const PI = numerator / denominator;
+    const loanAmt = PI * factor;
+    const homePrice = loanAmt + downRaw;
+
+    if (homePrice <= 0 || PI <= 0){
+      requestAnimationFrame(() => {
+        const res = document.getElementById('results');
+        res.innerHTML = '<div class="card" style="text-align:center;padding:2rem"><p style="color:#e74c3c;font-size:1rem">⚠️ Based on your inputs, your debts exceed the affordability threshold. Try increasing income, reducing debts, or raising your down payment.</p></div>';
+        res.classList.add('visible');
+      });
+      return;
+    }
+
+    const monthlyTaxCalc = homePrice * propTaxRate / 12;
+    const totalMonthly = PI + monthlyTaxCalc + monthlyIns + hoaMonth;
+    const totalInterest = (PI * n) - loanAmt;
+    const totalCost = homePrice + totalInterest + (monthlyTaxCalc + monthlyIns + hoaMonth) * n;
+
+    // DTI
+    const frontEndDTI = (totalMonthly / grossMonthly) * 100;
+    const backEndDTI = ((totalMonthly + debtsRaw) / grossMonthly) * 100;
+
+    function dtiColor(v){ return v <= 28 ? 'green' : v <= 36 ? 'orange' : 'red'; }
+    function dtiBadge(v){
+      if(v<=28) return '<span class="ratio-badge badge-green">Excellent</span>';
+      if(v<=36) return '<span class="ratio-badge badge-orange">Acceptable</span>';
+      return '<span class="ratio-badge badge-red">High</span>';
+    }
+
+    // Build amortization data
+    let balance = loanAmt;
+    const amortYears = [];
+    for(let y=1; y<=term; y++){
+      let yearPrincipal=0, yearInterest=0;
+      const startBalance = balance;
+      for(let m=0;m<12;m++){
+        const intPay = balance * r;
+        const prinPay = PI - intPay;
+        yearInterest += intPay;
+        yearPrincipal += prinPay;
+        balance = Math.max(0, balance - prinPay);
+      }
+      amortYears.push({year:y, principal:yearPrincipal, interest:yearInterest, balance:Math.max(0,balance), equity: downRaw + (loanAmt - Math.max(0,balance))});
+    }
+
+    const SHOW_ROWS = 10;
+    let showingAll = false;
+
+    function buildTableRows(all){
+      const rows = all ? amortYears : amortYears.slice(0, SHOW_ROWS);
+      return rows.map((r,i) => {
+        const rClass = i%2===0?'':'';
+        return `<tr><td>${r.year}</td><td class="num">${fmt(r.principal)}</td><td class="num">${fmt(r.interest)}</td><td class="num">${fmt(r.balance)}</td><td class="num">${fmt(r.equity)}</td></tr>`;
+      }).join('');
+    }
+
+    // Build bar colors
+    const piPct = (PI/totalMonthly)*100;
+    const taxPct = (monthlyTaxCalc/totalMonthly)*100;
+    const insPct = (monthlyIns/totalMonthly)*100;
+    const hoaPct = (hoaMonth/totalMonthly)*100;
+
+    const breakdownHTML = `
+      <div class="stacked-bar">
+        <div class="stacked-seg" style="width:${piPct}%;background:#0077b6" title="P&I"></div>
+        <div class="stacked-seg" style="width:${taxPct}%;background:#f39c12" title="Tax"></div>
+        <div class="stacked-seg" style="width:${insPct}%;background:#27ae60" title="Insurance"></div>
+        <div class="stacked-seg" style="width:${hoaPct}%;background:#9b59b6" title="HOA"></div>
+      </div>
+      <div class="bar-legend">
+        <span><span class="legend-dot" style="background:#0077b6"></span>Principal &amp; Interest: ${fmt(PI)}/mo (${piPct.toFixed(0)}%)</span>
+        <span><span class="legend-dot" style="background:#f39c12"></span>Property Tax: ${fmt(monthlyTaxCalc)}/mo (${taxPct.toFixed(0)}%)</span>
+        ${monthlyIns>0?`<span><span class="legend-dot" style="background:#27ae60"></span>Insurance: ${fmt(monthlyIns)}/mo (${insPct.toFixed(0)}%)</span>`:''}
+        ${hoaMonth>0?`<span><span class="legend-dot" style="background:#9b59b6"></span>HOA: ${fmt(hoaMonth)}/mo (${hoaPct.toFixed(0)}%)</span>`:''}
+      </div>
+      <div style="margin-top:1rem">
+        <div class="bar-label-row"><span>Total Monthly</span><span>${fmt(totalMonthly)}</span></div>
+        <div class="bar-label-row" style="font-size:.8rem;color:#888"><span>Total Cost of Ownership (${term} yrs)</span><span>${fmt(totalCost)}</span></div>
+      </div>`;
+
+    const incomeUsedPct = Math.min((totalMonthly/grossMonthly)*100, 100);
+    const debtPct = Math.min((debtsRaw/grossMonthly)*100, 100);
+    const freePct = Math.max(100 - incomeUsedPct - debtPct, 0);
+    const incomeHTML = `
+      <div class="bar-label-row"><span>Monthly Income Allocation</span><span>${fmt(grossMonthly)}/mo</span></div>
+      <div class="stacked-bar" style="margin-top:.3rem">
+        <div class="stacked-seg" style="width:${incomeUsedPct.toFixed(1)}%;background:#0077b6"></div>
+        <div class="stacked-seg" style="width:${Math.min(debtPct,100-incomeUsedPct).toFixed(1)}%;background:#e74c3c"></div>
+        <div class="stacked-seg" style="width:${freePct.toFixed(1)}%;background:#e8ecf0"></div>
+      </div>
+      <div class="bar-legend" style="margin-top:.4rem">
+        <span><span class="legend-dot" style="background:#0077b6"></span>Housing: ${fmt(totalMonthly)}/mo</span>
+        ${debtsRaw>0?`<span><span class="legend-dot" style="background:#e74c3c"></span>Other Debts: ${fmt(debtsRaw)}/mo</span>`:''}
+        <span><span class="legend-dot" style="background:#e8ecf0;border:1px solid #ccc"></span>Remaining: ${fmt(Math.max(0,grossMonthly-totalMonthly-debtsRaw))}/mo</span>
+      </div>`;
+
+    const dtiHTML = `
+      <div style="margin-bottom:.9rem">
+        <div class="bar-label-row"><span>Front-End DTI (Housing only)</span><span style="font-weight:700;color:${frontEndDTI<=28?'#27ae60':frontEndDTI<=36?'#e67e22':'#e74c3c'}">${frontEndDTI.toFixed(1)}%</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:${Math.min(frontEndDTI,100).toFixed(1)}%;background:${frontEndDTI<=28?'#27ae60':frontEndDTI<=36?'#e67e22':'#e74c3c'}"></div></div>
+        <div class="ratio-indicator">${dtiBadge(frontEndDTI)}<span style="font-size:.82rem;color:#666">Target: ≤ 28%</span></div>
+      </div>
+      <div>
+        <div class="bar-label-row"><span>Back-End DTI (All debts)</span><span style="font-weight:700;color:${backEndDTI<=36?'#27ae60':backEndDTI<=43?'#e67e22':'#e74c3c'}">${backEndDTI.toFixed(1)}%</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:${Math.min(backEndDTI,100).toFixed(1)}%;background:${backEndDTI<=36?'#27ae60':backEndDTI<=43?'#e67e22':'#e74c3c'}"></div></div>
+        <div class="ratio-indicator">${dtiBadge(backEndDTI)}<span style="font-size:.82rem;color:#666">Target: ≤ 36%</span></div>
+      </div>`;
+
+    const dpPct = (downRaw/homePrice*100).toFixed(1);
+
+    requestAnimationFrame(() => {
+      const resultsDiv = document.getElementById('results');
+
+      document.getElementById('maxHomePrice').textContent = fmt(homePrice);
+      document.getElementById('heroSub').textContent = `${dpPct}% down · ${term}-year term · ${parseFloat(rateSlider.value).toFixed(2)}% rate`;
+      document.getElementById('maxPayment').textContent = fmt(totalMonthly);
+      document.getElementById('loanAmount').textContent = fmt(loanAmt);
+      document.getElementById('piPayment').textContent = fmt(PI);
+      document.getElementById('totalInterest').textContent = fmt(totalInterest);
+
+      const tc = dtiColor(frontEndDTI);
+      document.getElementById('maxPayment').className = 'r-val ' + tc;
+
+      document.getElementById('breakdownBars').innerHTML = breakdownHTML;
+      document.getElementById('dtiSection').innerHTML = dtiHTML;
+      document.getElementById('incomeBars').innerHTML = incomeHTML;
+      document.getElementById('amortBody').innerHTML = buildTableRows(false);
+
+      const showAllBtn = document.getElementById('showAllBtn');
+      if(amortYears.length > SHOW_ROWS){
+        showAllBtn.style.display = 'block';
+        showAllBtn.textContent = 'Show All ' + term + ' Years';
+        showingAll = false;
+        showAllBtn.onclick = () => {
+          showingAll = !showingAll;
+          requestAnimationFrame(() => {
+            document.getElementById('amortBody').innerHTML = buildTableRows(showingAll);
+            showAllBtn.textContent = showingAll ? 'Show Less' : 'Show All ' + term + ' Years';
+          });
+        };
+      } else {
+        showAllBtn.style.display = 'none';
+      }
+
+      // Copy button
+      document.getElementById('copyTableBtn').onclick = function(){
+        const lines = [
+          `Home Affordability Summary`,
+          `Max Home Price: ${fmt(homePrice)}`,
+          `Loan Amount: ${fmt(loanAmt)}`,
+          `Down Payment: ${fmt(downRaw)} (${dpPct}%)`,
+          `Monthly Payment (PITI): ${fmt(totalMonthly)}`,
+          `  Principal & Interest: ${fmt(PI)}`,
+          `  Property Tax: ${fmt(monthlyTaxCalc)}`,
+          `  Insurance: ${fmt(monthlyIns)}`,
+          `  HOA: ${fmt(hoaMonth)}`,
+          `Total Interest: ${fmt(totalInterest)}`,
+          `Front-End DTI: ${frontEndDTI.toFixed(1)}%`,
+          `Back-End DTI: ${backEndDTI.toFixed(1)}%`,
+        ].join('\n');
+        navigator.clipboard.writeText(lines).then(() => {
+          const btn = document.getElementById('copyTableBtn');
+          btn.textContent = 'Copied!';
+          setTimeout(() => btn.textContent = 'Copy Summary', 2000);
+        });
+      };
+
+      resultsDiv.classList.add('visible');
+      resultsDiv.scrollIntoView({behavior:'smooth',block:'start'});
+    });
+  }
+
+  document.getElementById('calcBtn').addEventListener('click', () => {
+    requestAnimationFrame(() => calculate());
+  });
+
+  ['income','debts','downpayment','hoa','insurance'].forEach(id => {
+    document.getElementById(id).addEventListener('keydown', e => {
+      if(e.key === 'Enter') requestAnimationFrame(() => calculate());
+    });
+  });
+  document.getElementById('loanTerm').addEventListener('change', () => {
+    if(document.getElementById('results').classList.contains('visible'))
+      requestAnimationFrame(() => calculate());
+  });
+})();
+</script>
+</body>
+</html>
