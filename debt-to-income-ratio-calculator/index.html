@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Debt-to-Income Ratio Calculator — Free Online Tool | calcstack.dev</title>
+<meta name="description" content="Calculate your debt-to-income ratio instantly. See if you qualify for a mortgage or loan and understand how lenders evaluate your financial health.">
+<link rel="canonical" href="https://calcstack.dev/debt-to-income-ratio-calculator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Debt-to-Income Ratio Calculator",
+  "url": "https://calcstack.dev/debt-to-income-ratio-calculator/",
+  "description": "Calculate your debt-to-income ratio instantly. See if you qualify for a mortgage or loan and understand how lenders evaluate your financial health.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#fff;color:#1a1a2e;font-size:16px;line-height:1.6}
+a{color:#0077b6;text-decoration:none}
+a:hover{text-decoration:underline}
+nav{border-bottom:1px solid #e0e0e0;padding:0.75rem 1.5rem;background:#fff}
+nav .nav-inner{max-width:640px;margin:0 auto;display:flex;align-items:center}
+nav .site-name{font-weight:700;font-size:1.1rem;color:#1a1a2e}
+nav .site-name span{color:#0077b6}
+main{max-width:640px;margin:0 auto;padding:1.5rem 1rem 3rem}
+h1{font-size:1.6rem;font-weight:700;margin-bottom:0.4rem;color:#1a1a2e}
+.subtitle{color:#555;font-size:0.95rem;margin-bottom:1.5rem}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;box-shadow:0 2px 8px rgba(0,0,0,0.05);margin-bottom:2rem}
+.section-title{font-size:1rem;font-weight:700;color:#0077b6;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:2px solid #e8f4fc}
+.form-group{margin-bottom:1.25rem}
+label{display:block;font-size:0.85rem;font-weight:500;color:#444;margin-bottom:0.35rem}
+label .hint{font-weight:400;color:#888;font-size:0.8rem}
+input[type=number],input[type=text]{width:100%;border:1px solid #ddd;border-radius:6px;padding:12px 16px;font-size:1rem;color:#1a1a2e;background:#fff;transition:border-color 0.2s,box-shadow 0.2s;-webkit-appearance:none;appearance:none}
+input[type=number]:focus,input[type=text]:focus{outline:none;border-color:#0077b6;box-shadow:0 0 0 3px rgba(0,119,182,0.15)}
+input.error{border-color:#e74c3c}
+.error-msg{color:#e74c3c;font-size:0.8rem;margin-top:0.3rem;display:none}
+.error-msg.show{display:block}
+.debt-row{display:flex;gap:0.5rem;align-items:flex-end;margin-bottom:0.75rem}
+.debt-row .form-group{flex:1;margin-bottom:0}
+.debt-row .remove-btn{background:#f8f9fa;border:1px solid #ddd;border-radius:6px;color:#888;cursor:pointer;font-size:1.1rem;width:44px;height:44px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background 0.15s,color 0.15s}
+.debt-row .remove-btn:hover{background:#ffeaea;color:#e74c3c;border-color:#e74c3c}
+.add-btn{background:#f0f8ff;border:1px dashed #0077b6;border-radius:6px;color:#0077b6;cursor:pointer;font-size:0.9rem;padding:10px 16px;width:100%;text-align:center;transition:background 0.15s}
+.add-btn:hover{background:#e0f0ff}
+.btn-primary{background:#0077b6;color:#fff;border:none;border-radius:6px;padding:14px 24px;font-size:1rem;font-weight:600;cursor:pointer;width:100%;transition:background 0.2s;min-height:44px;margin-top:0.5rem}
+.btn-primary:hover{background:#006299}
+.results{opacity:0;transition:opacity 0.3s ease;pointer-events:none}
+.results.visible{opacity:1;pointer-events:auto}
+.dti-hero{text-align:center;padding:1.5rem 0 1rem}
+.dti-number{font-size:4rem;font-weight:800;color:#0077b6;line-height:1}
+.dti-label{font-size:1rem;color:#555;margin-top:0.4rem}
+.dti-badge{display:inline-block;padding:0.35rem 1.1rem;border-radius:20px;font-size:0.9rem;font-weight:600;margin-top:0.75rem}
+.badge-excellent{background:#d4f7e7;color:#1a7a4a}
+.badge-good{background:#d4eeff;color:#005a8e}
+.badge-fair{background:#fff3cd;color:#856404}
+.badge-poor{background:#ffeaea;color:#a94442}
+.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.2rem 0}
+.summary-card{background:#f8f9fa;border-radius:8px;padding:1rem;text-align:center}
+.summary-card .val{font-size:1.4rem;font-weight:700;color:#0077b6}
+.summary-card .lbl{font-size:0.8rem;color:#666;margin-top:0.2rem}
+.bar-section{margin:1.2rem 0}
+.bar-label{font-size:0.85rem;color:#444;margin-bottom:0.4rem;display:flex;justify-content:space-between}
+.bar-track{background:#e8f4fc;border-radius:20px;height:18px;width:100%;overflow:hidden;position:relative}
+.bar-fill{height:100%;border-radius:20px;transition:width 0.5s ease}
+.bar-fill.color-debt{background:#0077b6}
+.bar-fill.color-remaining{background:#28a745}
+.bar-fill.color-warn{background:#fd7e14}
+.bar-fill.color-danger{background:#e74c3c}
+.bar-legend{display:flex;gap:1.2rem;margin-top:0.5rem;flex-wrap:wrap}
+.bar-legend span{font-size:0.78rem;color:#555;display:flex;align-items:center;gap:0.4rem}
+.bar-legend span::before{content:'';display:inline-block;width:12px;height:12px;border-radius:3px}
+.legend-debt::before{background:#0077b6}
+.legend-remaining::before{background:#28a745}
+.debt-breakdown-list{margin:0.75rem 0}
+.debt-item-bar{margin-bottom:0.6rem}
+.debt-item-bar .di-label{display:flex;justify-content:space-between;font-size:0.82rem;color:#444;margin-bottom:0.25rem}
+.debt-item-bar .di-track{background:#f0f0f0;border-radius:10px;height:10px;overflow:hidden}
+.debt-item-bar .di-fill{height:100%;background:#0077b6;border-radius:10px;transition:width 0.5s ease}
+.threshold-table-wrap{overflow-x:auto;margin-top:1rem}
+table{width:100%;border-collapse:collapse;font-size:0.88rem}
+thead th{background:#f0f0f0;padding:10px 12px;text-align:left;font-weight:600;color:#333;border-bottom:2px solid #ddd}
+thead th:last-child{text-align:right}
+tbody tr:nth-child(odd){background:#fafafa}
+tbody tr:nth-child(even){background:#fff}
+tbody td{padding:10px 12px;border-bottom:1px solid #eee;vertical-align:middle}
+tbody td:last-child{text-align:right;font-weight:500}
+.badge-sm{display:inline-block;padding:2px 10px;border-radius:12px;font-size:0.75rem;font-weight:600}
+.tip-row{background:#f0f8ff!important}
+.copy-btn{background:#f0f0f0;border:1px solid #ddd;border-radius:5px;color:#555;cursor:pointer;font-size:0.8rem;padding:5px 12px;transition:background 0.15s}
+.copy-btn:hover{background:#e0e0e0}
+.copy-btn.copied{background:#d4f7e7;color:#1a7a4a;border-color:#a0dcc0}
+.copy-row{display:flex;justify-content:flex-end;margin-top:0.75rem}
+h2{font-size:1.2rem;font-weight:700;color:#1a1a2e;margin:2rem 0 0.75rem}
+.content-section{max-width:640px;margin:0 auto;padding:0 1rem 2rem}
+.content-section p{color:#333;margin-bottom:0.9rem;font-size:0.95rem}
+.content-section ul{color:#333;font-size:0.95rem;padding-left:1.4rem;margin-bottom:0.9rem}
+.content-section ul li{margin-bottom:0.5rem}
+details{border:1px solid #e0e0e0;border-radius:6px;margin-bottom:0.6rem}
+summary{padding:0.85rem 1rem;font-weight:600;font-size:0.93rem;cursor:pointer;color:#1a1a2e;list-style:none;display:flex;justify-content:space-between;align-items:center}
+summary::after{content:'＋';color:#0077b6;font-size:1rem;flex-shrink:0}
+details[open] summary::after{content:'－'}
+details p{padding:0 1rem 0.85rem;color:#444;font-size:0.9rem}
+.related-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-top:0.75rem}
+.related-card{background:#f8f9fa;border:1px solid #e0e0e0;border-radius:8px;padding:0.85rem 1rem;font-size:0.9rem;font-weight:500;color:#0077b6;transition:background 0.15s}
+.related-card:hover{background:#e8f4fc;text-decoration:none}
+.ad-slot{min-height:0;margin:0}
+footer{border-top:1px solid #e0e0e0;padding:1.2rem 1rem;text-align:center;font-size:0.82rem;color:#888;max-width:640px;margin:0 auto}
+footer a{color:#888;margin:0 0.5rem}
+footer a:hover{color:#0077b6}
+@media(max-width:480px){
+  h1{font-size:1.35rem}
+  .dti-number{font-size:3rem}
+  .summary-grid{grid-template-columns:1fr 1fr}
+  .related-grid{grid-template-columns:1fr}
+  .card{padding:1.25rem}
+  .debt-row .form-group label{display:block}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="site-name">calc<span>stack</span>.dev</a>
+  </div>
+</nav>
+
+<main>
+  <h1>Debt-to-Income Ratio Calculator</h1>
+  <p class="subtitle">Find out your DTI ratio and see if you qualify for a mortgage or loan in seconds.</p>
+
+  <div class="card">
+    <div class="section-title">Monthly Income</div>
+    <div class="form-group">
+      <label for="grossIncome">Gross Monthly Income <span class="hint">(before taxes)</span></label>
+      <input type="number" id="grossIncome" placeholder="e.g. 6000" min="0" step="1">
+      <div class="error-msg" id="err-income">Please enter a valid gross monthly income greater than 0.</div>
+    </div>
+
+    <div class="section-title" style="margin-top:1.5rem">Monthly Debt Payments</div>
+    <div id="debtList">
+      <div class="debt-row" data-id="0">
+        <div class="form-group">
+          <label>Debt Name</label>
+          <input type="text" class="debt-name" placeholder="e.g. Mortgage/Rent">
+        </div>
+        <div class="form-group">
+          <label>Monthly Payment</label>
+          <input type="number" class="debt-amount" placeholder="e.g. 1200" min="0" step="1">
+        </div>
+        <button class="remove-btn" onclick="removeDebt(this)" title="Remove">✕</button>
+      </div>
+      <div class="debt-row" data-id="1">
+        <div class="form-group">
+          <label>Debt Name</label>
+          <input type="text" class="debt-name" placeholder="e.g. Car Loan">
+        </div>
+        <div class="form-group">
+          <label>Monthly Payment</label>
+          <input type="number" class="debt-amount" placeholder="e.g. 350" min="0" step="1">
+        </div>
+        <button class="remove-btn" onclick="removeDebt(this)" title="Remove">✕</button>
+      </div>
+      <div class="debt-row" data-id="2">
+        <div class="form-group">
+          <label>Debt Name</label>
+          <input type="text" class="debt-name" placeholder="e.g. Student Loan">
+        </div>
+        <div class="form-group">
+          <label>Monthly Payment</label>
+          <input type="number" class="debt-amount" placeholder="e.g. 200" min="0" step="1">
+        </div>
+        <button class="remove-btn" onclick="removeDebt(this)" title="Remove">✕</button>
+      </div>
+    </div>
+    <button class="add-btn" onclick="addDebt()">+ Add Another Debt</button>
+    <div class="error-msg" id="err-debt">Please enter at least one monthly debt payment greater than 0.</div>
+
+    <button class="btn-primary" id="calcBtn" style="margin-top:1.5rem">Calculate My DTI Ratio</button>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="card results" id="results">
+    <div class="dti-hero">
+      <div class="dti-number" id="res-dti">0%</div>
+      <div class="dti-label">Debt-to-Income Ratio</div>
+      <div class="dti-badge badge-good" id="res-badge">Good</div>
+    </div>
+
+    <div class="summary-grid">
+      <div class="summary-card">
+        <div class="val" id="res-income">$0</div>
+        <div class="lbl">Gross Monthly Income</div>
+      </div>
+      <div class="summary-card">
+        <div class="val" id="res-total-debt">$0</div>
+        <div class="lbl">Total Monthly Debts</div>
+      </div>
+      <div class="summary-card">
+        <div class="val" id="res-remaining">$0</div>
+        <div class="lbl">Remaining After Debts</div>
+      </div>
+      <div class="summary-card">
+        <div class="val" id="res-max-debt">$0</div>
+        <div class="lbl">Max Debt for 36% DTI</div>
+      </div>
+    </div>
+
+    <div class="bar-section">
+      <div class="bar-label">
+        <span>Income Breakdown</span>
+        <span id="bar-pct-label">0% to debts</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill color-debt" id="bar-debt" style="width:0%"></div>
+      </div>
+      <div class="bar-legend">
+        <span class="legend-debt">Monthly Debts</span>
+        <span class="legend-remaining">Remaining Income</span>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:1rem">Debt Breakdown</div>
+    <div class="debt-breakdown-list" id="res-debt-bars"></div>
+
+    <div class="section-title" style="margin-top:1rem">DTI Benchmarks</div>
+    <div class="threshold-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>DTI Range</th>
+            <th>Rating</th>
+            <th>What Lenders Think</th>
+            <th style="text-align:right">Your Status</th>
+          </tr>
+        </thead>
+        <tbody id="benchmark-tbody"></tbody>
+      </table>
+    </div>
+
+    <div class="copy-row">
+      <button class="copy-btn" id="copyBtn" onclick="copyResults()">Copy Results</button>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-mid"></div>
+</main>
+
+<!-- CONTENT SECTION -->
+<div class="content-section">
+
+  <h2>How to Use This Debt-to-Income Ratio Calculator</h2>
+  <p>Enter your <strong>gross monthly income</strong> (your earnings before taxes and deductions), then add each of your monthly debt payments — mortgage or rent, car loan, student loans, credit cards, and any other recurring debt obligations. Click <em>Calculate My DTI Ratio</em> to instantly see your ratio, a visual breakdown, and how you compare to lender thresholds.</p>
+  <p>You can add as many debt items as you need. Use descriptive names so the breakdown chart is easy to read. The more accurate your numbers, the more useful your result.</p>
+
+  <h2>Why This Matters</h2>
+  <p>Your debt-to-income ratio is one of the most important numbers in personal finance — especially when you're applying for a mortgage, car loan, or any other major credit product. Lenders use it to gauge whether you have enough breathing room in your budget to take on new debt responsibly.</p>
+  <p>A conventional mortgage typically requires a DTI below <strong>43%</strong>, and the best rates usually go to borrowers under <strong>36%</strong>. FHA loans may allow up to 50% in some cases. If you're at 55%, you'll likely face rejection from most lenders regardless of your credit score.</p>
+  <p>Beyond loans, knowing your DTI helps you budget more effectively. If your ratio is 40%, it means nearly half your income before taxes is committed to debt payments — leaving little room for savings, emergencies, or unexpected expenses. Financial advisors generally recommend keeping DTI under 35% for long-term financial health. Even a $200/month reduction in debt payments can meaningfully shift your ratio and open up new borrowing options.</p>
+
+  <h2>How It's Calculated</h2>
+  <p>The formula is straightforward:</p>
+  <p><strong>DTI = (Total Monthly Debt Payments ÷ Gross Monthly Income) × 100</strong></p>
+  <p>For example: if you earn $6,000/month and your total debt payments are $2,100/month, your DTI = ($2,100 ÷ $6,000) × 100 = <strong>35%</strong>. Lenders sometimes distinguish between "front-end DTI" (housing costs only) and "back-end DTI" (all debts) — this calculator computes back-end DTI, which is what most lenders focus on.</p>
+
+  <h2>Tips &amp; Common Mistakes</h2>
+  <ul>
+    <li><strong>Use gross income, not net:</strong> Lenders always calculate DTI against pre-tax income. Using take-home pay will give you a falsely high ratio.</li>
+    <li><strong>Include all debts:</strong> Don't forget minimum credit card payments, personal loans, child support, alimony, or any installment obligations — lenders see all of these.</li>
+    <li><strong>Utilities and subscriptions don't count:</strong> Only actual debt obligations (loans, credit lines, court-ordered payments) are included. Rent is included only if you're calculating housing cost separately.</li>
+    <li><strong>Reducing your highest payment has the biggest impact:</strong> Paying off a $400/month car loan can drop a 42% DTI to ~36% on a $6,000 income — which could be the difference between approval and rejection.</li>
+    <li><strong>Don't confuse DTI with credit utilization:</strong> DTI is about monthly cash flow, not how much of your credit limit you're using. Both matter, but they measure different things.</li>
+  </ul>
+
+  <h2>Frequently Asked Questions</h2>
+  <details>
+    <summary>What is a good debt-to-income ratio?</summary>
+    <p>Most financial experts consider a DTI below 36% to be healthy, with no more than 28% going toward housing costs. Lenders view borrowers under 36% favorably, while 37–43% is acceptable for many loan products. Above 43% can make approval difficult for conventional mortgages.</p>
+  </details>
+  <details>
+    <summary>Does DTI affect my credit score?</summary>
+    <p>Not directly — your DTI ratio is not reported to credit bureaus and doesn't appear in your credit score calculation. However, it's a key metric lenders review alongside your score during underwriting. A high DTI can lead to loan denial even with an excellent credit score.</p>
+  </details>
+  <details>
+    <summary>Should I include my rent or mortgage in my DTI?</summary>
+    <p>Yes — if you're paying rent or have an existing mortgage, that monthly payment should be included in your debt total. When applying for a new home loan, lenders use your <em>proposed</em> mortgage payment (not your current rent) as part of the calculation.</p>
+  </details>
+  <details>
+    <summary>How can I lower my DTI quickly?</summary>
+    <p>The two levers are income and debt. On the debt side, paying off a small loan entirely removes its payment from the calculation — even if the total amount paid is similar to making extra payments on a larger loan. On the income side, any verified additional income (freelance, part-time, rental income) can be added to your gross income if you can document it.</p>
+  </details>
+
+  <h2>Related Tools</h2>
+  <div class="related-grid">
+    <a href="/home-affordability-calculator/" class="related-card">🏠 Home Affordability Calculator</a>
+    <a href="/stock-profit-loss-calculator/" class="related-card">📈 Stock Profit and Loss Calculator</a>
+    <a href="/emergency-fund-calculator/" class="related-card">🛡️ Emergency Fund Calculator</a>
+    <a href="/retirement-savings-calculator/" class="related-card">🏦 Retirement Savings Calculator</a>
+    <a href="/tip-calculator/" class="related-card">🍽️ Tip Calculator</a>
+    <a href="/car-loan-calculator/" class="related-card">🚗 Car Loan Calculator</a>
+  </div>
+
+  <div class="ad-slot" id="ad-bottom"></div>
+</div>
+
+<footer>
+  <div>
+    <a href="/about/">About</a>
+    <a href="/privacy/">Privacy</a>
+    <a href="/contact/">Contact</a>
+  </div>
+  <div style="margin-top:0.4rem">© 2025 calcstack.dev</div>
+</footer>
+
+<script>
+let debtIdCounter = 3;
+
+function addDebt() {
+  const list = document.getElementById('debtList');
+  const row = document.createElement('div');
+  row.className = 'debt-row';
+  row.dataset.id = debtIdCounter++;
+  row.innerHTML = `
+    <div class="form-group">
+      <label>Debt Name</label>
+      <input type="text" class="debt-name" placeholder="e.g. Credit Card">
+    </div>
+    <div class="form-group">
+      <label>Monthly Payment</label>
+      <input type="number" class="debt-amount" placeholder="0" min="0" step="1">
+    </div>
+    <button class="remove-btn" onclick="removeDebt(this)" title="Remove">✕</button>
+  `;
+  list.appendChild(row);
+  row.querySelector('.debt-amount').addEventListener('keydown', handleEnter);
+  row.querySelector('.debt-name').addEventListener('keydown', handleEnter);
+}
+
+function removeDebt(btn) {
+  const row = btn.closest('.debt-row');
+  const list = document.getElementById('debtList');
+  if (list.querySelectorAll('.debt-row').length > 1) {
+    row.remove();
+  } else {
+    row.querySelector('.debt-name').value = '';
+    row.querySelector('.debt-amount').value = '';
+  }
+}
+
+function fmt(n) {
+  return '$' + n.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+}
+
+function fmtPct(n) {
+  return n.toFixed(1) + '%';
+}
+
+function getRating(dti) {
+  if (dti <= 20) return {label:'Excellent', cls:'badge-excellent', clsbar:'color-debt'};
+  if (dti <= 35) return {label:'Good', cls:'badge-good', clsbar:'color-debt'};
+  if (dti <= 43) return {label:'Fair', cls:'badge-fair', clsbar:'color-warn'};
+  return {label:'High Risk', cls:'badge-poor', clsbar:'color-danger'};
+}
+
+function validate() {
+  let valid = true;
+  const income = parseFloat(document.getElementById('grossIncome').value);
+  const incomeErr = document.getElementById('err-income');
+  const incomeInput = document.getElementById('grossIncome');
+  if (!income || income <= 0 || isNaN(income)) {
+    incomeInput.classList.add('error');
+    incomeErr.classList.add('show');
+    valid = false;
+  } else {
+    incomeInput.classList.remove('error');
+    incomeErr.classList.remove('show');
+  }
+
+  const amounts = document.querySelectorAll('.debt-amount');
+  let hasDebt = false;
+  amounts.forEach(a => {
+    const v = parseFloat(a.value);
+    if (v > 0 && !isNaN(v)) hasDebt = true;
+  });
+  const debtErr = document.getElementById('err-debt');
+  if (!hasDebt) {
+    debtErr.classList.add('show');
+    valid = false;
+  } else {
+    debtErr.classList.remove('show');
+  }
+  return valid;
+}
+
+function calculate() {
+  if (!validate()) return;
+
+  const income = parseFloat(document.getElementById('grossIncome').value);
+  const rows = document.querySelectorAll('.debt-row');
+  const debts = [];
+  let totalDebt = 0;
+
+  rows.forEach(row => {
+    const name = row.querySelector('.debt-name').value.trim() || 'Unnamed Debt';
+    const amount = parseFloat(row.querySelector('.debt-amount').value) || 0;
+    if (amount > 0) {
+      debts.push({name, amount});
+      totalDebt += amount;
+    }
+  });
+
+  const dti = (totalDebt / income) * 100;
+  const remaining = income - totalDebt;
+  const maxDebt = income * 0.36;
+  const rating = getRating(dti);
+  const barPct = Math.min(dti, 100);
+
+  const benchmarks = [
+    {range:'≤ 20%', label:'Excellent', cls:'badge-excellent', desc:'Ideal financial health', max:20},
+    {range:'21% – 35%', label:'Good', cls:'badge-good', desc:'Favorable for most loans', max:35},
+    {range:'36% – 43%', label:'Fair', cls:'badge-fair', desc:'Acceptable, some restrictions', max:43},
+    {range:'44% – 50%', label:'Poor', cls:'badge-poor', desc:'Limited options, higher rates', max:50},
+    {range:'> 50%', label:'High Risk', cls:'badge-poor', desc:'Very difficult to get approved', max:999},
+  ];
+
+  requestAnimationFrame(() => {
+    document.getElementById('res-dti').textContent = fmtPct(dti);
+    document.getElementById('res-income').textContent = fmt(income);
+    document.getElementById('res-total-debt').textContent = fmt(totalDebt);
+    document.getElementById('res-remaining').textContent = remaining >= 0 ? fmt(remaining) : '-' + fmt(Math.abs(remaining));
+    document.getElementById('res-max-debt').textContent = fmt(maxDebt);
+
+    const badge = document.getElementById('res-badge');
+    badge.textContent = rating.label;
+    badge.className = 'dti-badge ' + rating.cls;
+
+    const barDebt = document.getElementById('bar-debt');
+    barDebt.style.width = barPct + '%';
+    barDebt.className = 'bar-fill ' + rating.clsbar;
+
+    document.getElementById('bar-pct-label').textContent = fmtPct(dti) + ' to debts';
+
+    // Debt breakdown bars
+    let barsHtml = '';
+    debts.forEach(d => {
+      const pct = (d.amount / income) * 100;
+      const pctOfDebt = totalDebt > 0 ? (d.amount / totalDebt) * 100 : 0;
+      barsHtml += `<div class="debt-item-bar">
+        <div class="di-label">
+          <span>${escHtml(d.name)}</span>
+          <span>${fmt(d.amount)}/mo &nbsp;(${pctOfDebt.toFixed(1)}% of debts &nbsp;|&nbsp; ${pct.toFixed(1)}% of income)</span>
+        </div>
+        <div class="di-track"><div class="di-fill" style="width:${Math.min(pct,100)}%"></div></div>
+      </div>`;
+    });
+    document.getElementById('res-debt-bars').innerHTML = barsHtml;
+
+    // Benchmarks table
+    let tableHtml = '';
+    benchmarks.forEach((b, i) => {
+      const isCurrent = (i === 0 && dti <= 20) ||
+                        (i === 1 && dti > 20 && dti <= 35) ||
+                        (i === 2 && dti > 35 && dti <= 43) ||
+                        (i === 3 && dti > 43 && dti <= 50) ||
+                        (i === 4 && dti > 50);
+      tableHtml += `<tr${isCurrent ? ' class="tip-row"' : ''}>
+        <td>${b.range}</td>
+        <td><span class="badge-sm ${b.cls}">${b.label}</span></td>
+        <td>${b.desc}</td>
+        <td>${isCurrent ? '← You are here' : ''}</td>
+      </tr>`;
+    });
+    document.getElementById('benchmark-tbody').innerHTML = tableHtml;
+
+    const results = document.getElementById('results');
+    results.classList.add('visible');
+    results.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+}
+
+function escHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function copyResults() {
+  const dti = document.getElementById('res-dti').textContent;
+  const income = document.getElementById('res-income').textContent;
+  const debt = document.getElementById('res-total-debt').textContent;
+  const remaining = document.getElementById('res-remaining').textContent;
+  const badge = document.getElementById('res-badge').textContent;
+  const text = `Debt-to-Income Ratio: ${dti} (${badge})\nGross Monthly Income: ${income}\nTotal Monthly Debts: ${debt}\nRemaining After Debts: ${remaining}\nCalculated at calcstack.dev/debt-to-income-ratio-calculator/`;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = 'Copy Results';
+      btn.classList.remove('copied');
+    }, 2000);
+  }).catch(() => {});
+}
+
+function handleEnter(e) {
+  if (e.key === 'Enter') {
+    requestAnimationFrame(() => calculate());
+  }
+}
+
+document.getElementById('calcBtn').addEventListener('click', () => {
+  requestAnimationFrame(() => calculate());
+});
+
+document.getElementById('grossIncome').addEventListener('keydown', handleEnter);
+
+document.querySelectorAll('.debt-amount, .debt-name').forEach(el => {
+  el.addEventListener('keydown', handleEnter);
+});
+</script>
+</body>
+</html>
