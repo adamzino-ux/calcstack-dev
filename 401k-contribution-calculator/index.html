@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>401k Contribution Calculator — Free Online Tool | calcstack.dev</title>
+<meta name="description" content="Calculate your 401k contributions, employer match, and projected balance at retirement. See how much your 401k will grow with our free online calculator.">
+<link rel="canonical" href="https://calcstack.dev/401k-contribution-calculator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "401k Contribution Calculator",
+  "url": "https://calcstack.dev/401k-contribution-calculator/",
+  "description": "Calculate your 401k contributions, employer match, and projected retirement balance.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#fff;color:#1a1a2e;font-size:16px;line-height:1.6}
+a{color:#0077b6;text-decoration:none}
+a:hover{text-decoration:underline;color:#006299}
+nav{border-bottom:1px solid #e0e0e0;padding:12px 16px;background:#fff}
+nav .nav-inner{max-width:640px;margin:0 auto;display:flex;align-items:center}
+nav .site-name{font-weight:700;font-size:1.1rem;color:#1a1a2e}
+nav .site-name:hover{text-decoration:none;color:#0077b6}
+.container{max-width:640px;margin:0 auto;padding:1.5rem}
+h1{font-size:1.6rem;font-weight:800;margin-bottom:0.4rem;color:#1a1a2e}
+.subtitle{color:#555;font-size:0.95rem;margin-bottom:1.5rem}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;box-shadow:0 2px 8px rgba(0,0,0,0.05);margin-bottom:2rem}
+.form-group{margin-bottom:1.2rem}
+label{display:block;font-size:0.85rem;font-weight:500;color:#444;margin-bottom:5px}
+input[type=number],input[type=text],select{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:6px;font-size:1rem;color:#1a1a2e;background:#fff;transition:border-color 0.2s,box-shadow 0.2s;-moz-appearance:textfield}
+input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none}
+input:focus,select:focus{outline:none;border-color:#0077b6;box-shadow:0 0 0 3px rgba(0,119,182,0.15)}
+input.error-input{border-color:#e74c3c;box-shadow:0 0 0 3px rgba(231,76,60,0.12)}
+.error-msg{color:#e74c3c;font-size:0.8rem;margin-top:4px;display:none}
+.error-msg.show{display:block}
+.row-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.slider-row{display:flex;align-items:center;gap:12px}
+.slider-row input[type=range]{flex:1;height:6px;accent-color:#0077b6;cursor:pointer;padding:0;border:none;box-shadow:none;background:transparent}
+.slider-row .slider-val{min-width:54px;text-align:right;font-size:0.95rem;font-weight:600;color:#0077b6}
+button.calc-btn{width:100%;background:#0077b6;color:#fff;border:none;padding:14px 24px;border-radius:6px;font-size:1rem;font-weight:600;cursor:pointer;transition:background 0.2s;min-height:48px;margin-top:0.4rem}
+button.calc-btn:hover{background:#006299}
+.results{opacity:0;transition:opacity 0.3s ease;display:none}
+.results.visible{opacity:1;display:block}
+.summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.5rem}
+.summary-card{background:#f8f9fa;border:1px solid #e0e0e0;border-radius:8px;padding:1rem;text-align:center}
+.summary-card .big-num{font-size:1.45rem;font-weight:800;color:#0077b6;margin:4px 0}
+.summary-card .big-num.green{color:#2ecc71}
+.summary-card .lbl{font-size:0.75rem;color:#666;font-weight:500}
+.section-title{font-size:1rem;font-weight:700;color:#1a1a2e;margin-bottom:1rem}
+/* Bar chart */
+.bar-chart{margin-bottom:1.5rem}
+.bar-row{display:flex;align-items:center;margin-bottom:10px;gap:10px}
+.bar-label{font-size:0.8rem;color:#444;min-width:110px;text-align:right}
+.bar-track{flex:1;background:#e9ecef;border-radius:4px;overflow:hidden;height:22px}
+.bar-fill{height:100%;border-radius:4px;transition:width 0.6s ease;display:flex;align-items:center;padding-left:8px;font-size:0.75rem;font-weight:600;color:#fff;white-space:nowrap}
+.bar-fill.blue{background:#0077b6}
+.bar-fill.teal{background:#0096c7}
+.bar-fill.green{background:#2ecc71}
+.bar-fill.orange{background:#f39c12}
+.bar-amt{font-size:0.8rem;color:#444;min-width:90px;text-align:right;font-weight:600}
+/* Stacked bar */
+.stacked-bar-wrap{margin-bottom:1rem}
+.stacked-bar{display:flex;height:28px;border-radius:6px;overflow:hidden;margin-bottom:6px}
+.stacked-seg{height:100%;transition:width 0.6s ease}
+.seg-blue{background:#0077b6}
+.seg-teal{background:#0096c7}
+.seg-green{background:#2ecc71}
+.seg-orange{background:#f39c12}
+.legend{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:1.2rem}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:0.78rem;color:#444}
+.legend-dot{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+/* Table */
+.table-wrap{overflow-x:auto;margin-bottom:1rem}
+table{width:100%;border-collapse:collapse;font-size:0.85rem}
+thead th{background:#f0f0f0;padding:8px 10px;text-align:left;font-weight:600;color:#333;border-bottom:2px solid #ddd;white-space:nowrap}
+thead th.num{text-align:right}
+tbody tr:nth-child(even){background:#fafafa}
+tbody tr:nth-child(odd){background:#fff}
+tbody td{padding:7px 10px;border-bottom:1px solid #eee;white-space:nowrap}
+tbody td.num{text-align:right;font-variant-numeric:tabular-nums}
+.show-all-btn{background:none;border:1px solid #0077b6;color:#0077b6;padding:7px 18px;border-radius:6px;font-size:0.85rem;cursor:pointer;width:100%;margin-bottom:1rem;transition:background 0.2s,color 0.2s;min-height:44px}
+.show-all-btn:hover{background:#0077b6;color:#fff}
+.copy-btn{background:none;border:1px solid #ddd;color:#555;padding:6px 14px;border-radius:5px;font-size:0.8rem;cursor:pointer;transition:all 0.2s;min-height:36px}
+.copy-btn:hover{border-color:#0077b6;color:#0077b6}
+.copy-btn.copied{color:#2ecc71;border-color:#2ecc71}
+.copy-row{display:flex;justify-content:flex-end;margin-bottom:0.8rem}
+/* Content */
+.content-section{margin-bottom:2rem}
+.content-section h2{font-size:1.2rem;font-weight:700;color:#1a1a2e;margin-bottom:0.6rem;margin-top:1.5rem}
+.content-section p{color:#444;font-size:0.95rem;margin-bottom:0.8rem}
+.content-section ul{color:#444;font-size:0.95rem;padding-left:1.2rem;margin-bottom:0.8rem}
+.content-section ul li{margin-bottom:0.4rem}
+details{border:1px solid #e0e0e0;border-radius:6px;margin-bottom:0.7rem;overflow:hidden}
+details summary{padding:12px 16px;background:#f8f9fa;cursor:pointer;font-weight:600;font-size:0.92rem;color:#1a1a2e;list-style:none;display:flex;justify-content:space-between;align-items:center}
+details summary::-webkit-details-marker{display:none}
+details summary::after{content:'+';}
+details[open] summary::after{content:'−';}
+details .faq-body{padding:12px 16px;font-size:0.92rem;color:#444}
+.related-tools{background:#f8f9fa;border-radius:8px;padding:1.2rem 1.5rem;margin-bottom:2rem}
+.related-tools h2{font-size:1rem;font-weight:700;margin-bottom:0.8rem}
+.related-tools ul{list-style:none;display:flex;flex-direction:column;gap:6px}
+.related-tools ul li a{font-size:0.9rem;color:#0077b6;display:flex;align-items:center;gap:5px}
+.related-tools ul li a::before{content:'→';font-size:0.8rem}
+.ad-slot{min-height:0;margin:0}
+footer{border-top:1px solid #e0e0e0;padding:1rem 1.5rem;text-align:center;font-size:0.8rem;color:#777}
+footer a{color:#777;margin:0 8px}
+footer a:hover{color:#0077b6}
+.formula-box{background:#f0f7ff;border:1px solid #cce3f0;border-radius:6px;padding:1rem;font-size:0.88rem;color:#1a1a2e;font-family:monospace;margin-bottom:0.8rem}
+@media(max-width:640px){
+  .row-2{grid-template-columns:1fr}
+  .summary-grid{grid-template-columns:1fr 1fr}
+  .summary-grid .summary-card:last-child{grid-column:1/-1}
+  .bar-label{min-width:80px;font-size:0.75rem}
+  h1{font-size:1.35rem}
+  .card{padding:1.2rem}
+}
+@media(max-width:400px){
+  .summary-grid{grid-template-columns:1fr}
+  .summary-card:last-child{grid-column:auto}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="site-name">calcstack.dev</a>
+  </div>
+</nav>
+
+<div class="container">
+
+  <h1>401k Contribution Calculator</h1>
+  <p class="subtitle">Project your 401k balance at retirement — including employer match and investment growth.</p>
+
+  <div class="card">
+    <div class="row-2">
+      <div class="form-group">
+        <label for="salary">Annual Salary ($)</label>
+        <input type="number" id="salary" placeholder="e.g. 75000" min="0" value="75000">
+        <div class="error-msg" id="salary-err">Please enter a valid salary.</div>
+      </div>
+      <div class="form-group">
+        <label for="age">Current Age</label>
+        <input type="number" id="age" placeholder="e.g. 30" min="1" max="99" value="30">
+        <div class="error-msg" id="age-err">Enter an age between 1 and 99.</div>
+      </div>
+    </div>
+    <div class="row-2">
+      <div class="form-group">
+        <label for="retireAge">Retirement Age</label>
+        <input type="number" id="retireAge" placeholder="e.g. 65" min="1" max="99" value="65">
+        <div class="error-msg" id="retireAge-err">Retirement age must be greater than current age.</div>
+      </div>
+      <div class="form-group">
+        <label for="currentBalance">Current 401k Balance ($)</label>
+        <input type="number" id="currentBalance" placeholder="e.g. 10000" min="0" value="10000">
+        <div class="error-msg" id="currentBalance-err">Please enter a valid balance.</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="contribPct">Your Contribution Rate: <span id="contribPctLabel" style="color:#0077b6;font-weight:700">8%</span></label>
+      <div class="slider-row">
+        <input type="range" id="contribPct" min="1" max="30" value="8" step="0.5">
+        <span class="slider-val" id="contribPctVal">8%</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="employerMatch">Employer Match Rate: <span id="matchPctLabel" style="color:#0077b6;font-weight:700">4%</span></label>
+      <div class="slider-row">
+        <input type="range" id="employerMatch" min="0" max="20" value="4" step="0.5">
+        <span class="slider-val" id="employerMatchVal">4%</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="matchLimit">Employer Match Cap (% of salary): <span id="matchLimitLabel" style="color:#0077b6;font-weight:700">6%</span></label>
+      <div class="slider-row">
+        <input type="range" id="matchLimit" min="0" max="20" value="6" step="0.5">
+        <span class="slider-val" id="matchLimitVal">6%</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="returnRate">Expected Annual Return: <span id="returnRateLabel" style="color:#0077b6;font-weight:700">7%</span></label>
+      <div class="slider-row">
+        <input type="range" id="returnRate" min="1" max="15" value="7" step="0.1">
+        <span class="slider-val" id="returnRateVal">7%</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="salaryGrowth">Annual Salary Growth Rate: <span id="salaryGrowthLabel" style="color:#0077b6;font-weight:700">2%</span></label>
+      <div class="slider-row">
+        <input type="range" id="salaryGrowth" min="0" max="10" value="2" step="0.1">
+        <span class="slider-val" id="salaryGrowthVal">2%</span>
+      </div>
+    </div>
+
+    <button class="calc-btn" id="calcBtn">Calculate 401k Projection</button>
+  </div>
+
+  <div class="results" id="results">
+
+    <div class="copy-row">
+      <button class="copy-btn" id="copyBtn">Copy Summary</button>
+    </div>
+
+    <div id="summaryGrid" class="summary-grid"></div>
+
+    <div class="card" id="chartsCard">
+      <div class="section-title">Balance Breakdown at Retirement</div>
+      <div id="stackedBarArea"></div>
+      <div id="barChartArea"></div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">Year-by-Year Projection</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Year</th>
+              <th>Age</th>
+              <th class="num">Salary</th>
+              <th class="num">Your Contribution</th>
+              <th class="num">Employer Match</th>
+              <th class="num">Investment Gain</th>
+              <th class="num">Year-End Balance</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+      <button class="show-all-btn" id="showAllBtn">Show All Years</button>
+    </div>
+
+  </div>
+
+  <div class="ad-slot" id="ad-mid"></div>
+
+  <div class="content-section">
+    <h2>How to Use This 401k Contribution Calculator</h2>
+    <p>Enter your current salary, age, and retirement age, then adjust the sliders for your contribution rate, employer match details, expected investment return, and salary growth. Click "Calculate 401k Projection" to instantly see your estimated balance at retirement, broken down year by year.</p>
+    <p>All inputs update in real time. Adjust the sliders to explore how small changes — like bumping your contribution from 6% to 10% — can dramatically impact your final balance.</p>
+
+    <h2>Why This Matters</h2>
+    <p>The 401k is one of the most powerful wealth-building tools available to American workers, yet most people leave significant money on the table. The average American saves just 7% of their paycheck — but even a 2% increase can add hundreds of thousands of dollars over a career.</p>
+    <p>Consider a 30-year-old earning $75,000 who contributes 8% with a 4% employer match. Over 35 years at a 7% annual return, they could accumulate over $1.4 million — compared to just $900,000 if they only contributed 5%. That's a half-million dollar difference from 3 extra percentage points.</p>
+    <p>Employer matching is often called "free money" — if your employer matches 100% up to 4% of your salary, you're effectively getting an instant 100% return on that portion. Not capturing the full match is like turning down part of your salary.</p>
+    <p>This calculator helps employees, new grads, mid-career professionals, and pre-retirees all understand where they stand and what changes to make now.</p>
+
+    <h2>How It's Calculated</h2>
+    <p>The calculator uses compound growth applied annually. Each year, your salary grows at the salary growth rate, your contributions are calculated, the employer match is applied (capped at the match limit), and investment gains are earned on the running balance.</p>
+    <div class="formula-box">
+      Annual Employee Contribution = Salary × Contribution Rate<br>
+      Annual Employer Match = Salary × MIN(Contribution Rate, Match Cap) × Match Rate<br>
+      Investment Gain = (Beginning Balance + Contributions) × Annual Return Rate<br>
+      Year-End Balance = Beginning Balance + Employee Contribution + Employer Match + Investment Gain
+    </div>
+    <p>The IRS limits 401k contributions to $23,000 in 2024 (employees under 50). The calculator applies this limit automatically. Salary grows by your chosen growth rate each year, meaning contributions also grow over time.</p>
+
+    <h2>Tips & Common Mistakes</h2>
+    <ul>
+      <li><strong>Always capture the full employer match.</strong> If your employer matches 100% up to 4%, contribute at least 4%. Anything less is turning down free compensation.</li>
+      <li><strong>Don't assume 10% returns.</strong> While the S&P 500 has historically averaged ~10% nominal, 6–7% real returns (after inflation) is a more conservative and realistic assumption for long-term planning.</li>
+      <li><strong>Increase contributions at every raise.</strong> When you get a 3% raise, redirect 1–2% of it to your 401k. You'll barely notice the take-home difference, but the compounding impact is massive.</li>
+      <li><strong>Check your vesting schedule.</strong> Employer match funds may not be fully yours for 2–6 years. If you leave early, you could forfeit some matched funds.</li>
+      <li><strong>Don't stop contributing during market downturns.</strong> Dropping contributions when markets fall means you miss out on buying more shares at lower prices — exactly when you should be buying more.</li>
+    </ul>
+
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>What is the 2024 401k contribution limit?</summary>
+      <div class="faq-body">For 2024, employees can contribute up to $23,000 to their 401k. If you are 50 or older, you can make an additional "catch-up" contribution of $7,500, bringing the total to $30,500. This calculator automatically caps contributions at the $23,000 limit.</div>
+    </details>
+    <details>
+      <summary>Does my employer match count toward the IRS limit?</summary>
+      <div class="faq-body">No — employer contributions do not count against your personal $23,000 limit. However, the combined employee + employer total cannot exceed $69,000 (in 2024). For most people, the personal contribution limit is the relevant cap.</div>
+    </details>
+    <details>
+      <summary>What's a realistic expected annual return for my 401k?</summary>
+      <div class="faq-body">A common assumption for a diversified equity-heavy portfolio is 6–8% per year. The S&P 500 has historically returned about 10% nominally, but accounting for inflation and fees, 6–7% is a more conservative and widely used planning figure. More bond-heavy portfolios might use 4–5%.</div>
+    </details>
+    <details>
+      <summary>What happens if I change jobs?</summary>
+      <div class="faq-body">If you change jobs, you can roll your 401k balance into your new employer's 401k plan or into an IRA — both without tax penalties if done correctly as a direct rollover. Cashing out early results in income taxes plus a 10% penalty, which can erode a huge portion of your savings.</div>
+    </details>
+  </div>
+
+  <div class="related-tools">
+    <h2>Related Tools</h2>
+    <ul>
+      <li><a href="/retirement-savings-calculator/">Retirement Savings Calculator</a></li>
+      <li><a href="/emergency-fund-calculator/">Emergency Fund Calculator</a></li>
+      <li><a href="/debt-to-income-ratio-calculator/">Debt-to-Income Ratio Calculator</a></li>
+      <li><a href="/home-affordability-calculator/">Home Affordability Calculator</a></li>
+      <li><a href="/stock-profit-loss-calculator/">Stock Profit and Loss Calculator</a></li>
+      <li><a href="/tip-calculator/">Tip Calculator</a></li>
+    </ul>
+  </div>
+
+  <div class="ad-slot" id="ad-bottom"></div>
+
+</div>
+
+<footer>
+  <a href="/about/">About</a>
+  <a href="/privacy/">Privacy</a>
+  <a href="/contact/">Contact</a>
+  <span>© 2024 calcstack.dev</span>
+</footer>
+
+<script>
+const IRS_LIMIT = 23000;
+let allRows = [];
+let showingAll = false;
+
+function fmt(n){return'$'+Math.round(n).toLocaleString('en-US')}
+function fmtN(n){return Math.round(n).toLocaleString('en-US')}
+function pct(n){return n.toFixed(1)+'%'}
+
+function setupSlider(sliderId, labelId, valId, suffix){
+  const slider = document.getElementById(sliderId);
+  const label = document.getElementById(labelId);
+  const val = document.getElementById(valId);
+  function update(){
+    const v = parseFloat(slider.value).toFixed(1).replace(/\.0$/,'') + suffix;
+    if(label) label.textContent = v;
+    if(val) val.textContent = v;
+  }
+  slider.addEventListener('input', update);
+  update();
+}
+
+setupSlider('contribPct','contribPctLabel','contribPctVal','%');
+setupSlider('employerMatch','matchPctLabel','employerMatchVal','%');
+setupSlider('matchLimit','matchLimitLabel','matchLimitVal','%');
+setupSlider('returnRate','returnRateLabel','returnRateVal','%');
+setupSlider('salaryGrowth','salaryGrowthLabel','salaryGrowthVal','%');
+
+function validate(){
+  let ok = true;
+  const fields = [
+    {id:'salary',errId:'salary-err',check:v=>v>0},
+    {id:'age',errId:'age-err',check:v=>v>=1&&v<=98},
+    {id:'retireAge',errId:'retireAge-err',check:(v,all)=>v>all.age&&v<=99},
+    {id:'currentBalance',errId:'currentBalance-err',check:v=>v>=0}
+  ];
+  const vals={};
+  fields.forEach(f=>{
+    const el=document.getElementById(f.id);
+    vals[f.id]=parseFloat(el.value)||0;
+  });
+  fields.forEach(f=>{
+    const el=document.getElementById(f.id);
+    const errEl=document.getElementById(f.errId);
+    const check=f.check(vals[f.id],{age:vals.age});
+    if(!check){
+      el.classList.add('error-input');
+      errEl.classList.add('show');
+      ok=false;
+    } else {
+      el.classList.remove('error-input');
+      errEl.classList.remove('show');
+    }
+  });
+  return ok;
+}
+
+function calculate(){
+  if(!validate()) return;
+  const salary = parseFloat(document.getElementById('salary').value);
+  const age = parseInt(document.getElementById('age').value);
+  const retireAge = parseInt(document.getElementById('retireAge').value);
+  const currentBalance = parseFloat(document.getElementById('currentBalance').value)||0;
+  const contribPct = parseFloat(document.getElementById('contribPct').value)/100;
+  const matchRate = parseFloat(document.getElementById('employerMatch').value)/100;
+  const matchCap = parseFloat(document.getElementById('matchLimit').value)/100;
+  const returnRate = parseFloat(document.getElementById('returnRate').value)/100;
+  const salaryGrowth = parseFloat(document.getElementById('salaryGrowth').value)/100;
+
+  const years = retireAge - age;
+  let balance = currentBalance;
+  let curSalary = salary;
+  let totalEmployee = 0, totalEmployer = 0, totalGains = 0;
+  allRows = [];
+
+  for(let y=1; y<=years; y++){
+    const empContrib = Math.min(curSalary * contribPct, IRS_LIMIT);
+    const effMatchPct = Math.min(contribPct, matchCap);
+    const empMatch = curSalary * effMatchPct * matchRate;
+    const gain = (balance + empContrib/2 + empMatch/2) * returnRate;
+    balance = balance + empContrib + empMatch + gain;
+    totalEmployee += empContrib;
+    totalEmployer += empMatch;
+    totalGains += gain;
+    allRows.push({
+      year: new Date().getFullYear() + y - 1,
+      age: age + y,
+      salary: curSalary,
+      empContrib, empMatch, gain, balance
+    });
+    curSalary *= (1 + salaryGrowth);
+  }
+
+  const finalBalance = balance;
+  const totalContrib = totalEmployee + totalEmployer + currentBalance;
+  const pctEmployee = finalBalance > 0 ? totalEmployee/finalBalance*100 : 0;
+  const pctEmployer = finalBalance > 0 ? totalEmployer/finalBalance*100 : 0;
+  const pctGains = finalBalance > 0 ? totalGains/finalBalance*100 : 0;
+  const pctInitial = finalBalance > 0 ? currentBalance/finalBalance*100 : 0;
+
+  requestAnimationFrame(()=>{
+    // Summary grid
+    document.getElementById('summaryGrid').innerHTML =
+      `<div class="summary-card"><div class="big-num">${fmt(finalBalance)}</div><div class="lbl">Projected Balance at ${retireAge}</div></div>
+       <div class="summary-card"><div class="big-num">${fmt(totalEmployee)}</div><div class="lbl">Your Total Contributions</div></div>
+       <div class="summary-card"><div class="big-num green">${fmt(totalEmployer)}</div><div class="lbl">Employer Match Total</div></div>
+       <div class="summary-card"><div class="big-num">${fmt(totalGains)}</div><div class="lbl">Investment Gains</div></div>
+       <div class="summary-card"><div class="big-num">${fmt(currentBalance)}</div><div class="lbl">Starting Balance</div></div>
+       <div class="summary-card"><div class="big-num">${years}</div><div class="lbl">Years of Growth</div></div>`;
+
+    // Stacked bar
+    const sb = `
+      <div class="stacked-bar-wrap">
+        <div class="stacked-bar">
+          <div class="stacked-seg seg-orange" style="width:${pctInitial.toFixed(1)}%"></div>
+          <div class="stacked-seg seg-blue" style="width:${pctEmployee.toFixed(1)}%"></div>
+          <div class="stacked-seg seg-teal" style="width:${pctEmployer.toFixed(1)}%"></div>
+          <div class="stacked-seg seg-green" style="width:${pctGains.toFixed(1)}%"></div>
+        </div>
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#f39c12"></div>Starting Balance (${pctInitial.toFixed(1)}%)</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#0077b6"></div>Your Contributions (${pctEmployee.toFixed(1)}%)</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#0096c7"></div>Employer Match (${pctEmployer.toFixed(1)}%)</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#2ecc71"></div>Investment Gains (${pctGains.toFixed(1)}%)</div>
+        </div>
+      </div>`;
+
+    // Bar chart
+    const maxVal = finalBalance;
+    const bars = [
+      {label:'Starting Balance', val:currentBalance, cls:'orange'},
+      {label:'Your Contributions', val:totalEmployee, cls:'blue'},
+      {label:'Employer Match', val:totalEmployer, cls:'teal'},
+      {label:'Investment Gains', val:totalGains, cls:'green'},
+      {label:'Total Balance', val:finalBalance, cls:'blue'}
+    ];
+    let bc = '<div class="bar-chart">';
+    bars.forEach(b=>{
+      const w = maxVal > 0 ? (b.val/maxVal*100).toFixed(1) : 0;
+      bc += `<div class="bar-row">
+        <div class="bar-label">${b.label}</div>
+        <div class="bar-track"><div class="bar-fill ${b.cls}" style="width:${w}%">${w>12?fmt(b.val):''}</div></div>
+        <div class="bar-amt">${fmt(b.val)}</div>
+      </div>`;
+    });
+    bc += '</div>';
+
+    document.getElementById('stackedBarArea').innerHTML = sb;
+    document.getElementById('barChartArea').innerHTML = bc;
+
+    // Table
+    showingAll = false;
+    renderTable();
+
+    const resultsEl = document.getElementById('results');
+    resultsEl.style.display = 'block';
+    requestAnimationFrame(()=>{ resultsEl.classList.add('visible'); });
+
+    resultsEl.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+}
+
+function renderTable(){
+  const btn = document.getElementById('showAllBtn');
+  const rows = showingAll ? allRows : allRows.slice(0, 10);
+  let html = '';
+  rows.forEach(r=>{
+    html += `<tr>
+      <td>${r.year}</td>
+      <td>${r.age}</td>
+      <td class="num">${fmt(r.salary)}</td>
+      <td class="num">${fmt(r.empContrib)}</td>
+      <td class="num">${fmt(r.empMatch)}</td>
+      <td class="num">${fmt(r.gain)}</td>
+      <td class="num" style="font-weight:600">${fmt(r.balance)}</td>
+    </tr>`;
+  });
+  document.getElementById('tableBody').innerHTML = html;
+  if(allRows.length <= 10){
+    btn.style.display = 'none';
+  } else {
+    btn.style.display = 'block';
+    btn.textContent = showingAll ? 'Show Less' : `Show All ${allRows.length} Years`;
+  }
+}
+
+document.getElementById('showAllBtn').addEventListener('click', ()=>{
+  showingAll = !showingAll;
+  requestAnimationFrame(()=>{ renderTable(); });
+});
+
+document.getElementById('calcBtn').addEventListener('click', ()=>{
+  requestAnimationFrame(()=>{ calculate(); });
+});
+
+document.addEventListener('keydown', e=>{
+  if(e.key === 'Enter'){
+    const active = document.activeElement;
+    if(active && (active.tagName === 'INPUT')){
+      requestAnimationFrame(()=>{ calculate(); });
+    }
+  }
+});
+
+document.getElementById('copyBtn').addEventListener('click', ()=>{
+  if(!allRows.length) return;
+  const last = allRows[allRows.length-1];
+  const salary = parseFloat(document.getElementById('salary').value);
+  const age = parseInt(document.getElementById('age').value);
+  const retireAge = parseInt(document.getElementById('retireAge').value);
+  const contribPct = parseFloat(document.getElementById('contribPct').value);
+  const matchRate = parseFloat(document.getElementById('employerMatch').value);
+  const matchCap = parseFloat(document.getElementById('matchLimit').value);
+  const returnRate = parseFloat(document.getElementById('returnRate').value);
+  let totalEmp=0,totalMatch=0,totalGains=0;
+  allRows.forEach(r=>{totalEmp+=r.empContrib;totalMatch+=r.empMatch;totalGains+=r.gain;});
+  const currentBalance = parseFloat(document.getElementById('currentBalance').value)||0;
+  const text = `401k Projection Summary
+Current Salary: ${fmt(salary)}
+Age: ${age} → Retirement at ${retireAge}
+Contribution Rate: ${contribPct}%
+Employer Match: ${matchRate}% (up to ${matchCap}% of salary)
+Expected Return: ${returnRate}%
+---
+Your Total Contributions: ${fmt(totalEmp)}
+Employer Match Total: ${fmt(totalMatch)}
+Investment Gains: ${fmt(totalGains)}
+Starting Balance: ${fmt(currentBalance)}
+Projected Retirement Balance: ${fmt(last.balance)}`;
+  navigator.clipboard.writeText(text).then(()=>{
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(()=>{ btn.textContent = 'Copy Summary'; btn.classList.remove('copied'); }, 2000);
+  });
+});
+
+// Run on load with defaults
+requestAnimationFrame(()=>{ calculate(); });
+</script>
+</body>
+</html>
