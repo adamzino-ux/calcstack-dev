@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FIRE Number Calculator — Free Online Tool | calcstack.dev</title>
+<meta name="description" content="Calculate your FIRE number instantly. Find out exactly how much you need to retire early using the 4% rule. Free FIRE number calculator with year-by-year breakdown.">
+<link rel="canonical" href="https://calcstack.dev/fire-number-calculator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "FIRE Number Calculator",
+  "url": "https://calcstack.dev/fire-number-calculator/",
+  "description": "Calculate your FIRE number and see how long until you can retire early using the 4% safe withdrawal rule.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f0f4f8;color:#1a1a2e;font-size:16px;line-height:1.6}
+a{color:#0077b6;text-decoration:none}
+a:hover{text-decoration:underline}
+nav{background:#fff;border-bottom:1px solid #e0e0e0;padding:0 1.5rem;height:52px;display:flex;align-items:center}
+nav .brand{font-weight:700;font-size:1.1rem;color:#1a1a2e}
+nav .brand span{color:#0077b6}
+.page-wrap{max-width:640px;margin:0 auto;padding:1.5rem 1rem 3rem}
+h1{font-size:1.75rem;font-weight:800;color:#1a1a2e;margin-bottom:.4rem}
+.subtitle{color:#555;font-size:.95rem;margin-bottom:1.8rem}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:2rem}
+.section-title{font-size:1rem;font-weight:700;color:#0077b6;text-transform:uppercase;letter-spacing:.04em;margin-bottom:1.2rem;padding-bottom:.4rem;border-bottom:2px solid #e8f4fb}
+.form-row{margin-bottom:1.2rem}
+.form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.2rem}
+label{display:block;font-size:.85rem;font-weight:500;color:#444;margin-bottom:.35rem}
+label .hint{font-weight:400;color:#888;font-size:.8rem}
+input[type=number],select{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:6px;font-size:.95rem;color:#1a1a2e;background:#fff;transition:border-color .2s,box-shadow .2s;-moz-appearance:textfield}
+input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none}
+input[type=number]:focus,select:focus{outline:none;border-color:#0077b6;box-shadow:0 0 0 3px rgba(0,119,182,.15)}
+input.error{border-color:#e74c3c;box-shadow:0 0 0 3px rgba(231,76,60,.1)}
+.error-msg{color:#e74c3c;font-size:.8rem;margin-top:.3rem;display:none}
+.error-msg.show{display:block}
+input[type=range]{width:100%;accent-color:#0077b6;height:6px;cursor:pointer;margin-top:.3rem}
+.slider-row{display:flex;align-items:center;gap:.8rem}
+.slider-val{font-size:.9rem;font-weight:600;color:#0077b6;min-width:3.5rem;text-align:right}
+.btn{background:#0077b6;color:#fff;border:none;padding:13px 24px;border-radius:6px;font-size:1rem;font-weight:600;cursor:pointer;width:100%;min-height:44px;transition:background .2s}
+.btn:hover{background:#006299}
+.btn-secondary{background:#f0f4f8;color:#1a1a2e;border:1px solid #ddd;font-size:.85rem;padding:8px 16px;border-radius:6px;cursor:pointer;min-height:36px;transition:background .2s}
+.btn-secondary:hover{background:#e0e8f0}
+.results{opacity:0;transition:opacity .3s ease;pointer-events:none}
+.results.show{opacity:1;pointer-events:auto}
+.fire-number-big{text-align:center;padding:1.5rem 1rem;background:linear-gradient(135deg,#e8f4fb,#f0faff);border-radius:8px;margin-bottom:1.5rem;border:1px solid #c5e4f5}
+.fire-label{font-size:.9rem;color:#555;font-weight:500;margin-bottom:.3rem}
+.fire-value{font-size:2.8rem;font-weight:800;color:#0077b6;line-height:1.1}
+.fire-sub{font-size:.85rem;color:#777;margin-top:.4rem}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:1.5rem}
+.stat-box{background:#f8f9fa;border:1px solid #e8e8e8;border-radius:6px;padding:.9rem 1rem;text-align:center}
+.stat-box .s-label{font-size:.75rem;color:#777;margin-bottom:.2rem;font-weight:500}
+.stat-box .s-value{font-size:1.15rem;font-weight:700;color:#1a1a2e}
+.stat-box .s-value.accent{color:#0077b6}
+.bar-section{margin-bottom:1.5rem}
+.bar-label-row{display:flex;justify-content:space-between;font-size:.82rem;color:#555;margin-bottom:.4rem}
+.bar-outer{background:#e8e8e8;border-radius:20px;height:22px;overflow:hidden}
+.bar-fill{height:100%;border-radius:20px;transition:width .5s ease;display:flex;align-items:center;padding-left:8px;font-size:.75rem;font-weight:600;color:#fff;white-space:nowrap;min-width:0}
+.bar-savings{background:#0077b6}
+.bar-growth{background:#00b4d8}
+.bar-stacked{display:flex;height:22px;border-radius:20px;overflow:hidden}
+.bar-s1{background:#0077b6}
+.bar-s2{background:#00b4d8}
+.bar-s3{background:#48cae4}
+.legend{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:.6rem}
+.legend-item{display:flex;align-items:center;gap:.35rem;font-size:.78rem;color:#555}
+.legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+table{width:100%;border-collapse:collapse;font-size:.875rem}
+thead th{background:#f0f0f0;padding:9px 12px;text-align:left;font-weight:600;color:#444;border-bottom:2px solid #ddd;font-size:.8rem}
+thead th:not(:first-child){text-align:right}
+tbody td{padding:8px 12px;border-bottom:1px solid #eee;color:#333}
+tbody td:not(:first-child){text-align:right;font-variant-numeric:tabular-nums}
+tbody tr:nth-child(even){background:#fafafa}
+tbody tr:hover{background:#f0f7ff}
+tbody tr.highlight{background:#e8f4fb;font-weight:600}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.show-all-wrap{text-align:center;margin-top:.8rem}
+.copy-btn{display:inline-flex;align-items:center;gap:.4rem;font-size:.8rem;padding:7px 14px;margin-top:.8rem}
+.ad-slot{min-height:0;margin:0}
+.content-section{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;margin-bottom:2rem}
+.content-section h2{font-size:1.2rem;font-weight:700;color:#1a1a2e;margin-bottom:.75rem;margin-top:1.5rem}
+.content-section h2:first-child{margin-top:0}
+.content-section p{color:#444;font-size:.92rem;line-height:1.7;margin-bottom:.8rem}
+.content-section ul{color:#444;font-size:.92rem;line-height:1.7;padding-left:1.3rem;margin-bottom:.8rem}
+.content-section ul li{margin-bottom:.4rem}
+details{border:1px solid #e0e0e0;border-radius:6px;padding:.8rem 1rem;margin-bottom:.6rem}
+details[open]{background:#f8f9fa}
+summary{font-weight:600;cursor:pointer;font-size:.92rem;color:#1a1a2e;list-style:none;display:flex;justify-content:space-between;align-items:center}
+summary::after{content:'＋';color:#0077b6;font-size:1rem}
+details[open] summary::after{content:'－'}
+summary::-webkit-details-marker{display:none}
+details p{margin-top:.6rem;font-size:.9rem;color:#555;line-height:1.6}
+.related-grid{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-top:.8rem}
+.related-link{background:#f8f9fa;border:1px solid #e0e0e0;border-radius:6px;padding:.7rem 1rem;font-size:.875rem;color:#0077b6;transition:background .2s;display:block}
+.related-link:hover{background:#e8f4fb;text-decoration:none}
+footer{text-align:center;padding:1.5rem 1rem;border-top:1px solid #e0e0e0;font-size:.83rem;color:#888}
+footer a{color:#888;margin:0 .5rem}
+footer a:hover{color:#0077b6}
+.tabs{display:flex;gap:.5rem;margin-bottom:1.2rem;flex-wrap:wrap}
+.tab-btn{padding:8px 16px;border:1px solid #ddd;border-radius:20px;font-size:.85rem;cursor:pointer;background:#f8f9fa;color:#555;transition:all .2s;min-height:36px}
+.tab-btn.active{background:#0077b6;color:#fff;border-color:#0077b6}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+.formula-box{background:#f0f7ff;border:1px solid #c5e4f5;border-radius:6px;padding:1rem;font-family:monospace;font-size:.9rem;color:#1a1a2e;margin:.8rem 0;word-break:break-word}
+@media(max-width:600px){
+  h1{font-size:1.4rem}
+  .fire-value{font-size:2.1rem}
+  .form-row-2{grid-template-columns:1fr}
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .related-grid{grid-template-columns:1fr}
+  .card{padding:1.3rem}
+  .content-section{padding:1.3rem}
+}
+</style>
+</head>
+<body>
+<nav>
+  <a href="/" class="brand">calc<span>stack</span>.dev</a>
+</nav>
+<div class="page-wrap">
+  <h1>FIRE Number Calculator</h1>
+  <p class="subtitle">Find your Financial Independence, Retire Early target and see exactly how long it will take to get there.</p>
+
+  <div class="card">
+    <div class="section-title">Your FIRE Inputs</div>
+
+    <div class="form-row-2">
+      <div class="form-row" style="margin-bottom:0">
+        <label>Annual Expenses in Retirement <span class="hint">(today's $)</span></label>
+        <input type="number" id="annualExp" min="1" placeholder="50000">
+        <div class="error-msg" id="err-annualExp">Enter a valid annual expense amount.</div>
+      </div>
+      <div class="form-row" style="margin-bottom:0">
+        <label>Withdrawal Rate <span class="hint">(%)</span></label>
+        <div class="slider-row">
+          <input type="range" id="wdSlider" min="2" max="8" step="0.1" value="4">
+          <span class="slider-val" id="wdVal">4.0%</span>
+        </div>
+        <input type="number" id="withdrawalRate" min="0.1" max="20" step="0.1" placeholder="4.0" style="margin-top:.5rem">
+        <div class="error-msg" id="err-withdrawalRate">Enter a rate between 0.1% and 20%.</div>
+      </div>
+    </div>
+
+    <div class="form-row-2">
+      <div class="form-row" style="margin-bottom:0">
+        <label>Current Savings / Portfolio</label>
+        <input type="number" id="currentSavings" min="0" placeholder="50000">
+        <div class="error-msg" id="err-currentSavings">Enter 0 or a positive number.</div>
+      </div>
+      <div class="form-row" style="margin-bottom:0">
+        <label>Annual Savings Contribution</label>
+        <input type="number" id="annualSavings" min="0" placeholder="24000">
+        <div class="error-msg" id="err-annualSavings">Enter 0 or a positive number.</div>
+      </div>
+    </div>
+
+    <div class="form-row-2">
+      <div class="form-row" style="margin-bottom:0">
+        <label>Expected Annual Return <span class="hint">(%)</span></label>
+        <div class="slider-row">
+          <input type="range" id="returnSlider" min="1" max="15" step="0.5" value="7">
+          <span class="slider-val" id="returnVal">7.0%</span>
+        </div>
+        <input type="number" id="annualReturn" min="0.1" max="50" step="0.1" placeholder="7.0" style="margin-top:.5rem">
+        <div class="error-msg" id="err-annualReturn">Enter a rate between 0.1% and 50%.</div>
+      </div>
+      <div class="form-row" style="margin-bottom:0">
+        <label>Inflation Rate <span class="hint">(%)</span></label>
+        <div class="slider-row">
+          <input type="range" id="inflSlider" min="0" max="8" step="0.1" value="3">
+          <span class="slider-val" id="inflVal">3.0%</span>
+        </div>
+        <input type="number" id="inflationRate" min="0" max="20" step="0.1" placeholder="3.0" style="margin-top:.5rem">
+        <div class="error-msg" id="err-inflationRate">Enter a rate between 0% and 20%.</div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <label>Current Age</label>
+      <input type="number" id="currentAge" min="1" max="100" placeholder="30">
+      <div class="error-msg" id="err-currentAge">Enter an age between 1 and 100.</div>
+    </div>
+
+    <button class="btn" id="calcBtn">Calculate My FIRE Number</button>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="results" id="results">
+    <div class="card">
+      <div class="fire-number-big">
+        <div class="fire-label">Your FIRE Number</div>
+        <div class="fire-value" id="fireNumber">—</div>
+        <div class="fire-sub" id="fireNumberSub">Amount needed to retire early</div>
+      </div>
+
+      <div class="stats-grid" id="statsGrid"></div>
+
+      <div class="bar-section">
+        <div style="font-weight:600;font-size:.88rem;color:#444;margin-bottom:.6rem">Portfolio at FIRE Date</div>
+        <div class="bar-label-row"><span>Current Savings</span><span>Investment Growth</span><span>Contributions</span></div>
+        <div class="bar-stacked bar-outer" id="stackedBar"></div>
+        <div class="legend" id="barLegend"></div>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.6rem">
+        <span style="font-weight:600;font-size:.88rem;color:#444">Year-by-Year Projection</span>
+        <button class="btn-secondary copy-btn" id="copyBtn">📋 Copy Results</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Year</th>
+              <th>Age</th>
+              <th>Contributions</th>
+              <th>Portfolio Value</th>
+              <th>FIRE %</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+      <div class="show-all-wrap" id="showAllWrap" style="display:none">
+        <button class="btn-secondary" id="showAllBtn">Show All Years</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">FIRE Scenarios Comparison</div>
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="lean">Lean FIRE</button>
+        <button class="tab-btn" data-tab="regular">Regular FIRE</button>
+        <button class="tab-btn" data-tab="fat">Fat FIRE</button>
+        <button class="tab-btn" data-tab="coast">Coast FIRE</button>
+      </div>
+      <div id="tab-lean" class="tab-panel active"></div>
+      <div id="tab-regular" class="tab-panel"></div>
+      <div id="tab-fat" class="tab-panel"></div>
+      <div id="tab-coast" class="tab-panel"></div>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-mid"></div>
+
+  <!-- CONTENT SECTION -->
+  <div class="content-section">
+    <h2>How to Use This FIRE Number Calculator</h2>
+    <p>Enter your expected annual expenses in retirement, your current savings, and how much you save each year. Adjust the withdrawal rate (the default 4% is based on the Trinity Study), your expected investment return, and inflation. Hit "Calculate" and you'll instantly see your FIRE number, the years to reach it, and a year-by-year portfolio projection.</p>
+
+    <h2>Why This Matters</h2>
+    <p>FIRE — Financial Independence, Retire Early — isn't just for the ultra-wealthy. A 30-year-old spending $50,000/year needs a $1,250,000 portfolio at the 4% rule. That sounds huge, but saving $2,000/month in an index fund averaging 7% annually gets you there in roughly 22 years — by age 52, without a trust fund or lottery win.</p>
+    <p>The magic is understanding your exact target. Without a number, you're guessing. Once you know you need $1.25M, everything changes: you can optimize your savings rate, consider geographic arbitrage, cut unnecessary expenses, or pick up a side hustle to shave years off your timeline. People who calculate their FIRE number consistently save more and retire earlier than those who don't — because a concrete goal creates concrete action.</p>
+    <p>Different people pursue different flavors: <strong>Lean FIRE</strong> targets a minimalist ~$40K/year budget, <strong>Regular FIRE</strong> maintains your current lifestyle, <strong>Fat FIRE</strong> targets $100K+ in annual spending, and <strong>Coast FIRE</strong> is when your portfolio is already large enough to grow to your FIRE number by retirement age without any new contributions.</p>
+
+    <h2>How It's Calculated</h2>
+    <p>The FIRE number is derived from the Safe Withdrawal Rate (SWR), established by the Trinity Study:</p>
+    <div class="formula-box">FIRE Number = Annual Expenses ÷ Withdrawal Rate</div>
+    <p>For example: $50,000 ÷ 0.04 = $1,250,000. The year-by-year projection compounds your existing portfolio and adds annual contributions at the real rate of return (nominal return minus inflation). The Coast FIRE number calculates how much you need invested today so compound growth alone — without future contributions — reaches your FIRE number by a target retirement age.</p>
+    <div class="formula-box">Portfolio(n) = Portfolio(n-1) × (1 + r) + Annual Contribution</div>
+    <p>Where r = (1 + nominal return) ÷ (1 + inflation) − 1 (real return). All projections use real (inflation-adjusted) dollars so the result is directly comparable to today's purchasing power.</p>
+
+    <h2>Tips & Common Mistakes</h2>
+    <ul>
+      <li><strong>Don't underestimate healthcare costs.</strong> Early retirees need to self-fund health insurance until Medicare at 65 — budget $500–$1,500/month depending on your situation.</li>
+      <li><strong>The 4% rule is a starting point, not gospel.</strong> If you retire at 40 and expect a 50-year retirement, consider 3.5% for extra safety. A longer runway demands more caution.</li>
+      <li><strong>Use real (inflation-adjusted) returns.</strong> This calculator handles it for you, but if you're doing this on a napkin, subtract inflation from your expected return to avoid overestimating future portfolio value.</li>
+      <li><strong>Don't forget taxes on withdrawals.</strong> Traditional 401(k) and IRA withdrawals are taxed as ordinary income. Factor in your expected tax rate when setting your annual expense target.</li>
+      <li><strong>Sequence-of-returns risk is real.</strong> A bad market in years 1–5 of retirement can devastate a portfolio even if the long-run average is fine. Consider a cash buffer or flexible spending strategy.</li>
+    </ul>
+
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>What is the 4% rule and is it still valid?</summary>
+      <p>The 4% rule comes from the 1994 Trinity Study, which analyzed historical 30-year retirement periods and found that withdrawing 4% of your initial portfolio annually (adjusted for inflation) survived 95%+ of scenarios. It remains a widely used baseline, though some planners recommend 3–3.5% for retirements longer than 30 years, and others argue 5% is fine with flexible spending.</p>
+    </details>
+    <details>
+      <summary>What return rate should I use?</summary>
+      <p>The US stock market has averaged roughly 10% nominal returns historically. After a 3% inflation adjustment, that's ~7% real. For a diversified portfolio with some bonds, 6–7% real is a common conservative assumption. Avoid being too optimistic — even a 1% difference in assumed returns can shift your FIRE date by several years.</p>
+    </details>
+    <details>
+      <summary>What's the difference between FIRE and Coast FIRE?</summary>
+      <p>Regular FIRE means your portfolio is large enough to fund your retirement today. Coast FIRE means you've saved enough that — even without any more contributions — compound growth will get you to your FIRE number by a traditional retirement age. Once you hit Coast FIRE, you can stop saving aggressively and just cover your living expenses.</p>
+    </details>
+    <details>
+      <summary>Does Social Security factor in?</summary>
+      <p>This calculator focuses on your investment portfolio target and doesn't include Social Security income. If you expect Social Security benefits, subtract your estimated annual benefit from your annual expenses before entering the number — this will reduce your required FIRE number meaningfully, especially for those retiring at 50+.</p>
+    </details>
+  </div>
+
+  <div class="content-section">
+    <h2 style="margin-top:0">Related Tools</h2>
+    <div class="related-grid">
+      <a href="/cost-of-living-comparison-calculator/" class="related-link">🏙️ Cost of Living Comparison</a>
+      <a href="/student-loan-payoff-calculator/" class="related-link">🎓 Student Loan Payoff</a>
+      <a href="/roth-vs-traditional-ira-calculator/" class="related-link">💼 Roth vs Traditional IRA</a>
+      <a href="/cd-ladder-calculator/" class="related-link">🏦 CD Ladder Calculator</a>
+      <a href="/refinance-break-even-calculator/" class="related-link">🏠 Refinance Break-Even</a>
+      <a href="/dividend-reinvestment-calculator/" class="related-link">📈 Dividend Reinvestment</a>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-bottom"></div>
+
+  <footer>
+    <div>© 2025 calcstack.dev</div>
+    <div style="margin-top:.4rem">
+      <a href="/about/">About</a>
+      <a href="/privacy/">Privacy</a>
+      <a href="/contact/">Contact</a>
+    </div>
+  </footer>
+</div>
+
+<script>
+// Sync sliders with inputs
+function syncSlider(sliderId, inputId, valId, suffix) {
+  const slider = document.getElementById(sliderId);
+  const input = document.getElementById(inputId);
+  const valEl = document.getElementById(valId);
+  slider.addEventListener('input', () => {
+    input.value = parseFloat(slider.value).toFixed(1);
+    valEl.textContent = parseFloat(slider.value).toFixed(1) + suffix;
+    clearErr(inputId);
+  });
+  input.addEventListener('input', () => {
+    const v = parseFloat(input.value);
+    if (!isNaN(v)) {
+      slider.value = v;
+      valEl.textContent = v.toFixed(1) + suffix;
+    }
+  });
+}
+syncSlider('wdSlider','withdrawalRate','wdVal','%');
+syncSlider('returnSlider','annualReturn','returnVal','%');
+syncSlider('inflSlider','inflationRate','inflVal','%');
+
+// Defaults
+document.getElementById('withdrawalRate').value = '4.0';
+document.getElementById('annualReturn').value = '7.0';
+document.getElementById('inflationRate').value = '3.0';
+
+function fmt(n) {
+  if (isNaN(n) || !isFinite(n)) return '—';
+  return '$' + Math.round(n).toLocaleString('en-US');
+}
+function fmtN(n, d=1) {
+  return n.toFixed(d).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+function clearErr(id) {
+  const el = document.getElementById(id);
+  if (el) el.classList.remove('error');
+  const err = document.getElementById('err-' + id);
+  if (err) err.classList.remove('show');
+}
+function showErr(id) {
+  const el = document.getElementById(id);
+  if (el) el.classList.add('error');
+  const err = document.getElementById('err-' + id);
+  if (err) err.classList.add('show');
+}
+
+let allRows = [];
+let showingAll = false;
+
+function buildTable(rows, limit) {
+  let html = '';
+  const fireNum = rows[rows.length - 1] ? rows[rows.length - 1].fireNum : 0;
+  rows.forEach((r, i) => {
+    if (limit && i >= limit) return;
+    const pct = Math.min((r.portfolio / r.fireNum) * 100, 100);
+    const reached = r.portfolio >= r.fireNum;
+    html += `<tr${reached ? ' class="highlight"' : ''}>
+      <td>${r.year}</td>
+      <td>${r.age}</td>
+      <td>${fmt(r.totalContribs)}</td>
+      <td>${fmt(r.portfolio)}</td>
+      <td>
+        <div style="display:flex;align-items:center;gap:6px">
+          <div style="background:#e8e8e8;border-radius:10px;height:8px;width:70px;overflow:hidden;flex-shrink:0">
+            <div style="background:${pct>=100?'#27ae60':'#0077b6'};height:100%;width:${pct}%;border-radius:10px"></div>
+          </div>
+          <span style="font-size:.8rem">${pct.toFixed(0)}%</span>
+        </div>
+      </td>
+    </tr>`;
+  });
+  return html;
+}
+
+function renderScenario(tabId, label, expenses, wdRate, currentSavings, annualSav, realReturn, age) {
+  const fireNum = expenses / (wdRate / 100);
+  let port = currentSavings;
+  let years = 0;
+  const maxY = 60;
+  while (port < fireNum && years < maxY) {
+    port = port * (1 + realReturn / 100) + annualSav;
+    years++;
+  }
+  const reached = port >= fireNum;
+  document.getElementById(tabId).innerHTML = `
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:.8rem">
+      <div class="stat-box" style="flex:1;min-width:120px">
+        <div class="s-label">${label} FIRE Number</div>
+        <div class="s-value accent">${fmt(fireNum)}</div>
+      </div>
+      <div class="stat-box" style="flex:1;min-width:120px">
+        <div class="s-label">Based on Annual Spending</div>
+        <div class="s-value">${fmt(expenses)}</div>
+      </div>
+      <div class="stat-box" style="flex:1;min-width:120px">
+        <div class="s-label">Years to FIRE</div>
+        <div class="s-value">${reached ? years + ' yrs' : '60+ yrs'}</div>
+      </div>
+      <div class="stat-box" style="flex:1;min-width:120px">
+        <div class="s-label">FIRE Age</div>
+        <div class="s-value">${reached ? (age + years) : '80+'}</div>
+      </div>
+    </div>
+    <p style="font-size:.85rem;color:#666;margin:0">${getScenarioDesc(tabId)}</p>
+  `;
+}
+function getScenarioDesc(tabId) {
+  const d = {
+    'tab-lean': 'Lean FIRE targets ~$40,000/year in frugal living — very doable in low cost-of-living areas or abroad. Requires discipline and flexibility.',
+    'tab-regular': 'Regular FIRE maintains your current lifestyle. Uses your actual expense inputs for the most personalized projection.',
+    'tab-fat': 'Fat FIRE targets $100,000+/year — a comfortable retirement with no lifestyle sacrifice. Requires a significantly larger portfolio.',
+    'tab-coast': 'Coast FIRE shows your required savings today so compound growth alone reaches your FIRE number by age 65, without further contributions.'
+  };
+  return d[tabId] || '';
+}
+
+function calculate() {
+  const fields = ['annualExp','currentSavings','annualSavings','annualReturn','inflationRate','withdrawalRate','currentAge'];
+  fields.forEach(f => clearErr(f));
+
+  const annualExp = parseFloat(document.getElementById('annualExp').value);
+  const currentSavings = parseFloat(document.getElementById('currentSavings').value) || 0;
+  const annualSav = parseFloat(document.getElementById('annualSavings').value) || 0;
+  const annualReturn = parseFloat(document.getElementById('annualReturn').value);
+  const inflRate = parseFloat(document.getElementById('inflationRate').value);
+  const wdRate = parseFloat(document.getElementById('withdrawalRate').value);
+  const currentAge = parseFloat(document.getElementById('currentAge').value);
+
+  let valid = true;
+  if (isNaN(annualExp) || annualExp <= 0) { showErr('annualExp'); valid = false; }
+  if (currentSavings < 0 || isNaN(currentSavings)) { showErr('currentSavings'); valid = false; }
+  if (annualSav < 0 || isNaN(annualSav)) { showErr('annualSavings'); valid = false; }
+  if (isNaN(annualReturn) || annualReturn < 0.1 || annualReturn > 50) { showErr('annualReturn'); valid = false; }
+  if (isNaN(inflRate) || inflRate < 0 || inflRate > 20) { showErr('inflationRate'); valid = false; }
+  if (isNaN(wdRate) || wdRate < 0.1 || wdRate > 20) { showErr('withdrawalRate'); valid = false; }
+  if (isNaN(currentAge) || currentAge < 1 || currentAge > 100) { showErr('currentAge'); valid = false; }
+  if (!valid) return;
+
+  const realReturn = ((1 + annualReturn / 100) / (1 + inflRate / 100) - 1) * 100;
+  const fireNum = annualExp / (wdRate / 100);
+
+  // Build rows
+  allRows = [];
+  let port = currentSavings;
+  let totalContribs = currentSavings;
+  const maxYears = 70;
+  let fireYear = null;
+
+  for (let y = 1; y <= maxYears; y++) {
+    port = port * (1 + realReturn / 100) + annualSav;
+    totalContribs = currentSavings + annualSav * y;
+    const growth = port - totalContribs;
+    allRows.push({
+      year: y, age: currentAge + y,
+      portfolio: port, fireNum,
+      totalContribs, growth
+    });
+    if (fireYear === null && port >= fireNum) fireYear = y;
+  }
+
+  const finalPort = allRows[allRows.length - 1].portfolio;
+  const yearsToFire = fireYear || 'Not reached';
+  const fireAge = fireYear ? currentAge + fireYear : '—';
+  const progressPct = Math.min((currentSavings / fireNum) * 100, 100);
+
+  // Bar chart data at FIRE date or max
+  const targetRow = fireYear ? allRows[fireYear - 1] : allRows[maxYears - 1];
+  const bPortfolio = targetRow.portfolio;
+  const bContribs = Math.min(targetRow.totalContribs, bPortfolio);
+  const bInitial = Math.min(currentSavings, bContribs);
+  const bAddedContribs = Math.max(0, bContribs - bInitial);
+  const bGrowth = Math.max(0, bPortfolio - bContribs);
+  const bTotal = bPortfolio || 1;
+  const pctInit = (bInitial / bTotal * 100).toFixed(1);
+  const pctContrib = (bAddedContribs / bTotal * 100).toFixed(1);
+  const pctGrowth = (bGrowth / bTotal * 100).toFixed(1);
+
+  // Scenarios
+  const leanExp = Math.min(annualExp, 40000);
+  const fatExp = Math.max(annualExp, 100000);
+
+  // Coast FIRE
+  const coastAge = 65;
+  const coastYears = Math.max(coastAge - currentAge, 1);
+  const coastFire = fireNum / Math.pow(1 + realReturn / 100, coastYears);
+
+  const statsHTML = `
+    <div class="stat-box"><div class="s-label">Years to FIRE</div><div class="s-value accent">${fireYear ? fireYear + ' yrs' : '60+'}</div></div>
+    <div class="stat-box"><div class="s-label">FIRE Age</div><div class="s-value accent">${fireAge}</div></div>
+    <div class="stat-box"><div class="s-label">Current Progress</div><div class="s-value">${progressPct.toFixed(1)}%</div></div>
+    <div class="stat-box"><div class="s-label">Real Return Used</div><div class="s-value">${realReturn.toFixed(2)}%</div></div>
+    <div class="stat-box"><div class="s-label">Coast FIRE Number</div><div class="s-value">${fmt(coastFire)}</div></div>
+    <div class="stat-box"><div class="s-label">Monthly Spend at ${wdRate}%</div><div class="s-value">${fmt(annualExp / 12)}</div></div>
+  `;
+
+  const stackedBarHTML = `
+    <div class="bar-s1" style="width:${pctInit}%;min-width:${bInitial>0?'2px':'0'}"></div>
+    <div class="bar-s2" style="width:${pctContrib}%;min-width:${bAddedContribs>0?'2px':'0'}"></div>
+    <div class="bar-s3" style="width:${pctGrowth}%;min-width:${bGrowth>0?'2px':'0'}"></div>
+  `;
+
+  const legendHTML = `
+    <div class="legend-item"><div class="legend-dot" style="background:#0077b6"></div>Initial Savings ${fmt(bInitial)} (${pctInit}%)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#00b4d8"></div>Contributions ${fmt(bAddedContribs)} (${pctContrib}%)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#48cae4"></div>Investment Growth ${fmt(bGrowth)} (${pctGrowth}%)</div>
+  `;
+
+  const PREVIEW = 10;
+  const tableHTML = buildTable(allRows, PREVIEW);
+
+  requestAnimationFrame(() => {
+    document.getElementById('fireNumber').textContent = fmt(fireNum);
+    document.getElementById('fireNumberSub').textContent =
+      fireYear
+        ? `Retire in ${fireYear} years at age ${fireAge} • Based on ${wdRate}% withdrawal rate`
+        : `At current savings rate, 60+ years needed — consider increasing contributions`;
+    document.getElementById('statsGrid').innerHTML = statsHTML;
+    document.getElementById('stackedBar').innerHTML = stackedBarHTML;
+    document.getElementById('barLegend').innerHTML = legendHTML;
+    document.getElementById('tableBody').innerHTML = tableHTML;
+
+    const showAllWrap = document.getElementById('showAllWrap');
+    if (allRows.length > PREVIEW) {
+      showAllWrap.style.display = 'block';
+      showingAll = false;
+      document.getElementById('showAllBtn').textContent = 'Show All ' + allRows.length + ' Years';
+    } else {
+      showAllWrap.style.display = 'none';
+    }
+
+    // Scenarios
+    renderScenario('tab-lean', 'Lean', leanExp, wdRate, currentSavings, annualSav, realReturn, currentAge);
+    renderScenario('tab-regular', 'Regular', annualExp, wdRate, currentSavings, annualSav, realReturn, currentAge);
+    renderScenario('tab-fat', 'Fat', fatExp, wdRate, currentSavings, annualSav, realReturn, currentAge);
+
+    // Coast FIRE tab
+    const coastReached = currentSavings >= coastFire;
+    document.getElementById('tab-coast').innerHTML = `
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:.8rem">
+        <div class="stat-box" style="flex:1;min-width:120px">
+          <div class="s-label">Coast FIRE Number</div>
+          <div class="s-value accent">${fmt(coastFire)}</div>
+        </div>
+        <div class="stat-box" style="flex:1;min-width:120px">
+          <div class="s-label">Target Age</div>
+          <div class="s-value">${coastAge}</div>
+        </div>
+        <div class="stat-box" style="flex:1;min-width:120px">
+          <div class="s-label">Status</div>
+          <div class="s-value" style="color:${coastReached?'#27ae60':'#e74c3c'}">${coastReached?'✓ Reached':'Not Yet'}</div>
+        </div>
+        <div class="stat-box" style="flex:1;min-width:120px">
+          <div class="s-label">Amount Remaining</div>
+          <div class="s-value">${coastReached ? '$0' : fmt(coastFire - currentSavings)}</div>
+        </div>
+      </div>
+      <p style="font-size:.85rem;color:#666;margin:0">${getScenarioDesc('tab-coast')}</p>
+    `;
+
+    const resultsEl = document.getElementById('results');
+    resultsEl.classList.add('show');
+    resultsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+}
+
+// Show all toggle
+document.getElementById('showAllBtn').addEventListener('click', () => {
+  requestAnimationFrame(() => {
+    if (!showingAll) {
+      document.getElementById('tableBody').innerHTML = buildTable(allRows, null);
+      document.getElementById('showAllBtn').textContent = 'Show Less';
+      showingAll = true;
+    } else {
+      document.getElementById('tableBody').innerHTML = buildTable(allRows, 10);
+      document.getElementById('showAllBtn').textContent = 'Show All ' + allRows.length + ' Years';
+      showingAll = false;
+    }
+  });
+});
+
+// Tabs
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+  });
+});
+
+// Copy button
+document.getElementById('copyBtn').addEventListener('click', () => {
+  if (!allRows.length) return;
+  const fireNum = document.getElementById('fireNumber').textContent;
+  let text = `FIRE Number: ${fireNum}\n\n`;
+  text += 'Year\tAge\tContributions\tPortfolio\tFIRE %\n';
+  allRows.forEach(r => {
+    const pct = Math.min((r.portfolio / r.fireNum) * 100, 100);
+    text += `${r.year}\t${r.age}\t${fmt(r.totalContribs)}\t${fmt(r.portfolio)}\t${pct.toFixed(0)}%\n`;
+  });
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copyBtn');
+    const orig = btn.textContent;
+    btn.textContent = '✓ Copied!';
+    setTimeout(() => { btn.textContent = orig; }, 2000);
+  }).catch(() => {});
+});
+
+// Calculate button
+document.getElementById('calcBtn').addEventListener('click', () => {
+  requestAnimationFrame(() => { calculate(); });
+});
+
+// Enter key
+document.querySelectorAll('input').forEach(inp => {
+  inp.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      requestAnimationFrame(() => { calculate(); });
+    }
+  });
+});
+</script>
+</body>
+</html>
