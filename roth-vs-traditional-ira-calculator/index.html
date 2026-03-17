@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roth vs Traditional IRA Calculator — Free Online Tool | calcstack.dev</title>
+<meta name="description" content="Compare Roth vs Traditional IRA side-by-side. See after-tax balances, tax savings, and year-by-year growth to find the best retirement account for you.">
+<link rel="canonical" href="https://calcstack.dev/roth-vs-traditional-ira-calculator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Roth vs Traditional IRA Calculator",
+  "description": "Compare Roth vs Traditional IRA contributions side-by-side to determine which account maximizes your retirement savings after taxes.",
+  "url": "https://calcstack.dev/roth-vs-traditional-ira-calculator/",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "calcstack.dev",
+    "url": "https://calcstack.dev"
+  }
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f4f6f8;color:#1a1a2e;font-size:16px;line-height:1.6}
+a{color:#0077b6;text-decoration:none}
+a:hover{text-decoration:underline}
+nav{background:#fff;border-bottom:1px solid #e0e0e0;padding:0 1.5rem}
+.nav-inner{max-width:640px;margin:0 auto;display:flex;align-items:center;height:52px}
+.nav-brand{font-weight:700;font-size:1.1rem;color:#1a1a2e}
+.nav-brand:hover{text-decoration:none;color:#0077b6}
+main{max-width:640px;margin:0 auto;padding:1.5rem 1rem 2rem}
+h1{font-size:1.6rem;font-weight:700;color:#1a1a2e;margin-bottom:.4rem;line-height:1.3}
+.subtitle{color:#555;font-size:.95rem;margin-bottom:1.5rem}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;box-shadow:0 1px 4px rgba(0,0,0,.06);margin-bottom:2rem}
+.section-title{font-size:1rem;font-weight:700;color:#1a1a2e;margin-bottom:1.2rem;padding-bottom:.5rem;border-bottom:2px solid #0077b6;display:inline-block}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+.form-group{margin-bottom:1rem}
+label{display:block;font-size:.85rem;font-weight:500;color:#444;margin-bottom:.4rem}
+input[type=number],select{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:6px;font-size:1rem;font-family:inherit;color:#1a1a2e;background:#fff;transition:border-color .2s,box-shadow .2s;-moz-appearance:textfield}
+input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
+input[type=number]:focus,select:focus{outline:none;border-color:#0077b6;box-shadow:0 0 0 3px rgba(0,119,182,.15)}
+input.error{border-color:#e74c3c}
+.error-msg{color:#e74c3c;font-size:.8rem;margin-top:.3rem;display:none}
+.error-msg.show{display:block}
+.slider-group{margin-bottom:1rem}
+.slider-row{display:flex;align-items:center;gap:.75rem}
+input[type=range]{flex:1;accent-color:#0077b6;height:6px;cursor:pointer}
+.slider-val{font-size:.9rem;font-weight:600;color:#0077b6;min-width:50px;text-align:right}
+.btn{background:#0077b6;color:#fff;border:none;padding:12px 24px;border-radius:6px;font-size:1rem;font-weight:600;cursor:pointer;width:100%;min-height:44px;transition:background .2s}
+.btn:hover{background:#006299}
+.btn:active{background:#005580}
+.results{opacity:0;transition:opacity .3s ease;pointer-events:none}
+.results.visible{opacity:1;pointer-events:all}
+.comparison-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+.acct-card{border-radius:8px;padding:1.25rem;text-align:center}
+.acct-card.roth{background:#e8f4fd;border:2px solid #0077b6}
+.acct-card.trad{background:#fef9e7;border:2px solid #f39c12}
+.acct-label{font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.3rem}
+.acct-label.roth{color:#0077b6}
+.acct-label.trad{color:#c07c00}
+.acct-amount{font-size:1.6rem;font-weight:700;color:#1a1a2e;line-height:1.2}
+.acct-sub{font-size:.78rem;color:#666;margin-top:.3rem}
+.winner-badge{display:inline-block;background:#27ae60;color:#fff;font-size:.75rem;font-weight:700;padding:2px 8px;border-radius:12px;margin-top:.4rem}
+.big-metric{text-align:center;margin-bottom:1.5rem}
+.big-num{font-size:2rem;font-weight:700;color:#0077b6}
+.big-label{font-size:.85rem;color:#666;margin-top:.2rem}
+.bar-section{margin-bottom:1.5rem}
+.bar-label{font-size:.82rem;font-weight:600;color:#444;margin-bottom:.35rem;display:flex;justify-content:space-between}
+.bar-track{background:#f0f0f0;border-radius:4px;height:28px;overflow:hidden;margin-bottom:.7rem}
+.bar-fill{height:100%;border-radius:4px;transition:width .6s ease;display:flex;align-items:center;padding-left:8px;font-size:.78rem;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden}
+.bar-roth{background:#0077b6}
+.bar-trad{background:#f39c12}
+.bar-contrib{background:#27ae60}
+.bar-growth{background:#8e44ad}
+.bar-tax{background:#e74c3c}
+.legend{display:flex;flex-wrap:wrap;gap:.6rem;margin-bottom:1rem}
+.legend-item{display:flex;align-items:center;gap:.35rem;font-size:.8rem;color:#444}
+.legend-dot{width:12px;height:12px;border-radius:2px;flex-shrink:0}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:.85rem}
+thead th{background:#f0f0f0;padding:8px 10px;text-align:left;font-weight:600;color:#444;border-bottom:2px solid #ddd;white-space:nowrap}
+thead th.num{text-align:right}
+tbody tr:nth-child(even){background:#fafafa}
+tbody td{padding:7px 10px;border-bottom:1px solid #eee;color:#333}
+tbody td.num{text-align:right;font-variant-numeric:tabular-nums}
+.show-all-btn{background:transparent;border:1px solid #0077b6;color:#0077b6;padding:8px 20px;border-radius:6px;font-size:.85rem;cursor:pointer;margin-top:.75rem;min-height:44px;transition:background .2s}
+.show-all-btn:hover{background:#e8f4fd}
+.copy-btn{background:transparent;border:1px solid #ddd;color:#555;padding:6px 14px;border-radius:5px;font-size:.8rem;cursor:pointer;margin-top:.75rem;min-height:36px;transition:all .2s}
+.copy-btn:hover{border-color:#0077b6;color:#0077b6}
+.tabs{display:flex;gap:0;border-bottom:2px solid #e0e0e0;margin-bottom:1.25rem}
+.tab-btn{background:none;border:none;padding:8px 18px;font-size:.9rem;font-weight:600;color:#888;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:color .2s,border-color .2s;min-height:44px}
+.tab-btn.active{color:#0077b6;border-bottom-color:#0077b6}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+.info-box{background:#e8f4fd;border-left:3px solid #0077b6;border-radius:0 6px 6px 0;padding:.75rem 1rem;font-size:.85rem;color:#1a1a2e;margin-bottom:1rem}
+.content-section{margin-bottom:2rem}
+.content-section h2{font-size:1.15rem;font-weight:700;color:#1a1a2e;margin-bottom:.6rem;margin-top:1.5rem}
+.content-section p{font-size:.93rem;color:#333;margin-bottom:.8rem}
+.content-section ul{padding-left:1.3rem;margin-bottom:.8rem}
+.content-section ul li{font-size:.93rem;color:#333;margin-bottom:.4rem}
+details{margin-bottom:.75rem;border:1px solid #e0e0e0;border-radius:6px;overflow:hidden}
+summary{padding:.75rem 1rem;font-weight:600;font-size:.9rem;cursor:pointer;background:#f8f9fa;color:#1a1a2e;list-style:none;display:flex;justify-content:space-between;align-items:center}
+summary::-webkit-details-marker{display:none}
+summary::after{content:'＋';font-size:1rem;color:#0077b6}
+details[open] summary::after{content:'－'}
+details .faq-body{padding:.75rem 1rem;font-size:.88rem;color:#333;background:#fff}
+.related-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:.75rem}
+.related-link{display:block;background:#f8f9fa;border:1px solid #e0e0e0;border-radius:6px;padding:.6rem .9rem;font-size:.87rem;color:#0077b6;transition:background .2s}
+.related-link:hover{background:#e8f4fd;text-decoration:none}
+.ad-slot{min-height:0;margin:0}
+footer{background:#fff;border-top:1px solid #e0e0e0;padding:1.25rem 1.5rem;margin-top:2rem}
+.footer-inner{max-width:640px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:.5rem}
+.footer-links{display:flex;gap:1rem;flex-wrap:wrap}
+.footer-links a{font-size:.83rem;color:#555}
+.footer-copy{font-size:.8rem;color:#999}
+@media(max-width:640px){
+  .form-row{grid-template-columns:1fr}
+  .comparison-grid{grid-template-columns:1fr}
+  .related-grid{grid-template-columns:1fr}
+  .acct-amount{font-size:1.35rem}
+  .big-num{font-size:1.6rem}
+  .footer-inner{flex-direction:column;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">calcstack.dev</a>
+  </div>
+</nav>
+
+<main>
+  <h1>Roth vs Traditional IRA Calculator</h1>
+  <p class="subtitle">See exactly which IRA wins after taxes — with year-by-year growth comparison.</p>
+
+  <div class="card">
+    <div class="section-title">Your Information</div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="currentAge">Current Age</label>
+        <input type="number" id="currentAge" value="30" min="18" max="80" placeholder="e.g. 30">
+        <div class="error-msg" id="err-currentAge">Enter a valid age (18–80).</div>
+      </div>
+      <div class="form-group">
+        <label for="retireAge">Retirement Age</label>
+        <input type="number" id="retireAge" value="65" min="40" max="90" placeholder="e.g. 65">
+        <div class="error-msg" id="err-retireAge">Enter a valid age (40–90) above current age.</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="annualContrib">Annual Contribution ($)</label>
+      <input type="number" id="annualContrib" value="6500" min="1" max="100000" placeholder="e.g. 6500">
+      <div class="error-msg" id="err-annualContrib">Enter a positive contribution amount.</div>
+    </div>
+
+    <div class="slider-group">
+      <label>Annual Return Rate: <span id="returnLabel">7%</span></label>
+      <div class="slider-row">
+        <input type="range" id="returnRate" min="1" max="15" step="0.5" value="7">
+        <span class="slider-val" id="returnVal">7.0%</span>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="taxNow">Current Tax Rate (%)</label>
+        <input type="number" id="taxNow" value="22" min="0" max="60" placeholder="e.g. 22">
+        <div class="error-msg" id="err-taxNow">Enter a tax rate between 0–60%.</div>
+      </div>
+      <div class="form-group">
+        <label for="taxRetire">Retirement Tax Rate (%)</label>
+        <input type="number" id="taxRetire" value="20" min="0" max="60" placeholder="e.g. 20">
+        <div class="error-msg" id="err-taxRetire">Enter a tax rate between 0–60%.</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="filingStatus">Filing Status</label>
+      <select id="filingStatus">
+        <option value="single">Single</option>
+        <option value="married">Married Filing Jointly</option>
+        <option value="mfs">Married Filing Separately</option>
+        <option value="hoh">Head of Household</option>
+      </select>
+    </div>
+
+    <button class="btn" id="calcBtn">Calculate Comparison</button>
+  </div>
+
+  <!-- Results -->
+  <div class="results" id="results">
+
+    <div class="card">
+      <div class="section-title">Side-by-Side Comparison</div>
+      <div class="comparison-grid" id="compGrid"></div>
+      <div class="info-box" id="summaryBox"></div>
+    </div>
+
+    <div class="card">
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="breakdown">Breakdown</button>
+        <button class="tab-btn" data-tab="growth">Year-by-Year</button>
+        <button class="tab-btn" data-tab="scenario">Scenarios</button>
+      </div>
+
+      <div class="tab-panel active" id="tab-breakdown">
+        <div class="section-title">Visual Breakdown</div>
+        <div id="barCharts"></div>
+      </div>
+
+      <div class="tab-panel" id="tab-growth">
+        <div class="section-title">Year-by-Year Growth</div>
+        <div class="table-wrap">
+          <table id="growthTable">
+            <thead>
+              <tr>
+                <th>Age</th>
+                <th>Year</th>
+                <th class="num">Roth Balance</th>
+                <th class="num">Roth After-Tax</th>
+                <th class="num">Trad Balance</th>
+                <th class="num">Trad After-Tax</th>
+              </tr>
+            </thead>
+            <tbody id="growthBody"></tbody>
+          </table>
+        </div>
+        <button class="show-all-btn" id="showAllBtn">Show All Years</button>
+        <button class="copy-btn" id="copyBtn">📋 Copy Summary</button>
+      </div>
+
+      <div class="tab-panel" id="tab-scenario">
+        <div class="section-title">Tax Rate Scenarios</div>
+        <div class="info-box">This shows how results change if your retirement tax rate differs from your current estimate.</div>
+        <div class="table-wrap">
+          <table id="scenarioTable">
+            <thead>
+              <tr>
+                <th>Retirement Tax Rate</th>
+                <th class="num">Roth After-Tax</th>
+                <th class="num">Trad After-Tax</th>
+                <th class="num">Difference</th>
+                <th>Winner</th>
+              </tr>
+            </thead>
+            <tbody id="scenarioBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="ad-slot" id="ad-mid"></div>
+  </div>
+
+  <!-- Content -->
+  <div class="content-section">
+    <h2>How to Use This Roth vs Traditional IRA Calculator</h2>
+    <p>Enter your current age, planned retirement age, and annual contribution amount. Then set your expected annual return, current marginal tax rate, and estimated retirement tax rate. Hit <strong>Calculate Comparison</strong> to see a complete side-by-side analysis including after-tax balances, year-by-year growth, and multiple tax scenarios.</p>
+    <p>The key output is the <strong>after-tax balance</strong> at retirement — this is what you actually get to spend. For Roth IRAs, that's the full balance. For Traditional IRAs, it's the balance minus taxes you'll owe on withdrawal.</p>
+
+    <h2>Why This Matters</h2>
+    <p>Choosing between a Roth and Traditional IRA is one of the most impactful financial decisions you can make — and it's surprisingly nuanced. The right choice depends entirely on whether your tax rate is higher now or in retirement.</p>
+    <p>Consider a 30-year-old contributing $6,500/year at a 7% return for 35 years. If their tax rate stays at 22%, both accounts produce roughly the same after-tax balance. But if they expect to be in a higher bracket at retirement — say a 28% rate — the Roth wins by over $80,000. If they drop to a 15% bracket, the Traditional wins.</p>
+    <p>High earners who can't deduct Traditional IRA contributions (due to income limits) should lean heavily Roth. Young people early in their careers who expect income to grow should often favor Roth. Those approaching peak earnings or planning to retire into lower-income years tend to benefit from Traditional. This calculator surfaces that difference concretely.</p>
+    <p>There's also the flexibility angle: Roth IRAs have no required minimum distributions (RMDs), making them superior for estate planning or for retirees who don't need the income immediately.</p>
+
+    <h2>How It's Calculated</h2>
+    <p><strong>Roth IRA:</strong> You contribute after-tax dollars, so the contribution is reduced by your current tax rate. The account grows tax-free, and the full balance is available at retirement.</p>
+    <p><em>Roth After-Tax Value = Annual Contribution × FV Factor (after-tax dollars, tax-free growth)</em></p>
+    <p><strong>Traditional IRA:</strong> You contribute pre-tax dollars (the full amount goes in). The account grows tax-deferred. At withdrawal, you owe taxes on the full balance.</p>
+    <p><em>Traditional After-Tax Value = Balance × (1 − Retirement Tax Rate)</em></p>
+    <p>The future value factor uses: <em>FV = C × [((1+r)^n − 1) / r]</em> where C is annual contribution, r is the annual return rate, and n is the number of years.</p>
+    <p>For an apples-to-apples comparison, we compare equal <em>pre-tax dollars</em> committed — meaning the Traditional IRA receives the full contribution while the Roth receives the after-tax equivalent.</p>
+
+    <h2>Tips & Common Mistakes</h2>
+    <ul>
+      <li><strong>Don't just look at the balance — look at after-tax value.</strong> A $1M Traditional IRA is worth far less than a $1M Roth IRA once you account for withdrawal taxes.</li>
+      <li><strong>Your "retirement tax rate" is harder to predict than you think.</strong> Factor in Social Security, pensions, RMDs from 401(k)s, and potential state tax changes.</li>
+      <li><strong>Roth conversions are a third option.</strong> If you have a Traditional IRA, you can convert it to Roth during low-income years — this calculator helps you see the long-term payoff.</li>
+      <li><strong>Income limits apply.</strong> In 2024, Roth IRA contributions phase out at $146,000–$161,000 (single) and $230,000–$240,000 (married). Traditional IRA deductibility phases out if you have a workplace plan.</li>
+      <li><strong>Time horizon matters enormously.</strong> The longer you invest, the more valuable tax-free compounding becomes in a Roth. Run this calculator at different ages to see the difference 5 extra years makes.</li>
+    </ul>
+
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>What's the 2024 IRA contribution limit?</summary>
+      <div class="faq-body">The 2024 IRA contribution limit is $7,000 per year ($8,000 if you're age 50 or older). This limit applies to combined contributions across all your IRAs — you can't contribute $7,000 to a Roth and $7,000 to a Traditional in the same year. The "catch-up" extra $1,000 for those 50+ applies to both Roth and Traditional accounts.</div>
+    </details>
+    <details>
+      <summary>Can I contribute to both a Roth and Traditional IRA?</summary>
+      <div class="faq-body">Yes, but your total contributions across both accounts cannot exceed the annual limit ($7,000 in 2024). So you could put $3,500 in each, or any split you like. Whether Traditional contributions are tax-deductible depends on your income and whether you (or your spouse) have access to a workplace retirement plan.</div>
+    </details>
+    <details>
+      <summary>What if my tax rate stays exactly the same?</summary>
+      <div class="faq-body">If your marginal tax rate is identical now and in retirement, the math works out to roughly equal after-tax results — assuming the same contribution amount in pre-tax dollars. In practice, Roth has a slight edge due to no required minimum distributions and the flexibility of tax-free withdrawals in any market condition. The scenario table in this calculator shows this breakeven point.</div>
+    </details>
+    <details>
+      <summary>Does this calculator account for state income taxes?</summary>
+      <div class="faq-body">You can include state taxes by adding them to the federal rates you enter. For example, if you're in the 22% federal bracket and your state charges 5%, enter 27% as your current tax rate. Some states don't tax retirement income at all — if you plan to retire in such a state, enter a lower retirement tax rate to reflect that benefit.</div>
+    </details>
+  </div>
+
+  <!-- Related Tools -->
+  <div class="card">
+    <div class="section-title">Related Tools</div>
+    <div class="related-grid">
+      <a href="/401k-contribution-calculator/" class="related-link">401k Contribution Calculator</a>
+      <a href="/dividend-reinvestment-calculator/" class="related-link">Dividend Reinvestment Calculator</a>
+      <a href="/cd-ladder-calculator/" class="related-link">CD Ladder Calculator</a>
+      <a href="/refinance-break-even-calculator/" class="related-link">Refinance Break-Even Calculator</a>
+      <a href="/debt-to-income-ratio-calculator/" class="related-link">Debt-to-Income Ratio Calculator</a>
+      <a href="/home-affordability-calculator/" class="related-link">Home Affordability Calculator</a>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-bottom"></div>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-links">
+      <a href="/about/">About</a>
+      <a href="/privacy/">Privacy</a>
+      <a href="/contact/">Contact</a>
+    </div>
+    <span class="footer-copy">© 2024 calcstack.dev</span>
+  </div>
+</footer>
+
+<script>
+// Utility
+function fmt(n){return '$'+Math.round(n).toLocaleString('en-US')}
+function pct(n){return n.toFixed(1)+'%'}
+function num(id){return parseFloat(document.getElementById(id).value)}
+function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
+
+// Slider
+const rSlider=document.getElementById('returnRate');
+const rVal=document.getElementById('returnVal');
+const rLabel=document.getElementById('returnLabel');
+rSlider.addEventListener('input',()=>{
+  const v=parseFloat(rSlider.value);
+  rVal.textContent=v.toFixed(1)+'%';
+  rLabel.textContent=v.toFixed(1)+'%';
+});
+
+// Tabs
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
+  });
+});
+
+// Enter key
+document.querySelectorAll('input').forEach(inp=>{
+  inp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();triggerCalc();}});
+});
+
+function triggerCalc(){
+  requestAnimationFrame(()=>{calculate();});
+}
+document.getElementById('calcBtn').addEventListener('click',()=>triggerCalc());
+
+// Show All
+let showAll=false;
+let allRows='';
+document.getElementById('showAllBtn').addEventListener('click',()=>{
+  showAll=!showAll;
+  document.getElementById('growthBody').innerHTML=showAll?allRows:allRows.split('</tr>').slice(0,10).join('</tr>')+(allRows.split('</tr>').length>10?'</tr>':'');
+  document.getElementById('showAllBtn').textContent=showAll?'Show Less':'Show All Years';
+});
+
+// Copy
+document.getElementById('copyBtn').addEventListener('click',()=>{
+  const btn=document.getElementById('copyBtn');
+  const text=document.getElementById('_copyText')?document.getElementById('_copyText').value:'';
+  if(!text)return;
+  navigator.clipboard.writeText(text).then(()=>{
+    btn.textContent='✓ Copied!';
+    setTimeout(()=>{btn.textContent='📋 Copy Summary';},2000);
+  }).catch(()=>{
+    const ta=document.createElement('textarea');
+    ta.value=text;ta.style.position='fixed';ta.style.opacity='0';
+    document.body.appendChild(ta);ta.select();document.execCommand('copy');
+    document.body.removeChild(ta);
+    btn.textContent='✓ Copied!';
+    setTimeout(()=>{btn.textContent='📋 Copy Summary';},2000);
+  });
+});
+
+function clearErrors(){
+  document.querySelectorAll('.error-msg').forEach(e=>{e.classList.remove('show')});
+  document.querySelectorAll('input').forEach(i=>{i.classList.remove('error')});
+}
+function showError(field,msgId){
+  document.getElementById(field).classList.add('error');
+  document.getElementById(msgId).classList.add('show');
+}
+
+function fv(contrib,rate,years){
+  if(rate===0)return contrib*years;
+  return contrib*((Math.pow(1+rate,years)-1)/rate);
+}
+
+function calculate(){
+  clearErrors();
+  let valid=true;
+  const cAge=num('currentAge');
+  const rAge=num('retireAge');
+  const contrib=num('annualContrib');
+  const ret=parseFloat(rSlider.value)/100;
+  const taxNow=num('taxNow')/100;
+  const taxR=num('taxRetire')/100;
+
+  if(isNaN(cAge)||cAge<18||cAge>80){showError('currentAge','err-currentAge');valid=false;}
+  if(isNaN(rAge)||rAge<40||rAge>90||rAge<=cAge){showError('retireAge','err-retireAge');valid=false;}
+  if(isNaN(contrib)||contrib<=0){showError('annualContrib','err-annualContrib');valid=false;}
+  if(isNaN(taxNow*100)||num('taxNow')<0||num('taxNow')>60){showError('taxNow','err-taxNow');valid=false;}
+  if(isNaN(taxR*100)||num('taxRetire')<0||num('taxRetire')>60){showError('taxRetire','err-taxRetire');valid=false;}
+  if(!valid)return;
+
+  const years=rAge-cAge;
+
+  // Traditional: full pre-tax contribution, taxed at withdrawal
+  const tradBalance=fv(contrib,ret,years);
+  const tradAfterTax=tradBalance*(1-taxR);
+  const tradTaxPaid=contrib*years*taxNow; // opportunity cost of taxes saved
+  const tradTaxSaved=contrib*taxNow*years;
+
+  // Roth: after-tax contribution (less money goes in), tax-free at withdrawal
+  const rothContrib=contrib*(1-taxNow);
+  const rothBalance=fv(rothContrib,ret,years);
+  const rothAfterTax=rothBalance;
+  const totalContribTrad=contrib*years;
+  const totalContribRoth=rothContrib*years;
+
+  const rothWins=rothAfterTax>=tradAfterTax;
+  const diff=Math.abs(rothAfterTax-tradAfterTax);
+
+  // Build comparison grid
+  const gridHTML=`
+    <div class="acct-card roth">
+      <div class="acct-label roth">Roth IRA</div>
+      <div class="acct-amount">${fmt(rothAfterTax)}</div>
+      <div class="acct-sub">After-tax value at ${rAge}</div>
+      <div class="acct-sub">Balance: ${fmt(rothBalance)}</div>
+      ${rothWins?'<div class="winner-badge">✓ Better Choice</div>':''}
+    </div>
+    <div class="acct-card trad">
+      <div class="acct-label trad">Traditional IRA</div>
+      <div class="acct-amount">${fmt(tradAfterTax)}</div>
+      <div class="acct-sub">After-tax value at ${rAge}</div>
+      <div class="acct-sub">Balance: ${fmt(tradBalance)}</div>
+      ${!rothWins?'<div class="winner-badge" style="background:#f39c12">✓ Better Choice</div>':''}
+    </div>`;
+  document.getElementById('compGrid').innerHTML=gridHTML;
+
+  const summaryHTML=rothWins
+    ? `<strong>Roth IRA wins</strong> by <strong>${fmt(diff)}</strong> because your retirement tax rate (${pct(taxR*100)}) is ${taxR>=taxNow?'the same as or higher':'not much lower'} than your current rate (${pct(taxNow*100)}). Tax-free growth outweighs the current deduction.`
+    : `<strong>Traditional IRA wins</strong> by <strong>${fmt(diff)}</strong> because your retirement tax rate (${pct(taxR*100)}) is lower than your current rate (${pct(taxNow*100)}). The upfront deduction is worth more than tax-free growth in this scenario.`;
+  document.getElementById('summaryBox').innerHTML=summaryHTML;
+
+  // Bar charts
+  const maxVal=Math.max(rothAfterTax,tradAfterTax,tradBalance,rothBalance);
+  const bPct=(v)=>clamp(Math.round(v/maxVal*100),3,100);
+
+  const rothGrowth=rothBalance-totalContribRoth;
+  const tradGrowth=tradBalance-totalContribTrad;
+  const rothContribPct=clamp(Math.round(totalContribRoth/rothBalance*100),2,98);
+  const tradContribPct=clamp(Math.round(totalContribTrad/tradBalance*100),2,98);
+
+  const barHTML=`
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#0077b6"></div> Roth</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#f39c12"></div> Traditional</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#27ae60"></div> Contributions</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#8e44ad"></div> Growth</div>
+    </div>
+    <div class="bar-section">
+      <div class="bar-label"><span>Roth After-Tax Value</span><span>${fmt(rothAfterTax)}</span></div>
+      <div class="bar-track"><div class="bar-fill bar-roth" style="width:${bPct(rothAfterTax)}%">${bPct(rothAfterTax)>15?fmt(rothAfterTax):''}</div></div>
+      <div class="bar-label"><span>Traditional After-Tax Value</span><span>${fmt(tradAfterTax)}</span></div>
+      <div class="bar-track"><div class="bar-fill bar-trad" style="width:${bPct(tradAfterTax)}%">${bPct(tradAfterTax)>15?fmt(tradAfterTax):''}</div></div>
+    </div>
+    <div class="bar-section">
+      <div class="bar-label"><span>Roth — Contributions vs Growth</span><span>${fmt(totalContribRoth)} + ${fmt(rothGrowth)}</span></div>
+      <div class="bar-track" style="display:flex">
+        <div class="bar-fill bar-contrib" style="width:${rothContribPct}%;border-radius:4px 0 0 4px">${rothContribPct>15?'Contrib':''}</div>
+        <div class="bar-fill bar-growth" style="width:${100-rothContribPct}%;border-radius:0 4px 4px 0">${(100-rothContribPct)>15?'Growth':''}</div>
+      </div>
+      <div class="bar-label"><span>Traditional — Contributions vs Growth</span><span>${fmt(totalContribTrad)} + ${fmt(tradGrowth)}</span></div>
+      <div class="bar-track" style="display:flex">
+        <div class="bar-fill bar-contrib" style="width:${tradContribPct}%;border-radius:4px 0 0 4px">${tradContribPct>15?'Contrib':''}</div>
+        <div class="bar-fill bar-growth" style="width:${100-tradContribPct}%;border-radius:0 4px 4px 0">${(100-tradContribPct)>15?'Growth':''}</div>
+      </div>
+    </div>
+    <div class="bar-section">
+      <div class="bar-label"><span>Traditional — Tax at Withdrawal</span><span>${fmt(tradBalance*taxR)}</span></div>
+      <div class="bar-track"><div class="bar-fill bar-tax" style="width:${bPct(tradBalance*taxR)}%">${bPct(tradBalance*taxR)>15?fmt(tradBalance*taxR):''}</div></div>
+    </div>`;
+  document.getElementById('barCharts').innerHTML=barHTML;
+
+  // Year-by-year table
+  let rowsHTML='';
+  for(let y=1;y<=years;y++){
+    const age=cAge+y;
+    const rBal=fv(rothContrib,ret,y);
+    const rAt=rBal;
+    const tBal=fv(contrib,ret,y);
+    const tAt=tBal*(1-taxR);
+    rowsHTML+=`<tr>
+      <td>${age}</td>
+      <td>${y}</td>
+      <td class="num">${fmt(rBal)}</td>
+      <td class="num">${fmt(rAt)}</td>
+      <td class="num">${fmt(tBal)}</td>
+      <td class="num">${fmt(tAt)}</td>
+    </tr>`;
+  }
+  allRows=rowsHTML;
+  showAll=false;
+  const preview=rowsHTML.split('</tr>').slice(0,10).join('</tr>')+(years>10?'</tr>':'');
+  document.getElementById('growthBody').innerHTML=preview;
+  document.getElementById('showAllBtn').textContent='Show All Years';
+  document.getElementById('showAllBtn').style.display=years<=10?'none':'block';
+
+  // Scenario table
+  const scenarios=[0,5,10,12,15,18,20,22,24,25,28,32,35,37];
+  let scenHTML='';
+  scenarios.forEach(tScen=>{
+    const tS=tScen/100;
+    const rA=rothAfterTax;
+    const tA=tradBalance*(1-tS);
+    const winner=rA>=tA?'<span style="color:#0077b6;font-weight:700">Roth</span>':'<span style="color:#c07c00;font-weight:700">Traditional</span>';
+    const dif=rA-tA;
+    const highlight=tScen===Math.round(num('taxRetire'));
+    scenHTML+=`<tr${highlight?' style="background:#e8f4fd"':''}>
+      <td>${tScen}%${highlight?' <em style="font-size:.75rem;color:#888">(current)</em>':''}</td>
+      <td class="num">${fmt(rA)}</td>
+      <td class="num">${fmt(tA)}</td>
+      <td class="num" style="color:${dif>0?'#27ae60':'#e74c3c'}">${dif>0?'+':'-'}${fmt(Math.abs(dif))}</td>
+      <td>${winner}</td>
+    </tr>`;
+  });
+  document.getElementById('scenarioBody').innerHTML=scenHTML;
+
+  // Copy text
+  let copyText=`Roth vs Traditional IRA Comparison\n`;
+  copyText+=`Years: ${years} (Age ${cAge} to ${rAge})\n`;
+  copyText+=`Annual Contribution: ${fmt(contrib)}\n`;
+  copyText+=`Return Rate: ${pct(ret*100)}\n`;
+  copyText+=`Current Tax Rate: ${pct(taxNow*100)} | Retirement Tax Rate: ${pct(taxR*100)}\n\n`;
+  copyText+=`Roth IRA After-Tax Value: ${fmt(rothAfterTax)}\n`;
+  copyText+=`Traditional IRA After-Tax Value: ${fmt(tradAfterTax)}\n`;
+  copyText+=`Winner: ${rothWins?'Roth':'Traditional'} by ${fmt(diff)}\n`;
+  let el=document.getElementById('_copyText');
+  if(!el){el=document.createElement('textarea');el.id='_copyText';el.style.display='none';document.body.appendChild(el);}
+  el.value=copyText;
+
+  document.getElementById('results').classList.add('visible');
+  document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'});
+}
+</script>
+</body>
+</html>
