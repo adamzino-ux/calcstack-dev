@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home Equity Loan vs HELOC Calculator — Free Online Tool | calcstack.dev</title>
+<meta name="description" content="Compare home equity loan vs HELOC side-by-side. See monthly payments, total interest, and costs for both options. Free, instant, no sign-up required.">
+<link rel="canonical" href="https://calcstack.dev/home-equity-loan-vs-heloc-calculator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Home Equity Loan vs HELOC Calculator",
+  "url": "https://calcstack.dev/home-equity-loan-vs-heloc-calculator/",
+  "description": "Compare home equity loan vs HELOC side-by-side. See monthly payments, total interest, and costs for both options.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f4f6f9;color:#1a1a2e;font-size:16px;line-height:1.6}
+a{color:#0077b6;text-decoration:none}
+a:hover{text-decoration:underline}
+nav{background:#fff;border-bottom:1px solid #e0e0e0;padding:0 1.5rem}
+.nav-inner{max-width:640px;margin:0 auto;display:flex;align-items:center;height:52px}
+.nav-brand{font-weight:700;font-size:1.1rem;color:#1a1a2e}
+.nav-brand span{color:#0077b6}
+main{max-width:640px;margin:0 auto;padding:1.5rem}
+h1{font-size:1.55rem;font-weight:800;color:#1a1a2e;margin-bottom:0.35rem;line-height:1.25}
+.subtitle{color:#555;font-size:0.95rem;margin-bottom:1.5rem}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;box-shadow:0 1px 4px rgba(0,0,0,0.06);margin-bottom:2rem}
+.section-title{font-size:1rem;font-weight:700;color:#0077b6;margin-bottom:1.2rem;text-transform:uppercase;letter-spacing:0.04em;border-bottom:2px solid #e8f4fd;padding-bottom:0.5rem}
+.tabs{display:flex;border-bottom:2px solid #e0e0e0;margin-bottom:1.5rem;gap:0}
+.tab-btn{background:none;border:none;padding:10px 18px;font-size:0.92rem;font-weight:600;color:#888;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:color 0.2s,border-color 0.2s;min-height:44px}
+.tab-btn.active{color:#0077b6;border-bottom-color:#0077b6}
+.tab-btn:hover{color:#0077b6}
+.tab-content{display:none}.tab-content.active{display:block}
+label{display:block;font-size:0.85rem;font-weight:500;color:#444;margin-bottom:5px;margin-top:14px}
+label:first-child{margin-top:0}
+input[type=number],input[type=text],select{width:100%;border:1px solid #ddd;border-radius:5px;padding:12px 16px;font-size:1rem;color:#1a1a2e;background:#fff;transition:border-color 0.2s,box-shadow 0.2s;-webkit-appearance:none}
+input:focus,select:focus{outline:none;border-color:#0077b6;box-shadow:0 0 0 3px rgba(0,119,182,0.15)}
+input.error{border-color:#e74c3c;box-shadow:0 0 0 3px rgba(231,76,60,0.12)}
+.error-msg{color:#e74c3c;font-size:0.78rem;margin-top:4px;display:none}
+.error-msg.show{display:block}
+.input-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media(max-width:480px){.input-row{grid-template-columns:1fr}}
+.slider-wrap{margin-top:4px}
+input[type=range]{width:100%;accent-color:#0077b6;height:4px;cursor:pointer;margin-top:6px}
+.slider-labels{display:flex;justify-content:space-between;font-size:0.75rem;color:#888;margin-top:2px}
+.input-with-label{position:relative}
+.input-prefix{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#888;font-size:1rem;pointer-events:none}
+.input-with-label input{padding-left:28px}
+.input-suffix{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:#888;font-size:1rem;pointer-events:none}
+.input-with-label input.has-suffix{padding-right:30px}
+.btn{display:block;width:100%;background:#0077b6;color:#fff;border:none;border-radius:6px;padding:14px 24px;font-size:1.05rem;font-weight:700;cursor:pointer;margin-top:1.5rem;transition:background 0.2s;min-height:48px}
+.btn:hover{background:#006299}
+.results-section{display:none;opacity:0;transition:opacity 0.3s ease}
+.results-section.visible{display:block;opacity:1}
+.winner-banner{background:linear-gradient(135deg,#e8f4fd,#d0eaf8);border:1px solid #b3d9f0;border-radius:8px;padding:1.2rem 1.5rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem}
+.winner-icon{font-size:2rem;line-height:1}
+.winner-text h3{font-size:1rem;font-weight:700;color:#1a1a2e;margin-bottom:2px}
+.winner-text p{font-size:0.88rem;color:#555}
+.comparison-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+@media(max-width:480px){.comparison-grid{grid-template-columns:1fr}}
+.comp-card{border-radius:8px;padding:1.2rem;border:2px solid #e0e0e0;background:#fff;position:relative}
+.comp-card.heloan{border-color:#0077b6}
+.comp-card.heloc{border-color:#00b4d8}
+.comp-card .label{font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.5rem}
+.comp-card.heloan .label{color:#0077b6}
+.comp-card.heloc .label{color:#00b4d8}
+.comp-card .big-num{font-size:1.8rem;font-weight:800;line-height:1;margin-bottom:0.2rem}
+.comp-card.heloan .big-num{color:#0077b6}
+.comp-card.heloc .big-num{color:#00b4d8}
+.comp-card .sub{font-size:0.8rem;color:#777}
+.comp-badge{position:absolute;top:10px;right:10px;background:#27ae60;color:#fff;font-size:0.7rem;font-weight:700;padding:2px 8px;border-radius:20px;text-transform:uppercase}
+.metric-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #f0f0f0;font-size:0.9rem}
+.metric-row:last-child{border-bottom:none}
+.metric-label{color:#555}
+.metric-vals{display:flex;gap:1.5rem}
+.metric-val{font-weight:600;text-align:right;min-width:90px}
+.metric-val.heloan{color:#0077b6}
+.metric-val.heloc{color:#00b4d8}
+.bar-section{margin-bottom:1.5rem}
+.bar-section h4{font-size:0.9rem;font-weight:700;color:#444;margin-bottom:0.8rem}
+.bar-group{margin-bottom:1rem}
+.bar-label{font-size:0.82rem;color:#555;margin-bottom:4px;display:flex;justify-content:space-between}
+.bar-track{background:#f0f0f0;border-radius:4px;height:20px;overflow:hidden;display:flex}
+.bar-fill{height:100%;transition:width 0.4s ease;border-radius:4px 0 0 4px}
+.bar-fill.principal{background:#0077b6}
+.bar-fill.interest{background:#e74c3c;border-radius:0 4px 4px 0}
+.bar-fill.heloc-draw{background:#00b4d8}
+.bar-fill.heloc-repay{background:#0096c7}
+.bar-legend{display:flex;gap:1rem;flex-wrap:wrap;margin-top:6px;font-size:0.78rem}
+.legend-dot{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:middle}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:0.85rem}
+thead th{background:#f0f0f0;padding:8px 10px;text-align:left;font-weight:600;color:#444;white-space:nowrap}
+thead th.num{text-align:right}
+tbody tr:nth-child(even){background:#fafafa}
+tbody td{padding:7px 10px;border-bottom:1px solid #eee;color:#333;white-space:nowrap}
+tbody td.num{text-align:right;font-variant-numeric:tabular-nums}
+.show-all-btn{display:block;width:100%;background:none;border:1px solid #ddd;color:#0077b6;padding:8px;border-radius:5px;font-size:0.85rem;font-weight:600;cursor:pointer;margin-top:0.75rem;transition:background 0.15s}
+.show-all-btn:hover{background:#f0f6fb}
+.phase-tag{display:inline-block;font-size:0.7rem;font-weight:700;padding:1px 6px;border-radius:10px;vertical-align:middle;margin-left:4px}
+.phase-draw{background:#cdf;color:#00b4d8}
+.phase-repay{background:#dde;color:#0077b6}
+.ad-slot{min-height:0;margin:0}
+.content-section{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;margin-bottom:2rem;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.content-section h2{font-size:1.15rem;font-weight:700;color:#1a1a2e;margin-bottom:0.75rem;margin-top:1.5rem}
+.content-section h2:first-child{margin-top:0}
+.content-section p{font-size:0.93rem;color:#444;margin-bottom:0.75rem}
+.content-section ul{padding-left:1.4rem;margin-bottom:0.75rem}
+.content-section ul li{font-size:0.93rem;color:#444;margin-bottom:0.4rem}
+details{border:1px solid #e8e8e8;border-radius:6px;margin-bottom:0.6rem;overflow:hidden}
+summary{padding:12px 16px;font-size:0.93rem;font-weight:600;cursor:pointer;background:#fafafa;color:#1a1a2e;list-style:none;position:relative;padding-right:36px}
+summary::after{content:'▼';position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:0.75rem;color:#888;transition:transform 0.2s}
+details[open] summary::after{transform:translateY(-50%) rotate(180deg)}
+details p{padding:12px 16px;font-size:0.9rem;color:#444;background:#fff}
+.related-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem}
+@media(max-width:480px){.related-grid{grid-template-columns:1fr}}
+.related-link{display:block;background:#f8f9fa;border:1px solid #e0e0e0;border-radius:6px;padding:10px 14px;font-size:0.88rem;font-weight:500;color:#0077b6;transition:background 0.15s}
+.related-link:hover{background:#e8f4fd;text-decoration:none}
+footer{background:#fff;border-top:1px solid #e0e0e0;padding:1.5rem;text-align:center;font-size:0.82rem;color:#888}
+footer a{color:#888;margin:0 0.5rem}
+footer a:hover{color:#0077b6}
+.copy-btn{display:inline-flex;align-items:center;gap:6px;background:none;border:1px solid #ddd;border-radius:4px;padding:5px 12px;font-size:0.78rem;font-weight:600;color:#555;cursor:pointer;transition:all 0.15s;margin-left:8px;vertical-align:middle}
+.copy-btn:hover{background:#f0f6fb;border-color:#0077b6;color:#0077b6}
+.heloc-note{background:#fff8e1;border:1px solid #ffe082;border-radius:6px;padding:10px 14px;font-size:0.82rem;color:#7a6000;margin-top:0.75rem}
+.summary-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:1rem}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">calc<span>stack</span>.dev</a>
+  </div>
+</nav>
+<main>
+  <h1>Home Equity Loan vs HELOC Calculator</h1>
+  <p class="subtitle">Compare costs, payments, and total interest side-by-side to find the best option for your situation.</p>
+
+  <!-- TOOL CARD -->
+  <div class="card">
+    <div class="section-title">Your Home Equity Details</div>
+
+    <div class="input-row">
+      <div>
+        <label for="homeValue">Home Value</label>
+        <div class="input-with-label">
+          <span class="input-prefix">$</span>
+          <input type="number" id="homeValue" value="450000" min="10000" max="10000000" step="1000">
+        </div>
+      </div>
+      <div>
+        <label for="mortgageBalance">Remaining Mortgage</label>
+        <div class="input-with-label">
+          <span class="input-prefix">$</span>
+          <input type="number" id="mortgageBalance" value="280000" min="0" max="9999999" step="1000">
+        </div>
+      </div>
+    </div>
+    <div id="equityDisplay" style="font-size:0.85rem;color:#27ae60;margin-top:6px;font-weight:600"></div>
+    <div id="equityErr" class="error-msg"></div>
+
+    <label for="borrowAmount">Amount to Borrow</label>
+    <div class="input-with-label">
+      <span class="input-prefix">$</span>
+      <input type="number" id="borrowAmount" value="50000" min="1000" max="9999999" step="500">
+    </div>
+    <div class="slider-wrap">
+      <input type="range" id="borrowSlider" min="1000" max="200000" step="500" value="50000">
+    </div>
+    <div id="borrowErr" class="error-msg"></div>
+
+    <div class="section-title" style="margin-top:1.5rem">Home Equity Loan Settings</div>
+    <div class="input-row">
+      <div>
+        <label for="heloanRate">Interest Rate (Fixed)</label>
+        <div class="input-with-label">
+          <input type="number" id="heloanRate" value="7.5" min="0.1" max="30" step="0.05" class="has-suffix">
+          <span class="input-suffix">%</span>
+        </div>
+      </div>
+      <div>
+        <label for="heloanTerm">Loan Term (Years)</label>
+        <select id="heloanTerm">
+          <option value="5">5 years</option>
+          <option value="10" selected>10 years</option>
+          <option value="15">15 years</option>
+          <option value="20">20 years</option>
+          <option value="30">30 years</option>
+        </select>
+      </div>
+    </div>
+    <div class="input-row">
+      <div>
+        <label for="heloanFees">Closing Costs ($)</label>
+        <div class="input-with-label">
+          <span class="input-prefix">$</span>
+          <input type="number" id="heloanFees" value="1500" min="0" max="99999" step="100">
+        </div>
+      </div>
+      <div style="display:flex;align-items:flex-end;padding-bottom:1px">
+        <div style="width:100%">
+          <label for="heloanRate">Rate Type</label>
+          <select disabled style="background:#f4f4f4;color:#888">
+            <option>Fixed Rate</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:1.5rem">HELOC Settings</div>
+    <div class="input-row">
+      <div>
+        <label for="helocInitRate">Initial Rate (Variable)</label>
+        <div class="input-with-label">
+          <input type="number" id="helocInitRate" value="8.25" min="0.1" max="30" step="0.05" class="has-suffix">
+          <span class="input-suffix">%</span>
+        </div>
+      </div>
+      <div>
+        <label for="helocLifetimeCap">Lifetime Rate Cap</label>
+        <div class="input-with-label">
+          <input type="number" id="helocLifetimeCap" value="13.25" min="0.1" max="35" step="0.05" class="has-suffix">
+          <span class="input-suffix">%</span>
+        </div>
+      </div>
+    </div>
+    <div class="input-row">
+      <div>
+        <label for="helocDrawPeriod">Draw Period (Years)</label>
+        <select id="helocDrawPeriod">
+          <option value="5">5 years</option>
+          <option value="10" selected>10 years</option>
+          <option value="15">15 years</option>
+        </select>
+      </div>
+      <div>
+        <label for="helocRepayPeriod">Repayment Period (Years)</label>
+        <select id="helocRepayPeriod">
+          <option value="10">10 years</option>
+          <option value="15">15 years</option>
+          <option value="20" selected>20 years</option>
+        </select>
+      </div>
+    </div>
+    <div class="input-row">
+      <div>
+        <label for="helocDrawUsage">Draw Usage</label>
+        <select id="helocDrawUsage">
+          <option value="full">Full amount at start</option>
+          <option value="even" selected>Evenly over draw period</option>
+          <option value="front">Front-loaded draws</option>
+        </select>
+      </div>
+      <div>
+        <label for="helocAnnualFee">Annual Fee ($)</label>
+        <div class="input-with-label">
+          <span class="input-prefix">$</span>
+          <input type="number" id="helocAnnualFee" value="75" min="0" max="9999" step="25">
+        </div>
+      </div>
+    </div>
+    <div class="heloc-note">ℹ️ HELOC rates are variable. This calculator models a best-case (initial rate held) and worst-case (rate rises to cap) scenario.</div>
+
+    <button class="btn" id="calcBtn">Compare Loan vs HELOC →</button>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="results-section" id="resultsSection">
+
+    <!-- Winner Banner -->
+    <div class="winner-banner" id="winnerBanner">
+      <div class="winner-icon" id="winnerIcon">🏆</div>
+      <div class="winner-text">
+        <h3 id="winnerTitle">Home Equity Loan saves you more</h3>
+        <p id="winnerDesc">Based on total cost at best-case HELOC rate</p>
+      </div>
+    </div>
+
+    <!-- Comparison Cards -->
+    <div class="card" style="padding:1.5rem">
+      <div class="summary-header">
+        <div class="section-title" style="margin-bottom:0">Side-by-Side Summary</div>
+        <button class="copy-btn" id="copyBtn">📋 Copy Summary</button>
+      </div>
+      <div class="comparison-grid" id="compGrid"></div>
+      <div id="metricsTable"></div>
+    </div>
+
+    <!-- Bar Charts -->
+    <div class="card" style="padding:1.5rem">
+      <div class="section-title">Cost Breakdown Visualization</div>
+      <div id="barCharts"></div>
+    </div>
+
+    <!-- Tabs: Monthly Schedule -->
+    <div class="card" style="padding:1.5rem">
+      <div class="section-title">Payment Schedule</div>
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="heloan-tab">Home Equity Loan</button>
+        <button class="tab-btn" data-tab="heloc-best-tab">HELOC (Best Case)</button>
+        <button class="tab-btn" data-tab="heloc-worst-tab">HELOC (Worst Case)</button>
+      </div>
+      <div class="tab-content active" id="heloan-tab"></div>
+      <div class="tab-content" id="heloc-best-tab"></div>
+      <div class="tab-content" id="heloc-worst-tab"></div>
+    </div>
+
+    <div class="ad-slot" id="ad-mid"></div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content-section">
+    <h2>How to Use This Home Equity Loan vs HELOC Calculator</h2>
+    <p>Enter your home's current value, your remaining mortgage balance, and how much you want to borrow. Then fill in the rate and term details for both the home equity loan and the HELOC. Click <strong>Compare Loan vs HELOC</strong> to see a full side-by-side cost breakdown, payment schedule, and visual comparison.</p>
+
+    <h2>Why This Matters</h2>
+    <p>Choosing between a home equity loan and a HELOC is one of the most impactful financial decisions homeowners make — often involving $30,000 to $150,000 or more. The wrong choice can cost thousands of dollars in unnecessary interest.</p>
+    <p>A home equity loan is a lump-sum, fixed-rate loan ideal when you know exactly what you need — say, a $60,000 kitchen renovation. Your payment is the same every month, making budgeting simple. A HELOC is a revolving credit line — great for ongoing projects like a multi-phase home addition where you draw funds as needed. If you borrow $60,000 on a HELOC but only use $30,000 in year one, you're only paying interest on the $30,000 drawn.</p>
+    <p>The catch: HELOC rates are variable. If rates rise from 8.25% to 13.25% (the lifetime cap), your monthly payments could jump by 40–60%. This calculator shows you both the best-case and worst-case HELOC scenarios so you can make a truly informed decision.</p>
+
+    <h2>How It's Calculated</h2>
+    <p><strong>Home Equity Loan:</strong> Standard amortizing loan formula.</p>
+    <p style="font-family:monospace;background:#f8f9fa;padding:8px 12px;border-radius:4px;font-size:0.88rem">M = P × [r(1+r)ⁿ] / [(1+r)ⁿ − 1]<br>where P = principal, r = monthly rate, n = months</p>
+    <p><strong>HELOC:</strong> During the draw period, only interest is charged on the outstanding balance. After the draw period, the remaining balance amortizes over the repayment period. The "worst case" models a linear rate increase from the initial rate to the lifetime cap over the draw period.</p>
+
+    <h2>Tips & Common Mistakes</h2>
+    <ul>
+      <li><strong>Don't ignore closing costs.</strong> A home equity loan with $3,000 in fees can erase the rate advantage over a no-fee HELOC if you only borrow for 2–3 years.</li>
+      <li><strong>HELOC annual fees add up.</strong> A $75/year fee on a 30-year HELOC (10+20) totals $2,250 before a single dollar of interest.</li>
+      <li><strong>80% LTV is the common limit.</strong> Most lenders cap combined loan-to-value at 80%. Your maximum borrowing is roughly (Home Value × 0.80) − Mortgage Balance.</li>
+      <li><strong>Only draw what you need.</strong> A HELOC's interest-only draw period feels cheap but the repayment phase can shock you — run the worst-case numbers.</li>
+      <li><strong>Tax deductibility isn't guaranteed.</strong> Interest may be deductible only if funds are used to "buy, build, or substantially improve" the home. Consult a tax advisor.</li>
+    </ul>
+
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>What is the main difference between a home equity loan and a HELOC?</summary>
+      <p>A home equity loan gives you a lump sum upfront at a fixed interest rate — payments are the same every month. A HELOC is a revolving line of credit with a variable rate; you draw funds as needed during the draw period and only pay interest on what you've used.</p>
+    </details>
+    <details>
+      <summary>Which has a lower interest rate — home equity loan or HELOC?</summary>
+      <p>HELOCs typically start lower because they're variable-rate products. However, if rates rise significantly over the draw or repayment period, the total interest paid on a HELOC can far exceed that of a fixed-rate home equity loan. This calculator shows you both scenarios.</p>
+    </details>
+    <details>
+      <summary>How much equity do I need to qualify?</summary>
+      <p>Most lenders require at least 15–20% equity in your home after the new loan. In practice, the maximum combined loan-to-value (CLTV) is usually 80–85%. If your home is worth $400,000 and you owe $300,000, you likely have $20,000–$40,000 available to borrow.</p>
+    </details>
+    <details>
+      <summary>Can I pay off a HELOC early?</summary>
+      <p>Yes, most HELOCs allow early payoff without penalty (verify with your lender). Paying down principal during the draw period reduces your interest costs and can dramatically lower your repayment-phase payments. This is one of the key advantages of HELOCs over fixed home equity loans.</p>
+    </details>
+  </div>
+
+  <!-- Related Tools -->
+  <div class="content-section">
+    <h2 style="margin-top:0">Related Tools</h2>
+    <div class="related-grid">
+      <a href="/roth-ira-conversion-calculator/" class="related-link">Roth IRA Conversion Calculator</a>
+      <a href="/college-savings-calculator/" class="related-link">College Savings Calculator</a>
+      <a href="/social-security-benefits-estimator/" class="related-link">Social Security Benefits Estimator</a>
+      <a href="/tax-bracket-calculator/" class="related-link">Tax Bracket Calculator</a>
+      <a href="/lease-vs-buy-car-calculator/" class="related-link">Lease vs Buy Car Calculator</a>
+      <a href="/bond-yield-calculator/" class="related-link">Bond Yield Calculator</a>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-bottom"></div>
+</main>
+<footer>
+  <a href="/about/">About</a>
+  <a href="/privacy/">Privacy</a>
+  <a href="/contact/">Contact</a>
+  <br style="margin-bottom:6px">
+  <span>© <span id="yr"></span> calcstack.dev</span>
+</footer>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+// --- Utility ---
+function fmt(n){return '$'+Math.round(n).toLocaleString('en-US');}
+function fmtD(n,d=2){return '$'+n.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});}
+function pct(n){return n.toFixed(2)+'%';}
+function comma(n){return Math.round(n).toLocaleString('en-US');}
+
+// --- Live equity display ---
+function updateEquityDisplay(){
+  var hv=parseFloat(document.getElementById('homeValue').value)||0;
+  var mb=parseFloat(document.getElementById('mortgageBalance').value)||0;
+  var eq=hv-mb;
+  var max80=Math.max(0,hv*0.8-mb);
+  var el=document.getElementById('equityDisplay');
+  if(hv>0&&mb>=0){
+    el.textContent='Estimated equity: '+fmt(eq)+' | Max borrowable (80% LTV): '+fmt(max80);
+  } else {
+    el.textContent='';
+  }
+}
+['homeValue','mortgageBalance'].forEach(function(id){
+  document.getElementById(id).addEventListener('input',updateEquityDisplay);
+});
+updateEquityDisplay();
+
+// --- Borrow slider sync ---
+var borrowInput=document.getElementById('borrowAmount');
+var borrowSlider=document.getElementById('borrowSlider');
+borrowInput.addEventListener('input',function(){borrowSlider.value=Math.min(200000,Math.max(1000,this.value||1000));});
+borrowSlider.addEventListener('input',function(){borrowInput.value=this.value;});
+
+// --- Tabs ---
+document.querySelectorAll('.tab-btn').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active');});
+    document.querySelectorAll('.tab-content').forEach(function(c){c.classList.remove('active');});
+    this.classList.add('active');
+    document.getElementById(this.dataset.tab).classList.add('active');
+  });
+});
+
+// --- Enter key ---
+document.querySelectorAll('input').forEach(function(el){
+  el.addEventListener('keydown',function(e){if(e.key==='Enter'){requestAnimationFrame(function(){calculate();});}});
+});
+
+// --- Main calculation ---
+document.getElementById('calcBtn').addEventListener('click',function(){requestAnimationFrame(function(){calculate();});});
+
+function amortize(principal,annualRate,months){
+  var rows=[];
+  var r=annualRate/100/12;
+  var pmt=r===0?principal/months:principal*r*Math.pow(1+r,months)/(Math.pow(1+r,months)-1);
+  var bal=principal;
+  for(var i=1;i<=months;i++){
+    var int=bal*r;
+    var prin=Math.min(pmt-int,bal);
+    bal=Math.max(0,bal-prin);
+    rows.push({month:i,payment:pmt,principal:prin,interest:int,balance:bal});
+  }
+  return rows;
+}
+
+function calcHELOC(amount,initRate,lifetimeCap,drawYears,repayYears,drawUsage,annualFee,useWorstCase){
+  var drawMonths=drawYears*12;
+  var repayMonths=repayYears*12;
+  var rows=[];
+  // Build draw schedule
+  var drawSchedule=[];
+  for(var m=0;m<drawMonths;m++){
+    if(drawUsage==='full'){drawSchedule.push(m===0?amount:0);}
+    else if(drawUsage==='even'){drawSchedule.push(amount/drawMonths);}
+    else { // front-loaded: more in first half
+      var weight=(drawMonths-m)/drawMonths;
+      drawSchedule.push(amount*(2*weight/drawMonths));
+    }
+  }
+  // rate per month in draw period
+  var bal=0;
+  var totalInterest=0;
+  var totalPayments=0;
+  var totalFees=0;
+  for(var dm=0;dm<drawMonths;dm++){
+    bal+=drawSchedule[dm];
+    var yearFrac=(dm+1)/drawMonths;
+    var rate;
+    if(useWorstCase){
+      rate=initRate+(lifetimeCap-initRate)*yearFrac;
+    } else {
+      rate=initRate;
+    }
+    var mr=rate/100/12;
+    var interest=bal*mr;
+    totalInterest+=interest;
+    totalPayments+=interest;
+    var fee=((dm+1)%12===0)?annualFee:0;
+    totalFees+=fee;
+    rows.push({month:dm+1,phase:'draw',payment:interest,principal:0,interest:interest,balance:bal,rate:rate,fee:fee});
+  }
+  // Repay phase
+  var repayRate=useWorstCase?lifetimeCap:initRate;
+  var repayRows=amortize(bal,repayRate,repayMonths);
+  for(var rm=0;rm<repayRows.length;rm++){
+    var r2=repayRows[rm];
+    var fee2=((rm+1)%12===0)?annualFee:0;
+    totalInterest+=r2.interest;
+    totalPayments+=r2.payment;
+    totalFees+=fee2;
+    rows.push({month:drawMonths+r2.month,phase:'repay',payment:r2.payment,principal:r2.principal,interest:r2.interest,balance:r2.balance,rate:repayRate,fee:fee2});
+  }
+  return {rows:rows,totalInterest:totalInterest,totalPayments:totalPayments,totalFees:totalFees,finalBal:bal};
+}
+
+function buildScheduleHTML(rows,type,showAll){
+  var visRows=showAll?rows:rows.slice(0,24);
+  var html='<div class="table-wrap"><table><thead><tr><th>Month</th>';
+  if(type==='heloc'){html+='<th>Phase</th>';}
+  html+='<th class="num">Rate</th><th class="num">Payment</th><th class="num">Principal</th><th class="num">Interest</th><th class="num">Balance</th></tr></thead><tbody>';
+  for(var i=0;i<visRows.length;i++){
+    var r=visRows[i];
+    html+='<tr><td>'+r.month+'</td>';
+    if(type==='heloc'){
+      html+='<td><span class="phase-tag '+(r.phase==='draw'?'phase-draw':'phase-repay')+'">'+(r.phase==='draw'?'Draw':'Repay')+'</span></td>';
+    }
+    html+='<td class="num">'+r.rate.toFixed(2)+'%</td>';
+    html+='<td class="num">'+fmtD(r.payment+r.fee)+'</td>';
+    html+='<td class="num">'+fmtD(r.principal)+'</td>';
+    html+='<td class="num">'+fmtD(r.interest)+'</td>';
+    html+='<td class="num">'+fmtD(r.balance)+'</td></tr>';
+  }
+  html+='</tbody></table></div>';
+  return html;
+}
+
+var _heloanRows=[];
+var _helocBestRows=[];
+var _helocWorstRows=[];
+var _showAllState={heloan:false,helocBest:false,helocWorst:false};
+
+function renderTable(key,type){
+  var rows=key==='heloan'?_heloanRows:key==='helocBest'?_helocBestRows:_helocWorstRows;
+  var tabId=key==='heloan'?'heloan-tab':key==='helocBest'?'heloc-best-tab':'heloc-worst-tab';
+  var showAll=_showAllState[key];
+  var html=buildScheduleHTML(rows,type==='heloan'?'heloan':'heloc',showAll);
+  if(!showAll&&rows.length>24){
+    html+='<button class="show-all-btn" onclick="toggleAll(\''+key+'\',\''+type+'\')">Show All '+rows.length+' Months ▼</button>';
+  } else if(showAll&&rows.length>24){
+    html+='<button class="show-all-btn" onclick="toggleAll(\''+key+'\',\''+type+'\')">Show Less ▲</button>';
+  }
+  document.getElementById(tabId).innerHTML=html;
+}
+
+function toggleAll(key,type){
+  _showAllState[key]=!_showAllState[key];
+  renderTable(key,type);
+}
+
+function calculate(){
+  // Clear errors
+  ['equityErr','borrowErr'].forEach(function(id){
+    var el=document.getElementById(id);
+    el.textContent='';el.classList.remove('show');
+  });
+  ['homeValue','mortgageBalance','borrowAmount'].forEach(function(id){
+    document.getElementById(id).classList.remove('error');
+  });
+
+  var hv=parseFloat(document.getElementById('homeValue').value);
+  var mb=parseFloat(document.getElementById('mortgageBalance').value)||0;
+  var borrow=parseFloat(document.getElementById('borrowAmount').value);
+  var heloanRate=parseFloat(document.getElementById('heloanRate').value);
+  var heloanTerm=parseInt(document.getElementById('heloanTerm').value);
+  var heloanFees=parseFloat(document.getElementById('heloanFees').value)||0;
+  var helocInitRate=parseFloat(document.getElementById('helocInitRate').value);
+  var helocCap=parseFloat(document.getElementById('helocLifetimeCap').value);
+  var helocDraw=parseInt(document.getElementById('helocDrawPeriod').value);
+  var helocRepay=parseInt(document.getElementById('helocRepayPeriod').value);
+  var helocUsage=document.getElementById('helocDrawUsage').value;
+  var helocFee=parseFloat(document.getElementById('helocAnnualFee').value)||0;
+
+  var valid=true;
+  if(!hv||hv<10000){setErr('homeValue','equityErr','Enter a valid home value ($10,000+).');valid=false;}
+  if(mb<0||mb>=hv){setErr('mortgageBalance','equityErr','Mortgage balance must be less than home value.');valid=false;}
+  if(!borrow||borrow<1000){setErr('borrowAmount','borrowErr','Enter an amount to borrow ($1,000+).');valid=false;}
+  var maxBorrow=Math.max(0,hv*0.8-mb);
+  if(valid&&borrow>maxBorrow&&maxBorrow>0){
+    setErr('borrowAmount','borrowErr','Warning: $'+Math.round(borrow).toLocaleString()+' exceeds typical 80% LTV limit of $'+Math.round(maxBorrow).toLocaleString()+'. Proceeding with your entered amount.');
+  }
+  if(!heloanRate||heloanRate<=0){heloanRate=7.5;}
+  if(!helocInitRate||helocInitRate<=0){helocInitRate=8.25;}
+  if(helocCap<helocInitRate){helocCap=helocInitRate;}
+  if(!valid)return;
+
+  // Home Equity Loan
+  var heloanMonths=heloanTerm*12;
+  var heloanAmort=amortize(borrow,heloanRate,heloanMonths);
+  var heloanMonthlyPmt=heloanAmort[0].payment;
+  var heloanTotalInterest=heloanAmort.reduce(function(s,r){return s+r.interest;},0);
+  var heloanTotalCost=heloanTotalInterest+heloanFees;
+  var heloanTotalPaid=heloanAmort.reduce(function(s,r){return s+r.payment;},0)+heloanFees;
+
+  // Add rate to heloan rows
+  _heloanRows=heloanAmort.map(function(r){return Object.assign({},r,{rate:heloanRate,fee:0});});
+
+  // HELOC best
+  var helocBest=calcHELOC(borrow,helocInitRate,helocCap,helocDraw,helocRepay,helocUsage,helocFee,false);
+  _helocBestRows=helocBest.rows;
+
+  // HELOC worst
+  var helocWorst=calcHELOC(borrow,helocInitRate,helocCap,helocDraw,helocRepay,helocUsage,helocFee,true);
+  _helocWorstRows=helocWorst.rows;
+
+  // Reset show-all
+  _showAllState={heloan:false,helocBest:false,helocWorst:false};
+
+  // Winner
+  var helocBestTotal=helocBest.totalInterest+helocBest.totalFees;
+  var heloanWins=(heloanTotalCost<=helocBestTotal);
+
+  // Build HTML
+  var winnerIcon=heloanWins?'🏦':'💳';
+  var winnerTitle=(heloanWins?'Home Equity Loan':'HELOC')+" may cost less overall";
+  var diff=Math.abs(heloanTotalCost-helocBestTotal);
+  var winnerDesc=(heloanWins?'Home Equity Loan saves ~'+fmt(diff)+' vs best-case HELOC':'Best-case HELOC saves ~'+fmt(diff)+' vs Home Equity Loan')+'. Always compare worst-case HELOC too.';
+
+  // Comparison cards
+  var helocBestMonthPeak=Math.max.apply(null,helocBest.rows.filter(function(r){return r.phase==='repay';}).map(function(r){return r.payment;}));
+  var helocWorstMonthPeak=Math.max.apply(null,helocWorst.rows.filter(function(r){return r.phase==='repay';}).map(function(r){return r.payment;}));
+
+  var compGridHTML=
+    '<div class="comp-card heloan">'+(heloanWins?'<span class="comp-badge">Lower Cost</span>':'')+
+    '<div class="label">Home Equity Loan</div>'+
+    '<div class="big-num">'+fmtD(heloanMonthlyPmt)+'</div>'+
+    '<div class="sub">fixed monthly payment</div>'+
+    '<div style="margin-top:10px;font-size:0.82rem;color:#555">'+
+    'Total Interest: <strong>'+fmt(heloanTotalInterest)+'</strong><br>'+
+    'Closing Costs: <strong>'+fmt(heloanFees)+'</strong><br>'+
+    'Total Cost: <strong>'+fmt(heloanTotalCost)+'</strong>'+
+    '</div></div>'+
+    '<div class="comp-card heloc">'+(!heloanWins?'<span class="comp-badge">Lower Cost</span>':'')+
+    '<div class="label">HELOC (Best Case)</div>'+
+    '<div class="big-num">'+fmtD(helocBest.rows[0]?helocBest.rows[0].payment:0)+'</div>'+
+    '<div class="sub">starting draw-period payment</div>'+
+    '<div style="margin-top:10px;font-size:0.82rem;color:#555">'+
+    'Total Interest: <strong>'+fmt(helocBest.totalInterest)+'</strong><br>'+
+    'Annual Fees: <strong>'+fmt(helocBest.totalFees)+'</strong><br>'+
+    'Total Cost: <strong>'+fmt(helocBest.totalInterest+helocBest.totalFees)+'</strong>'+
+    '</div></div>';
+
+  var totalYrs=Math.max(heloanTerm,helocDraw+helocRepay);
+  var metricsHTML=
+    '<div style="margin-top:1rem">'+
+    '<div style="display:flex;justify-content:flex-end;gap:1.5rem;font-size:0.78rem;font-weight:700;color:#888;padding:0 0 6px">'+
+    '<span style="min-width:90px;text-align:right;color:#0077b6">HE Loan</span>'+
+    '<span style="min-width:90px;text-align:right;color:#00b4d8">HELOC Best</span>'+
+    '<span style="min-width:90px;text-align:right;color:#e07b00">HELOC Worst</span>'+
+    '</div>'+
+    metricRow('Loan Amount',fmt(borrow),fmt(borrow),fmt(borrow))+
+    metricRow('Total Duration',heloanTerm+' yrs',(helocDraw+helocRepay)+' yrs',(helocDraw+helocRepay)+' yrs')+
+    metricRow('Total Interest',fmt(heloanTotalInterest),fmt(helocBest.totalInterest),fmt(helocWorst.totalInterest))+
+    metricRow('Fees & Costs',fmt(heloanFees),fmt(helocBest.totalFees),fmt(helocWorst.totalFees))+
+    metricRow('Total Cost',fmt(heloanTotalCost),fmt(helocBest.totalInterest+helocBest.totalFees),fmt(helocWorst.totalInterest+helocWorst.totalFees))+
+    metricRow('Peak Monthly Payment',fmt(heloanMonthlyPmt),fmt(helocBestMonthPeak||0),fmt(helocWorstMonthPeak||0))+
+    '</div>';
+
+  // Bar charts
+  var maxCost=Math.max(heloanTotalCost,helocBest.totalInterest+helocBest.totalFees,helocWorst.totalInterest+helocWorst.totalFees,1);
+  var barHTML='<div class="bar-section">'+
+    '<h4>Total Cost Comparison</h4>'+
+    barGroup('Home Equity Loan',heloanTotalInterest,heloanFees,maxCost,'#0077b6','#5ab4d6')+
+    barGroup('HELOC (Best Case)',helocBest.totalInterest,helocBest.totalFees,maxCost,'#00b4d8','#7fddf7')+
+    barGroup('HELOC (Worst Case)',helocWorst.totalInterest,helocWorst.totalFees,maxCost,'#e07b00','#f0b04d')+
+    '<div class="bar-legend">'+
+    '<span><span class="legend-dot" style="background:#0077b6"></span>Interest (HE Loan)</span>'+
+    '<span><span class="legend-dot" style="background:#5ab4d6"></span>Fees (HE Loan)</span>'+
+    '<span><span class="legend-dot" style="background:#00b4d8"></span>Interest (HELOC)</span>'+
+    '<span><span class="legend-dot" style="background:#f0b04d"></span>Fees (HELOC Worst)</span>'+
+    '</div></div>'+
+    '<div class="bar-section">'+
+    '<h4>Interest vs Principal Breakdown</h4>'+
+    piBar('Home Equity Loan',borrow,heloanTotalInterest,'#0077b6','#e74c3c')+
+    piBar('HELOC (Best Case)',borrow,helocBest.totalInterest,'#00b4d8','#f37b3d')+
+    piBar('HELOC (Worst Case)',borrow,helocWorst.totalInterest,'#e07b00','#c0392b')+
+    '<div class="bar-legend">'+
+    '<span><span class="legend-dot" style="background:#0077b6"></span>Principal</span>'+
+    '<span><span class="legend-dot" style="background:#e74c3c"></span>Interest</span>'+
+    '</div></div>';
+
+  requestAnimationFrame(function(){
+    document.getElementById('winnerIcon').textContent=winnerIcon;
+    document.getElementById('winnerTitle').textContent=winnerTitle;
+    document.getElementById('winnerDesc').textContent=winnerDesc;
+    document.getElementById('compGrid').innerHTML=compGridHTML;
+    document.getElementById('metricsTable').innerHTML=metricsHTML;
+    document.getElementById('barCharts').innerHTML=barHTML;
+    renderTable('heloan','heloan');
+    renderTable('helocBest','heloc');
+    renderTable('helocWorst','heloc');
+    var sec=document.getElementById('resultsSection');
+    sec.style.display='block';
+    sec.style.opacity='0';
+    requestAnimationFrame(function(){sec.style.opacity='1';});
+    sec.scrollIntoView({behavior:'smooth',block:'start'});
+
+    // Copy button
+    var copyData='HOME EQUITY LOAN VS HELOC COMPARISON\n'+
+      '====================================\n'+
+      'Amount: '+fmt(borrow)+'\n\n'+
+      'HOME EQUITY LOAN\n'+
+      '  Rate: '+heloanRate+'% fixed | Term: '+heloanTerm+' yrs\n'+
+      '  Monthly Payment: '+fmtD(heloanMonthlyPmt)+'\n'+
+      '  Total Interest: '+fmt(heloanTotalInterest)+'\n'+
+      '  Closing Costs: '+fmt(heloanFees)+'\n'+
+      '  Total Cost: '+fmt(heloanTotalCost)+'\n\n'+
+      'HELOC (Best Case @ '+helocInitRate+'%)\n'+
+      '  Total Interest: '+fmt(helocBest.totalInterest)+'\n'+
+      '  Fees: '+fmt(helocBest.totalFees)+'\n'+
+      '  Total Cost: '+fmt(helocBest.totalInterest+helocBest.totalFees)+'\n\n'+
+      'HELOC (Worst Case @ '+helocCap+'%)\n'+
+      '  Total Interest: '+fmt(helocWorst.totalInterest)+'\n'+
+      '  Fees: '+fmt(helocWorst.totalFees)+'\n'+
+      '  Total Cost: '+fmt(helocWorst.totalInterest+helocWorst.totalFees)+'\n\n'+
+      'Generated by calcstack.dev';
+    document.getElementById('copyBtn').onclick=function(){
+      navigator.clipboard.writeText(copyData).then(function(){
+        var btn=document.getElementById('copyBtn');
+        btn.textContent='✅ Copied!';
+        setTimeout(function(){btn.innerHTML='📋 Copy Summary';},2000);
+      });
+    };
+  });
+}
+
+function metricRow(label,v1,v2,v3){
+  return '<div class="metric-row">'+
+    '<span class="metric-label">'+label+'</span>'+
+    '<div class="metric-vals">'+
+    '<span class="metric-val heloan">'+v1+'</span>'+
+    '<span class="metric-val heloc">'+v2+'</span>'+
+    '<span class="metric-val" style="color:#e07b00;min-width:90px;text-align:right">'+v3+'</span>'+
+    '</div></div>';
+}
+
+function barGroup(label,interest,fees,maxVal,c1,c2){
+  var total=interest+fees;
+  var pctInt=Math.min(100,interest/maxVal*100);
+  var pctFee=Math.min(100,fees/maxVal*100);
+  return '<div class="bar-group">'+
+    '<div class="bar-label"><span>'+label+'</span><span>'+fmt(total)+'</span></div>'+
+    '<div class="bar-track">'+
+    '<div class="bar-fill" style="width:'+pctInt.toFixed(1)+'%;background:'+c1+'"></div>'+
+    '<div class="bar-fill" style="width:'+pctFee.toFixed(1)+'%;background:'+c2+';border-radius:0 4px 4px 0"></div>'+
+    '</div></div>';
+}
+
+function piBar(label,principal,interest,cp,ci){
+  var total=principal+interest;
+  var pp=principal/total*100;
+  var ip=interest/total*100;
+  return '<div class="bar-group">'+
+    '<div class="bar-label"><span>'+label+'</span><span>P: '+fmt(principal)+' | I: '+fmt(interest)+'</span></div>'+
+    '<div class="bar-track">'+
+    '<div class="bar-fill principal" style="width:'+pp.toFixed(1)+'%;background:'+cp+'"></div>'+
+    '<div class="bar-fill interest" style="width:'+ip.toFixed(1)+'%;background:'+ci+'"></div>'+
+    '</div></div>';
+}
+
+function setErr(inputId,errId,msg){
+  document.getElementById(inputId).classList.add('error');
+  var el=document.getElementById(errId);
+  el.textContent=msg;
+  el.classList.add('show');
+}
+</script>
+</body>
+</html>
