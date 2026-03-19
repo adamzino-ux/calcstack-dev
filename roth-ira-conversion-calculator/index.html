@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roth IRA Conversion Calculator — Free Online Tool | calcstack.dev</title>
+<meta name="description" content="Calculate the long-term benefit of converting your Traditional IRA to a Roth IRA. See tax costs, break-even years, and projected savings growth side by side.">
+<link rel="canonical" href="https://calcstack.dev/roth-ira-conversion-calculator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Roth IRA Conversion Calculator",
+  "url": "https://calcstack.dev/roth-ira-conversion-calculator/",
+  "description": "Calculate the long-term benefit of converting your Traditional IRA to a Roth IRA. Compare tax costs vs. long-term tax-free growth.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f4f7fb;color:#1a1a2e;font-size:16px;line-height:1.6}
+a{color:#0077b6;text-decoration:none}
+a:hover{text-decoration:underline}
+nav{background:#fff;border-bottom:1px solid #e0e0e0;padding:0 1.5rem}
+.nav-inner{max-width:640px;margin:0 auto;display:flex;align-items:center;height:52px}
+.nav-brand{font-weight:700;font-size:1.1rem;color:#1a1a2e}
+.nav-brand span{color:#0077b6}
+main{max-width:640px;margin:0 auto;padding:1.5rem 1rem 3rem}
+h1{font-size:1.6rem;font-weight:800;color:#1a1a2e;margin-bottom:.4rem}
+.subtitle{color:#555;font-size:.95rem;margin-bottom:1.5rem}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;box-shadow:0 2px 8px rgba(0,0,0,.05);margin-bottom:2rem}
+.form-group{margin-bottom:1.2rem}
+label{display:block;font-size:.85rem;font-weight:500;color:#444;margin-bottom:.4rem}
+input[type=number],select{width:100%;border:1px solid #ddd;border-radius:5px;padding:12px 16px;font-size:1rem;color:#1a1a2e;background:#fff;outline:none;transition:border-color .2s,box-shadow .2s;-moz-appearance:textfield}
+input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
+input[type=number]:focus,select:focus{border-color:#0077b6;box-shadow:0 0 0 3px rgba(0,119,182,.15)}
+input.error{border-color:#e74c3c}
+.error-msg{color:#e74c3c;font-size:.8rem;margin-top:.3rem;display:none}
+.error-msg.show{display:block}
+.row-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.hint{font-size:.78rem;color:#888;margin-top:.25rem}
+input[type=range]{width:100%;accent-color:#0077b6;cursor:pointer;height:6px;margin-top:.4rem}
+.slider-val{font-size:.85rem;color:#0077b6;font-weight:600;float:right;margin-top:-.2rem}
+.btn-primary{background:#0077b6;color:#fff;border:none;border-radius:6px;padding:14px 28px;font-size:1rem;font-weight:600;cursor:pointer;width:100%;transition:background .2s;min-height:48px}
+.btn-primary:hover{background:#006299}
+.results{opacity:0;transition:opacity .3s ease;pointer-events:none}
+.results.visible{opacity:1;pointer-events:auto}
+.big-number{font-size:2.4rem;font-weight:800;color:#0077b6;line-height:1.1}
+.big-label{font-size:.85rem;color:#666;margin-top:.25rem}
+.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+.summary-card{background:#f8f9fa;border:1px solid #e8e8e8;border-radius:8px;padding:1rem 1.2rem;text-align:center}
+.summary-card.highlight{background:#e8f4fd;border-color:#b3d9f2}
+.summary-card .num{font-size:1.5rem;font-weight:700;color:#0077b6}
+.summary-card .lbl{font-size:.78rem;color:#666;margin-top:.15rem}
+.section-title{font-size:1rem;font-weight:700;color:#1a1a2e;margin-bottom:.8rem;padding-bottom:.4rem;border-bottom:2px solid #f0f0f0}
+.bar-wrap{margin-bottom:.9rem}
+.bar-label-row{display:flex;justify-content:space-between;font-size:.82rem;color:#555;margin-bottom:.25rem}
+.bar-track{background:#f0f0f0;border-radius:20px;height:14px;overflow:hidden}
+.bar-fill{height:100%;border-radius:20px;transition:width .6s ease}
+.bar-blue{background:#0077b6}
+.bar-green{background:#2ecc71}
+.bar-orange{background:#f39c12}
+.bar-red{background:#e74c3c}
+.stacked-bar-track{background:#f0f0f0;border-radius:20px;height:20px;overflow:hidden;display:flex}
+.stacked-seg{height:100%;transition:width .6s ease}
+.legend{display:flex;flex-wrap:wrap;gap:.5rem .9rem;margin-top:.5rem;font-size:.78rem}
+.legend-dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:.3rem}
+.table-wrapper{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:.85rem;min-width:480px}
+thead th{background:#f0f0f0;padding:9px 12px;text-align:left;font-weight:600;font-size:.8rem;color:#444;border-bottom:1px solid #ddd}
+thead th.num{text-align:right}
+tbody tr:nth-child(even){background:#fafafa}
+tbody td{padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#333}
+tbody td.num{text-align:right;font-variant-numeric:tabular-nums}
+.show-all-btn{background:none;border:1px solid #0077b6;color:#0077b6;border-radius:5px;padding:7px 18px;font-size:.85rem;cursor:pointer;margin-top:.8rem;transition:background .2s,color .2s}
+.show-all-btn:hover{background:#0077b6;color:#fff}
+.copy-btn{background:none;border:1px solid #ccc;border-radius:5px;padding:6px 14px;font-size:.82rem;color:#555;cursor:pointer;transition:border-color .2s,color .2s;float:right;margin-top:-2px}
+.copy-btn:hover{border-color:#0077b6;color:#0077b6}
+.breakeven-badge{display:inline-block;background:#e8f4fd;color:#0077b6;border-radius:20px;padding:4px 14px;font-size:.85rem;font-weight:600;margin-left:.5rem}
+.ad-slot{min-height:0;margin:0}
+.content-section h2{font-size:1.15rem;font-weight:700;color:#1a1a2e;margin:1.8rem 0 .6rem}
+.content-section p{color:#444;font-size:.93rem;margin-bottom:.7rem}
+.content-section ul{padding-left:1.3rem;color:#444;font-size:.93rem}
+.content-section ul li{margin-bottom:.4rem}
+details{border:1px solid #e8e8e8;border-radius:6px;margin-bottom:.6rem;background:#fafafa}
+details summary{padding:.8rem 1rem;cursor:pointer;font-weight:600;font-size:.92rem;color:#1a1a2e;list-style:none;display:flex;justify-content:space-between;align-items:center}
+details summary::-webkit-details-marker{display:none}
+details summary::after{content:'+';font-size:1.1rem;color:#0077b6}
+details[open] summary::after{content:'−'}
+details .faq-body{padding:.5rem 1rem 1rem;font-size:.9rem;color:#444;border-top:1px solid #e8e8e8}
+.related-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.related-link{background:#f8f9fa;border:1px solid #e8e8e8;border-radius:6px;padding:.6rem .9rem;font-size:.88rem;color:#0077b6;font-weight:500;transition:background .2s}
+.related-link:hover{background:#e8f4fd;text-decoration:none}
+footer{background:#fff;border-top:1px solid #e0e0e0;padding:1.2rem 1.5rem;text-align:center;font-size:.82rem;color:#888}
+footer a{color:#666;margin:0 .5rem}
+footer a:hover{color:#0077b6}
+.formula-box{background:#f8f9fa;border-left:3px solid #0077b6;border-radius:0 6px 6px 0;padding:.8rem 1rem;font-family:monospace;font-size:.85rem;color:#333;margin:.5rem 0 .8rem;line-height:1.7}
+@media(max-width:640px){
+  .row-2{grid-template-columns:1fr}
+  .summary-grid{grid-template-columns:1fr 1fr}
+  .big-number{font-size:1.9rem}
+  .related-grid{grid-template-columns:1fr}
+  h1{font-size:1.35rem}
+  .card{padding:1.25rem}
+}
+@media(max-width:400px){
+  .summary-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">calc<span>stack</span>.dev</a>
+  </div>
+</nav>
+
+<main>
+  <h1>Roth IRA Conversion Calculator</h1>
+  <p class="subtitle">See if converting your Traditional IRA to a Roth IRA makes financial sense — and when you'll break even on the tax bill.</p>
+
+  <div class="card">
+    <div class="row-2">
+      <div class="form-group">
+        <label for="balance">Traditional IRA Balance to Convert ($)</label>
+        <input type="number" id="balance" placeholder="e.g. 100000" min="1" max="10000000">
+        <div class="error-msg" id="err-balance">Please enter a valid balance greater than $0.</div>
+      </div>
+      <div class="form-group">
+        <label for="currentAge">Current Age</label>
+        <input type="number" id="currentAge" placeholder="e.g. 45" min="18" max="90">
+        <div class="error-msg" id="err-age">Enter a valid age between 18 and 90.</div>
+      </div>
+    </div>
+
+    <div class="row-2">
+      <div class="form-group">
+        <label for="retireAge">Retirement Age</label>
+        <input type="number" id="retireAge" placeholder="e.g. 65" min="1" max="99">
+        <div class="error-msg" id="err-retire">Retirement age must be greater than current age.</div>
+      </div>
+      <div class="form-group">
+        <label for="withdrawAge">Start Withdrawal Age</label>
+        <input type="number" id="withdrawAge" placeholder="e.g. 70" min="1" max="99">
+        <div class="hint">Age when you'll start drawing down funds.</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="taxRateNow">Current Marginal Tax Rate: <span class="slider-val" id="taxNowVal">22%</span></label>
+      <input type="range" id="taxRateNow" min="0" max="50" step="1" value="22">
+      <div class="hint">Your federal + state marginal rate today (used to calculate conversion tax cost).</div>
+    </div>
+
+    <div class="form-group">
+      <label for="taxRateRetire">Expected Tax Rate in Retirement: <span class="slider-val" id="taxRetireVal">24%</span></label>
+      <input type="range" id="taxRateRetire" min="0" max="50" step="1" value="24">
+      <div class="hint">Future rate on Traditional IRA withdrawals. Many people expect rates to be higher.</div>
+    </div>
+
+    <div class="form-group">
+      <label for="returnRate">Expected Annual Return (%): <span class="slider-val" id="returnVal">7%</span></label>
+      <input type="range" id="returnRate" min="1" max="15" step="0.5" value="7">
+    </div>
+
+    <div class="row-2">
+      <div class="form-group">
+        <label for="taxFunding">How will you pay the conversion tax?</label>
+        <select id="taxFunding">
+          <option value="outside">Outside funds (savings/checking)</option>
+          <option value="ira">From the IRA itself</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="filingStatus">Filing Status</label>
+        <select id="filingStatus">
+          <option value="single">Single</option>
+          <option value="mfj">Married Filing Jointly</option>
+          <option value="hoh">Head of Household</option>
+        </select>
+      </div>
+    </div>
+
+    <button class="btn-primary" id="calcBtn">Calculate Roth Conversion</button>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="results card" id="results">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem">
+      <div>
+        <div class="big-number" id="res-advantage">$0</div>
+        <div class="big-label">Estimated Roth Advantage at Withdrawal <span id="res-breakeven-badge" class="breakeven-badge">Break-even: — yrs</span></div>
+      </div>
+      <button class="copy-btn" id="copyBtn">Copy Summary</button>
+    </div>
+
+    <div class="summary-grid">
+      <div class="summary-card">
+        <div class="num" id="res-taxcost">$0</div>
+        <div class="lbl">Conversion Tax Cost</div>
+      </div>
+      <div class="summary-card highlight">
+        <div class="num" id="res-rothbal">$0</div>
+        <div class="lbl">Roth Balance at Withdrawal</div>
+      </div>
+      <div class="summary-card">
+        <div class="num" id="res-tradbal">$0</div>
+        <div class="lbl">Trad IRA After-Tax at Withdrawal</div>
+      </div>
+      <div class="summary-card highlight">
+        <div class="num" id="res-breakevenyr">—</div>
+        <div class="lbl">Break-even Year</div>
+      </div>
+    </div>
+
+    <!-- Visual Bar -->
+    <div class="section-title">Visual Comparison</div>
+
+    <div class="bar-wrap">
+      <div class="bar-label-row"><span>Roth IRA (tax-free at withdrawal)</span><span id="bv-roth">$0</span></div>
+      <div class="bar-track"><div class="bar-fill bar-green" id="bar-roth" style="width:0%"></div></div>
+    </div>
+    <div class="bar-wrap">
+      <div class="bar-label-row"><span>Traditional IRA (after future tax)</span><span id="bv-trad">$0</span></div>
+      <div class="bar-track"><div class="bar-fill bar-blue" id="bar-trad" style="width:0%"></div></div>
+    </div>
+    <div class="bar-wrap">
+      <div class="bar-label-row"><span>Conversion Tax Upfront</span><span id="bv-tax">$0</span></div>
+      <div class="bar-track"><div class="bar-fill bar-red" id="bar-tax" style="width:0%"></div></div>
+    </div>
+
+    <!-- Stacked bar: Roth composition -->
+    <div style="margin:1.2rem 0">
+      <div class="section-title">Roth Balance Composition at Withdrawal</div>
+      <div class="stacked-bar-track" id="stacked-bar">
+        <div class="stacked-seg" id="seg-principal" style="background:#0077b6;width:40%"></div>
+        <div class="stacked-seg" id="seg-growth" style="background:#2ecc71;width:60%"></div>
+      </div>
+      <div class="legend">
+        <span><span class="legend-dot" style="background:#0077b6"></span>After-Tax Principal</span>
+        <span><span class="legend-dot" style="background:#2ecc71"></span>Tax-Free Growth</span>
+      </div>
+    </div>
+
+    <!-- Breakdown Table -->
+    <div class="section-title">Year-by-Year Projection</div>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Age</th>
+            <th>Year</th>
+            <th class="num">Roth Balance</th>
+            <th class="num">Trad (After-Tax)</th>
+            <th class="num">Roth Advantage</th>
+          </tr>
+        </thead>
+        <tbody id="table-body"></tbody>
+      </table>
+    </div>
+    <button class="show-all-btn" id="showAllBtn" style="display:none">Show All Years</button>
+  </div>
+
+  <div class="ad-slot" id="ad-mid"></div>
+
+  <!-- CONTENT SECTION -->
+  <div class="content-section">
+    <h2>How to Use This Roth IRA Conversion Calculator</h2>
+    <p>Enter your Traditional IRA balance you want to convert, your current and expected retirement tax rates, your age, and the annual return you expect on your investments. Choose whether you'll pay the conversion tax from outside savings or from the IRA itself, then click <strong>Calculate Roth Conversion</strong>. The tool instantly shows your break-even year, Roth advantage at retirement, and a full year-by-year projection table.</p>
+
+    <h2>Why This Matters</h2>
+    <p>The Roth conversion decision is one of the most impactful moves in retirement planning — and one of the most misunderstood. When you convert a Traditional IRA to a Roth, you pay income tax now in exchange for completely tax-free growth and withdrawals forever. That trade-off isn't always worth it, but in the right circumstances, it can save you tens of thousands of dollars.</p>
+    <p>Consider someone aged 45 converting $150,000 at a 22% rate, planning to retire at 65 with a 7% return. They pay roughly $33,000 in taxes today. But because Roth earnings grow tax-free for 20 years, and because they avoid Required Minimum Distributions (RMDs), the Roth account can end up $60,000–$100,000 larger in after-tax terms than the traditional account. The conversion typically breaks even somewhere around year 8–12.</p>
+    <p>Roth conversions are especially powerful if you expect tax rates to rise (historically likely), if you have a long time horizon, if you're in a temporarily lower-income year (job change, early retirement, etc.), or if you want to leave tax-free assets to heirs. They're less compelling if you expect lower income in retirement than now, or if you'd have to sell the IRA itself to pay the tax bill.</p>
+
+    <h2>How It's Calculated</h2>
+    <p>The calculator compares two scenarios — keeping the Traditional IRA vs. converting to Roth — side by side over your investment horizon.</p>
+    <div class="formula-box">
+      Conversion Tax Cost = Balance × Current Tax Rate<br>
+      Roth Balance (if outside funds pay tax) = Balance × (1 + r)^years<br>
+      Roth Balance (if IRA pays tax) = Balance × (1 − tax rate) × (1 + r)^years<br>
+      Trad IRA After-Tax = Balance × (1 + r)^years × (1 − retirement tax rate)<br>
+      Roth Advantage = Roth Balance − Trad After-Tax Balance
+    </div>
+    <p>The break-even year is the first year at which the Roth balance (net of the compounded opportunity cost of the tax payment) exceeds the traditional after-tax balance. If you pay taxes from outside savings, the Roth advantage compounds faster because 100% of the converted funds keeps growing.</p>
+
+    <h2>Tips & Common Mistakes</h2>
+    <ul>
+      <li><strong>Pay the tax from outside savings if at all possible.</strong> Converting $100,000 and paying the $22,000 tax from savings means the full $100,000 grows tax-free. Paying from the IRA leaves only $78,000 growing — significantly worse.</li>
+      <li><strong>Don't ignore state income taxes.</strong> Add your state rate to the federal rate for a true picture. Some states like California add 9–13%, dramatically changing the math.</li>
+      <li><strong>Consider partial conversions over multiple years.</strong> A single large conversion can push you into a higher bracket. Converting $30,000–$50,000/year during low-income years often beats one big conversion.</li>
+      <li><strong>Watch the Medicare IRMAA surcharges.</strong> High income from a Roth conversion can trigger Medicare premium surcharges 2 years later — a hidden cost many retirees miss.</li>
+      <li><strong>The 5-year rule matters.</strong> Each Roth conversion starts its own 5-year clock for penalty-free withdrawal of that converted amount. Plan accordingly if you're under 59½.</li>
+    </ul>
+
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>Is a Roth IRA conversion always a good idea?</summary>
+      <div class="faq-body">No — it depends on your current vs. future tax rate, how long until withdrawal, and whether you can pay the tax with outside funds. If you're currently in a high bracket and expect a much lower rate in retirement, a conversion may actually cost you money. Use this calculator to compare both scenarios with your specific numbers before deciding.</div>
+    </details>
+    <details>
+      <summary>Are there income limits for Roth IRA conversions?</summary>
+      <div class="faq-body">No. Unlike direct Roth IRA contributions (which phase out around $146,000–$161,000 for single filers in 2024), anyone can convert a Traditional IRA to a Roth regardless of income. This is why high-income earners use the "backdoor Roth" strategy — contributing to a Traditional IRA and immediately converting it.</div>
+    </details>
+    <details>
+      <summary>What happens if I convert and the market drops right after?</summary>
+      <div class="faq-body">This is one of the biggest risks of a Roth conversion. If you convert $100,000, pay $22,000 in tax, and the account then drops 30% to $70,000, you've overpaid significantly. One strategy to manage this: convert in late December when you have a clearer picture of your full-year income, or convert assets in a sector you believe has already been beaten down.</div>
+    </details>
+    <details>
+      <summary>Can I recharacterize (undo) a Roth conversion?</summary>
+      <div class="faq-body">No — as of the 2018 Tax Cuts and Jobs Act, you can no longer recharacterize a Roth conversion back to a Traditional IRA. Before 2018, you had until October 15 of the following year to undo it. Today, a conversion is permanent, which makes careful planning before converting even more important.</div>
+    </details>
+  </div>
+
+  <!-- Related Tools -->
+  <div class="card" style="margin-top:2rem">
+    <div class="section-title">Related Tools</div>
+    <div class="related-grid">
+      <a href="/college-savings-calculator/" class="related-link">🎓 College Savings Calculator</a>
+      <a href="/social-security-benefits-estimator/" class="related-link">🏛️ Social Security Benefits Estimator</a>
+      <a href="/tax-bracket-calculator/" class="related-link">📊 Tax Bracket Calculator</a>
+      <a href="/lease-vs-buy-car-calculator/" class="related-link">🚗 Lease vs Buy Car Calculator</a>
+      <a href="/bond-yield-calculator/" class="related-link">📈 Bond Yield Calculator</a>
+      <a href="/fire-number-calculator/" class="related-link">🔥 FIRE Number Calculator</a>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-bottom"></div>
+</main>
+
+<footer>
+  <div>© <span id="yr"></span> calcstack.dev &nbsp;|&nbsp;
+    <a href="/about/">About</a>
+    <a href="/privacy/">Privacy</a>
+    <a href="/contact/">Contact</a>
+  </div>
+</footer>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+// Slider live update
+function bindSlider(sliderId, valId, suffix) {
+  var s = document.getElementById(sliderId);
+  var v = document.getElementById(valId);
+  s.addEventListener('input', function() { v.textContent = s.value + suffix; });
+}
+bindSlider('taxRateNow', 'taxNowVal', '%');
+bindSlider('taxRateRetire', 'taxRetireVal', '%');
+bindSlider('returnRate', 'returnVal', '%');
+
+// Enter key
+['balance','currentAge','retireAge','withdrawAge'].forEach(function(id) {
+  document.getElementById(id).addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') { requestAnimationFrame(calculate); }
+  });
+});
+
+document.getElementById('calcBtn').addEventListener('click', function() {
+  requestAnimationFrame(calculate);
+});
+
+function fmt(n) {
+  return '$' + Math.round(n).toLocaleString('en-US');
+}
+
+var showAll = false;
+var fullTableRows = '';
+var fullRowCount = 0;
+
+document.getElementById('showAllBtn').addEventListener('click', function() {
+  showAll = true;
+  document.getElementById('table-body').innerHTML = fullTableRows;
+  document.getElementById('showAllBtn').style.display = 'none';
+});
+
+function clearErrors() {
+  ['err-balance','err-age','err-retire'].forEach(function(id) {
+    document.getElementById(id).classList.remove('show');
+  });
+  ['balance','currentAge','retireAge'].forEach(function(id) {
+    document.getElementById(id).classList.remove('error');
+  });
+}
+
+function calculate() {
+  clearErrors();
+
+  var balance = parseFloat(document.getElementById('balance').value);
+  var currentAge = parseInt(document.getElementById('currentAge').value);
+  var retireAge = parseInt(document.getElementById('retireAge').value);
+  var withdrawAge = parseInt(document.getElementById('withdrawAge').value) || retireAge;
+  var taxNow = parseFloat(document.getElementById('taxRateNow').value) / 100;
+  var taxRetire = parseFloat(document.getElementById('taxRateRetire').value) / 100;
+  var returnRate = parseFloat(document.getElementById('returnRate').value) / 100;
+  var taxFunding = document.getElementById('taxFunding').value;
+
+  var valid = true;
+  if (!balance || balance <= 0) {
+    document.getElementById('err-balance').classList.add('show');
+    document.getElementById('balance').classList.add('error');
+    valid = false;
+  }
+  if (!currentAge || currentAge < 18 || currentAge > 90) {
+    document.getElementById('err-age').classList.add('show');
+    document.getElementById('currentAge').classList.add('error');
+    valid = false;
+  }
+  if (!retireAge || retireAge <= currentAge) {
+    document.getElementById('err-retire').classList.add('show');
+    document.getElementById('retireAge').classList.add('error');
+    valid = false;
+  }
+  if (!valid) return;
+
+  var horizon = Math.max(withdrawAge - currentAge, retireAge - currentAge, 1);
+  var taxCost = balance * taxNow;
+
+  // Roth starting balance
+  var rothStart = (taxFunding === 'outside') ? balance : balance * (1 - taxNow);
+  // If outside funds pay tax, we also lose those funds from savings (opportunity cost)
+  // We model both sides fairly:
+  // Roth scenario: rothStart grows for `horizon` years (no tax on withdrawal)
+  // Trad scenario: balance grows for `horizon` years, but pay taxRetire on withdrawal
+  // If outside: we also account for the tax cost invested in trad = compare 
+  //   (rothStart growing) vs (balance growing × (1-taxRetire))
+
+  var rows = [];
+  var breakevenYear = null;
+  var rothBal = rothStart;
+  var tradBal = balance;
+
+  for (var y = 1; y <= horizon; y++) {
+    rothBal *= (1 + returnRate);
+    tradBal *= (1 + returnRate);
+    var tradAfterTax = tradBal * (1 - taxRetire);
+    var advantage = rothBal - tradAfterTax;
+    rows.push({
+      age: currentAge + y,
+      year: new Date().getFullYear() + y,
+      roth: rothBal,
+      trad: tradAfterTax,
+      adv: advantage
+    });
+    if (breakevenYear === null && advantage >= 0) {
+      breakevenYear = currentAge + y;
+    }
+  }
+
+  var finalRow = rows[rows.length - 1];
+  var advantage = finalRow.adv;
+  var rothFinal = finalRow.roth;
+  var tradFinal = finalRow.trad;
+
+  // Build table HTML
+  var PREVIEW = 10;
+  var tableHTML = '';
+  for (var i = 0; i < rows.length; i++) {
+    var r = rows[i];
+    var advColor = r.adv >= 0 ? 'color:#27ae60' : 'color:#e74c3c';
+    var advSign = r.adv >= 0 ? '+' : '';
+    tableHTML += '<tr>' +
+      '<td>' + r.age + '</td>' +
+      '<td>' + r.year + '</td>' +
+      '<td class="num">' + fmt(r.roth) + '</td>' +
+      '<td class="num">' + fmt(r.trad) + '</td>' +
+      '<td class="num" style="' + advColor + ';font-weight:600">' + advSign + fmt(r.adv) + '</td>' +
+      '</tr>';
+  }
+  fullTableRows = tableHTML;
+  fullRowCount = rows.length;
+
+  var previewHTML = '';
+  for (var i = 0; i < Math.min(PREVIEW, rows.length); i++) {
+    var r = rows[i];
+    var advColor = r.adv >= 0 ? 'color:#27ae60' : 'color:#e74c3c';
+    var advSign = r.adv >= 0 ? '+' : '';
+    previewHTML += '<tr>' +
+      '<td>' + r.age + '</td>' +
+      '<td>' + r.year + '</td>' +
+      '<td class="num">' + fmt(r.roth) + '</td>' +
+      '<td class="num">' + fmt(r.trad) + '</td>' +
+      '<td class="num" style="' + advColor + ';font-weight:600">' + advSign + fmt(r.adv) + '</td>' +
+      '</tr>';
+  }
+
+  // Bar visuals
+  var maxVal = Math.max(rothFinal, tradFinal, taxCost, 1);
+  var rothPct = Math.min(100, (rothFinal / maxVal) * 100).toFixed(1);
+  var tradPct = Math.min(100, (tradFinal / maxVal) * 100).toFixed(1);
+  var taxPct  = Math.min(100, (taxCost / maxVal) * 100).toFixed(1);
+
+  // Stacked bar: principal vs growth in Roth
+  var principal = rothStart;
+  var growth = rothFinal - rothStart;
+  var totalRoth = rothFinal;
+  var prinPct = Math.min(100, (principal / totalRoth) * 100).toFixed(1);
+  var growPct = (100 - parseFloat(prinPct)).toFixed(1);
+
+  // Break-even badge
+  var beBadge = breakevenYear ? 'Break-even: age ' + breakevenYear : 'No break-even in horizon';
+  var beDisplay = breakevenYear ? 'Age ' + breakevenYear : 'Beyond horizon';
+
+  // Copy summary
+  var copySummary = [
+    'Roth IRA Conversion Summary',
+    'Conversion Amount: ' + fmt(balance),
+    'Conversion Tax Cost: ' + fmt(taxCost),
+    'Tax Paid From: ' + (taxFunding === 'outside' ? 'Outside Savings' : 'IRA Itself'),
+    'Roth Balance at Age ' + (currentAge + horizon) + ': ' + fmt(rothFinal),
+    'Traditional IRA (After-Tax) at Age ' + (currentAge + horizon) + ': ' + fmt(tradFinal),
+    'Roth Advantage: ' + fmt(advantage),
+    'Break-even: ' + beDisplay,
+    'Generated by calcstack.dev'
+  ].join('\n');
+
+  document.getElementById('copyBtn').onclick = function() {
+    navigator.clipboard.writeText(copySummary).then(function() {
+      document.getElementById('copyBtn').textContent = 'Copied!';
+      setTimeout(function() { document.getElementById('copyBtn').textContent = 'Copy Summary'; }, 2000);
+    });
+  };
+
+  showAll = false;
+
+  // All DOM updates in one batch
+  var advantageSign = advantage >= 0 ? '+' : '';
+  var resultsContainer = document.getElementById('results');
+  document.getElementById('res-advantage').textContent = advantageSign + fmt(advantage);
+  document.getElementById('res-advantage').style.color = advantage >= 0 ? '#0077b6' : '#e74c3c';
+  document.getElementById('res-breakeven-badge').textContent = beBadge;
+  document.getElementById('res-taxcost').textContent = fmt(taxCost);
+  document.getElementById('res-rothbal').textContent = fmt(rothFinal);
+  document.getElementById('res-tradbal').textContent = fmt(tradFinal);
+  document.getElementById('res-breakevenyr').textContent = beDisplay;
+
+  document.getElementById('bv-roth').textContent = fmt(rothFinal);
+  document.getElementById('bv-trad').textContent = fmt(tradFinal);
+  document.getElementById('bv-tax').textContent = fmt(taxCost);
+  document.getElementById('bar-roth').style.width = rothPct + '%';
+  document.getElementById('bar-trad').style.width = tradPct + '%';
+  document.getElementById('bar-tax').style.width = taxPct + '%';
+
+  document.getElementById('seg-principal').style.width = prinPct + '%';
+  document.getElementById('seg-growth').style.width = growPct + '%';
+
+  document.getElementById('table-body').innerHTML = previewHTML;
+  var showAllBtn = document.getElementById('showAllBtn');
+  if (rows.length > PREVIEW) {
+    showAllBtn.style.display = 'block';
+    showAllBtn.textContent = 'Show All ' + rows.length + ' Years';
+  } else {
+    showAllBtn.style.display = 'none';
+  }
+
+  resultsContainer.classList.add('visible');
+  setTimeout(function() { resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 100);
+}
+</script>
+</body>
+</html>
