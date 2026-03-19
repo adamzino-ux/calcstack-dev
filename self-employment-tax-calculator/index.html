@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Self-Employment Tax Calculator — Free Online Tool | calcstack.dev</title>
+<meta name="description" content="Calculate your self-employment tax instantly. See exactly how much you owe in Social Security & Medicare taxes plus your deductible half. Free, accurate, no signup.">
+<link rel="canonical" href="https://calcstack.dev/self-employment-tax-calculator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Self-Employment Tax Calculator",
+  "url": "https://calcstack.dev/self-employment-tax-calculator/",
+  "description": "Calculate your self-employment tax including Social Security, Medicare, and the deductible half. Covers all 2024 tax year rates.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f4f6f9;color:#1a1a2e;font-size:16px;line-height:1.6}
+a{color:#0077b6;text-decoration:none}
+a:hover{text-decoration:underline;color:#006299}
+nav{background:#fff;border-bottom:1px solid #e0e0e0;padding:0 1.5rem}
+.nav-inner{max-width:640px;margin:0 auto;display:flex;align-items:center;height:52px}
+.nav-brand{font-weight:700;font-size:1.1rem;color:#1a1a2e}
+.nav-brand span{color:#0077b6}
+.page-wrap{max-width:640px;margin:0 auto;padding:1.5rem 1rem 3rem}
+h1{font-size:1.6rem;font-weight:800;color:#1a1a2e;margin-bottom:0.4rem}
+.subtitle{color:#555;font-size:0.95rem;margin-bottom:1.5rem}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;box-shadow:0 2px 8px rgba(0,0,0,0.05);margin-bottom:2rem}
+.field-group{margin-bottom:1.2rem}
+label{display:block;font-size:0.85rem;font-weight:500;color:#444;margin-bottom:5px}
+input[type=number],select{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:6px;font-size:1rem;color:#1a1a2e;background:#fff;transition:border-color .2s,box-shadow .2s;-moz-appearance:textfield;appearance:textfield}
+input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
+input:focus,select:focus{outline:none;border-color:#0077b6;box-shadow:0 0 0 3px rgba(0,119,182,.15)}
+input.error{border-color:#e74c3c;box-shadow:0 0 0 3px rgba(231,76,60,.1)}
+.error-msg{color:#e74c3c;font-size:0.8rem;margin-top:4px;display:none}
+.error-msg.show{display:block}
+.hint{font-size:0.78rem;color:#777;margin-top:4px}
+.row-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.calc-btn{width:100%;background:#0077b6;color:#fff;border:none;border-radius:6px;padding:14px 24px;font-size:1rem;font-weight:600;cursor:pointer;transition:background .2s;min-height:48px;margin-top:0.5rem}
+.calc-btn:hover{background:#006299}
+.results{opacity:0;transition:opacity .3s ease;pointer-events:none}
+.results.visible{opacity:1;pointer-events:auto}
+.big-number{font-size:2.4rem;font-weight:800;color:#0077b6;line-height:1.1}
+.big-label{font-size:0.85rem;color:#555;margin-bottom:0.2rem;font-weight:500}
+.big-sub{font-size:0.8rem;color:#777;margin-top:0.3rem}
+.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+.summary-box{background:#f8f9fa;border:1px solid #e8e8e8;border-radius:6px;padding:1rem 1.2rem}
+.summary-box .val{font-size:1.4rem;font-weight:700;color:#1a1a2e}
+.summary-box .lbl{font-size:0.78rem;color:#666;margin-top:2px}
+.summary-box.accent{background:#e8f4fc;border-color:#b3d9f0}
+.summary-box.accent .val{color:#0077b6}
+h3{font-size:1rem;font-weight:700;color:#1a1a2e;margin-bottom:1rem}
+.breakdown-table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:0.88rem}
+thead th{background:#f0f0f0;padding:9px 12px;text-align:left;font-weight:600;color:#333;border-bottom:2px solid #ddd}
+thead th.num{text-align:right}
+tbody tr:nth-child(even){background:#fafafa}
+tbody tr:nth-child(odd){background:#fff}
+tbody td{padding:9px 12px;border-bottom:1px solid #eee;color:#333}
+tbody td.num{text-align:right;font-variant-numeric:tabular-nums}
+.bar-section{margin-top:1.5rem}
+.bar-label-row{display:flex;justify-content:space-between;font-size:0.82rem;color:#555;margin-bottom:4px}
+.bar-track{background:#e8e8e8;border-radius:20px;height:22px;width:100%;margin-bottom:10px;overflow:hidden;display:flex}
+.bar-fill{height:100%;border-radius:20px 0 0 20px;transition:width .5s ease}
+.bar-fill.ss{background:#0077b6}
+.bar-fill.mc{background:#00b4d8}
+.bar-fill.ded{background:#48cae4}
+.bar-fill.net{background:#90e0ef}
+.bar-stacked{display:flex;width:100%}
+.legend{display:flex;flex-wrap:wrap;gap:0.6rem 1.2rem;margin-top:0.8rem}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:0.8rem;color:#444}
+.legend-dot{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+.copy-btn{background:#fff;border:1px solid #0077b6;color:#0077b6;border-radius:5px;padding:6px 14px;font-size:0.82rem;cursor:pointer;transition:all .2s;margin-top:0.8rem}
+.copy-btn:hover{background:#0077b6;color:#fff}
+.quarterly-section{margin-top:1rem}
+.q-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;margin-top:.6rem}
+.q-box{background:#f8f9fa;border:1px solid #e0e0e0;border-radius:6px;padding:.7rem .6rem;text-align:center}
+.q-box .q-val{font-size:1rem;font-weight:700;color:#0077b6}
+.q-box .q-lbl{font-size:0.7rem;color:#666;margin-top:2px}
+.q-box .q-due{font-size:0.68rem;color:#999;margin-top:1px}
+.ad-slot{min-height:0;margin:0}
+.content-section{margin-bottom:2rem}
+.content-section h2{font-size:1.15rem;font-weight:700;color:#1a1a2e;margin-bottom:.6rem;margin-top:1.5rem}
+.content-section p{color:#444;font-size:0.93rem;margin-bottom:.7rem}
+.content-section ul{color:#444;font-size:0.93rem;padding-left:1.3rem;margin-bottom:.7rem}
+.content-section ul li{margin-bottom:.4rem}
+details{border:1px solid #e0e0e0;border-radius:6px;margin-bottom:.7rem;background:#fff}
+summary{padding:.8rem 1rem;font-weight:600;font-size:0.92rem;cursor:pointer;color:#1a1a2e;list-style:none;display:flex;justify-content:space-between;align-items:center}
+summary::after{content:"＋";color:#0077b6;font-size:1rem}
+details[open] summary::after{content:"－"}
+details p{padding:0 1rem 1rem;font-size:0.9rem;color:#555}
+.related-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:.8rem}
+.related-link{background:#f8f9fa;border:1px solid #e0e0e0;border-radius:6px;padding:.75rem 1rem;font-size:0.87rem;color:#0077b6;font-weight:500;transition:background .15s}
+.related-link:hover{background:#e8f4fc;text-decoration:none}
+footer{background:#fff;border-top:1px solid #e0e0e0;padding:1.2rem 1.5rem;text-align:center;font-size:0.82rem;color:#777}
+footer a{color:#555;margin:0 .5rem}
+footer a:hover{color:#0077b6}
+@media(max-width:640px){
+  .row-2{grid-template-columns:1fr}
+  .summary-grid{grid-template-columns:1fr 1fr}
+  .q-grid{grid-template-columns:repeat(2,1fr)}
+  .related-grid{grid-template-columns:1fr}
+  .big-number{font-size:1.9rem}
+  .card{padding:1.25rem}
+  h1{font-size:1.35rem}
+}
+@media(max-width:400px){
+  .summary-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">calc<span>stack</span>.dev</a>
+  </div>
+</nav>
+
+<div class="page-wrap">
+  <h1>Self-Employment Tax Calculator</h1>
+  <p class="subtitle">Calculate your SE tax, deductible half, and quarterly estimated payments for 2024.</p>
+
+  <div class="card">
+    <div class="row-2">
+      <div class="field-group">
+        <label for="netIncome">Net Self-Employment Income ($)</label>
+        <input type="number" id="netIncome" placeholder="e.g. 75000" min="0" step="100">
+        <div class="error-msg" id="netIncomeErr">Please enter a valid income amount.</div>
+        <div class="hint">Revenue minus business expenses</div>
+      </div>
+      <div class="field-group">
+        <label for="taxYear">Tax Year</label>
+        <select id="taxYear">
+          <option value="2024" selected>2024</option>
+          <option value="2023">2023</option>
+        </select>
+      </div>
+    </div>
+    <div class="row-2">
+      <div class="field-group">
+        <label for="otherWages">W-2 Wages / Other SE Income ($)</label>
+        <input type="number" id="otherWages" placeholder="0" min="0" step="100">
+        <div class="hint">Combined wages already subject to SS tax (reduces SS base)</div>
+      </div>
+      <div class="field-group">
+        <label for="filingStatus">Filing Status</label>
+        <select id="filingStatus">
+          <option value="single">Single / MFS</option>
+          <option value="mfj">Married Filing Jointly</option>
+          <option value="hoh">Head of Household</option>
+        </select>
+      </div>
+    </div>
+    <div class="row-2">
+      <div class="field-group">
+        <label for="otherIncome">Other Taxable Income ($)</label>
+        <input type="number" id="otherIncome" placeholder="0" min="0" step="100">
+        <div class="hint">W-2 wages, interest, dividends, etc.</div>
+      </div>
+      <div class="field-group">
+        <label for="deductions">Additional Deductions ($)</label>
+        <input type="number" id="deductions" placeholder="0" min="0" step="100">
+        <div class="hint">IRA, health insurance, HSA, etc.</div>
+      </div>
+    </div>
+    <button class="calc-btn" id="calcBtn">Calculate Self-Employment Tax</button>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="results card" id="resultsSection">
+    <div style="text-align:center;margin-bottom:1.5rem">
+      <div class="big-label">Total Self-Employment Tax Owed</div>
+      <div class="big-number" id="rTotalSE">$0</div>
+      <div class="big-sub" id="rEffRate">Effective SE rate: —</div>
+    </div>
+
+    <div class="summary-grid" id="rSummaryGrid"></div>
+
+    <div class="bar-section">
+      <h3>Tax Breakdown Visualization</h3>
+      <div id="rBars"></div>
+      <div class="legend" id="rLegend"></div>
+    </div>
+
+    <div style="margin-top:1.5rem">
+      <h3>Detailed Breakdown</h3>
+      <div class="breakdown-table-wrap">
+        <table id="rTable">
+          <thead>
+            <tr>
+              <th>Component</th>
+              <th class="num">Rate</th>
+              <th class="num">Base</th>
+              <th class="num">Amount</th>
+            </tr>
+          </thead>
+          <tbody id="rTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="quarterly-section">
+      <h3 style="margin-top:1.2rem">Quarterly Estimated Tax Payments</h3>
+      <p style="font-size:.82rem;color:#666;margin-bottom:.4rem">Each payment covers SE tax + estimated income tax. Divide total tax liability by 4.</p>
+      <div class="q-grid" id="rQuarters"></div>
+    </div>
+
+    <div style="margin-top:1.5rem">
+      <h3>Income vs. Tax Summary</h3>
+      <div class="breakdown-table-wrap">
+        <table id="rSummaryTable">
+          <thead>
+            <tr><th>Item</th><th class="num">Amount</th></tr>
+          </thead>
+          <tbody id="rSummaryBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <button class="copy-btn" id="copyBtn">📋 Copy Results</button>
+  </div>
+
+  <div class="ad-slot" id="ad-mid"></div>
+
+  <!-- CONTENT -->
+  <div class="content-section card">
+    <h2>How to Use This Self-Employment Tax Calculator</h2>
+    <p>Enter your net self-employment income (revenue minus deductible business expenses) and select your tax year. If you also have W-2 wages or other SE income, enter those amounts so the calculator accurately limits your Social Security tax base. Optionally add filing status, other income, and additional deductions to see your estimated total income tax liability alongside your SE tax.</p>
+    <p>Hit <strong>Calculate Self-Employment Tax</strong> and instantly see your Social Security tax, Medicare tax, the deductible half, your estimated income tax, and recommended quarterly estimated payments.</p>
+
+    <h2>Why This Matters</h2>
+    <p>When you work for an employer, your payroll taxes are split 50/50 — you pay 7.65% and your employer pays 7.65%. As a self-employed person (freelancer, contractor, sole proprietor, LLC member), you're both employee and employer. That means you owe the full <strong>15.3%</strong> on your net earnings, up to the Social Security wage base ($168,600 in 2024). Above that, you still owe the 2.9% Medicare tax — and if your income exceeds $200,000 ($250,000 married filing jointly), an additional 0.9% Additional Medicare Tax kicks in.</p>
+    <p>For someone earning $80,000 from freelance work, this means roughly $11,304 in SE tax alone — before any income tax. Many new freelancers are blindsided by this bill come April. Knowing your SE tax liability upfront lets you set aside the right amount each quarter, avoid underpayment penalties (typically triggered when you owe more than $1,000), and plan deductions like a SEP-IRA contribution to reduce your taxable income. The one bright spot: you can deduct 50% of your SE tax from your adjusted gross income, effectively lowering your income tax bill.</p>
+
+    <h2>How It's Calculated</h2>
+    <p>The IRS uses a specific formula to calculate self-employment tax:</p>
+    <ul>
+      <li><strong>Step 1:</strong> Multiply net SE income × 92.35% — this is your "net earnings from self-employment" (the 7.65% deduction approximates the employer-side deduction)</li>
+      <li><strong>Step 2 — Social Security tax:</strong> Net earnings × 12.4%, up to the SS wage base ($168,600 for 2024). If you have W-2 wages, that amount reduces the available SS base.</li>
+      <li><strong>Step 3 — Medicare tax:</strong> Net earnings × 2.9% (no wage cap). If net earnings exceed the Additional Medicare Tax threshold, an extra 0.9% applies to the excess.</li>
+      <li><strong>Step 4 — Deductible half:</strong> Total SE tax ÷ 2. This is an above-the-line deduction from gross income.</li>
+      <li><strong>Formula:</strong> SE Tax = (Net Income × 0.9235 × 0.124) + (Net Income × 0.9235 × 0.029)</li>
+    </ul>
+
+    <h2>Tips & Common Mistakes</h2>
+    <ul>
+      <li><strong>Don't forget quarterly payments:</strong> SE tax must be paid quarterly (April 15, June 17, September 16, January 15). Missing these triggers underpayment penalties even if you pay in full by April.</li>
+      <li><strong>Deduct the right business expenses first:</strong> Your SE tax is based on net income. A $10,000 home office deduction doesn't just reduce income tax — it reduces your SE tax base too, saving you ~15.3%.</li>
+      <li><strong>SEP-IRA can dramatically lower your bill:</strong> Contributing to a SEP-IRA lets you deduct up to 25% of net SE income (after the SE deduction), directly reducing taxable income.</li>
+      <li><strong>Health insurance premiums are deductible:</strong> If you pay your own health insurance, 100% of premiums are deductible from adjusted gross income (not just as a Schedule A itemized deduction).</li>
+      <li><strong>Watch the Social Security wage base:</strong> If you have both W-2 employment and freelance income, your W-2 wages count against the SS cap first, potentially reducing your SE Social Security tax.</li>
+    </ul>
+
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>What is the self-employment tax rate for 2024?</summary>
+      <p>The SE tax rate is 15.3% on net earnings up to $168,600 (12.4% Social Security + 2.9% Medicare). Above $168,600, only the 2.9% Medicare portion applies. High earners above $200,000 ($250,000 MFJ) also owe an additional 0.9% Additional Medicare Tax on income above those thresholds.</p>
+    </details>
+    <details>
+      <summary>Can I deduct self-employment tax on my return?</summary>
+      <p>Yes — you can deduct exactly half of your SE tax as an above-the-line adjustment to income on Schedule 1 of Form 1040. This deduction is automatic and doesn't require itemizing. It reduces your adjusted gross income, which in turn lowers your federal (and often state) income tax.</p>
+    </details>
+    <details>
+      <summary>Do I owe SE tax if I only made a small amount?</summary>
+      <p>You owe SE tax if your net self-employment income is $400 or more in a year. Below $400, you're not required to file Schedule SE. However, even a small income is worth reporting if you want to build Social Security credits — you need 40 credits (roughly 10 years of work) to qualify for retirement benefits.</p>
+    </details>
+    <details>
+      <summary>Is self-employment tax different from income tax?</summary>
+      <p>Yes, they're completely separate taxes. Self-employment tax (Schedule SE) covers your Social Security and Medicare obligations. Income tax (Form 1040) is calculated on your taxable income and depends on your bracket, deductions, and credits. You owe both, which is why effective tax rates for self-employed people are often higher than for W-2 employees at the same gross income level.</p>
+    </details>
+  </div>
+
+  <div class="content-section">
+    <h2 style="margin-bottom:.8rem">Related Tools</h2>
+    <div class="related-grid">
+      <a href="/payoff-debt-vs-invest-calculator/" class="related-link">Payoff Debt vs Invest Calculator</a>
+      <a href="/home-equity-loan-vs-heloc-calculator/" class="related-link">Home Equity Loan vs HELOC Calculator</a>
+      <a href="/roth-ira-conversion-calculator/" class="related-link">Roth IRA Conversion Calculator</a>
+      <a href="/college-savings-calculator/" class="related-link">College Savings Calculator</a>
+      <a href="/social-security-benefits-estimator/" class="related-link">Social Security Benefits Estimator</a>
+      <a href="/tax-bracket-calculator/" class="related-link">Tax Bracket Calculator</a>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-bottom"></div>
+</div>
+
+<footer>
+  <div>© 2024 calcstack.dev &nbsp;·&nbsp;
+    <a href="/about/">About</a>
+    <a href="/privacy/">Privacy</a>
+    <a href="/contact/">Contact</a>
+  </div>
+</footer>
+
+<script>
+// Tax constants
+const RATES = {
+  2024: { ssWageBase: 168600, ssRate: 0.124, mcRate: 0.029, addlMcThreshSingle: 200000, addlMcThreshMFJ: 250000, addlMcRate: 0.009 },
+  2023: { ssWageBase: 160200, ssRate: 0.124, mcRate: 0.029, addlMcThreshSingle: 200000, addlMcThreshMFJ: 250000, addlMcRate: 0.009 }
+};
+
+// 2024 income tax brackets
+const BRACKETS = {
+  2024: {
+    single: [[11600,0.10],[47150,0.12],[100525,0.22],[191950,0.24],[243725,0.32],[609350,0.35],[Infinity,0.37]],
+    mfj:   [[23200,0.10],[94300,0.12],[201050,0.22],[383900,0.24],[487450,0.32],[731200,0.35],[Infinity,0.37]],
+    hoh:   [[16550,0.10],[63100,0.12],[100500,0.22],[191950,0.24],[243700,0.32],[609350,0.35],[Infinity,0.37]]
+  },
+  2023: {
+    single: [[11000,0.10],[44725,0.12],[95375,0.22],[182900,0.24],[231250,0.32],[578125,0.35],[Infinity,0.37]],
+    mfj:   [[22000,0.10],[89450,0.12],[190750,0.22],[364200,0.24],[462500,0.32],[693750,0.35],[Infinity,0.37]],
+    hoh:   [[15700,0.10],[59850,0.12],[95350,0.22],[182900,0.24],[231250,0.32],[578125,0.35],[Infinity,0.37]]
+  }
+};
+
+const STD_DED = {
+  2024: { single: 14600, mfj: 29200, hoh: 21900 },
+  2023: { single: 13850, mfj: 27700, hoh: 20800 }
+};
+
+const QUARTERLY_DATES = {
+  2024: ["Apr 15, 2024","Jun 17, 2024","Sep 16, 2024","Jan 15, 2025"],
+  2023: ["Apr 18, 2023","Jun 15, 2023","Sep 15, 2023","Jan 16, 2024"]
+};
+
+function fmt(n){return '$'+Math.abs(n).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}
+function fmtN(n){return n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}
+function pct(n){return (n*100).toFixed(2)+'%'}
+
+function calcIncomeTax(taxableIncome, year, status){
+  if(taxableIncome<=0) return 0;
+  const brackets = BRACKETS[year][status];
+  let tax=0, prev=0;
+  for(let i=0;i<brackets.length;i++){
+    const [limit,rate] = brackets[i];
+    if(taxableIncome <= limit){
+      tax += (taxableIncome - prev) * rate;
+      break;
+    } else {
+      tax += (limit - prev) * rate;
+      prev = limit;
+    }
+  }
+  return tax;
+}
+
+function calculate(){
+  const netIncomeRaw = parseFloat(document.getElementById('netIncome').value);
+  const otherWages   = parseFloat(document.getElementById('otherWages').value)||0;
+  const otherIncome  = parseFloat(document.getElementById('otherIncome').value)||0;
+  const addlDed      = parseFloat(document.getElementById('deductions').value)||0;
+  const year         = parseInt(document.getElementById('taxYear').value);
+  const status       = document.getElementById('filingStatus').value;
+  const errEl        = document.getElementById('netIncomeErr');
+  const netIncomeEl  = document.getElementById('netIncome');
+
+  if(isNaN(netIncomeRaw)||netIncomeRaw<0){
+    netIncomeEl.classList.add('error');
+    errEl.classList.add('show');
+    document.getElementById('resultsSection').classList.remove('visible');
+    return;
+  }
+  netIncomeEl.classList.remove('error');
+  errEl.classList.remove('show');
+
+  const r = RATES[year];
+  const netIncome = netIncomeRaw;
+
+  // Step 1: Net earnings from SE (92.35%)
+  const netEarnings = netIncome * 0.9235;
+
+  // Step 2: Social Security tax
+  const ssBase = Math.max(0, r.ssWageBase - otherWages);
+  const ssEarnings = Math.min(netEarnings, ssBase);
+  const ssTax = ssEarnings * r.ssRate;
+
+  // Step 3: Medicare tax
+  const mcTax = netEarnings * r.mcRate;
+
+  // Step 4: Additional Medicare Tax
+  const addlMcThresh = status==='mfj' ? r.addlMcThreshMFJ : r.addlMcThreshSingle;
+  const totalEarningsForAddlMc = netEarnings + otherWages;
+  const addlMcBase = Math.max(0, totalEarningsForAddlMc - addlMcThresh);
+  // Additional MC applies to SE net earnings portion above threshold
+  const sePortionAddlMc = Math.min(netEarnings, Math.max(0, netEarnings - Math.max(0, addlMcThresh - otherWages)));
+  const addlMcTax = sePortionAddlMc * r.addlMcRate;
+
+  const totalSETax = ssTax + mcTax + addlMcTax;
+  const deductibleHalf = totalSETax / 2;
+
+  // Income tax estimate
+  const agi = netIncome + otherIncome - deductibleHalf - addlDed;
+  const stdDed = STD_DED[year][status];
+  const taxableIncome = Math.max(0, agi - stdDed);
+  const incomeTax = calcIncomeTax(taxableIncome, year, status);
+
+  const totalTax = totalSETax + incomeTax;
+  const effectiveRate = netIncome>0 ? totalSETax/netIncome : 0;
+  const effectiveTotalRate = netIncome>0 ? totalTax/netIncome : 0;
+  const quarterlyPayment = totalTax / 4;
+
+  const qDates = QUARTERLY_DATES[year];
+
+  requestAnimationFrame(()=>{
+    // Big number
+    document.getElementById('rTotalSE').textContent = fmt(totalSETax);
+    document.getElementById('rEffRate').textContent = `Effective SE rate: ${pct(effectiveRate)} of gross income`;
+
+    // Summary grid
+    const sg = [
+      {label:'Social Security Tax',val:fmt(ssTax),accent:false},
+      {label:'Medicare Tax',val:fmt(mcTax),accent:false},
+      {label:'Deductible Half (above-the-line)',val:fmt(deductibleHalf),accent:true},
+      {label:'Est. Income Tax',val:fmt(incomeTax),accent:false},
+      {label:'Total Tax Liability',val:fmt(totalTax),accent:true},
+      {label:'Quarterly Payment',val:fmt(quarterlyPayment),accent:false}
+    ];
+    document.getElementById('rSummaryGrid').innerHTML = sg.map(s=>`
+      <div class="summary-box ${s.accent?'accent':''}">
+        <div class="val">${s.val}</div>
+        <div class="lbl">${s.label}</div>
+      </div>`).join('');
+
+    // Bars
+    const totalForBars = ssTax + mcTax + addlMcTax + incomeTax;
+    const barData = [
+      {label:'Social Security Tax',amount:ssTax,cls:'ss',color:'#0077b6'},
+      {label:'Medicare Tax',amount:mcTax,cls:'mc',color:'#00b4d8'},
+      {label:'Add\'l Medicare Tax',amount:addlMcTax,cls:'ded',color:'#48cae4'},
+      {label:'Est. Income Tax',amount:incomeTax,cls:'net',color:'#90e0ef'}
+    ].filter(b=>b.amount>0);
+
+    let barsHtml = '';
+    barData.forEach(b=>{
+      const w = totalForBars>0 ? (b.amount/totalForBars*100).toFixed(1) : 0;
+      barsHtml += `<div class="bar-label-row"><span>${b.label}</span><span>${fmt(b.amount)} (${w}%)</span></div>
+      <div class="bar-track"><div class="bar-fill ${b.cls}" style="width:${w}%;background:${b.color}"></div></div>`;
+    });
+    // Stacked bar (income breakdown)
+    const netKeep = Math.max(0, netIncome - totalTax);
+    const totalForStack = netIncome;
+    const stackItems = [
+      {amount:ssTax,color:'#0077b6',label:'SS Tax'},
+      {amount:mcTax+addlMcTax,color:'#00b4d8',label:'Medicare'},
+      {amount:incomeTax,color:'#48cae4',label:'Income Tax'},
+      {amount:netKeep,color:'#d4f1f9',label:'Net Keep'}
+    ];
+    let stackHtml = `<div class="bar-label-row"><span>Your $${Math.round(netIncome).toLocaleString()} breakdown</span></div><div class="bar-track bar-stacked">`;
+    stackItems.forEach(s=>{
+      const w = totalForStack>0 ? Math.max(0,s.amount/totalForStack*100).toFixed(1) : 0;
+      stackHtml += `<div style="width:${w}%;background:${s.color};height:100%;" title="${s.label}: ${fmt(s.amount)}"></div>`;
+    });
+    stackHtml += '</div>';
+    document.getElementById('rBars').innerHTML = barsHtml + stackHtml;
+
+    // Legend
+    const legItems = [
+      {color:'#0077b6',label:'Social Security Tax'},
+      {color:'#00b4d8',label:'Medicare Tax'},
+      {color:'#48cae4',label:'Income Tax'},
+      {color:'#d4f1f9',label:'Net Take-Home'}
+    ];
+    document.getElementById('rLegend').innerHTML = legItems.map(l=>`
+      <div class="legend-item"><div class="legend-dot" style="background:${l.color}"></div>${l.label}</div>`).join('');
+
+    // Breakdown table
+    const rows = [
+      {comp:'Gross SE Income',rate:'—',base:fmt(netIncome),amt:fmt(netIncome)},
+      {comp:'Net Earnings (×92.35%)',rate:'92.35%',base:fmt(netIncome),amt:fmt(netEarnings)},
+      {comp:'SS Tax Base (capped)',rate:'—',base:fmt(Math.min(netEarnings,ssBase)),amt:'—'},
+      {comp:'Social Security Tax',rate:'12.4%',base:fmt(ssEarnings),amt:fmt(ssTax)},
+      {comp:'Medicare Tax',rate:'2.9%',base:fmt(netEarnings),amt:fmt(mcTax)},
+      {comp:'Add\'l Medicare Tax',rate:'0.9%',base:fmt(sePortionAddlMc),amt:addlMcTax>0?fmt(addlMcTax):'$0.00'},
+      {comp:'<strong>Total SE Tax</strong>',rate:'—',base:'—',amt:`<strong>${fmt(totalSETax)}</strong>`},
+      {comp:'Deductible Half',rate:'50%',base:fmt(totalSETax),amt:fmt(deductibleHalf)},
+      {comp:'Adjusted Gross Income',rate:'—',base:'—',amt:fmt(Math.max(0,agi))},
+      {comp:'Standard Deduction',rate:'—',base:'—',amt:fmt(stdDed)},
+      {comp:'Taxable Income',rate:'—',base:'—',amt:fmt(taxableIncome)},
+      {comp:'<strong>Est. Income Tax</strong>',rate:'—',base:'—',amt:`<strong>${fmt(incomeTax)}</strong>`},
+      {comp:'<strong>Total Tax Liability</strong>',rate:'—',base:'—',amt:`<strong>${fmt(totalTax)}</strong>`}
+    ];
+    document.getElementById('rTableBody').innerHTML = rows.map(r=>`
+      <tr><td>${r.comp}</td><td class="num">${r.rate}</td><td class="num">${r.base}</td><td class="num">${r.amt}</td></tr>`).join('');
+
+    // Quarterly
+    document.getElementById('rQuarters').innerHTML = [1,2,3,4].map((q,i)=>`
+      <div class="q-box">
+        <div class="q-val">${fmt(quarterlyPayment)}</div>
+        <div class="q-lbl">Q${q} Payment</div>
+        <div class="q-due">${qDates[i]}</div>
+      </div>`).join('');
+
+    // Summary table
+    const sumRows = [
+      {item:'Gross SE Income',amt:fmt(netIncome)},
+      {item:'Business Expenses',amt:'$0.00 (deduct before entering)'},
+      {item:'Net SE Income',amt:fmt(netIncome)},
+      {item:'SE Tax Deduction (50%)',amt:fmt(deductibleHalf)},
+      {item:'Health Ins / IRA / Other Deductions',amt:fmt(addlDed)},
+      {item:'Adjusted Gross Income (AGI)',amt:fmt(Math.max(0,agi))},
+      {item:'Standard Deduction ('+year+')',amt:fmt(stdDed)},
+      {item:'Taxable Income',amt:fmt(taxableIncome)},
+      {item:'Self-Employment Tax',amt:fmt(totalSETax)},
+      {item:'Estimated Income Tax',amt:fmt(incomeTax)},
+      {item:'<strong>Total Tax Liability</strong>',amt:`<strong>${fmt(totalTax)}</strong>`},
+      {item:'Effective Total Rate',amt:pct(effectiveTotalRate)},
+      {item:'Estimated Net Take-Home',amt:fmt(Math.max(0,netIncome-totalTax))}
+    ];
+    document.getElementById('rSummaryBody').innerHTML = sumRows.map(r=>`
+      <tr><td>${r.item}</td><td class="num">${r.amt}</td></tr>`).join('');
+
+    document.getElementById('resultsSection').classList.add('visible');
+  });
+}
+
+// Copy
+document.getElementById('copyBtn').addEventListener('click',function(){
+  const ni = parseFloat(document.getElementById('netIncome').value)||0;
+  const txt = document.getElementById('rSummaryBody').innerText || '';
+  const full = `Self-Employment Tax Summary\n========================\n${txt}`;
+  navigator.clipboard.writeText(full).catch(()=>{});
+  this.textContent='✓ Copied!';
+  setTimeout(()=>{ this.textContent='📋 Copy Results'; },2000);
+});
+
+// Event bindings
+document.getElementById('calcBtn').addEventListener('click',()=>{
+  requestAnimationFrame(()=>{ calculate(); });
+});
+['netIncome','otherWages','otherIncome','deductions'].forEach(id=>{
+  document.getElementById(id).addEventListener('keydown',e=>{
+    if(e.key==='Enter') requestAnimationFrame(()=>{ calculate(); });
+  });
+});
+document.getElementById('taxYear').addEventListener('change',()=>{
+  if(document.getElementById('resultsSection').classList.contains('visible')){
+    requestAnimationFrame(()=>{ calculate(); });
+  }
+});
+document.getElementById('filingStatus').addEventListener('change',()=>{
+  if(document.getElementById('resultsSection').classList.contains('visible')){
+    requestAnimationFrame(()=>{ calculate(); });
+  }
+});
+
+// Prefill demo
+window.addEventListener('load',()=>{
+  document.getElementById('netIncome').value='80000';
+});
+</script>
+</body>
+</html>
