@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rental Property Cash Flow Calculator — Free Online Tool | calcstack.dev</title>
+<meta name="description" content="Calculate rental property cash flow, NOI, cap rate, and ROI instantly. Free tool for landlords and real estate investors to analyze rental income vs expenses.">
+<link rel="canonical" href="https://calcstack.dev/rental-property-cash-flow-calculator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Rental Property Cash Flow Calculator",
+  "url": "https://calcstack.dev/rental-property-cash-flow-calculator/",
+  "description": "Calculate rental property cash flow, NOI, cap rate, and ROI instantly. Free tool for landlords and real estate investors.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#fff;color:#1a1a2e;line-height:1.6;font-size:16px}
+a{color:#0077b6;text-decoration:none}
+a:hover{text-decoration:underline}
+nav{border-bottom:1px solid #e0e0e0;padding:0.75rem 1.5rem}
+nav .nav-inner{max-width:640px;margin:0 auto;display:flex;align-items:center}
+nav .site-name{font-weight:700;color:#1a1a2e;font-size:1.05rem}
+nav .site-name:hover{text-decoration:none;color:#0077b6}
+.container{max-width:640px;margin:0 auto;padding:1.5rem}
+h1{font-size:1.6rem;font-weight:700;color:#1a1a2e;margin-bottom:0.4rem}
+.subtitle{color:#555;font-size:0.95rem;margin-bottom:1.5rem}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;box-shadow:0 2px 8px rgba(0,0,0,0.06);margin-bottom:2rem}
+.section-title{font-size:1rem;font-weight:700;color:#0077b6;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:1rem;padding-bottom:0.4rem;border-bottom:2px solid #e0e0e0}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.form-group{display:flex;flex-direction:column;gap:0.3rem}
+.form-group.full{grid-column:1/-1}
+label{font-size:0.85rem;font-weight:500;color:#444}
+input[type=number],input[type=text],select{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:6px;font-size:0.95rem;color:#1a1a2e;background:#fff;transition:border-color 0.2s,box-shadow 0.2s;min-height:44px}
+input:focus,select:focus{outline:none;border-color:#0077b6;box-shadow:0 0 0 3px rgba(0,119,182,0.15)}
+input.error{border-color:#e74c3c;box-shadow:0 0 0 3px rgba(231,76,60,0.12)}
+.error-msg{font-size:0.78rem;color:#e74c3c;margin-top:2px}
+.input-prefix{position:relative}
+.input-prefix span{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#888;font-size:0.95rem;pointer-events:none}
+.input-prefix input{padding-left:26px}
+.input-suffix{position:relative}
+.input-suffix span{position:absolute;right:12px;top:50%;transform:translateY(-50%);color:#888;font-size:0.85rem;pointer-events:none}
+.input-suffix input{padding-right:32px}
+.btn{background:#0077b6;color:#fff;border:none;padding:13px 24px;border-radius:6px;font-size:1rem;font-weight:600;cursor:pointer;width:100%;min-height:48px;transition:background 0.2s;margin-top:1rem}
+.btn:hover{background:#006299}
+.btn-secondary{background:#f0f0f0;color:#333;font-size:0.82rem;padding:6px 14px;border-radius:4px;border:none;cursor:pointer;min-height:32px;font-weight:500;transition:background 0.2s}
+.btn-secondary:hover{background:#e0e0e0}
+.results{opacity:0;transition:opacity 0.3s ease;pointer-events:none}
+.results.visible{opacity:1;pointer-events:auto}
+.key-metrics{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+.metric-card{background:#f8f9fa;border:1px solid #e0e0e0;border-radius:8px;padding:1rem;text-align:center}
+.metric-card.highlight{background:#e8f4fd;border-color:#0077b6}
+.metric-label{font-size:0.78rem;font-weight:500;color:#666;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:0.2rem}
+.metric-value{font-size:1.5rem;font-weight:700;color:#0077b6}
+.metric-value.positive{color:#27ae60}
+.metric-value.negative{color:#e74c3c}
+.metric-value.neutral{color:#1a1a2e}
+.metric-sub{font-size:0.75rem;color:#888;margin-top:0.1rem}
+.breakdown-section{margin-bottom:1.5rem}
+.breakdown-title{font-size:0.9rem;font-weight:600;color:#333;margin-bottom:0.75rem}
+.bar-item{margin-bottom:0.5rem}
+.bar-label-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:3px}
+.bar-label{font-size:0.82rem;color:#444}
+.bar-amount{font-size:0.82rem;font-weight:600;color:#333}
+.bar-track{background:#f0f0f0;border-radius:4px;height:10px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;transition:width 0.5s ease}
+.bar-income{background:#27ae60}
+.bar-expense{background:#e74c3c}
+.bar-cashflow{background:#0077b6}
+.bar-neutral{background:#888}
+.summary-table{width:100%;border-collapse:collapse;font-size:0.88rem}
+.summary-table th{background:#f0f0f0;padding:8px 12px;text-align:left;font-weight:600;color:#333;font-size:0.8rem}
+.summary-table td{padding:8px 12px;border-bottom:1px solid #f0f0f0}
+.summary-table tr:nth-child(even) td{background:#fafafa}
+.summary-table td:last-child{text-align:right;font-weight:500}
+.summary-table .total-row td{font-weight:700;border-top:2px solid #ddd;background:#f8f9fa}
+.table-scroll{overflow-x:auto}
+.year-table{width:100%;border-collapse:collapse;font-size:0.83rem;min-width:520px}
+.year-table th{background:#f0f0f0;padding:8px 10px;text-align:right;font-weight:600;color:#333;font-size:0.78rem}
+.year-table th:first-child{text-align:left}
+.year-table td{padding:7px 10px;border-bottom:1px solid #f0f0f0;text-align:right}
+.year-table td:first-child{text-align:left;font-weight:500}
+.year-table tr:nth-child(even) td{background:#fafafa}
+.year-table .positive-cell{color:#27ae60;font-weight:600}
+.year-table .negative-cell{color:#e74c3c;font-weight:600}
+.show-all-btn{display:block;width:100%;text-align:center;margin-top:0.75rem;font-size:0.85rem;color:#0077b6;cursor:pointer;padding:8px;border:1px solid #ddd;border-radius:6px;background:#fff;transition:background 0.2s}
+.show-all-btn:hover{background:#f0f8ff}
+.copy-bar{display:flex;justify-content:flex-end;margin-bottom:0.75rem}
+.ad-slot{min-height:0;margin:0}
+.content-section h2{font-size:1.15rem;font-weight:700;color:#1a1a2e;margin-bottom:0.6rem;margin-top:1.8rem}
+.content-section p{color:#444;margin-bottom:0.75rem;font-size:0.95rem}
+.content-section ul{color:#444;padding-left:1.4rem;margin-bottom:0.75rem;font-size:0.95rem}
+.content-section ul li{margin-bottom:0.4rem}
+details{border:1px solid #e0e0e0;border-radius:6px;margin-bottom:0.6rem}
+summary{padding:0.75rem 1rem;font-weight:600;cursor:pointer;font-size:0.92rem;color:#1a1a2e}
+summary:hover{background:#f8f9fa}
+details[open] summary{border-bottom:1px solid #e0e0e0}
+.faq-answer{padding:0.75rem 1rem;font-size:0.9rem;color:#444}
+.related-tools{background:#f8f9fa;border:1px solid #e0e0e0;border-radius:8px;padding:1.5rem;margin-bottom:2rem}
+.related-tools h2{font-size:1rem;font-weight:700;margin-bottom:1rem;color:#1a1a2e}
+.related-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.5rem}
+.related-grid a{font-size:0.88rem;color:#0077b6;padding:0.3rem 0}
+footer{border-top:1px solid #e0e0e0;padding:1.5rem;text-align:center;color:#888;font-size:0.82rem}
+footer a{color:#666;margin:0 0.5rem}
+footer a:hover{color:#0077b6}
+.formula-box{background:#f8f9fa;border-left:3px solid #0077b6;padding:0.75rem 1rem;border-radius:0 6px 6px 0;font-family:monospace;font-size:0.88rem;color:#333;margin:0.5rem 0 0.75rem}
+.tabs{display:flex;gap:0;border:1px solid #ddd;border-radius:6px;overflow:hidden;margin-bottom:1.5rem}
+.tab-btn{flex:1;padding:10px;border:none;background:#f8f9fa;color:#555;font-size:0.88rem;font-weight:500;cursor:pointer;transition:background 0.2s,color 0.2s;min-height:44px}
+.tab-btn.active{background:#0077b6;color:#fff}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+@media(max-width:640px){
+  .form-grid{grid-template-columns:1fr}
+  .form-group.full{grid-column:1}
+  .key-metrics{grid-template-columns:1fr 1fr}
+  .related-grid{grid-template-columns:1fr}
+  .card{padding:1.25rem}
+  h1{font-size:1.35rem}
+  .metric-value{font-size:1.25rem}
+}
+@media(max-width:400px){
+  .key-metrics{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="site-name">calcstack.dev</a>
+  </div>
+</nav>
+
+<div class="container">
+  <h1>Rental Property Cash Flow Calculator</h1>
+  <p class="subtitle">Analyze rental income, expenses, NOI, cap rate, and annual cash-on-cash return for any investment property.</p>
+
+  <div class="card">
+    <!-- INCOME SECTION -->
+    <div class="section-title">Income</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="monthlyRent">Monthly Rent</label>
+        <div class="input-prefix">
+          <span>$</span>
+          <input type="number" id="monthlyRent" placeholder="2,000" min="0" value="2000">
+        </div>
+        <span class="error-msg" id="err-monthlyRent"></span>
+      </div>
+      <div class="form-group">
+        <label for="otherIncome">Other Monthly Income</label>
+        <div class="input-prefix">
+          <span>$</span>
+          <input type="number" id="otherIncome" placeholder="0" min="0" value="0">
+        </div>
+        <span class="error-msg" id="err-otherIncome"></span>
+      </div>
+      <div class="form-group">
+        <label for="vacancyRate">Vacancy Rate</label>
+        <div class="input-suffix">
+          <input type="number" id="vacancyRate" placeholder="5" min="0" max="100" value="5">
+          <span>%</span>
+        </div>
+        <span class="error-msg" id="err-vacancyRate"></span>
+      </div>
+      <div class="form-group">
+        <label for="annualRentGrowth">Annual Rent Growth</label>
+        <div class="input-suffix">
+          <input type="number" id="annualRentGrowth" placeholder="3" min="0" max="30" value="3">
+          <span>%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXPENSES SECTION -->
+    <div class="section-title" style="margin-top:1.5rem">Monthly Expenses</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="mortgagePayment">Mortgage Payment (P&I)</label>
+        <div class="input-prefix">
+          <span>$</span>
+          <input type="number" id="mortgagePayment" placeholder="1,200" min="0" value="1200">
+        </div>
+        <span class="error-msg" id="err-mortgagePayment"></span>
+      </div>
+      <div class="form-group">
+        <label for="propertyTax">Property Tax</label>
+        <div class="input-prefix">
+          <span>$</span>
+          <input type="number" id="propertyTax" placeholder="300" min="0" value="300">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="insurance">Insurance</label>
+        <div class="input-prefix">
+          <span>$</span>
+          <input type="number" id="insurance" placeholder="100" min="0" value="100">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="hoa">HOA Fees</label>
+        <div class="input-prefix">
+          <span>$</span>
+          <input type="number" id="hoa" placeholder="0" min="0" value="0">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="maintenance">Maintenance &amp; Repairs</label>
+        <div class="input-prefix">
+          <span>$</span>
+          <input type="number" id="maintenance" placeholder="150" min="0" value="150">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="propertyMgmt">Property Management</label>
+        <div class="input-prefix">
+          <span>$</span>
+          <input type="number" id="propertyMgmt" placeholder="0" min="0" value="0">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="utilities">Utilities (landlord-paid)</label>
+        <div class="input-prefix">
+          <span>$</span>
+          <input type="number" id="utilities" placeholder="0" min="0" value="0">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="otherExpenses">Other Expenses</label>
+        <div class="input-prefix">
+          <span>$</span>
+          <input type="number" id="otherExpenses" placeholder="0" min="0" value="0">
+        </div>
+      </div>
+    </div>
+
+    <!-- INVESTMENT SECTION -->
+    <div class="section-title" style="margin-top:1.5rem">Investment Details</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="purchasePrice">Purchase Price</label>
+        <div class="input-prefix">
+          <span>$</span>
+          <input type="number" id="purchasePrice" placeholder="250,000" min="0" value="250000">
+        </div>
+        <span class="error-msg" id="err-purchasePrice"></span>
+      </div>
+      <div class="form-group">
+        <label for="downPayment">Down Payment</label>
+        <div class="input-prefix">
+          <span>$</span>
+          <input type="number" id="downPayment" placeholder="50,000" min="0" value="50000">
+        </div>
+        <span class="error-msg" id="err-downPayment"></span>
+      </div>
+      <div class="form-group">
+        <label for="closingCosts">Closing Costs</label>
+        <div class="input-prefix">
+          <span>$</span>
+          <input type="number" id="closingCosts" placeholder="5,000" min="0" value="5000">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="rehabCosts">Rehab / Repairs</label>
+        <div class="input-prefix">
+          <span>$</span>
+          <input type="number" id="rehabCosts" placeholder="0" min="0" value="0">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="annualAppreciation">Annual Appreciation</label>
+        <div class="input-suffix">
+          <input type="number" id="annualAppreciation" placeholder="3" min="0" max="30" value="3">
+          <span>%</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="annualExpenseGrowth">Annual Expense Growth</label>
+        <div class="input-suffix">
+          <input type="number" id="annualExpenseGrowth" placeholder="2" min="0" max="30" value="2">
+          <span>%</span>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn" id="calcBtn">Calculate Cash Flow</button>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="results card" id="results">
+    <div class="copy-bar">
+      <button class="btn-secondary" id="copyBtn">📋 Copy Summary</button>
+    </div>
+
+    <div class="section-title">Key Metrics</div>
+    <div class="key-metrics" id="keyMetrics"></div>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="breakdown">Breakdown</button>
+      <button class="tab-btn" data-tab="projection">10-Year Projection</button>
+    </div>
+
+    <div class="tab-panel active" id="tab-breakdown">
+      <div class="breakdown-section">
+        <div class="breakdown-title">Monthly Income vs Expenses</div>
+        <div id="barChart"></div>
+      </div>
+      <div class="breakdown-section">
+        <div class="breakdown-title">Annual Summary</div>
+        <div class="table-scroll">
+          <table class="summary-table" id="summaryTable"></table>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="tab-projection">
+      <div class="table-scroll">
+        <table class="year-table" id="yearTable"></table>
+      </div>
+      <button class="show-all-btn" id="showAllBtn" style="display:none">Show All 10 Years ▼</button>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-mid"></div>
+
+  <div class="content-section">
+    <h2>How to Use This Rental Property Cash Flow Calculator</h2>
+    <p>Enter your property's monthly rent, vacancy rate, and all monthly expenses including your mortgage payment, taxes, insurance, and maintenance costs. Add the purchase price and your total cash invested (down payment + closing costs + rehab). Hit <strong>Calculate Cash Flow</strong> to instantly see your monthly and annual cash flow, net operating income (NOI), cap rate, and cash-on-cash return.</p>
+    <p>Switch to the <strong>10-Year Projection</strong> tab to see how rent growth, appreciation, and expense inflation affect your returns over time.</p>
+
+    <h2>Why This Matters</h2>
+    <p>Rental real estate is one of the most powerful wealth-building tools available — but only if the numbers work. A property that looks attractive at first glance can quietly destroy wealth when you factor in vacancy, maintenance, and rising expenses. Conversely, a "boring" duplex in a Midwest city might generate $400/month in cash flow that compounds into serious wealth over 20 years.</p>
+    <p>Consider this: a property with $2,000/month rent sounds great, but if your mortgage is $1,400, taxes $300, insurance $100, and maintenance averages $150, you're left with just $50/month before vacancy. That's a 2.5% vacancy rate wiping you out. Experienced investors target at least $200–$300/month per unit in net cash flow after all expenses, and a cash-on-cash return of 8–12% or higher.</p>
+    <p>This calculator is built for landlords analyzing their first property, seasoned investors comparing deals, and anyone using the BRRRR strategy who needs to know exact cash flow before refinancing.</p>
+
+    <h2>How It's Calculated</h2>
+    <p>The core formulas used in this calculator:</p>
+    <div class="formula-box">Gross Rental Income = Monthly Rent × 12<br>Effective Gross Income = Gross Income × (1 − Vacancy Rate)<br>NOI = Effective Gross Income − Annual Operating Expenses (excl. mortgage)<br>Annual Cash Flow = NOI − Annual Mortgage Payments<br>Cap Rate = NOI ÷ Purchase Price × 100<br>Cash-on-Cash Return = Annual Cash Flow ÷ Total Cash Invested × 100<br>Total Cash Invested = Down Payment + Closing Costs + Rehab</div>
+    <p>The 10-year projection compounds rent at your specified annual growth rate and expenses at the annual expense growth rate. Property value appreciates at your chosen appreciation rate each year.</p>
+
+    <h2>Tips &amp; Common Mistakes</h2>
+    <ul>
+      <li><strong>Don't underestimate maintenance.</strong> A common rule is to budget 1% of property value per year for repairs — for a $250,000 home, that's $208/month. Many new landlords skip this and get surprised by a $5,000 HVAC replacement.</li>
+      <li><strong>Always include a vacancy allowance.</strong> Even great properties sit empty during tenant turnover. A 5–8% vacancy rate (roughly 3–5 weeks per year) is realistic for most markets.</li>
+      <li><strong>Cap rate measures the deal, not your financing.</strong> Cap rate tells you how productive the property is independent of debt. Cash-on-cash tells you how efficiently you're using your own money.</li>
+      <li><strong>Property management changes the math.</strong> If you ever hire a manager (typically 8–10% of rent), your cash flow drops significantly. Model it now even if you self-manage.</li>
+      <li><strong>Positive cash flow isn't the whole story.</strong> Appreciation, mortgage paydown (equity buildup), and tax benefits (depreciation) are additional return components not captured in cash flow alone.</li>
+    </ul>
+
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>What is a good cash-on-cash return for a rental property?</summary>
+      <div class="faq-answer">Most experienced real estate investors target a cash-on-cash return of 8–12% or higher. Returns below 6% may not justify the illiquidity and management effort compared to other investments. However, in high-appreciation markets like coastal cities, investors often accept lower cash flow in exchange for stronger long-term appreciation.</div>
+    </details>
+    <details>
+      <summary>What's the difference between NOI and cash flow?</summary>
+      <div class="faq-answer">Net Operating Income (NOI) is calculated before debt service — it excludes your mortgage payment. Cash flow subtracts the mortgage payment from NOI. Lenders use NOI to evaluate a property's profitability independently of financing, while cash flow tells you how much money actually hits your bank account each month.</div>
+    </details>
+    <details>
+      <summary>How is cap rate used to compare properties?</summary>
+      <div class="faq-answer">Cap rate (capitalization rate) lets you compare properties regardless of how they're financed. A higher cap rate generally means more income relative to the purchase price. In competitive markets, cap rates of 4–6% are common; in smaller cities, 7–10% cap rates are achievable. Always compare cap rates within the same market and property type.</div>
+    </details>
+    <details>
+      <summary>Should I include appreciation in my analysis?</summary>
+      <div class="faq-answer">Yes, but treat it as a bonus, not a requirement. Relying on appreciation to make a deal work is speculative. Build your investment case on cash flow and NOI first — appreciation is the upside that can significantly accelerate wealth over 10–20 years, but it's not guaranteed.</div>
+    </details>
+  </div>
+
+  <div class="related-tools">
+    <h2>Related Financial Tools</h2>
+    <div class="related-grid">
+      <a href="/self-employment-tax-calculator/">Self-Employment Tax Calculator</a>
+      <a href="/payoff-debt-vs-invest-calculator/">Payoff Debt vs Invest Calculator</a>
+      <a href="/home-equity-loan-vs-heloc-calculator/">Home Equity Loan vs HELOC Calculator</a>
+      <a href="/roth-ira-conversion-calculator/">Roth IRA Conversion Calculator</a>
+      <a href="/college-savings-calculator/">College Savings Calculator</a>
+      <a href="/social-security-benefits-estimator/">Social Security Benefits Estimator</a>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-bottom"></div>
+
+  <footer>
+    <div>
+      <a href="/about/">About</a>
+      <a href="/privacy/">Privacy</a>
+      <a href="/contact/">Contact</a>
+    </div>
+    <div style="margin-top:0.5rem">© 2024 calcstack.dev — Free Financial Calculators</div>
+  </footer>
+</div>
+
+<script>
+(function(){
+  function fmt(n){return '$'+Math.abs(n).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});}
+  function fmtK(n){return '$'+n.toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:0});}
+  function pct(n){return n.toFixed(2)+'%';}
+  function getVal(id){return parseFloat(document.getElementById(id).value)||0;}
+  function clearErrors(){document.querySelectorAll('.error-msg').forEach(e=>e.textContent='');document.querySelectorAll('input.error').forEach(e=>e.classList.remove('error'));}
+  function setError(id,msg){document.getElementById('err-'+id).textContent=msg;document.getElementById(id).classList.add('error');return false;}
+
+  let showAll=false;
+  let lastProjection=[];
+
+  function validate(){
+    clearErrors();
+    let ok=true;
+    if(getVal('monthlyRent')<=0){setError('monthlyRent','Enter a monthly rent greater than $0.');ok=false;}
+    if(getVal('vacancyRate')<0||getVal('vacancyRate')>100){setError('vacancyRate','Enter a vacancy rate between 0–100%.');ok=false;}
+    if(getVal('purchasePrice')<=0){setError('purchasePrice','Enter a purchase price greater than $0.');ok=false;}
+    if(getVal('downPayment')<0){setError('downPayment','Down payment cannot be negative.');ok=false;}
+    if(getVal('downPayment')>getVal('purchasePrice')&&getVal('purchasePrice')>0){setError('downPayment','Down payment cannot exceed purchase price.');ok=false;}
+    return ok;
+  }
+
+  function calculate(){
+    if(!validate())return;
+
+    const monthlyRent=getVal('monthlyRent');
+    const otherIncome=getVal('otherIncome');
+    const vacancyRate=getVal('vacancyRate')/100;
+    const rentGrowth=getVal('annualRentGrowth')/100;
+    const mortgage=getVal('mortgagePayment');
+    const propTax=getVal('propertyTax');
+    const insurance=getVal('insurance');
+    const hoa=getVal('hoa');
+    const maintenance=getVal('maintenance');
+    const mgmt=getVal('propertyMgmt');
+    const utilities=getVal('utilities');
+    const otherExp=getVal('otherExpenses');
+    const purchasePrice=getVal('purchasePrice');
+    const downPayment=getVal('downPayment');
+    const closingCosts=getVal('closingCosts');
+    const rehab=getVal('rehabCosts');
+    const appreciation=getVal('annualAppreciation')/100;
+    const expGrowth=getVal('annualExpenseGrowth')/100;
+
+    const totalCashInvested=downPayment+closingCosts+rehab;
+    const grossMonthlyIncome=(monthlyRent+otherIncome);
+    const effectiveMonthlyIncome=grossMonthlyIncome*(1-vacancyRate);
+    const operatingExpensesMonthly=propTax+insurance+hoa+maintenance+mgmt+utilities+otherExp;
+    const totalMonthlyExpenses=operatingExpensesMonthly+mortgage;
+    const monthlyCashFlow=effectiveMonthlyIncome-totalMonthlyExpenses;
+    const annualCashFlow=monthlyCashFlow*12;
+    const annualNOI=(effectiveMonthlyIncome-operatingExpensesMonthly)*12;
+    const capRate=purchasePrice>0?(annualNOI/purchasePrice)*100:0;
+    const cocReturn=totalCashInvested>0?(annualCashFlow/totalCashInvested)*100:0;
+    const grossRentMultiplier=purchasePrice>0&&grossMonthlyIncome>0?purchasePrice/(grossMonthlyIncome*12):0;
+
+    // 10-year projection
+    const projection=[];
+    let curRent=monthlyRent+otherIncome;
+    let curOpEx=operatingExpensesMonthly;
+    let curPropValue=purchasePrice;
+    let cumulativeCashFlow=0;
+    for(let y=1;y<=10;y++){
+      if(y>1){curRent*=(1+rentGrowth);curOpEx*=(1+expGrowth);curPropValue*=(1+appreciation);}
+      const effIncome=curRent*(1-vacancyRate)*12;
+      const opExAnn=curOpEx*12;
+      const noi=effIncome-opExAnn;
+      const cf=noi-(mortgage*12);
+      cumulativeCashFlow+=cf;
+      projection.push({year:y,rent:curRent,effIncome,opExAnn,mortgage:mortgage*12,noi,cf,cumulativeCashFlow,propValue:curPropValue});
+    }
+    lastProjection=projection;
+
+    requestAnimationFrame(()=>{
+      // Key metrics
+      const cfClass=monthlyCashFlow>=0?'positive':'negative';
+      const cocClass=cocReturn>=0?'positive':'negative';
+      document.getElementById('keyMetrics').innerHTML=`
+        <div class="metric-card highlight">
+          <div class="metric-label">Monthly Cash Flow</div>
+          <div class="metric-value ${cfClass}">${monthlyCashFlow>=0?'':'-'}${fmt(monthlyCashFlow)}</div>
+          <div class="metric-sub">After all expenses &amp; mortgage</div>
+        </div>
+        <div class="metric-card highlight">
+          <div class="metric-label">Annual Cash Flow</div>
+          <div class="metric-value ${cfClass}">${annualCashFlow>=0?'':'-'}${fmt(annualCashFlow)}</div>
+          <div class="metric-sub">Year 1 projection</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Cash-on-Cash Return</div>
+          <div class="metric-value ${cocClass}">${cocReturn>=0?'':'-'}${pct(Math.abs(cocReturn))}</div>
+          <div class="metric-sub">Based on ${fmtK(totalCashInvested)} invested</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Cap Rate</div>
+          <div class="metric-value neutral">${pct(capRate)}</div>
+          <div class="metric-sub">NOI ÷ Purchase Price</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Net Operating Income</div>
+          <div class="metric-value neutral">${fmtK(annualNOI)}/yr</div>
+          <div class="metric-sub">Before mortgage</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Gross Rent Multiplier</div>
+          <div class="metric-value neutral">${grossRentMultiplier.toFixed(1)}x</div>
+          <div class="metric-sub">Price ÷ Annual Rent</div>
+        </div>
+      `;
+
+      // Bar chart
+      const maxVal=Math.max(effectiveMonthlyIncome,totalMonthlyExpenses,Math.abs(monthlyCashFlow),1);
+      const incomeW=(effectiveMonthlyIncome/maxVal*100).toFixed(1);
+      const expW=(totalMonthlyExpenses/maxVal*100).toFixed(1);
+      const cfW=(Math.abs(monthlyCashFlow)/maxVal*100).toFixed(1);
+      const opW=(operatingExpensesMonthly/maxVal*100).toFixed(1);
+      const mortW=(mortgage/maxVal*100).toFixed(1);
+
+      document.getElementById('barChart').innerHTML=`
+        <div class="bar-item">
+          <div class="bar-label-row"><span class="bar-label">Effective Monthly Income</span><span class="bar-amount">${fmt(effectiveMonthlyIncome)}</span></div>
+          <div class="bar-track"><div class="bar-fill bar-income" style="width:${incomeW}%"></div></div>
+        </div>
+        <div class="bar-item">
+          <div class="bar-label-row"><span class="bar-label">Operating Expenses</span><span class="bar-amount">${fmt(operatingExpensesMonthly)}</span></div>
+          <div class="bar-track"><div class="bar-fill bar-expense" style="width:${opW}%"></div></div>
+        </div>
+        <div class="bar-item">
+          <div class="bar-label-row"><span class="bar-label">Mortgage (P&amp;I)</span><span class="bar-amount">${fmt(mortgage)}</span></div>
+          <div class="bar-track"><div class="bar-fill bar-neutral" style="width:${mortW}%"></div></div>
+        </div>
+        <div class="bar-item">
+          <div class="bar-label-row"><span class="bar-label">Total Expenses</span><span class="bar-amount">${fmt(totalMonthlyExpenses)}</span></div>
+          <div class="bar-track"><div class="bar-fill bar-expense" style="width:${expW}%"></div></div>
+        </div>
+        <div class="bar-item">
+          <div class="bar-label-row"><span class="bar-label">Net Cash Flow</span><span class="bar-amount" style="color:${monthlyCashFlow>=0?'#27ae60':'#e74c3c'}">${monthlyCashFlow>=0?'':'-'}${fmt(monthlyCashFlow)}</span></div>
+          <div class="bar-track"><div class="bar-fill ${monthlyCashFlow>=0?'bar-cashflow':'bar-expense'}" style="width:${cfW}%"></div></div>
+        </div>
+      `;
+
+      // Summary table
+      const rows=[
+        ['Gross Rental Income',fmtK(grossMonthlyIncome*12),'Income'],
+        ['Vacancy Loss',`-${fmtK(grossMonthlyIncome*vacancyRate*12)}`,'Deduction'],
+        ['Other Income',fmtK(otherIncome*12),'Income'],
+        ['Effective Gross Income',fmtK(effectiveMonthlyIncome*12),'Subtotal'],
+        ['Property Tax',`-${fmtK(propTax*12)}`,'Expense'],
+        ['Insurance',`-${fmtK(insurance*12)}`,'Expense'],
+        ['HOA Fees',`-${fmtK(hoa*12)}`,'Expense'],
+        ['Maintenance &amp; Repairs',`-${fmtK(maintenance*12)}`,'Expense'],
+        ['Property Management',`-${fmtK(mgmt*12)}`,'Expense'],
+        ['Utilities',`-${fmtK(utilities*12)}`,'Expense'],
+        ['Other Expenses',`-${fmtK(otherExp*12)}`,'Expense'],
+        ['Net Operating Income (NOI)',fmtK(annualNOI),'NOI'],
+        ['Annual Mortgage Payment',`-${fmtK(mortgage*12)}`,'Debt'],
+        ['Annual Cash Flow',`${annualCashFlow>=0?'':'-'}${fmtK(Math.abs(annualCashFlow))}`,'CashFlow']
+      ];
+      let thtml='<thead><tr><th>Item</th><th style="text-align:right">Annual Amount</th></tr></thead><tbody>';
+      rows.forEach(r=>{
+        let style='';
+        if(r[2]==='NOI'||r[2]==='Subtotal')style='font-weight:700;border-top:1px solid #ddd;';
+        if(r[2]==='CashFlow'){style='font-weight:700;font-size:1rem;border-top:2px solid #ddd;';if(annualCashFlow<0)style+='color:#e74c3c;';else style+='color:#27ae60;';}
+        thtml+=`<tr><td style="${style}">${r[0]}</td><td style="text-align:right;${style}">${r[1]}</td></tr>`;
+      });
+      thtml+='</tbody>';
+      document.getElementById('summaryTable').innerHTML=thtml;
+
+      // Year table
+      buildYearTable(false);
+
+      // Show results
+      document.getElementById('results').classList.add('visible');
+      document.getElementById('results').scrollIntoView({behavior:'smooth',block:'nearest'});
+    });
+  }
+
+  function buildYearTable(all){
+    const rows=all?lastProjection:lastProjection.slice(0,5);
+    let th='<thead><tr><th>Year</th><th>Rent/Mo</th><th>Eff. Income</th><th>Op. Expenses</th><th>NOI</th><th>Cash Flow</th><th>Cumulative CF</th><th>Prop. Value</th></tr></thead><tbody>';
+    rows.forEach(r=>{
+      const cfClass=r.cf>=0?'positive-cell':'negative-cell';
+      const cumClass=r.cumulativeCashFlow>=0?'positive-cell':'negative-cell';
+      th+=`<tr>
+        <td>Year ${r.year}</td>
+        <td>${fmtK(r.rent)}</td>
+        <td>${fmtK(r.effIncome)}</td>
+        <td>${fmtK(r.opExAnn)}</td>
+        <td>${fmtK(r.noi)}</td>
+        <td class="${cfClass}">${r.cf>=0?'':'-'}${fmtK(Math.abs(r.cf))}</td>
+        <td class="${cumClass}">${r.cumulativeCashFlow>=0?'':'-'}${fmtK(Math.abs(r.cumulativeCashFlow))}</td>
+        <td>${fmtK(r.propValue)}</td>
+      </tr>`;
+    });
+    th+='</tbody>';
+    document.getElementById('yearTable').innerHTML=th;
+    const btn=document.getElementById('showAllBtn');
+    if(!all&&lastProjection.length>5){btn.style.display='block';btn.textContent='Show All 10 Years ▼';}
+    else{btn.style.display='none';}
+  }
+
+  document.getElementById('showAllBtn').addEventListener('click',function(){
+    showAll=true;
+    requestAnimationFrame(()=>{buildYearTable(true);this.style.display='none';});
+  });
+
+  // Tabs
+  document.querySelectorAll('.tab-btn').forEach(btn=>{
+    btn.addEventListener('click',function(){
+      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+      this.classList.add('active');
+      document.getElementById('tab-'+this.dataset.tab).classList.add('active');
+    });
+  });
+
+  // Copy
+  document.getElementById('copyBtn').addEventListener('click',function(){
+    if(!lastProjection.length)return;
+    const metrics=document.getElementById('keyMetrics').innerText;
+    const summary=document.getElementById('summaryTable').innerText;
+    const text='Rental Property Cash Flow Analysis\n\n'+metrics+'\n\nAnnual Summary\n'+summary;
+    navigator.clipboard.writeText(text).then(()=>{
+      this.textContent='✓ Copied!';setTimeout(()=>{this.textContent='📋 Copy Summary';},2000);
+    }).catch(()=>{
+      this.textContent='Copy failed';setTimeout(()=>{this.textContent='📋 Copy Summary';},2000);
+    });
+  });
+
+  // Calc button + Enter
+  document.getElementById('calcBtn').addEventListener('click',()=>{
+    requestAnimationFrame(()=>{calculate();});
+  });
+  document.querySelectorAll('input').forEach(inp=>{
+    inp.addEventListener('keydown',e=>{if(e.key==='Enter')requestAnimationFrame(()=>{calculate();});});
+  });
+
+  // Run on load with defaults
+  requestAnimationFrame(()=>{calculate();});
+})();
+</script>
+</body>
+</html>
