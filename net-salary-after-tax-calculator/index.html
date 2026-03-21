@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Net Salary After Tax Calculator — Free Online Tool | calcstack.dev</title>
+<meta name="description" content="Calculate your net salary after federal, state, and FICA taxes instantly. See your take-home pay broken down by year, month, and hour. Free net salary after tax calculator.">
+<link rel="canonical" href="https://calcstack.dev/net-salary-after-tax-calculator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Net Salary After Tax Calculator",
+  "url": "https://calcstack.dev/net-salary-after-tax-calculator/",
+  "description": "Calculate your net salary after federal, state, and FICA taxes. See take-home pay by year, month, biweekly, and hourly.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f0f4f8;color:#1a1a2e;font-size:16px;line-height:1.6}
+a{color:#0077b6;text-decoration:none}
+a:hover{text-decoration:underline}
+nav{background:#fff;border-bottom:1px solid #e0e0e0;padding:0 1.5rem}
+.nav-inner{max-width:640px;margin:0 auto;display:flex;align-items:center;height:52px}
+.nav-brand{font-weight:700;font-size:1.1rem;color:#1a1a2e}
+.nav-brand span{color:#0077b6}
+main{max-width:640px;margin:0 auto;padding:1.5rem 1rem 2rem}
+h1{font-size:1.55rem;font-weight:700;color:#1a1a2e;margin-bottom:.4rem}
+.subtitle{color:#555;font-size:.95rem;margin-bottom:1.5rem}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;box-shadow:0 1px 4px rgba(0,0,0,.06);margin-bottom:2rem}
+.form-group{margin-bottom:1.2rem}
+label{display:block;font-size:.85rem;font-weight:500;color:#444;margin-bottom:.4rem}
+input[type=number],select{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:6px;font-size:.95rem;color:#1a1a2e;background:#fff;transition:border-color .2s,box-shadow .2s;-webkit-appearance:none;appearance:none;min-height:44px}
+input[type=number]:focus,select:focus{outline:none;border-color:#0077b6;box-shadow:0 0 0 3px rgba(0,119,182,.15)}
+input.error{border-color:#e74c3c}
+.error-msg{color:#e74c3c;font-size:.8rem;margin-top:.3rem;display:none}
+.error-msg.show{display:block}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.btn{background:#0077b6;color:#fff;border:none;padding:13px 24px;border-radius:6px;font-size:1rem;font-weight:600;cursor:pointer;width:100%;min-height:44px;transition:background .2s}
+.btn:hover{background:#006299}
+.btn:active{background:#005580}
+.results{opacity:0;transition:opacity .3s ease;pointer-events:none}
+.results.visible{opacity:1;pointer-events:all}
+.big-number{font-size:2.6rem;font-weight:800;color:#0077b6;line-height:1.1}
+.big-label{font-size:.9rem;color:#666;margin-top:.25rem;margin-bottom:1.5rem}
+.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1.5rem}
+.summary-box{background:#f8f9fa;border-radius:6px;padding:.9rem 1rem;border:1px solid #e8e8e8}
+.summary-box .s-label{font-size:.78rem;color:#666;font-weight:500}
+.summary-box .s-val{font-size:1.15rem;font-weight:700;color:#1a1a2e;margin-top:.15rem}
+.section-title{font-size:1rem;font-weight:700;color:#1a1a2e;margin-bottom:.9rem;padding-bottom:.4rem;border-bottom:2px solid #f0f0f0}
+/* Bar chart */
+.breakdown-bars{margin-bottom:1.5rem}
+.bar-row{display:flex;align-items:center;margin-bottom:.55rem;gap:.6rem}
+.bar-row-label{font-size:.8rem;color:#444;width:120px;flex-shrink:0;text-align:right}
+.bar-track{flex:1;background:#f0f0f0;border-radius:4px;height:20px;overflow:hidden;position:relative}
+.bar-fill{height:100%;border-radius:4px;transition:width .5s ease}
+.bar-row-val{font-size:.8rem;font-weight:600;color:#1a1a2e;width:80px;text-align:right;flex-shrink:0}
+.bar-net{background:#0077b6}
+.bar-fed{background:#e8835a}
+.bar-fica{background:#a78bfa}
+.bar-state{background:#34d399}
+.stacked-bar-wrapper{margin-bottom:1.5rem}
+.stacked-bar{height:32px;border-radius:6px;overflow:hidden;display:flex;width:100%}
+.stacked-bar-section{height:100%;transition:width .5s ease}
+.stacked-legend{display:flex;flex-wrap:wrap;gap:.5rem .9rem;margin-top:.5rem}
+.legend-item{display:flex;align-items:center;gap:.35rem;font-size:.78rem;color:#444}
+.legend-dot{width:11px;height:11px;border-radius:2px;flex-shrink:0}
+/* Table */
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.85rem}
+th{background:#f0f0f0;padding:8px 10px;text-align:left;font-weight:600;color:#333;white-space:nowrap}
+th.num,td.num{text-align:right}
+td{padding:7px 10px;border-bottom:1px solid #f0f0f0;white-space:nowrap}
+tr:nth-child(even) td{background:#fafafa}
+.toggle-btn{background:none;border:1px solid #0077b6;color:#0077b6;border-radius:5px;padding:7px 18px;font-size:.85rem;cursor:pointer;margin-top:.75rem;min-height:36px;transition:background .2s,color .2s}
+.toggle-btn:hover{background:#0077b6;color:#fff}
+.copy-btn{background:none;border:1px solid #ddd;color:#555;border-radius:5px;padding:6px 14px;font-size:.8rem;cursor:pointer;float:right;min-height:36px;transition:all .2s}
+.copy-btn:hover{border-color:#0077b6;color:#0077b6}
+.copy-btn.copied{border-color:#27ae60;color:#27ae60}
+.ad-slot{min-height:0;margin:0}
+/* Content */
+.content-section{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:1.5rem 2rem;margin-bottom:2rem}
+.content-section h2{font-size:1.1rem;font-weight:700;color:#1a1a2e;margin-bottom:.6rem;margin-top:1.4rem}
+.content-section h2:first-child{margin-top:0}
+.content-section p{font-size:.92rem;color:#444;margin-bottom:.7rem;line-height:1.65}
+.content-section ul{padding-left:1.2rem;margin-bottom:.7rem}
+.content-section ul li{font-size:.92rem;color:#444;margin-bottom:.35rem;line-height:1.6}
+details{border:1px solid #e8e8e8;border-radius:6px;margin-bottom:.6rem}
+summary{padding:.7rem 1rem;font-weight:600;font-size:.9rem;cursor:pointer;color:#1a1a2e}
+summary:hover{background:#f8f9fa}
+details p{padding:.5rem 1rem .8rem;font-size:.88rem;color:#555;line-height:1.6}
+.related-tools{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:.5rem}
+.related-tools a{background:#f8f9fa;border:1px solid #e0e0e0;border-radius:6px;padding:.65rem .9rem;font-size:.85rem;color:#0077b6;display:block;transition:background .2s}
+.related-tools a:hover{background:#e8f4fb;text-decoration:none}
+footer{border-top:1px solid #e0e0e0;background:#fff;padding:1rem 1.5rem;text-align:center;font-size:.82rem;color:#888}
+footer a{color:#0077b6;margin:0 .5rem}
+.note{font-size:.78rem;color:#888;margin-top:.5rem;font-style:italic}
+@media(max-width:640px){
+  .row2{grid-template-columns:1fr}
+  .summary-grid{grid-template-columns:1fr 1fr}
+  .big-number{font-size:2rem}
+  .related-tools{grid-template-columns:1fr}
+  .bar-row-label{width:90px;font-size:.75rem}
+  .bar-row-val{width:68px;font-size:.75rem}
+  .content-section{padding:1.2rem 1.2rem}
+  .card{padding:1.5rem 1.2rem}
+}
+@media(max-width:380px){
+  .summary-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">calc<span>stack</span>.dev</a>
+  </div>
+</nav>
+
+<main>
+  <h1>Net Salary After Tax Calculator</h1>
+  <p class="subtitle">Find your real take-home pay after federal income tax, FICA, and state taxes.</p>
+
+  <div class="card">
+    <div class="form-group">
+      <label for="grossSalary">Gross Annual Salary ($)</label>
+      <input type="number" id="grossSalary" placeholder="e.g. 75000" min="0" max="100000000">
+      <div class="error-msg" id="salaryErr">Please enter a valid gross salary greater than $0.</div>
+    </div>
+
+    <div class="row2">
+      <div class="form-group">
+        <label for="filingStatus">Filing Status</label>
+        <select id="filingStatus">
+          <option value="single">Single</option>
+          <option value="married">Married Filing Jointly</option>
+          <option value="hoh">Head of Household</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="stateSelect">State</label>
+        <select id="stateSelect">
+          <option value="0">No State Tax / Other</option>
+          <option value="AL">Alabama (5%)</option>
+          <option value="AK">Alaska (0%)</option>
+          <option value="AZ">Arizona (2.5%)</option>
+          <option value="AR">Arkansas (4.7%)</option>
+          <option value="CA">California (9.3%)</option>
+          <option value="CO">Colorado (4.4%)</option>
+          <option value="CT">Connecticut (6.99%)</option>
+          <option value="DE">Delaware (6.6%)</option>
+          <option value="FL">Florida (0%)</option>
+          <option value="GA">Georgia (5.49%)</option>
+          <option value="HI">Hawaii (11%)</option>
+          <option value="ID">Idaho (5.8%)</option>
+          <option value="IL">Illinois (4.95%)</option>
+          <option value="IN">Indiana (3.05%)</option>
+          <option value="IA">Iowa (6%)</option>
+          <option value="KS">Kansas (5.7%)</option>
+          <option value="KY">Kentucky (4.5%)</option>
+          <option value="LA">Louisiana (4.25%)</option>
+          <option value="ME">Maine (7.15%)</option>
+          <option value="MD">Maryland (5.75%)</option>
+          <option value="MA">Massachusetts (5%)</option>
+          <option value="MI">Michigan (4.25%)</option>
+          <option value="MN">Minnesota (9.85%)</option>
+          <option value="MS">Mississippi (5%)</option>
+          <option value="MO">Missouri (4.95%)</option>
+          <option value="MT">Montana (6.75%)</option>
+          <option value="NE">Nebraska (6.84%)</option>
+          <option value="NV">Nevada (0%)</option>
+          <option value="NH">New Hampshire (0%)</option>
+          <option value="NJ">New Jersey (10.75%)</option>
+          <option value="NM">New Mexico (5.9%)</option>
+          <option value="NY">New York (10.9%)</option>
+          <option value="NC">North Carolina (4.75%)</option>
+          <option value="ND">North Dakota (2.5%)</option>
+          <option value="OH">Ohio (3.99%)</option>
+          <option value="OK">Oklahoma (4.75%)</option>
+          <option value="OR">Oregon (9.9%)</option>
+          <option value="PA">Pennsylvania (3.07%)</option>
+          <option value="RI">Rhode Island (5.99%)</option>
+          <option value="SC">South Carolina (6.4%)</option>
+          <option value="SD">South Dakota (0%)</option>
+          <option value="TN">Tennessee (0%)</option>
+          <option value="TX">Texas (0%)</option>
+          <option value="UT">Utah (4.65%)</option>
+          <option value="VT">Vermont (8.75%)</option>
+          <option value="VA">Virginia (5.75%)</option>
+          <option value="WA">Washington (0%)</option>
+          <option value="WV">West Virginia (6.5%)</option>
+          <option value="WI">Wisconsin (7.65%)</option>
+          <option value="WY">Wyoming (0%)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row2">
+      <div class="form-group">
+        <label for="preTax401k">Pre-Tax 401(k) Contribution ($)</label>
+        <input type="number" id="preTax401k" placeholder="e.g. 5000" min="0" value="0">
+      </div>
+      <div class="form-group">
+        <label for="otherPreTax">Other Pre-Tax Deductions ($)</label>
+        <input type="number" id="otherPreTax" placeholder="e.g. 2400" min="0" value="0">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="payPeriod">Pay Period</label>
+      <select id="payPeriod">
+        <option value="52">Weekly (52×/yr)</option>
+        <option value="26" selected>Biweekly (26×/yr)</option>
+        <option value="24">Semi-Monthly (24×/yr)</option>
+        <option value="12">Monthly (12×/yr)</option>
+      </select>
+    </div>
+
+    <button class="btn" id="calcBtn">Calculate Net Salary</button>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="card results" id="resultsCard">
+    <button class="copy-btn" id="copyBtn">Copy Results</button>
+    <div class="big-number" id="bigNumber">$0</div>
+    <div class="big-label">Annual Take-Home Pay (Net Salary)</div>
+
+    <div class="summary-grid" id="summaryGrid"></div>
+
+    <div class="section-title">Visual Breakdown</div>
+    <div class="stacked-bar-wrapper">
+      <div class="stacked-bar" id="stackedBar"></div>
+      <div class="stacked-legend" id="stackedLegend"></div>
+    </div>
+    <div class="breakdown-bars" id="breakdownBars"></div>
+
+    <div class="section-title">Pay Period Breakdown</div>
+    <div class="table-wrap">
+      <table id="periodTable">
+        <thead><tr><th>Period</th><th class="num">Gross</th><th class="num">Fed Tax</th><th class="num">FICA</th><th class="num">State Tax</th><th class="num">Deductions</th><th class="num">Net Pay</th></tr></thead>
+        <tbody id="periodBody"></tbody>
+      </table>
+    </div>
+    <p class="note">*Effective rates used for estimation. Actual withholding may vary.</p>
+  </div>
+
+  <div class="ad-slot" id="ad-mid"></div>
+
+  <!-- CONTENT -->
+  <div class="content-section">
+    <h2>How to Use This Net Salary After Tax Calculator</h2>
+    <p>Enter your gross annual salary, choose your filing status and state, then add any pre-tax deductions like 401(k) contributions or health insurance premiums. Hit "Calculate Net Salary" to instantly see your take-home pay broken down by year, month, biweekly period, and week.</p>
+
+    <h2>Why This Matters</h2>
+    <p>Your gross salary and your actual take-home pay can differ dramatically. Someone earning $85,000 in California might pocket just $57,000 after federal, state, and FICA taxes — a difference of over $28,000. That gap has real consequences: it determines whether you can afford a mortgage, how aggressively you can save, and whether a job offer in a different state is actually worth taking.</p>
+    <p>Consider a common scenario: you're offered a $100,000 job in New York vs. a $90,000 job in Texas. After taxes, the Texas salary nets roughly $72,000 while the New York role nets about $65,000 — making the lower nominal salary the better financial deal. This calculator surfaces those hidden differences so you can make informed comparisons.</p>
+    <p>Pre-tax contributions matter too. Putting $10,000/year into a 401(k) doesn't reduce your take-home by $10,000 — because that contribution lowers your taxable income, your federal and state tax bills shrink, meaning the true after-tax cost might be closer to $6,500–$7,500 depending on your bracket.</p>
+
+    <h2>How It's Calculated</h2>
+    <p>The calculator uses 2024 federal income tax brackets with the standard deduction applied first ($14,600 single / $29,200 married / $21,900 head of household). Your pre-tax deductions (401k, health insurance) further reduce taxable income before brackets are applied.</p>
+    <p><strong>Formula:</strong></p>
+    <ul>
+      <li>Taxable Income = Gross Salary − Standard Deduction − Pre-Tax Deductions</li>
+      <li>Federal Tax = Sum of marginal bracket taxes on Taxable Income</li>
+      <li>Social Security = min(Gross, $168,600) × 6.2%</li>
+      <li>Medicare = Gross × 1.45% (+ 0.9% on income over $200k)</li>
+      <li>State Tax ≈ Gross × Effective State Rate (simplified flat-equivalent)</li>
+      <li><strong>Net Salary = Gross − Federal Tax − SS − Medicare − State Tax − Pre-Tax Deductions</strong></li>
+    </ul>
+
+    <h2>Tips &amp; Common Mistakes</h2>
+    <ul>
+      <li><strong>Don't forget FICA:</strong> Social Security (6.2%) and Medicare (1.45%) together take 7.65% of every dollar — many people focus only on income tax and are surprised by their actual paycheck.</li>
+      <li><strong>Pre-tax beats post-tax for current savings:</strong> Maxing your 401(k) ($23,000 in 2024) at a 22% bracket saves $5,060 in federal taxes alone — free money left on the table otherwise.</li>
+      <li><strong>State taxes vary wildly:</strong> Moving from California (13.3% top rate) to Texas (0%) can mean an extra $10,000+ per year at higher salaries with no change in gross pay.</li>
+      <li><strong>This is an estimate:</strong> Actual withholding depends on your W-4 allowances, local city taxes, and specific state progressive brackets — consult a CPA for tax planning.</li>
+      <li><strong>Bonus and side income are taxed separately:</strong> Bonuses are often withheld at a flat 22% federal rate and stack on top of your salary for bracket purposes at year-end.</li>
+    </ul>
+
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>What's the difference between gross salary and net salary?</summary>
+      <p>Gross salary is what your employer pays you before any deductions — it's the number on your offer letter. Net salary (take-home pay) is what actually hits your bank account after federal taxes, FICA (Social Security + Medicare), state taxes, and any pre-tax benefit deductions are removed. For most Americans, take-home pay is 65–80% of gross salary.</p>
+    </details>
+    <details>
+      <summary>How accurate is this calculator?</summary>
+      <p>This tool uses 2024 federal tax brackets with the standard deduction and simplified state effective rates. It's accurate for straightforward W-2 employees using the standard deduction. It does not account for local/city taxes, itemized deductions, tax credits, investment income, or alternative minimum tax. For complex situations, consult a tax professional.</p>
+    </details>
+    <details>
+      <summary>Does a 401(k) contribution really lower my taxes?</summary>
+      <p>Yes — traditional 401(k) contributions are pre-tax, meaning they reduce your taxable income dollar-for-dollar before federal and most state income taxes are calculated. On a $75,000 salary in the 22% federal bracket, contributing $6,000 to a 401(k) saves you $1,320 in federal taxes alone. Your actual paycheck reduction is less than the contribution amount.</p>
+    </details>
+    <details>
+      <summary>Why do I owe more taxes than expected at filing time?</summary>
+      <p>Paycheck withholding is an estimate based on your W-4 elections. If you have multiple jobs, significant investment income, freelance work, or claim fewer allowances than your actual situation, you can end up underpaying throughout the year and owe a balance come April. Updating your W-4 with your employer or making estimated quarterly payments can prevent this.</p>
+    </details>
+  </div>
+
+  <div class="content-section">
+    <h2>Related Tools</h2>
+    <div class="related-tools">
+      <a href="/options-profit-loss-calculator/">Options Profit/Loss Calculator</a>
+      <a href="/rental-property-cash-flow-calculator/">Rental Property Cash Flow Calculator</a>
+      <a href="/self-employment-tax-calculator/">Self-Employment Tax Calculator</a>
+      <a href="/payoff-debt-vs-invest-calculator/">Payoff Debt vs Invest Calculator</a>
+      <a href="/home-equity-loan-vs-heloc-calculator/">Home Equity Loan vs HELOC Calculator</a>
+      <a href="/roth-ira-conversion-calculator/">Roth IRA Conversion Calculator</a>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-bottom"></div>
+</main>
+
+<footer>
+  <a href="/about/">About</a>
+  <a href="/privacy/">Privacy</a>
+  <a href="/contact/">Contact</a>
+  <span style="margin-left:.5rem">© 2024 calcstack.dev</span>
+</footer>
+
+<script>
+// 2024 Federal Tax Brackets
+const BRACKETS = {
+  single: [
+    [11600, 0.10],
+    [44725 - 11600, 0.12],
+    [95375 - 44725, 0.22],
+    [201050 - 95375, 0.24],
+    [383900 - 201050, 0.32],
+    [487450 - 383900, 0.35],
+    [Infinity, 0.37]
+  ],
+  married: [
+    [23200, 0.10],
+    [89450 - 23200, 0.12],
+    [190750 - 89450, 0.22],
+    [364200 - 190750, 0.24],
+    [462500 - 364200, 0.32],
+    [693750 - 462500, 0.35],
+    [Infinity, 0.37]
+  ],
+  hoh: [
+    [16550, 0.10],
+    [63100 - 16550, 0.12],
+    [100500 - 63100, 0.22],
+    [191950 - 100500, 0.24],
+    [243700 - 191950, 0.32],
+    [609350 - 243700, 0.35],
+    [Infinity, 0.37]
+  ]
+};
+
+const STANDARD_DEDUCTION = { single: 14600, married: 29200, hoh: 21900 };
+
+const STATE_RATES = {
+  '0': 0, 'AL': 0.05, 'AK': 0, 'AZ': 0.025, 'AR': 0.047, 'CA': 0.093,
+  'CO': 0.044, 'CT': 0.0699, 'DE': 0.066, 'FL': 0, 'GA': 0.0549,
+  'HI': 0.11, 'ID': 0.058, 'IL': 0.0495, 'IN': 0.0305, 'IA': 0.06,
+  'KS': 0.057, 'KY': 0.045, 'LA': 0.0425, 'ME': 0.0715, 'MD': 0.0575,
+  'MA': 0.05, 'MI': 0.0425, 'MN': 0.0985, 'MS': 0.05, 'MO': 0.0495,
+  'MT': 0.0675, 'NE': 0.0684, 'NV': 0, 'NH': 0, 'NJ': 0.1075,
+  'NM': 0.059, 'NY': 0.109, 'NC': 0.0475, 'ND': 0.025, 'OH': 0.0399,
+  'OK': 0.0475, 'OR': 0.099, 'PA': 0.0307, 'RI': 0.0599, 'SC': 0.064,
+  'SD': 0, 'TN': 0, 'TX': 0, 'UT': 0.0465, 'VT': 0.0875,
+  'VA': 0.0575, 'WA': 0, 'WV': 0.065, 'WI': 0.0765, 'WY': 0
+};
+
+function calcFederalTax(taxableIncome, filing) {
+  if (taxableIncome <= 0) return 0;
+  const brackets = BRACKETS[filing];
+  let tax = 0, remaining = taxableIncome;
+  for (const [size, rate] of brackets) {
+    if (remaining <= 0) break;
+    const taxed = Math.min(remaining, size);
+    tax += taxed * rate;
+    remaining -= taxed;
+  }
+  return tax;
+}
+
+function fmt(n) {
+  return '$' + Math.round(n).toLocaleString('en-US');
+}
+function fmtD(n) {
+  return '$' + n.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2});
+}
+function pct(n) {
+  return (n * 100).toFixed(1) + '%';
+}
+
+function calculate() {
+  const salaryEl = document.getElementById('grossSalary');
+  const salaryErr = document.getElementById('salaryErr');
+  const gross = parseFloat(salaryEl.value);
+
+  salaryEl.classList.remove('error');
+  salaryErr.classList.remove('show');
+
+  if (!gross || gross <= 0 || isNaN(gross)) {
+    salaryEl.classList.add('error');
+    salaryErr.classList.add('show');
+    return;
+  }
+
+  const filing = document.getElementById('filingStatus').value;
+  const stateKey = document.getElementById('stateSelect').value;
+  const k401 = Math.max(0, parseFloat(document.getElementById('preTax401k').value) || 0);
+  const otherPre = Math.max(0, parseFloat(document.getElementById('otherPreTax').value) || 0);
+  const payPeriodsPerYear = parseInt(document.getElementById('payPeriod').value);
+
+  const totalPreTax = k401 + otherPre;
+  const stdDed = STANDARD_DEDUCTION[filing];
+  const taxableIncome = Math.max(0, gross - stdDed - totalPreTax);
+
+  const federalTax = calcFederalTax(taxableIncome, filing);
+
+  // FICA
+  const ssCap = 168600;
+  const ssTax = Math.min(gross, ssCap) * 0.062;
+  const medicareTax = gross * 0.0145 + (gross > 200000 ? (gross - 200000) * 0.009 : 0);
+  const ficaTax = ssTax + medicareTax;
+
+  // State
+  const stateRate = STATE_RATES[stateKey] || 0;
+  const stateTax = gross * stateRate;
+
+  const totalTax = federalTax + ficaTax + stateTax;
+  const netAnnual = gross - federalTax - ficaTax - stateTax - totalPreTax;
+  const effectiveRate = totalTax / gross;
+
+  const periods = [
+    { name: 'Annual', n: 1 },
+    { name: 'Monthly', n: 12 },
+    { name: payPeriodsPerYear === 26 ? 'Biweekly' : payPeriodsPerYear === 52 ? 'Weekly' : payPeriodsPerYear === 24 ? 'Semi-Monthly' : 'Monthly', n: payPeriodsPerYear },
+    { name: 'Daily (260 days)', n: 260 },
+    { name: 'Hourly (2080 hrs)', n: 2080 }
+  ];
+
+  requestAnimationFrame(() => {
+    document.getElementById('bigNumber').textContent = fmt(netAnnual);
+
+    // Summary grid
+    const summaryHTML = `
+      <div class="summary-box"><div class="s-label">Gross Salary</div><div class="s-val">${fmt(gross)}</div></div>
+      <div class="summary-box"><div class="s-label">Total Taxes</div><div class="s-val">${fmt(totalTax)}</div></div>
+      <div class="summary-box"><div class="s-label">Federal Income Tax</div><div class="s-val">${fmt(federalTax)}</div></div>
+      <div class="summary-box"><div class="s-label">FICA (SS + Medicare)</div><div class="s-val">${fmt(ficaTax)}</div></div>
+      <div class="summary-box"><div class="s-label">State Tax (${pct(stateRate)})</div><div class="s-val">${fmt(stateTax)}</div></div>
+      <div class="summary-box"><div class="s-label">Effective Tax Rate</div><div class="s-val">${pct(effectiveRate)}</div></div>
+      ${totalPreTax > 0 ? `<div class="summary-box"><div class="s-label">Pre-Tax Deductions</div><div class="s-val">${fmt(totalPreTax)}</div></div>` : ''}
+      <div class="summary-box" style="border:1px solid #0077b6;background:#e8f4fb"><div class="s-label">Monthly Take-Home</div><div class="s-val" style="color:#0077b6">${fmt(netAnnual/12)}</div></div>
+    `;
+    document.getElementById('summaryGrid').innerHTML = summaryHTML;
+
+    // Stacked bar
+    const stackedBarHTML = `
+      <div class="stacked-bar-section bar-net" style="width:${pct(netAnnual/gross)};background:#0077b6"></div>
+      <div class="stacked-bar-section" style="width:${pct(federalTax/gross)};background:#e8835a"></div>
+      <div class="stacked-bar-section" style="width:${pct(ficaTax/gross)};background:#a78bfa"></div>
+      ${stateTax > 0 ? `<div class="stacked-bar-section" style="width:${pct(stateTax/gross)};background:#34d399"></div>` : ''}
+      ${totalPreTax > 0 ? `<div class="stacked-bar-section" style="width:${pct(totalPreTax/gross)};background:#fbbf24"></div>` : ''}
+    `;
+    document.getElementById('stackedBar').innerHTML = stackedBarHTML;
+
+    const legendHTML = `
+      <div class="legend-item"><div class="legend-dot" style="background:#0077b6"></div>Net Pay (${pct(netAnnual/gross)})</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#e8835a"></div>Federal Tax (${pct(federalTax/gross)})</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#a78bfa"></div>FICA (${pct(ficaTax/gross)})</div>
+      ${stateTax > 0 ? `<div class="legend-item"><div class="legend-dot" style="background:#34d399"></div>State Tax (${pct(stateTax/gross)})</div>` : ''}
+      ${totalPreTax > 0 ? `<div class="legend-item"><div class="legend-dot" style="background:#fbbf24"></div>Pre-Tax Ded. (${pct(totalPreTax/gross)})</div>` : ''}
+    `;
+    document.getElementById('stackedLegend').innerHTML = legendHTML;
+
+    // Individual bars
+    const items = [
+      { label: 'Net Take-Home', val: netAnnual, pctVal: netAnnual/gross, cls: 'bar-net' },
+      { label: 'Federal Tax', val: federalTax, pctVal: federalTax/gross, cls: 'bar-fed' },
+      { label: 'FICA', val: ficaTax, pctVal: ficaTax/gross, cls: 'bar-fica' },
+      { label: 'State Tax', val: stateTax, pctVal: stateTax/gross, cls: 'bar-state' },
+    ];
+    if (totalPreTax > 0) items.push({ label: 'Pre-Tax Ded.', val: totalPreTax, pctVal: totalPreTax/gross, cls: '' });
+
+    let barsHTML = '';
+    for (const item of items) {
+      barsHTML += `<div class="bar-row">
+        <div class="bar-row-label">${item.label}</div>
+        <div class="bar-track"><div class="bar-fill ${item.cls}" style="width:${Math.max(0,Math.min(100,item.pctVal*100)).toFixed(1)}%;${item.cls===''?'background:#fbbf24':''}"></div></div>
+        <div class="bar-row-val">${fmt(item.val)}</div>
+      </div>`;
+    }
+    document.getElementById('breakdownBars').innerHTML = barsHTML;
+
+    // Period breakdown table
+    const payPeriodRows = [
+      { label: 'Annual', divisor: 1 },
+      { label: 'Monthly', divisor: 12 },
+      { label: payPeriodsPerYear === 52 ? 'Weekly' : payPeriodsPerYear === 26 ? 'Biweekly' : payPeriodsPerYear === 24 ? 'Semi-Monthly' : 'Monthly', divisor: payPeriodsPerYear },
+      { label: 'Daily', divisor: 260 },
+      { label: 'Hourly', divisor: 2080 },
+    ];
+    let tableHTML = '';
+    for (const row of payPeriodRows) {
+      const d = row.divisor;
+      tableHTML += `<tr>
+        <td>${row.label}</td>
+        <td class="num">${fmtD(gross/d)}</td>
+        <td class="num">${fmtD(federalTax/d)}</td>
+        <td class="num">${fmtD(ficaTax/d)}</td>
+        <td class="num">${fmtD(stateTax/d)}</td>
+        <td class="num">${fmtD(totalPreTax/d)}</td>
+        <td class="num" style="font-weight:700;color:#0077b6">${fmtD(netAnnual/d)}</td>
+      </tr>`;
+    }
+    document.getElementById('periodBody').innerHTML = tableHTML;
+
+    const card = document.getElementById('resultsCard');
+    card.classList.add('visible');
+    card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+    // Set copy data
+    window._copyData = `Net Salary After Tax Summary
+Gross Salary: ${fmt(gross)}
+Federal Tax: ${fmt(federalTax)} (${pct(federalTax/gross)})
+FICA: ${fmt(ficaTax)} (${pct(ficaTax/gross)})
+State Tax: ${fmt(stateTax)} (${pct(stateRate)})
+Pre-Tax Deductions: ${fmt(totalPreTax)}
+Total Taxes: ${fmt(totalTax)} (Effective Rate: ${pct(effectiveRate)})
+Annual Net Pay: ${fmt(netAnnual)}
+Monthly Net Pay: ${fmt(netAnnual/12)}`;
+  });
+}
+
+document.getElementById('calcBtn').addEventListener('click', calculate);
+
+document.querySelectorAll('input[type=number], select').forEach(el => {
+  el.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
+});
+
+document.getElementById('copyBtn').addEventListener('click', function() {
+  const btn = this;
+  const text = window._copyData || '';
+  if (!text) return;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy Results'; btn.classList.remove('copied'); }, 2000);
+  }).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select(); document.execCommand('copy');
+    document.body.removeChild(ta);
+    btn.textContent = 'Copied!'; btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy Results'; btn.classList.remove('copied'); }, 2000);
+  });
+});
+</script>
+</body>
+</html>
