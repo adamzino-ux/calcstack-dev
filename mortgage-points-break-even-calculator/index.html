@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mortgage Points Break-Even Calculator — Free Online Tool | calcstack.dev</title>
+<meta name="description" content="Should you buy mortgage points? Calculate your break-even month, total savings, and whether paying discount points makes sense for your situation.">
+<link rel="canonical" href="https://calcstack.dev/mortgage-points-break-even-calculator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Mortgage Points Break-Even Calculator",
+  "url": "https://calcstack.dev/mortgage-points-break-even-calculator/",
+  "description": "Calculate whether buying mortgage discount points makes financial sense by finding your break-even month and total long-term savings.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #fff; color: #1a1a2e; font-size: 16px; line-height: 1.6; }
+a { color: #0077b6; text-decoration: none; }
+a:hover { text-decoration: underline; }
+nav { border-bottom: 1px solid #e0e0e0; padding: 0 1.5rem; }
+nav .nav-inner { max-width: 640px; margin: 0 auto; display: flex; align-items: center; height: 52px; }
+nav .site-name { font-weight: 700; font-size: 1.05rem; color: #1a1a2e; }
+nav .site-name span { color: #0077b6; }
+main { max-width: 640px; margin: 0 auto; padding: 1.5rem; }
+h1 { font-size: 1.55rem; font-weight: 700; margin-bottom: 0.4rem; }
+.subtitle { color: #555; font-size: 0.95rem; margin-bottom: 1.8rem; }
+.card { background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 2rem; box-shadow: 0 1px 4px rgba(0,0,0,0.06); margin-bottom: 2rem; }
+.section-title { font-size: 1rem; font-weight: 700; color: #0077b6; margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 0.04em; font-size: 0.8rem; }
+.form-row { margin-bottom: 1.2rem; }
+.form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.2rem; }
+label { display: block; font-size: 0.85rem; font-weight: 500; color: #444; margin-bottom: 5px; }
+input[type="number"], input[type="text"], select { width: 100%; border: 1px solid #ddd; border-radius: 5px; padding: 12px 16px; font-size: 1rem; color: #1a1a2e; background: #fff; transition: box-shadow 0.2s, border-color 0.2s; -moz-appearance: textfield; }
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+input:focus, select:focus { outline: none; border-color: #0077b6; box-shadow: 0 0 0 3px rgba(0,119,182,0.15); }
+input.error { border-color: #e74c3c; }
+.error-msg { color: #e74c3c; font-size: 0.8rem; margin-top: 4px; display: none; }
+.error-msg.show { display: block; }
+.input-hint { font-size: 0.78rem; color: #777; margin-top: 4px; }
+.slider-row { margin-bottom: 1.2rem; }
+.slider-label-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+.slider-label-row label { margin-bottom: 0; }
+.slider-val { font-size: 0.85rem; font-weight: 700; color: #0077b6; }
+input[type="range"] { width: 100%; height: 6px; border: none; box-shadow: none; padding: 0; accent-color: #0077b6; cursor: pointer; }
+input[type="range"]:focus { box-shadow: none; }
+.btn { display: block; width: 100%; background: #0077b6; color: #fff; border: none; border-radius: 6px; padding: 14px 24px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background 0.2s; min-height: 44px; }
+.btn:hover { background: #006299; }
+.results { opacity: 0; transition: opacity 0.3s ease; }
+.results.show { opacity: 1; }
+.verdict-box { border-radius: 8px; padding: 1.4rem 1.6rem; margin-bottom: 1.4rem; border: 2px solid; }
+.verdict-box.good { background: #eafaf1; border-color: #27ae60; }
+.verdict-box.neutral { background: #fef9e7; border-color: #f39c12; }
+.verdict-box.bad { background: #fdedec; border-color: #e74c3c; }
+.verdict-label { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.3rem; }
+.verdict-box.good .verdict-label { color: #1e8449; }
+.verdict-box.neutral .verdict-label { color: #d68910; }
+.verdict-box.bad .verdict-label { color: #c0392b; }
+.verdict-text { font-size: 1.05rem; font-weight: 600; color: #1a1a2e; }
+.key-metrics { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1.4rem; }
+.metric-box { background: #f8f9fa; border-radius: 6px; padding: 1rem; text-align: center; }
+.metric-val { font-size: 1.55rem; font-weight: 800; color: #0077b6; line-height: 1.1; }
+.metric-val.negative { color: #e74c3c; }
+.metric-val.positive { color: #27ae60; }
+.metric-label { font-size: 0.75rem; color: #666; margin-top: 4px; line-height: 1.3; }
+.bar-section { margin-bottom: 1.4rem; }
+.bar-section h3 { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.8rem; color: #333; }
+.bar-row { margin-bottom: 0.6rem; }
+.bar-label-row { display: flex; justify-content: space-between; font-size: 0.8rem; color: #555; margin-bottom: 3px; }
+.bar-track { background: #e9ecef; border-radius: 4px; height: 18px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 4px; transition: width 0.6s ease; }
+.bar-blue { background: #0077b6; }
+.bar-green { background: #27ae60; }
+.bar-orange { background: #e67e22; }
+.bar-red { background: #e74c3c; }
+.bar-gray { background: #95a5a6; }
+.copy-btn { display: inline-flex; align-items: center; gap: 6px; background: #f8f9fa; border: 1px solid #ddd; border-radius: 5px; padding: 6px 14px; font-size: 0.82rem; cursor: pointer; color: #444; font-weight: 500; transition: background 0.2s; }
+.copy-btn:hover { background: #e9ecef; }
+.copy-btn.copied { color: #27ae60; border-color: #27ae60; }
+.table-wrap { overflow-x: auto; margin-bottom: 1rem; }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; min-width: 420px; }
+th { background: #f0f0f0; padding: 8px 10px; text-align: left; font-weight: 600; font-size: 0.8rem; border-bottom: 2px solid #ddd; white-space: nowrap; }
+th.num, td.num { text-align: right; }
+td { padding: 7px 10px; border-bottom: 1px solid #eee; white-space: nowrap; }
+tr:nth-child(even) td { background: #fafafa; }
+tr.highlight-row td { background: #e8f4fd !important; font-weight: 600; }
+.show-all-btn { display: inline-block; background: none; border: 1px solid #0077b6; color: #0077b6; border-radius: 5px; padding: 7px 18px; font-size: 0.85rem; cursor: pointer; transition: background 0.2s; }
+.show-all-btn:hover { background: #f0f7fc; }
+.ad-slot { min-height: 0; margin: 0; }
+.content-section { margin-bottom: 2rem; }
+.content-section h2 { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.7rem; color: #1a1a2e; }
+.content-section p { color: #444; margin-bottom: 0.8rem; font-size: 0.95rem; }
+.content-section ul { color: #444; padding-left: 1.3rem; font-size: 0.95rem; margin-bottom: 0.8rem; }
+.content-section ul li { margin-bottom: 0.4rem; }
+details { border: 1px solid #e0e0e0; border-radius: 6px; margin-bottom: 0.7rem; }
+summary { padding: 0.8rem 1rem; cursor: pointer; font-weight: 600; font-size: 0.9rem; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+summary::after { content: '+'; font-size: 1.1rem; color: #0077b6; }
+details[open] summary::after { content: '−'; }
+details p { padding: 0 1rem 0.8rem; color: #444; font-size: 0.9rem; }
+.related-tools { margin-bottom: 2rem; }
+.related-tools h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.8rem; }
+.related-tools ul { list-style: none; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+.related-tools li a { display: block; background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 6px; padding: 0.6rem 0.9rem; font-size: 0.85rem; color: #0077b6; transition: background 0.2s; }
+.related-tools li a:hover { background: #e8f4fd; text-decoration: none; }
+footer { border-top: 1px solid #e0e0e0; padding: 1.2rem 1.5rem; text-align: center; font-size: 0.82rem; color: #777; }
+footer a { color: #555; margin: 0 0.5rem; }
+footer a:hover { color: #0077b6; }
+.divider { border: none; border-top: 1px solid #eee; margin: 2rem 0; }
+@media (max-width: 640px) {
+  h1 { font-size: 1.3rem; }
+  .form-row-2 { grid-template-columns: 1fr; }
+  .key-metrics { grid-template-columns: 1fr 1fr; }
+  .key-metrics .metric-box:last-child { grid-column: span 2; }
+  .card { padding: 1.4rem; }
+  .related-tools ul { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="site-name">calc<span>stack</span>.dev</a>
+  </div>
+</nav>
+
+<main>
+  <h1>Mortgage Points Break-Even Calculator</h1>
+  <p class="subtitle">Find out if buying discount points makes financial sense — and exactly when you'll break even.</p>
+
+  <div class="card">
+    <div class="section-title">Loan Details</div>
+
+    <div class="form-row-2">
+      <div class="form-row" style="margin-bottom:0">
+        <label for="loanAmount">Loan Amount ($)</label>
+        <input type="number" id="loanAmount" placeholder="350,000" min="10000" max="10000000" value="350000">
+        <div class="error-msg" id="loanAmount-err">Please enter a valid loan amount.</div>
+      </div>
+      <div class="form-row" style="margin-bottom:0">
+        <label for="loanTerm">Loan Term (years)</label>
+        <select id="loanTerm">
+          <option value="30" selected>30 years</option>
+          <option value="20">20 years</option>
+          <option value="15">15 years</option>
+          <option value="10">10 years</option>
+        </select>
+      </div>
+    </div>
+
+    <div style="margin-top:1.2rem"></div>
+
+    <div class="slider-row">
+      <div class="slider-label-row">
+        <label for="rateBase">Base Interest Rate (no points)</label>
+        <span class="slider-val" id="rateBase-val">7.00%</span>
+      </div>
+      <input type="range" id="rateBase" min="2" max="12" step="0.125" value="7">
+      <div class="input-hint">Current rate without buying points</div>
+    </div>
+
+    <div class="slider-row">
+      <div class="slider-label-row">
+        <label for="rateReduced">Reduced Interest Rate (with points)</label>
+        <span class="slider-val" id="rateReduced-val">6.50%</span>
+      </div>
+      <input type="range" id="rateReduced" min="2" max="12" step="0.125" value="6.5">
+      <div class="input-hint">Rate you'll get after buying points</div>
+    </div>
+
+    <div class="slider-row">
+      <div class="slider-label-row">
+        <label for="pointsCount">Number of Points to Buy</label>
+        <span class="slider-val" id="pointsCount-val">2.0 pts</span>
+      </div>
+      <input type="range" id="pointsCount" min="0.25" max="5" step="0.25" value="2">
+      <div class="input-hint">Each point = 1% of loan amount</div>
+    </div>
+
+    <div class="form-row">
+      <label for="planToStay">How long do you plan to stay? (years)</label>
+      <input type="number" id="planToStay" placeholder="7" min="1" max="30" value="7">
+      <div class="error-msg" id="planToStay-err">Please enter 1–30 years.</div>
+      <div class="input-hint">Used to project your long-term savings</div>
+    </div>
+
+    <div class="form-row">
+      <label for="taxRate">Marginal Tax Rate (%) <span style="font-weight:400;color:#888">— for deduction benefit</span></label>
+      <input type="number" id="taxRate" placeholder="22" min="0" max="50" value="22">
+      <div class="input-hint">Set to 0 if you take the standard deduction</div>
+    </div>
+
+    <button class="btn" id="calcBtn">Calculate Break-Even</button>
+  </div>
+
+  <div class="results" id="results">
+    <div class="card">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+        <div class="section-title" style="margin-bottom:0">Your Results</div>
+        <button class="copy-btn" id="copyBtn">📋 Copy Summary</button>
+      </div>
+
+      <div class="verdict-box" id="verdictBox">
+        <div class="verdict-label" id="verdictLabel"></div>
+        <div class="verdict-text" id="verdictText"></div>
+      </div>
+
+      <div class="key-metrics" id="keyMetrics">
+        <div class="metric-box">
+          <div class="metric-val" id="m-cost">—</div>
+          <div class="metric-label">Points Cost</div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-val" id="m-breakeven">—</div>
+          <div class="metric-label">Break-Even Month</div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-val" id="m-netsavings">—</div>
+          <div class="metric-label">Net Savings (stay period)</div>
+        </div>
+      </div>
+
+      <div class="bar-section">
+        <h3>Monthly Payment Comparison</h3>
+        <div class="bar-row">
+          <div class="bar-label-row"><span>Without Points</span><span id="bar-no-label">—</span></div>
+          <div class="bar-track"><div class="bar-fill bar-orange" id="bar-no" style="width:100%"></div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label-row"><span>With Points</span><span id="bar-yes-label">—</span></div>
+          <div class="bar-track"><div class="bar-fill bar-blue" id="bar-yes" style="width:0%"></div></div>
+        </div>
+      </div>
+
+      <div class="bar-section">
+        <h3>Cumulative Savings Over Time</h3>
+        <div class="bar-row">
+          <div class="bar-label-row"><span>After <span id="beLabel1">—</span> (break-even)</span><span>$0</span></div>
+          <div class="bar-track"><div class="bar-fill bar-gray" style="width:50%"></div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label-row"><span>After your stay (<span id="beLabel2">—</span> yrs)</span><span id="bar-stay-label">—</span></div>
+          <div class="bar-track"><div class="bar-fill bar-green" id="bar-stay" style="width:0%"></div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label-row"><span>Full loan term (<span id="beLabel3">—</span> yrs)</span><span id="bar-full-label">—</span></div>
+          <div class="bar-track"><div class="bar-fill bar-blue" id="bar-full" style="width:0%"></div></div>
+        </div>
+      </div>
+
+      <div class="section-title">Year-by-Year Breakdown</div>
+      <div class="table-wrap">
+        <table id="breakdownTable">
+          <thead>
+            <tr>
+              <th>Year</th>
+              <th class="num">Monthly Savings</th>
+              <th class="num">Annual Savings</th>
+              <th class="num">Cumulative Savings</th>
+              <th class="num">Net of Points Cost</th>
+            </tr>
+          </thead>
+          <tbody id="breakdownBody"></tbody>
+        </table>
+      </div>
+      <button class="show-all-btn" id="showAllBtn" style="display:none">Show All Years</button>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-mid"></div>
+
+  <hr class="divider">
+
+  <div class="content-section">
+    <h2>How to Use This Mortgage Points Break-Even Calculator</h2>
+    <p>Enter your loan amount, current interest rate, the reduced rate you'd receive after buying points, and how many points your lender is offering. Then tell us how long you plan to stay in the home. Hit "Calculate Break-Even" and you'll instantly see which month you recover your upfront cost — and how much you'll save (or lose) over your stay.</p>
+    <p>Adjust the sliders to experiment with different rate reductions and point quantities. The table shows year-by-year cumulative savings so you can pinpoint exactly when the math tips in your favor.</p>
+  </div>
+
+  <div class="content-section">
+    <h2>Why This Matters</h2>
+    <p>Mortgage discount points are an upfront fee you pay your lender to permanently lower your interest rate. One point equals 1% of your loan amount — so on a $400,000 mortgage, two points costs $8,000 out of pocket at closing.</p>
+    <p>Whether that's a smart move depends almost entirely on how long you'll stay in the home. If you're buying a forever home, paying points often saves tens of thousands in interest over 30 years. But if you sell or refinance within five years, you may not even recover the upfront cost.</p>
+    <p>Consider a real scenario: On a $350,000 loan, dropping from 7.00% to 6.50% by buying 2 points ($7,000) saves about $107/month. Your break-even is roughly 65 months — just over 5 years. Stay 10 years and you net nearly $5,800 in savings. Stay 30 years and you're up over $31,000.</p>
+    <p>This calculator is especially useful for move-up buyers, people in competitive rate environments, and anyone comparing lender offers that bundle different rate/point combinations.</p>
+  </div>
+
+  <div class="content-section">
+    <h2>How It's Calculated</h2>
+    <p>The monthly mortgage payment uses the standard amortization formula:</p>
+    <p><strong>M = P × [r(1+r)ⁿ] / [(1+r)ⁿ − 1]</strong></p>
+    <p>Where P = principal, r = monthly rate (annual ÷ 12), n = number of monthly payments.</p>
+    <p>The monthly savings is simply the difference between the two payments (no-points rate vs. reduced rate). Points cost = loan amount × (points ÷ 100). Break-even month = points cost ÷ monthly savings (adjusted for any tax deduction on the points). Net savings at any point in time = (monthly savings × months elapsed) − points cost.</p>
+    <p>If you entered a marginal tax rate, we factor in the IRS benefit: mortgage points are often fully deductible in year 1 on a purchase loan, so the effective cost = points cost × (1 − tax rate).</p>
+  </div>
+
+  <div class="content-section">
+    <h2>Tips & Common Mistakes</h2>
+    <ul>
+      <li><strong>Don't forget refinance risk.</strong> If rates drop and you refinance within 3–5 years, you lose whatever points cost you didn't yet recover.</li>
+      <li><strong>Compare the actual lender offer.</strong> The rate reduction per point varies by lender and market — 0.25%/point is common, but some offer 0.125% or 0.375%. Always use your actual quote.</li>
+      <li><strong>Points vs. down payment tradeoff.</strong> Using cash to buy points instead of increasing your down payment may cost you more in PMI if you're under 20% LTV.</li>
+      <li><strong>Tax deductibility varies.</strong> Points on a purchase mortgage are usually deductible in full year 1; points on a refinance must be amortized over the loan life. Consult a tax professional.</li>
+      <li><strong>Use break-even, not total savings.</strong> Lenders sometimes advertise lifetime savings of $40,000+ — that's only relevant if you keep the original loan for 30 years, which most people don't.</li>
+    </ul>
+  </div>
+
+  <div class="content-section">
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>What is a mortgage discount point?</summary>
+      <p>A discount point is a fee equal to 1% of your loan amount paid at closing in exchange for a permanently lower interest rate. Two points on a $300,000 loan costs $6,000 upfront. The rate reduction you get per point depends on your lender, loan type, and current market conditions.</p>
+    </details>
+    <details>
+      <summary>How many points should I buy?</summary>
+      <p>There's no universal answer — it depends on how long you'll stay and your cash position. Start by calculating break-even for each point increment your lender offers. If break-even is shorter than your expected stay, buying points is likely worthwhile. Buying more than 3–4 points is rarely cost-effective.</p>
+    </details>
+    <details>
+      <summary>Are mortgage points tax deductible?</summary>
+      <p>Generally yes, for primary residence purchase loans — you can typically deduct the full amount in the year paid if you itemize deductions. For refinance loans, the deduction is spread over the loan life. The rules have nuances, so verify with a CPA or IRS Publication 936.</p>
+    </details>
+    <details>
+      <summary>What if I refinance before the break-even date?</summary>
+      <p>You lose the unrecovered portion of your points cost. For example, if your break-even is month 60 and you refinance at month 36, you've effectively paid extra upfront for no net benefit. This is why break-even analysis is critical before buying points in a potentially declining rate environment.</p>
+    </details>
+  </div>
+
+  <hr class="divider">
+
+  <div class="related-tools">
+    <h2>Related Tools</h2>
+    <ul>
+      <li><a href="/charitable-donation-tax-savings-calculator/">Charitable Donation Tax Savings Calculator</a></li>
+      <li><a href="/net-salary-after-tax-calculator/">Net Salary After Tax Calculator</a></li>
+      <li><a href="/options-profit-loss-calculator/">Options Profit/Loss Calculator</a></li>
+      <li><a href="/rental-property-cash-flow-calculator/">Rental Property Cash Flow Calculator</a></li>
+      <li><a href="/self-employment-tax-calculator/">Self-Employment Tax Calculator</a></li>
+      <li><a href="/payoff-debt-vs-invest-calculator/">Payoff Debt vs Invest Calculator</a></li>
+    </ul>
+  </div>
+
+  <div class="ad-slot" id="ad-bottom"></div>
+</main>
+
+<footer>
+  <div>
+    <a href="/about/">About</a>
+    <a href="/privacy/">Privacy</a>
+    <a href="/contact/">Contact</a>
+  </div>
+  <div style="margin-top:0.5rem">© 2025 calcstack.dev</div>
+</footer>
+
+<script>
+(function() {
+  // Slider sync
+  function syncSlider(sliderId, valId, fmt) {
+    const slider = document.getElementById(sliderId);
+    const val = document.getElementById(valId);
+    val.textContent = fmt(slider.value);
+    slider.addEventListener('input', function() {
+      val.textContent = fmt(this.value);
+    });
+  }
+  syncSlider('rateBase', 'rateBase-val', v => parseFloat(v).toFixed(3).replace(/\.?0+$/, '') + '%');
+  syncSlider('rateReduced', 'rateReduced-val', v => parseFloat(v).toFixed(3).replace(/\.?0+$/, '') + '%');
+  syncSlider('pointsCount', 'pointsCount-val', v => parseFloat(v).toFixed(2) + ' pts');
+
+  function fmt(n) {
+    if (isNaN(n)) return '—';
+    return '$' + Math.round(n).toLocaleString('en-US');
+  }
+  function fmtDec(n, d) {
+    return '$' + n.toLocaleString('en-US', {minimumFractionDigits: d, maximumFractionDigits: d});
+  }
+  function fmtMo(n) {
+    return fmtDec(n, 2);
+  }
+
+  function monthlyPayment(principal, annualRate, termYears) {
+    const r = annualRate / 100 / 12;
+    const n = termYears * 12;
+    if (r === 0) return principal / n;
+    return principal * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+  }
+
+  function validate() {
+    let ok = true;
+    const loan = parseFloat(document.getElementById('loanAmount').value);
+    const stay = parseFloat(document.getElementById('planToStay').value);
+    const tax = parseFloat(document.getElementById('taxRate').value);
+    const rateBase = parseFloat(document.getElementById('rateBase').value);
+    const rateReduced = parseFloat(document.getElementById('rateReduced').value);
+
+    const setErr = (id, show) => {
+      const input = document.getElementById(id);
+      const msg = document.getElementById(id + '-err');
+      if (show) { input.classList.add('error'); msg.classList.add('show'); ok = false; }
+      else { input.classList.remove('error'); msg.classList.remove('show'); }
+    };
+
+    setErr('loanAmount', isNaN(loan) || loan < 10000);
+    setErr('planToStay', isNaN(stay) || stay < 1 || stay > 30);
+
+    if (rateReduced >= rateBase) {
+      alert('The reduced rate with points must be lower than your base rate.');
+      ok = false;
+    }
+    if (!isNaN(tax) && (tax < 0 || tax > 50)) {
+      document.getElementById('taxRate').classList.add('error');
+      ok = false;
+    } else {
+      document.getElementById('taxRate').classList.remove('error');
+    }
+
+    return ok;
+  }
+
+  function calculate() {
+    if (!validate()) return;
+
+    const loan = parseFloat(document.getElementById('loanAmount').value);
+    const termYears = parseInt(document.getElementById('loanTerm').value);
+    const rateBase = parseFloat(document.getElementById('rateBase').value);
+    const rateReduced = parseFloat(document.getElementById('rateReduced').value);
+    const points = parseFloat(document.getElementById('pointsCount').value);
+    const stay = parseFloat(document.getElementById('planToStay').value);
+    const taxRate = parseFloat(document.getElementById('taxRate').value) || 0;
+
+    const payNoPoints = monthlyPayment(loan, rateBase, termYears);
+    const payWithPoints = monthlyPayment(loan, rateReduced, termYears);
+    const monthlySavings = payNoPoints - payWithPoints;
+    const pointsCost = loan * (points / 100);
+    const afterTaxCost = pointsCost * (1 - taxRate / 100);
+    const breakEvenMonths = afterTaxCost / monthlySavings;
+    const breakEvenYears = breakEvenMonths / 12;
+
+    const stayMonths = stay * 12;
+    const fullMonths = termYears * 12;
+
+    const netAtStay = (monthlySavings * stayMonths) - afterTaxCost;
+    const netAtFull = (monthlySavings * fullMonths) - afterTaxCost;
+
+    const verdictBox = document.getElementById('verdictBox');
+    const verdictLabel = document.getElementById('verdictLabel');
+    const verdictText = document.getElementById('verdictText');
+
+    let verdict, vClass;
+    if (breakEvenMonths > stayMonths) {
+      verdict = `⚠️ You won't break even before you plan to move. Buying points would cost you ${fmt(Math.abs(netAtStay))} net over ${stay} year${stay !== 1 ? 's' : ''}.`;
+      vClass = 'bad';
+      verdictLabel.textContent = 'NOT RECOMMENDED';
+    } else if (breakEvenYears <= stay * 0.5) {
+      verdict = `✅ Excellent! You break even in ${Math.ceil(breakEvenMonths)} months and save ${fmt(netAtStay)} over your ${stay}-year stay.`;
+      vClass = 'good';
+      verdictLabel.textContent = 'HIGHLY RECOMMENDED';
+    } else {
+      verdict = `💡 You'll break even in ${Math.ceil(breakEvenMonths)} months and save ${fmt(netAtStay)} over ${stay} years — worthwhile if you stay put.`;
+      vClass = 'neutral';
+      verdictLabel.textContent = 'WORTH CONSIDERING';
+    }
+
+    // Bar chart logic
+    const maxPay = Math.max(payNoPoints, payWithPoints);
+    const barNoW = 100;
+    const barYesW = (payWithPoints / payNoPoints) * 100;
+
+    const maxNet = Math.max(Math.abs(netAtStay), Math.abs(netAtFull), 1);
+    const barStayW = Math.min(100, (Math.abs(netAtStay) / maxNet) * 100);
+    const barFullW = Math.min(100, (Math.abs(netAtFull) / maxNet) * 100);
+
+    // Year table: build full rows
+    const termInt = parseInt(termYears);
+    const allRows = [];
+    for (let yr = 1; yr <= termInt; yr++) {
+      const months = yr * 12;
+      const cumSavings = monthlySavings * months;
+      const netOfCost = cumSavings - afterTaxCost;
+      const isBreakEvenYear = (yr - 1) * 12 < breakEvenMonths && yr * 12 >= breakEvenMonths;
+      const isStayYear = yr === Math.min(Math.ceil(stay), termInt);
+      allRows.push({ yr, months, cumSavings, netOfCost, monthlySavings, isBreakEvenYear, isStayYear });
+    }
+
+    const SHOW_INITIAL = 10;
+    let rowsHTML = '';
+    for (let i = 0; i < allRows.length; i++) {
+      const r = allRows[i];
+      const cls = (r.isBreakEvenYear || r.isStayYear) ? ' class="highlight-row"' : '';
+      const marker = r.isBreakEvenYear ? ' ⭐' : (r.isStayYear ? ' 🏠' : '');
+      const hidden = i >= SHOW_INITIAL ? ' style="display:none" data-extra="1"' : '';
+      rowsHTML += `<tr${cls}${hidden}>
+        <td>Year ${r.yr}${marker}</td>
+        <td class="num">${fmtMo(r.monthlySavings)}</td>
+        <td class="num">${fmt(r.monthlySavings * 12)}</td>
+        <td class="num">${fmt(r.cumSavings)}</td>
+        <td class="num" style="color:${r.netOfCost >= 0 ? '#27ae60' : '#e74c3c'}">${r.netOfCost >= 0 ? '' : '−'}${fmt(Math.abs(r.netOfCost))}</td>
+      </tr>`;
+    }
+
+    const showAllBtn = document.getElementById('showAllBtn');
+
+    requestAnimationFrame(() => {
+      verdictBox.className = 'verdict-box ' + vClass;
+      verdictLabel.textContent = verdictLabel.textContent; // already set above
+      verdictLabel.textContent = (vClass === 'bad' ? 'NOT RECOMMENDED' : vClass === 'good' ? 'HIGHLY RECOMMENDED' : 'WORTH CONSIDERING');
+      verdictText.textContent = verdict;
+
+      document.getElementById('m-cost').textContent = fmt(afterTaxCost) + (taxRate > 0 ? '*' : '');
+      document.getElementById('m-cost').className = 'metric-val';
+      document.getElementById('m-breakeven').textContent = breakEvenMonths > fullMonths ? 'Never' : `Mo. ${Math.ceil(breakEvenMonths)}`;
+      document.getElementById('m-breakeven').className = 'metric-val' + (breakEvenMonths > fullMonths ? ' negative' : '');
+      document.getElementById('m-netsavings').textContent = (netAtStay >= 0 ? '' : '−') + fmt(Math.abs(netAtStay));
+      document.getElementById('m-netsavings').className = 'metric-val ' + (netAtStay >= 0 ? 'positive' : 'negative');
+
+      document.getElementById('bar-no-label').textContent = fmtMo(payNoPoints) + '/mo';
+      document.getElementById('bar-yes-label').textContent = fmtMo(payWithPoints) + '/mo';
+      document.getElementById('bar-no').style.width = barNoW + '%';
+      document.getElementById('bar-yes').style.width = barYesW + '%';
+
+      document.getElementById('beLabel1').textContent = 'Mo. ' + (breakEvenMonths > fullMonths ? 'Never' : Math.ceil(breakEvenMonths));
+      document.getElementById('beLabel2').textContent = stay;
+      document.getElementById('beLabel3').textContent = termYears;
+      document.getElementById('bar-stay-label').textContent = (netAtStay >= 0 ? '+' : '') + fmt(netAtStay);
+      document.getElementById('bar-full-label').textContent = (netAtFull >= 0 ? '+' : '') + fmt(netAtFull);
+      document.getElementById('bar-stay').style.width = barStayW + '%';
+      document.getElementById('bar-stay').className = 'bar-fill ' + (netAtStay >= 0 ? 'bar-green' : 'bar-red');
+      document.getElementById('bar-full').style.width = barFullW + '%';
+      document.getElementById('bar-full').className = 'bar-fill ' + (netAtFull >= 0 ? 'bar-blue' : 'bar-red');
+
+      document.getElementById('breakdownBody').innerHTML = rowsHTML;
+
+      if (allRows.length > SHOW_INITIAL) {
+        showAllBtn.style.display = 'inline-block';
+        showAllBtn.textContent = 'Show All ' + allRows.length + ' Years';
+        showAllBtn._expanded = false;
+      } else {
+        showAllBtn.style.display = 'none';
+      }
+
+      const results = document.getElementById('results');
+      results.classList.add('show');
+      results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      // Store for copy
+      window._calcSummary = [
+        `Mortgage Points Break-Even Summary`,
+        `Loan Amount: ${fmt(loan)}`,
+        `Base Rate: ${rateBase}% → Reduced Rate: ${rateReduced}%`,
+        `Points: ${points} (${fmt(pointsCost)}, after-tax: ${fmt(afterTaxCost)})`,
+        `Monthly Savings: ${fmtMo(monthlySavings)}`,
+        `Break-Even: Month ${Math.ceil(breakEvenMonths)}`,
+        `Net Savings (${stay} yrs): ${fmt(netAtStay)}`,
+        `Net Savings (full ${termYears} yrs): ${fmt(netAtFull)}`,
+      ].join('\n');
+    });
+  }
+
+  document.getElementById('showAllBtn').addEventListener('click', function() {
+    const extras = document.querySelectorAll('[data-extra="1"]');
+    if (!this._expanded) {
+      extras.forEach(r => r.style.display = '');
+      this.textContent = 'Show Fewer Years';
+      this._expanded = true;
+    } else {
+      extras.forEach(r => r.style.display = 'none');
+      this.textContent = 'Show All ' + (extras.length + 10) + ' Years';
+      this._expanded = false;
+    }
+  });
+
+  document.getElementById('calcBtn').addEventListener('click', function() {
+    requestAnimationFrame(() => calculate());
+  });
+
+  ['loanAmount', 'planToStay', 'taxRate'].forEach(id => {
+    document.getElementById(id).addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') requestAnimationFrame(() => calculate());
+    });
+  });
+
+  document.getElementById('copyBtn').addEventListener('click', function() {
+    if (!window._calcSummary) return;
+    navigator.clipboard.writeText(window._calcSummary).then(() => {
+      this.textContent = '✅ Copied!';
+      this.classList.add('copied');
+      setTimeout(() => { this.textContent = '📋 Copy Summary'; this.classList.remove('copied'); }, 2000);
+    });
+  });
+
+  // Run on load with defaults
+  requestAnimationFrame(() => calculate());
+})();
+</script>
+</body>
+</html>
