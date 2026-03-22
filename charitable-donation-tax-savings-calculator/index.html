@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Charitable Donation Tax Savings Calculator — Free Online Tool | calcstack.dev</title>
+<meta name="description" content="Calculate your real tax savings from charitable donations. Enter your income, filing status, and donation amount to see your federal tax deduction benefit instantly.">
+<link rel="canonical" href="https://calcstack.dev/charitable-donation-tax-savings-calculator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Charitable Donation Tax Savings Calculator",
+  "url": "https://calcstack.dev/charitable-donation-tax-savings-calculator/",
+  "description": "Calculate your real tax savings from charitable donations based on your income, filing status, and marginal tax bracket.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+  "creator": {"@type": "Organization", "name": "calcstack.dev", "url": "https://calcstack.dev"}
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#fff;color:#1a1a2e;font-size:16px;line-height:1.6}
+a{color:#0077b6;text-decoration:none}
+a:hover{text-decoration:underline;color:#006299}
+nav{border-bottom:1px solid #e0e0e0;padding:12px 16px}
+nav .nav-inner{max-width:640px;margin:0 auto;display:flex;align-items:center}
+nav .site-name{font-weight:700;font-size:1rem;color:#1a1a2e}
+nav .site-name:hover{color:#0077b6;text-decoration:none}
+.container{max-width:640px;margin:0 auto;padding:1.5rem 1rem}
+h1{font-size:1.6rem;font-weight:800;color:#1a1a2e;margin-bottom:0.4rem;line-height:1.2}
+.subtitle{color:#555;font-size:0.95rem;margin-bottom:1.8rem}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;box-shadow:0 2px 8px rgba(0,0,0,0.06);margin-bottom:2rem}
+.form-group{margin-bottom:1.2rem}
+label{display:block;font-size:0.85rem;font-weight:500;color:#444;margin-bottom:5px}
+input[type=number],select{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:6px;font-size:1rem;color:#1a1a2e;background:#fff;transition:border-color 0.2s,box-shadow 0.2s;appearance:none;-webkit-appearance:none;min-height:44px}
+input[type=number]:focus,select:focus{outline:none;border-color:#0077b6;box-shadow:0 0 0 3px rgba(0,119,182,0.15)}
+input.error,select.error{border-color:#e74c3c}
+.error-msg{color:#e74c3c;font-size:0.8rem;margin-top:4px;display:none}
+.error-msg.show{display:block}
+input[type=range]{width:100%;accent-color:#0077b6;margin-top:6px;cursor:pointer}
+.slider-row{display:flex;align-items:center;gap:10px}
+.slider-row input[type=range]{flex:1}
+.slider-val{font-size:0.9rem;font-weight:600;color:#0077b6;min-width:80px;text-align:right}
+.row-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media(max-width:480px){.row-2{grid-template-columns:1fr}}
+.btn{background:#0077b6;color:#fff;border:none;padding:13px 24px;border-radius:6px;font-size:1rem;font-weight:600;cursor:pointer;width:100%;min-height:44px;transition:background 0.2s}
+.btn:hover{background:#006299}
+.btn:active{background:#005580}
+.results{opacity:0;transition:opacity 0.3s ease;pointer-events:none}
+.results.show{opacity:1;pointer-events:auto}
+.result-hero{text-align:center;margin-bottom:1.5rem;padding:1.5rem;background:linear-gradient(135deg,#e8f4fd,#f0f8ff);border-radius:8px;border:1px solid #bee3f8}
+.result-hero .label{font-size:0.85rem;font-weight:500;color:#555;margin-bottom:4px}
+.result-hero .big-num{font-size:2.8rem;font-weight:800;color:#0077b6;line-height:1}
+.result-hero .sub{font-size:0.9rem;color:#666;margin-top:6px}
+.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+@media(max-width:480px){.result-grid{grid-template-columns:1fr}}
+.result-card{background:#f8f9fa;border-radius:6px;padding:1rem;border:1px solid #e8e8e8;text-align:center}
+.result-card .rc-label{font-size:0.78rem;font-weight:500;color:#666;margin-bottom:3px}
+.result-card .rc-val{font-size:1.25rem;font-weight:700;color:#1a1a2e}
+.rc-val.green{color:#218838}
+.section-title{font-size:0.95rem;font-weight:700;color:#1a1a2e;margin-bottom:0.8rem;padding-bottom:4px;border-bottom:2px solid #0077b6;display:inline-block}
+.bar-visual{margin-bottom:1.5rem}
+.bar-row{margin-bottom:10px}
+.bar-label{font-size:0.8rem;font-weight:500;color:#444;margin-bottom:3px;display:flex;justify-content:space-between}
+.bar-track{background:#e8e8e8;border-radius:4px;height:18px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;transition:width 0.5s ease}
+.bar-blue{background:#0077b6}
+.bar-green{background:#28a745}
+.bar-gray{background:#adb5bd}
+.bar-orange{background:#fd7e14}
+.badge{display:inline-block;padding:2px 8px;border-radius:12px;font-size:0.75rem;font-weight:600;background:#e8f4fd;color:#0077b6;margin-left:6px}
+.badge.std{background:#fff3cd;color:#856404}
+.badge.itemized{background:#d4edda;color:#155724}
+table{width:100%;border-collapse:collapse;font-size:0.87rem}
+th{background:#f0f0f0;padding:8px 10px;text-align:left;font-weight:600;color:#444;font-size:0.8rem}
+th.num,td.num{text-align:right}
+td{padding:7px 10px;border-bottom:1px solid #f0f0f0;color:#333}
+tr:nth-child(even) td{background:#fafafa}
+tr:hover td{background:#f0f7ff}
+.table-wrap{overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px}
+.copy-btn{background:transparent;border:1px solid #0077b6;color:#0077b6;padding:6px 14px;border-radius:5px;font-size:0.8rem;font-weight:500;cursor:pointer;transition:all 0.2s;float:right;min-height:32px}
+.copy-btn:hover{background:#0077b6;color:#fff}
+.deduction-type{margin-bottom:1rem;padding:10px 14px;border-radius:6px;font-size:0.85rem;font-weight:500}
+.deduction-type.std-applies{background:#fff3cd;border:1px solid #ffc107;color:#856404}
+.deduction-type.itemized-applies{background:#d4edda;border:1px solid #28a745;color:#155724}
+.toggle-btn{background:#f8f9fa;border:1px solid #ddd;color:#555;padding:8px 18px;border-radius:5px;font-size:0.85rem;cursor:pointer;margin-top:0.8rem;min-height:36px;transition:all 0.2s}
+.toggle-btn:hover{background:#e9ecef}
+.hidden-rows{display:none}
+.hidden-rows.show{display:table-row-group}
+.ad-slot{min-height:0;margin:0}
+section.content h2{font-size:1.15rem;font-weight:700;color:#1a1a2e;margin-bottom:0.6rem;margin-top:1.6rem}
+section.content p{color:#333;margin-bottom:0.8rem;font-size:0.95rem}
+section.content ul{padding-left:1.2rem;color:#333;font-size:0.95rem}
+section.content ul li{margin-bottom:0.4rem}
+details{border:1px solid #e0e0e0;border-radius:6px;margin-bottom:0.6rem;background:#f8f9fa}
+details summary{padding:10px 14px;cursor:pointer;font-weight:600;font-size:0.9rem;color:#1a1a2e;list-style:none;display:flex;align-items:center;gap:6px}
+details summary::before{content:"▶";font-size:0.7rem;transition:transform 0.2s;color:#0077b6}
+details[open] summary::before{transform:rotate(90deg)}
+details p{padding:4px 14px 12px;font-size:0.88rem;color:#444;line-height:1.6}
+.related-tools{background:#f8f9fa;border-radius:8px;padding:1.2rem 1.5rem;margin-bottom:2rem}
+.related-tools h2{font-size:1rem;font-weight:700;margin-bottom:0.8rem;color:#1a1a2e}
+.related-tools ul{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:0.5rem}
+@media(max-width:480px){.related-tools ul{grid-template-columns:1fr}}
+.related-tools ul li a{font-size:0.88rem;color:#0077b6;display:flex;align-items:center;gap:5px}
+.related-tools ul li a::before{content:"→";font-size:0.75rem}
+footer{border-top:1px solid #e0e0e0;padding:1.2rem 1rem;margin-top:1rem}
+footer .footer-inner{max-width:640px;margin:0 auto;display:flex;flex-wrap:wrap;gap:0.5rem 1.5rem;align-items:center;font-size:0.82rem;color:#666}
+footer a{color:#555}
+footer a:hover{color:#0077b6}
+.formula-box{background:#f8f9fa;border-left:3px solid #0077b6;padding:10px 14px;border-radius:0 6px 6px 0;font-family:monospace;font-size:0.85rem;color:#333;margin:0.6rem 0 1rem;line-height:1.7}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="site-name">calcstack.dev</a>
+  </div>
+</nav>
+
+<div class="container">
+  <h1>Charitable Donation Tax Savings Calculator</h1>
+  <p class="subtitle">Find out your real after-tax cost of giving and how much you'll save on your federal taxes.</p>
+
+  <div class="card">
+    <div class="row-2">
+      <div class="form-group">
+        <label for="filingStatus">Filing Status</label>
+        <select id="filingStatus">
+          <option value="single">Single</option>
+          <option value="mfj" selected>Married Filing Jointly</option>
+          <option value="mfs">Married Filing Separately</option>
+          <option value="hoh">Head of Household</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="taxYear">Tax Year</label>
+        <select id="taxYear">
+          <option value="2024" selected>2024</option>
+          <option value="2023">2023</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="grossIncome">Gross Annual Income ($)</label>
+      <input type="number" id="grossIncome" placeholder="e.g. 120000" min="0" max="100000000">
+      <div class="error-msg" id="grossIncome-err">Please enter a valid income amount.</div>
+    </div>
+
+    <div class="form-group">
+      <label for="otherItemized">Other Itemized Deductions ($) <span style="font-weight:400;color:#888;font-size:0.8rem">— mortgage interest, state/local taxes (SALT cap $10k), etc.</span></label>
+      <input type="number" id="otherItemized" placeholder="e.g. 15000" min="0" value="0">
+      <div class="error-msg" id="otherItemized-err">Please enter 0 or a positive number.</div>
+    </div>
+
+    <div class="form-group">
+      <label for="donationSlider">Charitable Donation Amount ($)</label>
+      <div class="slider-row">
+        <input type="range" id="donationSlider" min="0" max="50000" step="100" value="5000">
+        <span class="slider-val" id="sliderDisplay">$5,000</span>
+      </div>
+      <input type="number" id="donationAmount" placeholder="e.g. 5000" min="0" max="100000000" value="5000" style="margin-top:8px">
+      <div class="error-msg" id="donation-err">Please enter a valid donation amount (0 or more).</div>
+    </div>
+
+    <button class="btn" id="calcBtn">Calculate Tax Savings</button>
+  </div>
+
+  <div class="results card" id="results">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:8px">
+      <span class="section-title">Your Results</span>
+      <button class="copy-btn" id="copyBtn">Copy Results</button>
+    </div>
+
+    <div class="deduction-type" id="deductionBanner"></div>
+
+    <div class="result-hero">
+      <div class="label">Estimated Federal Tax Savings</div>
+      <div class="big-num" id="heroSavings">—</div>
+      <div class="sub" id="heroSub">—</div>
+    </div>
+
+    <div class="result-grid">
+      <div class="result-card">
+        <div class="rc-label">Donation Amount</div>
+        <div class="rc-val" id="rDonation">—</div>
+      </div>
+      <div class="result-card">
+        <div class="rc-label">Real After-Tax Cost</div>
+        <div class="rc-val green" id="rAfterTax">—</div>
+      </div>
+      <div class="result-card">
+        <div class="rc-label">Marginal Tax Rate</div>
+        <div class="rc-val" id="rMarginal">—</div>
+      </div>
+      <div class="result-card">
+        <div class="rc-label">Effective Tax Rate</div>
+        <div class="rc-val" id="rEffective">—</div>
+      </div>
+      <div class="result-card">
+        <div class="rc-label">Tax Without Donation</div>
+        <div class="rc-val" id="rTaxBefore">—</div>
+      </div>
+      <div class="result-card">
+        <div class="rc-label">Tax With Donation</div>
+        <div class="rc-val" id="rTaxAfter">—</div>
+      </div>
+    </div>
+
+    <div class="bar-visual">
+      <div class="section-title" style="display:block;margin-bottom:1rem">Visual Breakdown</div>
+      <div class="bar-row">
+        <div class="bar-label"><span>Donation as % of Income</span><span id="bDonPct">—</span></div>
+        <div class="bar-track"><div class="bar-fill bar-blue" id="bDon" style="width:0%"></div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label"><span>Tax Savings vs Donation</span><span id="bSavPct">—</span></div>
+        <div class="bar-track"><div class="bar-fill bar-green" id="bSav" style="width:0%"></div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label"><span>After-Tax Cost of Giving</span><span id="bCostPct">—</span></div>
+        <div class="bar-track"><div class="bar-fill bar-orange" id="bCost" style="width:0%"></div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label"><span>Tax (after donation) vs Income</span><span id="bTaxPct">—</span></div>
+        <div class="bar-track"><div class="bar-fill bar-gray" id="bTax" style="width:0%"></div></div>
+      </div>
+    </div>
+
+    <div class="section-title" style="display:block;margin-bottom:0.8rem">Tax Bracket Breakdown</div>
+    <div class="table-wrap" id="bracketTableWrap">
+      <table id="bracketTable">
+        <thead>
+          <tr>
+            <th>Bracket</th>
+            <th>Rate</th>
+            <th class="num">Taxable Income in Bracket</th>
+            <th class="num">Tax Owed</th>
+          </tr>
+        </thead>
+        <tbody id="bracketBody"></tbody>
+        <tfoot id="bracketFoot"></tfoot>
+      </table>
+    </div>
+    <button class="toggle-btn" id="toggleBrackets" style="display:none">Show All Brackets</button>
+
+    <div style="margin-top:1.5rem">
+      <div class="section-title" style="display:block;margin-bottom:0.8rem">Donation Impact by Amount</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Donation</th>
+              <th class="num">Tax Savings</th>
+              <th class="num">After-Tax Cost</th>
+              <th class="num">Net Cost %</th>
+            </tr>
+          </thead>
+          <tbody id="scenarioBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-mid"></div>
+
+  <section class="content">
+    <h2>How to Use This Charitable Donation Tax Savings Calculator</h2>
+    <p>Enter your filing status, tax year, gross annual income, any existing itemized deductions (mortgage interest, state taxes, etc.), and your planned donation amount. Hit <strong>Calculate</strong> and instantly see your estimated federal tax savings, your marginal and effective tax rates, and whether itemizing beats the standard deduction. Drag the slider to explore different giving levels in real time.</p>
+
+    <h2>Why This Matters</h2>
+    <p>Most people give to causes they care about without realizing the true after-tax cost is often 22%–37% lower than the check they write. If you're in the 22% federal bracket and donate $5,000, your real out-of-pocket cost is only $3,900 — the government effectively chips in $1,100. In the 37% bracket, a $10,000 gift costs you just $6,300.</p>
+    <p>This matters most in a few scenarios. First, if you're deciding whether to itemize deductions or take the standard deduction (which is $29,200 for married couples in 2024). Second, if you're planning a large one-time gift — say, after selling a business or receiving an inheritance — when your income temporarily spikes into a higher bracket. Third, when evaluating Donor-Advised Funds, which let you donate a lump sum in a high-income year and distribute funds to charities over time, maximizing your deduction when it counts most.</p>
+    <p>Tax-smart giving means your dollars go further — both for you and for the charities you care about.</p>
+
+    <h2>How It's Calculated</h2>
+    <p>The calculator applies current federal income tax brackets to your adjusted income. Here's the logic:</p>
+    <div class="formula-box">
+      1. Taxable Income = Gross Income − max(Standard Deduction, Itemized Deductions)<br>
+      2. Federal Tax = Progressive bracket calculation on Taxable Income<br>
+      3. With Donation: Taxable Income = Gross Income − max(Standard Deduction, Itemized Deductions + Donation)<br>
+      4. Tax Savings = Federal Tax (Without Donation) − Federal Tax (With Donation)<br>
+      5. After-Tax Cost = Donation Amount − Tax Savings<br>
+      6. Effective Rate = Federal Tax ÷ Gross Income × 100%
+    </div>
+    <p>Note: This calculator estimates <strong>federal income tax only</strong>. State income tax deductions (if your state allows them) would further reduce your real cost. Charitable deductions are generally limited to 60% of AGI for cash donations to public charities.</p>
+
+    <h2>Tips & Common Mistakes</h2>
+    <ul>
+      <li><strong>Bundle donations across years.</strong> If your itemized deductions are close to the standard deduction, consider bunching two years of charitable giving into one year to push over the threshold and itemize — then take the standard deduction the next year.</li>
+      <li><strong>Don't forget state taxes.</strong> Many states allow their own charitable deductions, which can add another 3%–13% in savings on top of federal savings.</li>
+      <li><strong>The 60% AGI limit applies.</strong> Cash donations to public charities are deductible up to 60% of your Adjusted Gross Income. Donations of appreciated property are generally limited to 30%.</li>
+      <li><strong>You must actually itemize.</strong> If your total itemized deductions (including your donation) don't exceed the standard deduction, you get zero extra benefit from the donation in the current year.</li>
+      <li><strong>Keep your receipts.</strong> Any donation of $250 or more requires written acknowledgment from the charity. Cash donations need a bank record or receipt regardless of amount.</li>
+    </ul>
+
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>Does everyone get a tax deduction for charitable donations?</summary>
+      <p>No — only taxpayers who itemize their deductions on Schedule A get a direct tax benefit from charitable giving. In 2024, about 90% of filers take the standard deduction, meaning most get no additional federal tax break from donations. However, "bunching" donations or using a Donor-Advised Fund can help you itemize strategically in select years.</p>
+    </details>
+    <details>
+      <summary>What types of donations qualify for a deduction?</summary>
+      <p>Donations of cash, check, credit card, or appreciated securities to IRS-qualified 501(c)(3) organizations qualify. Political donations, gifts to individuals, raffle tickets, and donations to foreign organizations generally do not qualify. Always verify a charity's status at IRS.gov's Tax Exempt Organization Search.</p>
+    </details>
+    <details>
+      <summary>Can I deduct the full donation amount?</summary>
+      <p>Yes, for cash donations to public charities, you can deduct up to 60% of your Adjusted Gross Income (AGI). Any excess can be carried forward for up to 5 years. For appreciated property, the limit drops to 30% of AGI, but you also avoid capital gains tax on the appreciation.</p>
+    </details>
+    <details>
+      <summary>Is this calculator accurate for my specific situation?</summary>
+      <p>This tool provides a reliable estimate of federal income tax savings using current official tax brackets and standard deductions. However, it doesn't account for the Alternative Minimum Tax (AMT), self-employment tax, investment income surtax (NIIT), state taxes, or tax credits. Consult a tax professional for a complete picture.</p>
+    </details>
+  </section>
+
+  <div class="related-tools">
+    <h2>Related Tools</h2>
+    <ul>
+      <li><a href="/net-salary-after-tax-calculator/">Net Salary After Tax Calculator</a></li>
+      <li><a href="/options-profit-loss-calculator/">Options Profit/Loss Calculator</a></li>
+      <li><a href="/rental-property-cash-flow-calculator/">Rental Property Cash Flow Calculator</a></li>
+      <li><a href="/self-employment-tax-calculator/">Self-Employment Tax Calculator</a></li>
+      <li><a href="/payoff-debt-vs-invest-calculator/">Payoff Debt vs Invest Calculator</a></li>
+      <li><a href="/home-equity-loan-vs-heloc-calculator/">Home Equity Loan vs HELOC Calculator</a></li>
+    </ul>
+  </div>
+
+  <div class="ad-slot" id="ad-bottom"></div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <span>© 2024 calcstack.dev</span>
+    <a href="/about/">About</a>
+    <a href="/privacy/">Privacy</a>
+    <a href="/contact/">Contact</a>
+  </div>
+</footer>
+
+<script>
+// ---- Tax Data ----
+const TAX_DATA = {
+  2024: {
+    brackets: {
+      single:    [[0,0.10],[11600,0.12],[47150,0.22],[100525,0.24],[191950,0.32],[243725,0.35],[609350,0.37]],
+      mfj:       [[0,0.10],[23200,0.12],[94300,0.22],[201050,0.24],[383900,0.32],[487450,0.35],[731200,0.37]],
+      mfs:       [[0,0.10],[11600,0.12],[47150,0.22],[100525,0.24],[191950,0.32],[243725,0.35],[365600,0.37]],
+      hoh:       [[0,0.10],[16550,0.12],[63100,0.22],[100500,0.24],[191950,0.32],[243700,0.35],[609350,0.37]]
+    },
+    standardDeduction: {single:14600,mfj:29200,mfs:14600,hoh:21900}
+  },
+  2023: {
+    brackets: {
+      single:    [[0,0.10],[11000,0.12],[44725,0.22],[95375,0.24],[182050,0.32],[231250,0.35],[578125,0.37]],
+      mfj:       [[0,0.10],[22000,0.12],[89450,0.22],[190750,0.24],[364200,0.32],[462500,0.35],[693750,0.37]],
+      mfs:       [[0,0.10],[11000,0.12],[44725,0.22],[95375,0.24],[182050,0.32],[231250,0.35],[346875,0.37]],
+      hoh:       [[0,0.10],[15700,0.12],[59850,0.22],[95350,0.24],[182050,0.32],[231250,0.35],[578100,0.37]]
+    },
+    standardDeduction: {single:13850,mfj:27700,mfs:13850,hoh:20800}
+  }
+};
+
+function calcTax(taxableIncome, brackets) {
+  if (taxableIncome <= 0) return {total: 0, breakdown: [], marginalRate: 0.10};
+  let tax = 0;
+  let breakdown = [];
+  let marginalRate = brackets[0][1];
+  for (let i = 0; i < brackets.length; i++) {
+    const lower = brackets[i][0];
+    const rate = brackets[i][1];
+    const upper = (i + 1 < brackets.length) ? brackets[i + 1][0] : Infinity;
+    if (taxableIncome <= lower) break;
+    const inBracket = Math.min(taxableIncome, upper) - lower;
+    const taxInBracket = inBracket * rate;
+    tax += taxInBracket;
+    breakdown.push({lower, upper: Math.min(taxableIncome, upper), rate, inBracket, taxInBracket});
+    if (taxableIncome > lower) marginalRate = rate;
+  }
+  return {total: tax, breakdown, marginalRate};
+}
+
+function fmt(n, dec=0) {
+  if (isNaN(n) || n === null) return '—';
+  return '$' + n.toFixed(dec).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+function pct(n, dec=1) { return n.toFixed(dec) + '%'; }
+function fmtNum(n) { return n.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+
+// Slider sync
+const slider = document.getElementById('donationSlider');
+const donInput = document.getElementById('donationAmount');
+const sliderDisplay = document.getElementById('sliderDisplay');
+
+slider.addEventListener('input', () => {
+  donInput.value = slider.value;
+  sliderDisplay.textContent = '$' + parseInt(slider.value).toLocaleString();
+});
+donInput.addEventListener('input', () => {
+  const v = Math.min(Math.max(parseInt(donInput.value)||0, 0), 50000);
+  slider.value = v;
+  sliderDisplay.textContent = '$' + v.toLocaleString();
+});
+
+function setError(id, show) {
+  const el = document.getElementById(id);
+  const errEl = document.getElementById(id + '-err');
+  if (!el || !errEl) return;
+  el.classList.toggle('error', show);
+  errEl.classList.toggle('show', show);
+}
+
+function validate() {
+  let ok = true;
+  const income = parseFloat(document.getElementById('grossIncome').value);
+  const other = parseFloat(document.getElementById('otherItemized').value) || 0;
+  const donation = parseFloat(document.getElementById('donationAmount').value) || 0;
+
+  if (isNaN(income) || income < 0) { setError('grossIncome', true); ok = false; } else { setError('grossIncome', false); }
+  if (isNaN(other) || other < 0) { setError('otherItemized', true); ok = false; } else { setError('otherItemized', false); }
+  if (isNaN(donation) || donation < 0) { setError('donation', true); ok = false; } else { setError('donation', false); }
+  return ok;
+}
+
+let showAllBrackets = false;
+
+document.getElementById('calcBtn').addEventListener('click', () => {
+  requestAnimationFrame(() => { calculate(); });
+});
+['grossIncome','otherItemized','donationAmount'].forEach(id => {
+  document.getElementById(id).addEventListener('keydown', e => { if (e.key === 'Enter') requestAnimationFrame(() => calculate()); });
+});
+document.getElementById('toggleBrackets').addEventListener('click', () => {
+  showAllBrackets = !showAllBrackets;
+  document.getElementById('toggleBrackets').textContent = showAllBrackets ? 'Show Less' : 'Show All Brackets';
+  const hiddenRows = document.querySelectorAll('.bracket-hidden');
+  hiddenRows.forEach(r => r.classList.toggle('show', showAllBrackets));
+});
+
+function calculate() {
+  if (!validate()) return;
+
+  const income = parseFloat(document.getElementById('grossIncome').value);
+  const other = parseFloat(document.getElementById('otherItemized').value) || 0;
+  const donation = parseFloat(document.getElementById('donationAmount').value) || 0;
+  const status = document.getElementById('filingStatus').value;
+  const year = parseInt(document.getElementById('taxYear').value);
+
+  const data = TAX_DATA[year];
+  const brackets = data.brackets[status];
+  const stdDed = data.standardDeduction[status];
+
+  // AGI limit: cash donations deductible up to 60% of AGI
+  const maxDonation = Math.min(donation, income * 0.60);
+
+  // Without donation
+  const itemizedWithout = other;
+  const deductionWithout = Math.max(stdDed, itemizedWithout);
+  const useItemizedWithout = itemizedWithout > stdDed;
+  const taxableWithout = Math.max(0, income - deductionWithout);
+  const taxResultWithout = calcTax(taxableWithout, brackets);
+
+  // With donation
+  const itemizedWith = other + maxDonation;
+  const deductionWith = Math.max(stdDed, itemizedWith);
+  const useItemizedWith = itemizedWith > stdDed;
+  const taxableWith = Math.max(0, income - deductionWith);
+  const taxResultWith = calcTax(taxableWith, brackets);
+
+  const taxSavings = taxResultWithout.total - taxResultWith.total;
+  const afterTaxCost = donation - taxSavings;
+  const effectiveRate = income > 0 ? (taxResultWith.total / income * 100) : 0;
+  const effectiveRateBefore = income > 0 ? (taxResultWithout.total / income * 100) : 0;
+
+  // Banner
+  let bannerHtml, bannerClass;
+  if (useItemizedWith) {
+    bannerHtml = `<strong>✓ Itemizing deductions</strong> — Your itemized total ($${fmtNum(itemizedWith)}) exceeds the standard deduction ($${fmtNum(stdDed)}). You receive the full tax benefit from this donation.`;
+    bannerClass = 'deduction-type itemized-applies';
+  } else {
+    const gap = stdDed - itemizedWith;
+    bannerHtml = `<strong>⚠ Standard deduction applies</strong> — Your itemized total ($${fmtNum(itemizedWith)}) is below the standard deduction ($${fmtNum(stdDed)}). You need $${fmtNum(gap)} more in deductions to benefit from itemizing. Tax savings shown assume you eventually itemize.`;
+    bannerClass = 'deduction-type std-applies';
+  }
+
+  // Bracket table
+  const allBrackets = data.brackets[status];
+  const bracketLabels = ['10%','12%','22%','24%','32%','35%','37%'];
+  let bracketRows = '';
+  for (let i = 0; i < allBrackets.length; i++) {
+    const lower = allBrackets[i][0];
+    const rate = allBrackets[i][1];
+    const upper = (i + 1 < allBrackets.length) ? allBrackets[i + 1][0] : null;
+    const upperLabel = upper ? ('$' + fmtNum(upper)) : 'No Limit';
+    const inBracket = taxResultWith.breakdown.find(b => b.rate === rate);
+    const incomeInBracket = inBracket ? inBracket.inBracket : 0;
+    const taxInBracket = inBracket ? inBracket.taxInBracket : 0;
+    const isHidden = i > 2 && !showAllBrackets;
+    const cls = isHidden ? 'bracket-hidden' : '';
+    bracketRows += `<tr class="${cls}">
+      <td>$${fmtNum(lower)} – ${upperLabel}</td>
+      <td>${pct(rate * 100, 0)}</td>
+      <td class="num">${fmt(incomeInBracket)}</td>
+      <td class="num">${fmt(taxInBracket)}</td>
+    </tr>`;
+  }
+  const bracketFoot = `<tr style="background:#f0f0f0;font-weight:700">
+    <td colspan="2">Total</td>
+    <td class="num">${fmt(taxableWith)}</td>
+    <td class="num">${fmt(taxResultWith.total)}</td>
+  </tr>`;
+
+  // Scenarios table
+  const scenarios = [500, 1000, 2500, 5000, 10000, 15000, 20000, 25000, 50000];
+  let scenarioRows = '';
+  for (const d of scenarios) {
+    const capD = Math.min(d, income * 0.60);
+    const itemD = other + capD;
+    const dedD = Math.max(stdDed, itemD);
+    const taxD = calcTax(Math.max(0, income - dedD), brackets);
+    const savings = taxResultWithout.total - taxD.total;
+    const afterCost = d - savings;
+    const netPct = d > 0 ? (afterCost / d * 100) : 100;
+    const highlight = d === donation ? ' style="font-weight:700;background:#e8f4fd"' : '';
+    scenarioRows += `<tr${highlight}>
+      <td>${fmt(d)}</td>
+      <td class="num" style="color:#28a745">${fmt(savings)}</td>
+      <td class="num">${fmt(afterCost)}</td>
+      <td class="num">${pct(netPct)}</td>
+    </tr>`;
+  }
+
+  // Bar widths
+  const donPct = income > 0 ? Math.min(100, donation / income * 100) : 0;
+  const savPct = donation > 0 ? Math.min(100, taxSavings / donation * 100) : 0;
+  const costPct = donation > 0 ? Math.min(100, afterTaxCost / donation * 100) : 0;
+  const taxPct = income > 0 ? Math.min(100, taxResultWith.total / income * 100) : 0;
+
+  // All DOM updates in one batch
+  document.getElementById('deductionBanner').className = bannerClass;
+  document.getElementById('deductionBanner').innerHTML = bannerHtml;
+  document.getElementById('heroSavings').textContent = fmt(taxSavings);
+  document.getElementById('heroSub').textContent = `In the ${pct(taxResultWith.marginalRate * 100, 0)} marginal bracket · Effective rate: ${pct(effectiveRate)}`;
+  document.getElementById('rDonation').textContent = fmt(donation);
+  document.getElementById('rAfterTax').textContent = fmt(afterTaxCost);
+  document.getElementById('rMarginal').textContent = pct(taxResultWith.marginalRate * 100, 0);
+  document.getElementById('rEffective').textContent = pct(effectiveRate);
+  document.getElementById('rTaxBefore').textContent = fmt(taxResultWithout.total);
+  document.getElementById('rTaxAfter').textContent = fmt(taxResultWith.total);
+
+  document.getElementById('bDonPct').textContent = pct(donPct);
+  document.getElementById('bSavPct').textContent = pct(savPct);
+  document.getElementById('bCostPct').textContent = pct(costPct);
+  document.getElementById('bTaxPct').textContent = pct(taxPct);
+  document.getElementById('bDon').style.width = donPct + '%';
+  document.getElementById('bSav').style.width = savPct + '%';
+  document.getElementById('bCost').style.width = costPct + '%';
+  document.getElementById('bTax').style.width = taxPct + '%';
+
+  document.getElementById('bracketBody').innerHTML = bracketRows;
+  document.getElementById('bracketFoot').innerHTML = bracketFoot;
+  document.getElementById('scenarioBody').innerHTML = scenarioRows;
+
+  const toggleBtn = document.getElementById('toggleBrackets');
+  toggleBtn.style.display = allBrackets.length > 3 ? 'block' : 'none';
+  toggleBtn.textContent = showAllBrackets ? 'Show Less' : 'Show All Brackets';
+
+  const resultsEl = document.getElementById('results');
+  resultsEl.classList.add('show');
+  resultsEl.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+// Copy results
+document.getElementById('copyBtn').addEventListener('click', () => {
+  const savings = document.getElementById('heroSavings').textContent;
+  const donation = document.getElementById('rDonation').textContent;
+  const afterTax = document.getElementById('rAfterTax').textContent;
+  const marginal = document.getElementById('rMarginal').textContent;
+  const effective = document.getElementById('rEffective').textContent;
+  const taxBefore = document.getElementById('rTaxBefore').textContent;
+  const taxAfter = document.getElementById('rTaxAfter').textContent;
+  const text = `Charitable Donation Tax Savings (calcstack.dev)\nDonation: ${donation}\nTax Savings: ${savings}\nAfter-Tax Cost: ${afterTax}\nMarginal Rate: ${marginal}\nEffective Rate: ${effective}\nTax Without Donation: ${taxBefore}\nTax With Donation: ${taxAfter}`;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = 'Copied!';
+    setTimeout(() => { btn.textContent = 'Copy Results'; }, 2000);
+  }).catch(() => {});
+});
+
+// Init slider display
+sliderDisplay.textContent = '$' + parseInt(slider.value).toLocaleString();
+</script>
+</body>
+</html>
