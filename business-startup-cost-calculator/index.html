@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Business Startup Cost Calculator — Free Online Tool | calcstack.dev</title>
+<meta name="description" content="Calculate your business startup costs instantly. Enter one-time and monthly expenses to get a complete cost breakdown, funding target, and visual analysis.">
+<link rel="canonical" href="https://calcstack.dev/business-startup-cost-calculator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Business Startup Cost Calculator",
+  "url": "https://calcstack.dev/business-startup-cost-calculator/",
+  "description": "Calculate your business startup costs with a full breakdown of one-time and recurring expenses, funding targets, and visual cost analysis.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#fff;color:#1a1a2e;font-size:16px;line-height:1.6}
+a{color:#0077b6;text-decoration:none}
+a:hover{text-decoration:underline}
+nav{border-bottom:1px solid #e0e0e0;padding:0 1.5rem}
+.nav-inner{max-width:640px;margin:0 auto;display:flex;align-items:center;height:52px}
+.nav-brand{font-weight:700;font-size:1.1rem;color:#1a1a2e}
+.container{max-width:640px;margin:0 auto;padding:1.5rem}
+h1{font-size:1.6rem;font-weight:700;margin-bottom:.4rem;color:#1a1a2e}
+.subtitle{color:#555;font-size:.95rem;margin-bottom:1.5rem}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:2rem}
+.section-title{font-size:1rem;font-weight:700;color:#0077b6;text-transform:uppercase;letter-spacing:.04em;margin-bottom:1rem;padding-bottom:.5rem;border-bottom:2px solid #e8f4fd}
+label{display:block;font-size:.85rem;font-weight:500;color:#444;margin-bottom:.3rem}
+input[type=number],input[type=text]{width:100%;border:1px solid #ddd;border-radius:6px;padding:12px 16px;font-size:.95rem;color:#1a1a2e;transition:border-color .2s,box-shadow .2s;background:#fff}
+input:focus{outline:none;border-color:#0077b6;box-shadow:0 0 0 3px rgba(0,119,182,.15)}
+input.error{border-color:#e74c3c}
+.error-msg{color:#e74c3c;font-size:.78rem;margin-top:.3rem;display:none}
+.error-msg.show{display:block}
+.input-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+.input-group{margin-bottom:1rem}
+.input-prefix{position:relative}
+.input-prefix span{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#888;font-size:.95rem;pointer-events:none}
+.input-prefix input{padding-left:26px}
+.add-btn{background:none;border:1px dashed #0077b6;color:#0077b6;border-radius:6px;padding:8px 16px;font-size:.85rem;cursor:pointer;width:100%;margin-top:.5rem;transition:background .2s}
+.add-btn:hover{background:#e8f4fd}
+.remove-btn{background:none;border:none;color:#e74c3c;cursor:pointer;font-size:1.1rem;padding:0 8px;line-height:1;min-height:44px;flex-shrink:0}
+.remove-btn:hover{color:#c0392b}
+.custom-row{display:flex;gap:.5rem;align-items:center;margin-bottom:.6rem}
+.custom-row input[type=text]{flex:1.4}
+.custom-row input[type=number]{flex:1}
+.months-row{display:flex;align-items:center;gap:1rem;margin-bottom:1rem}
+.months-row label{margin:0;white-space:nowrap}
+.months-row input[type=range]{flex:1;accent-color:#0077b6}
+.months-val{font-weight:700;color:#0077b6;min-width:40px}
+.btn-calc{background:#0077b6;color:#fff;border:none;border-radius:6px;padding:14px 24px;font-size:1rem;font-weight:600;cursor:pointer;width:100%;transition:background .2s;min-height:44px;margin-top:.5rem}
+.btn-calc:hover{background:#006299}
+.results{opacity:0;transition:opacity .3s ease;display:none}
+.results.show{display:block;opacity:1}
+.big-number{font-size:2.4rem;font-weight:800;color:#0077b6;line-height:1.1}
+.big-label{font-size:.9rem;color:#555;margin-top:.2rem}
+.summary-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+.summary-card{background:#f8f9fa;border-radius:8px;padding:1rem;text-align:center;border:1px solid #e0e0e0}
+.summary-card .val{font-size:1.3rem;font-weight:700;color:#0077b6}
+.summary-card .lbl{font-size:.75rem;color:#666;margin-top:.2rem}
+.chart-section{margin-bottom:1.5rem}
+.chart-title{font-size:.9rem;font-weight:600;color:#1a1a2e;margin-bottom:.8rem}
+.bar-row{display:flex;align-items:center;gap:.75rem;margin-bottom:.6rem}
+.bar-label{font-size:.78rem;color:#444;width:120px;flex-shrink:0;text-align:right}
+.bar-track{flex:1;background:#f0f0f0;border-radius:4px;height:20px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;transition:width .4s ease;min-width:2px}
+.bar-val{font-size:.78rem;font-weight:600;color:#1a1a2e;min-width:72px;text-align:right}
+.stacked-track{flex:1;background:#f0f0f0;border-radius:4px;height:28px;overflow:hidden;display:flex}
+.stacked-seg{height:100%;transition:width .4s ease}
+.legend{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:.6rem}
+.legend-item{display:flex;align-items:center;gap:.3rem;font-size:.76rem;color:#444}
+.legend-dot{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.85rem}
+th{background:#f0f0f0;padding:8px 10px;text-align:left;font-weight:600;border-bottom:2px solid #ddd}
+th.num,td.num{text-align:right}
+td{padding:8px 10px;border-bottom:1px solid #eee}
+tr:nth-child(even) td{background:#fafafa}
+.show-all-btn{background:none;border:1px solid #ddd;color:#0077b6;border-radius:6px;padding:8px 18px;font-size:.83rem;cursor:pointer;margin-top:.75rem;display:block;width:100%;transition:background .2s}
+.show-all-btn:hover{background:#f0f7fc}
+.copy-btn{background:none;border:1px solid #ddd;color:#0077b6;border-radius:6px;padding:7px 14px;font-size:.8rem;cursor:pointer;transition:background .2s,color .2s;float:right;margin-top:-4px}
+.copy-btn:hover{background:#0077b6;color:#fff}
+.results-header{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:.5rem;margin-bottom:1.2rem}
+.note{font-size:.78rem;color:#888;margin-top:.4rem}
+.content-section{margin-bottom:2rem}
+.content-section h2{font-size:1.15rem;font-weight:700;color:#1a1a2e;margin-bottom:.6rem;margin-top:1.5rem}
+.content-section p{color:#444;font-size:.9rem;margin-bottom:.7rem}
+.content-section ul{color:#444;font-size:.9rem;padding-left:1.3rem}
+.content-section ul li{margin-bottom:.4rem}
+details{border:1px solid #e0e0e0;border-radius:6px;margin-bottom:.6rem;overflow:hidden}
+summary{padding:.75rem 1rem;cursor:pointer;font-weight:500;font-size:.9rem;color:#1a1a2e;background:#f8f9fa;list-style:none;display:flex;justify-content:space-between;align-items:center}
+summary::-webkit-details-marker{display:none}
+summary::after{content:'＋';color:#0077b6;font-size:1rem}
+details[open] summary::after{content:'－'}
+details p{padding:.75rem 1rem;font-size:.88rem;color:#444;background:#fff}
+.related-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:.75rem}
+.related-link{background:#f8f9fa;border:1px solid #e0e0e0;border-radius:6px;padding:.6rem .9rem;font-size:.84rem;color:#0077b6;display:block;transition:background .2s}
+.related-link:hover{background:#e8f4fd;text-decoration:none}
+footer{border-top:1px solid #e0e0e0;padding:1.5rem;text-align:center;font-size:.82rem;color:#888}
+footer a{color:#888;margin:0 .5rem}
+footer a:hover{color:#0077b6}
+.ad-slot{min-height:0;margin:0}
+@media(max-width:640px){
+  .input-row{grid-template-columns:1fr}
+  .summary-grid{grid-template-columns:1fr 1fr}
+  .bar-label{width:90px;font-size:.72rem}
+  .bar-val{font-size:.72rem;min-width:60px}
+  .related-grid{grid-template-columns:1fr}
+  .big-number{font-size:1.9rem}
+}
+@media(max-width:400px){
+  .summary-grid{grid-template-columns:1fr}
+}
+.color-1{background:#0077b6}
+.color-2{background:#00b4d8}
+.color-3{background:#48cae4}
+.color-4{background:#90e0ef}
+.color-5{background:#f4a261}
+.color-6{background:#e76f51}
+.color-7{background:#2a9d8f}
+.color-8{background:#e9c46a}
+.color-9{background:#264653}
+.color-10{background:#a8dadc}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">calcstack.dev</a>
+  </div>
+</nav>
+
+<div class="container">
+  <h1>Business Startup Cost Calculator</h1>
+  <p class="subtitle">Estimate your total startup investment — one-time costs, monthly burn, and how long your runway lasts.</p>
+
+  <div class="card">
+    <!-- ONE-TIME COSTS -->
+    <div class="section-title">One-Time Startup Costs</div>
+    <div id="oneTimeCosts">
+      <div class="input-row">
+        <div class="input-group">
+          <label>Business Registration & Legal</label>
+          <div class="input-prefix"><span>$</span><input type="number" id="legal" value="1500" min="0" placeholder="0"></div>
+        </div>
+        <div class="input-group">
+          <label>Equipment & Hardware</label>
+          <div class="input-prefix"><span>$</span><input type="number" id="equipment" value="3000" min="0" placeholder="0"></div>
+        </div>
+      </div>
+      <div class="input-row">
+        <div class="input-group">
+          <label>Website & Technology Setup</label>
+          <div class="input-prefix"><span>$</span><input type="number" id="website" value="2000" min="0" placeholder="0"></div>
+        </div>
+        <div class="input-group">
+          <label>Initial Inventory / Supplies</label>
+          <div class="input-prefix"><span>$</span><input type="number" id="inventory" value="5000" min="0" placeholder="0"></div>
+        </div>
+      </div>
+      <div class="input-row">
+        <div class="input-group">
+          <label>Office / Location Deposit</label>
+          <div class="input-prefix"><span>$</span><input type="number" id="deposit" value="2500" min="0" placeholder="0"></div>
+        </div>
+        <div class="input-group">
+          <label>Branding & Marketing Materials</label>
+          <div class="input-prefix"><span>$</span><input type="number" id="branding" value="1000" min="0" placeholder="0"></div>
+        </div>
+      </div>
+    </div>
+    <div id="customOneTime"></div>
+    <button class="add-btn" onclick="addCustomRow('customOneTime','ot')">＋ Add Custom One-Time Cost</button>
+
+    <!-- MONTHLY COSTS -->
+    <div class="section-title" style="margin-top:1.5rem">Monthly Operating Costs</div>
+    <div class="input-row">
+      <div class="input-group">
+        <label>Rent / Lease</label>
+        <div class="input-prefix"><span>$</span><input type="number" id="rent" value="1200" min="0" placeholder="0"></div>
+      </div>
+      <div class="input-group">
+        <label>Salaries & Payroll</label>
+        <div class="input-prefix"><span>$</span><input type="number" id="salaries" value="4000" min="0" placeholder="0"></div>
+      </div>
+    </div>
+    <div class="input-row">
+      <div class="input-group">
+        <label>Software & Subscriptions</label>
+        <div class="input-prefix"><span>$</span><input type="number" id="software" value="300" min="0" placeholder="0"></div>
+      </div>
+      <div class="input-group">
+        <label>Marketing & Advertising</label>
+        <div class="input-prefix"><span>$</span><input type="number" id="marketing" value="500" min="0" placeholder="0"></div>
+      </div>
+    </div>
+    <div class="input-row">
+      <div class="input-group">
+        <label>Utilities & Internet</label>
+        <div class="input-prefix"><span>$</span><input type="number" id="utilities" value="200" min="0" placeholder="0"></div>
+      </div>
+      <div class="input-group">
+        <label>Insurance</label>
+        <div class="input-prefix"><span>$</span><input type="number" id="insurance" value="250" min="0" placeholder="0"></div>
+      </div>
+    </div>
+    <div id="customMonthly"></div>
+    <button class="add-btn" onclick="addCustomRow('customMonthly','mo')">＋ Add Custom Monthly Cost</button>
+
+    <!-- SETTINGS -->
+    <div class="section-title" style="margin-top:1.5rem">Runway & Funding</div>
+    <div class="input-group">
+      <label>Months of runway to fund</label>
+      <div class="months-row">
+        <input type="range" id="runwaySlider" min="1" max="24" value="6" oninput="document.getElementById('runwayVal').textContent=this.value;document.getElementById('runwayNum').value=this.value">
+        <span class="months-val" id="runwayVal">6</span><span style="font-size:.85rem;color:#666">months</span>
+      </div>
+      <div class="input-prefix" style="max-width:180px">
+        <input type="number" id="runwayNum" value="6" min="1" max="120" oninput="syncSlider(this.value)">
+      </div>
+    </div>
+    <div class="input-group">
+      <label>Emergency buffer (%)</label>
+      <div class="input-prefix" style="max-width:180px">
+        <span>%</span><input type="number" id="buffer" value="20" min="0" max="100" placeholder="20">
+      </div>
+    </div>
+
+    <button class="btn-calc" onclick="requestAnimationFrame(calculate)">Calculate Startup Costs</button>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="card results" id="results">
+    <div class="results-header">
+      <div>
+        <div class="big-number" id="res-total">$0</div>
+        <div class="big-label">Total Recommended Funding</div>
+        <div class="note">Includes one-time costs + operating runway + emergency buffer</div>
+      </div>
+      <button class="copy-btn" onclick="copyResults()" id="copyBtn">Copy Summary</button>
+    </div>
+
+    <div class="summary-grid">
+      <div class="summary-card">
+        <div class="val" id="res-onetime">$0</div>
+        <div class="lbl">One-Time Costs</div>
+      </div>
+      <div class="summary-card">
+        <div class="val" id="res-monthly">$0</div>
+        <div class="lbl">Monthly Burn</div>
+      </div>
+      <div class="summary-card">
+        <div class="val" id="res-runway-cost">$0</div>
+        <div class="lbl">Runway Cost</div>
+      </div>
+    </div>
+
+    <!-- Stacked bar total -->
+    <div class="chart-section">
+      <div class="chart-title">Total Funding Composition</div>
+      <div class="bar-row">
+        <div class="bar-label">Funding</div>
+        <div class="stacked-track" id="stackedBar"></div>
+      </div>
+      <div class="legend" id="stackedLegend"></div>
+    </div>
+
+    <!-- Category bars -->
+    <div class="chart-section">
+      <div class="chart-title">Cost Breakdown by Category</div>
+      <div id="categoryBars"></div>
+    </div>
+
+    <!-- Monthly runway table -->
+    <div class="section-title" style="margin-top:1rem">Month-by-Month Cash Flow</div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Month</th>
+            <th class="num">Cumulative Spend</th>
+            <th class="num">Remaining Budget</th>
+            <th class="num">% Used</th>
+          </tr>
+        </thead>
+        <tbody id="runwayTable"></tbody>
+      </table>
+    </div>
+    <button class="show-all-btn" id="showAllBtn" onclick="toggleTable()">Show All Months</button>
+  </div>
+
+  <div class="ad-slot" id="ad-mid"></div>
+
+  <!-- CONTENT SECTION -->
+  <div class="content-section">
+    <h2>How to Use This Startup Cost Calculator</h2>
+    <p>Enter your expected one-time startup expenses — things you pay once to get the business off the ground — and your anticipated monthly operating costs. Then set how many months of runway you want to fund before your business becomes self-sustaining. Hit <strong>Calculate Startup Costs</strong> to instantly see your total required funding, a visual breakdown by category, and a month-by-month cash flow table.</p>
+    <p>You can add custom line items using the "Add Custom" buttons for any costs specific to your industry or business model. The emergency buffer field lets you add a safety percentage on top (industry standard: 15–25%).</p>
+
+    <h2>Why This Matters</h2>
+    <p>Undercapitalization is one of the top reasons new businesses fail — not a bad product or weak demand, but simply running out of money. A 2023 survey by the Federal Reserve found that 43% of small business owners who applied for financing cited insufficient cash flow as the primary challenge. Knowing your real startup number before launch changes everything.</p>
+    <p>Consider a food truck operator in Austin. Equipment ($18,000), permits ($1,200), branding ($800), and a used vehicle wrap ($2,500) add up fast — before a single taco is sold. Add 6 months of fuel, commissary fees, insurance, and part-time labor ($4,800/month), and the true first-year investment exceeds $50,000. Without a clear number, they'd likely underestimate by 30–40% and burn through reserves in month 3.</p>
+    <p>Whether you're pitching to investors, applying for an SBA loan, or self-funding with savings, a detailed startup cost estimate is non-negotiable. Lenders expect it. Investors require it. And you need it to set realistic revenue targets.</p>
+
+    <h2>How It's Calculated</h2>
+    <p>The calculator uses three components to arrive at your recommended total funding:</p>
+    <ul>
+      <li><strong>One-Time Costs:</strong> Sum of all startup expenses paid once — legal, equipment, deposits, branding, etc.</li>
+      <li><strong>Operating Runway:</strong> Monthly burn rate × number of months you want to fund.</li>
+      <li><strong>Emergency Buffer:</strong> (One-Time Costs + Runway) × buffer percentage.</li>
+    </ul>
+    <p><strong>Formula:</strong><br>
+    <code>Total = (One-Time Costs + Monthly Costs × Months) × (1 + Buffer%)</code></p>
+    <p>The month-by-month table tracks cumulative spend starting from month 0 (one-time costs), then adding monthly burn each subsequent month, so you can see exactly when you'd exhaust different funding levels.</p>
+
+    <h2>Tips & Common Mistakes</h2>
+    <ul>
+      <li><strong>Don't forget soft costs.</strong> Legal reviews, accounting setup, business insurance, and LLC filing fees are commonly overlooked but often add $2,000–$5,000 for a basic LLC setup.</li>
+      <li><strong>Founders often underestimate their own salary.</strong> If you're leaving a job to start a business, your living expenses are a real business cost — include at least a modest owner's draw.</li>
+      <li><strong>Use 6–12 months of runway minimum.</strong> Most businesses take longer than expected to reach profitability. Six months is a floor, not a goal.</li>
+      <li><strong>Separate cash needs from total investment.</strong> Equipment you finance doesn't all hit your bank account at once — but monthly payments do. Track both.</li>
+      <li><strong>Revisit quarterly.</strong> Real costs will differ from estimates. Use this calculator again after 90 days in business to recalibrate your runway and adjust spending.</li>
+    </ul>
+
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>What's a typical startup cost for a small business?</summary>
+      <p>According to the U.S. Small Business Administration, most small businesses spend between $3,000 and $5,000 for very basic operations (home-based service businesses), but brick-and-mortar or product businesses routinely require $50,000–$250,000 before generating significant revenue. The range is extremely wide depending on industry, location, and model.</p>
+    </details>
+    <details>
+      <summary>How much emergency buffer should I add?</summary>
+      <p>Financial advisors typically recommend 15–25% for established industries with predictable costs, and up to 40% for first-time entrepreneurs or novel business models. The more unknowns in your plan, the larger the buffer should be. Surprises almost always increase costs, rarely reduce them.</p>
+    </details>
+    <details>
+      <summary>Can I use this for investor presentations?</summary>
+      <p>Yes — the output gives you a clean summary of one-time costs, monthly burn rate, and total funding required, which are exactly the numbers investors and lenders ask for. Use the "Copy Summary" button to pull the data into your pitch deck or business plan document.</p>
+    </details>
+    <details>
+      <summary>What's the difference between startup costs and operating costs?</summary>
+      <p>Startup (one-time) costs are expenses to get the business to the point of opening — you pay them once. Operating costs are ongoing monthly expenses required to keep the business running. Both matter for your funding target: startup costs hit before you open, operating costs hit every single month afterward.</p>
+    </details>
+  </div>
+
+  <div class="content-section">
+    <h2>Related Tools</h2>
+    <div class="related-grid">
+      <a href="/life-insurance-needs-calculator/" class="related-link">Life Insurance Needs Calculator</a>
+      <a href="/savings-account-interest-calculator/" class="related-link">Savings Account Interest Calculator</a>
+      <a href="/capital-gains-tax-calculator/" class="related-link">Capital Gains Tax Calculator</a>
+      <a href="/mortgage-points-break-even-calculator/" class="related-link">Mortgage Points Break-Even Calculator</a>
+      <a href="/charitable-donation-tax-savings-calculator/" class="related-link">Charitable Donation Tax Savings Calculator</a>
+      <a href="/net-salary-after-tax-calculator/" class="related-link">Net Salary After Tax Calculator</a>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-bottom"></div>
+</div>
+
+<footer>
+  <a href="/about/">About</a>
+  <a href="/privacy/">Privacy</a>
+  <a href="/contact/">Contact</a>
+  <br><br>
+  © <span id="yr"></span> calcstack.dev
+</footer>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+let otCounter = 0, moCounter = 0;
+let tableExpanded = false;
+let lastResults = null;
+
+const COLORS = ['#0077b6','#00b4d8','#48cae4','#90e0ef','#f4a261','#e76f51','#2a9d8f','#e9c46a','#264653','#a8dadc'];
+
+function syncSlider(v) {
+  const n = Math.min(Math.max(parseInt(v)||1,1),120);
+  const slider = document.getElementById('runwaySlider');
+  if(n <= 24) slider.value = n;
+  document.getElementById('runwayVal').textContent = n;
+}
+
+function addCustomRow(containerId, prefix) {
+  const container = document.getElementById(containerId);
+  const id = prefix + '_' + Date.now();
+  const div = document.createElement('div');
+  div.className = 'custom-row';
+  div.id = id;
+  div.innerHTML = `
+    <input type="text" placeholder="Description" value="">
+    <div class="input-prefix" style="flex:1;position:relative"><span>$</span><input type="number" min="0" placeholder="0" style="padding-left:26px"></div>
+    <button class="remove-btn" onclick="removeRow('${id}')" title="Remove">✕</button>
+  `;
+  container.appendChild(div);
+}
+
+function removeRow(id) {
+  const el = document.getElementById(id);
+  if(el) el.remove();
+}
+
+function getVal(id) {
+  const el = document.getElementById(id);
+  return el ? (parseFloat(el.value) || 0) : 0;
+}
+
+function fmt(n) {
+  return '$' + n.toLocaleString('en-US', {minimumFractionDigits:0, maximumFractionDigits:0});
+}
+
+function pct(n) {
+  return n.toFixed(1) + '%';
+}
+
+function getCustomRows(containerId) {
+  const container = document.getElementById(containerId);
+  const rows = container.querySelectorAll('.custom-row');
+  const result = [];
+  rows.forEach(row => {
+    const inputs = row.querySelectorAll('input');
+    const label = inputs[0].value.trim() || 'Custom Item';
+    const val = parseFloat(inputs[1].value) || 0;
+    if(val > 0) result.push({label, val});
+  });
+  return result;
+}
+
+function calculate() {
+  // One-time costs
+  const oneTimeItems = [
+    {label:'Legal & Registration', val:getVal('legal')},
+    {label:'Equipment & Hardware', val:getVal('equipment')},
+    {label:'Website & Technology', val:getVal('website')},
+    {label:'Inventory & Supplies', val:getVal('inventory')},
+    {label:'Office Deposit', val:getVal('deposit')},
+    {label:'Branding & Marketing', val:getVal('branding')},
+  ];
+  getCustomRows('customOneTime').forEach(r => oneTimeItems.push(r));
+
+  // Monthly costs
+  const monthlyItems = [
+    {label:'Rent / Lease', val:getVal('rent')},
+    {label:'Salaries & Payroll', val:getVal('salaries')},
+    {label:'Software & Subscriptions', val:getVal('software')},
+    {label:'Marketing & Advertising', val:getVal('marketing')},
+    {label:'Utilities & Internet', val:getVal('utilities')},
+    {label:'Insurance', val:getVal('insurance')},
+  ];
+  getCustomRows('customMonthly').forEach(r => monthlyItems.push(r));
+
+  const runway = Math.max(1, parseInt(document.getElementById('runwayNum').value) || 6);
+  const bufferPct = Math.max(0, parseFloat(document.getElementById('buffer').value) || 0);
+
+  const totalOneTime = oneTimeItems.reduce((s,i)=>s+i.val,0);
+  const totalMonthly = monthlyItems.reduce((s,i)=>s+i.val,0);
+  const runwayCost = totalMonthly * runway;
+  const subtotal = totalOneTime + runwayCost;
+  const bufferAmt = subtotal * (bufferPct / 100);
+  const grandTotal = subtotal + bufferAmt;
+
+  lastResults = {oneTimeItems, monthlyItems, runway, bufferPct, totalOneTime, totalMonthly, runwayCost, bufferAmt, grandTotal};
+
+  // Build HTML
+  const resultsEl = document.getElementById('results');
+
+  // Summary numbers
+  let html = '';
+
+  // Stacked bar
+  const seg1w = grandTotal > 0 ? (totalOneTime / grandTotal * 100) : 0;
+  const seg2w = grandTotal > 0 ? (runwayCost / grandTotal * 100) : 0;
+  const seg3w = grandTotal > 0 ? (bufferAmt / grandTotal * 100) : 0;
+
+  let stackedBarHTML = '';
+  if(seg1w > 0) stackedBarHTML += `<div class="stacked-seg color-1" style="width:${seg1w.toFixed(1)}%" title="One-Time: ${fmt(totalOneTime)}"></div>`;
+  if(seg2w > 0) stackedBarHTML += `<div class="stacked-seg color-2" style="width:${seg2w.toFixed(1)}%" title="Runway: ${fmt(runwayCost)}"></div>`;
+  if(seg3w > 0) stackedBarHTML += `<div class="stacked-seg color-5" style="width:${seg3w.toFixed(1)}%" title="Buffer: ${fmt(bufferAmt)}"></div>`;
+
+  const legendHTML = `
+    <div class="legend-item"><div class="legend-dot color-1"></div> One-Time (${pct(seg1w)})</div>
+    <div class="legend-item"><div class="legend-dot color-2"></div> Runway (${pct(seg2w)})</div>
+    ${bufferAmt>0?`<div class="legend-item"><div class="legend-dot color-5"></div> Buffer (${pct(seg3w)})</div>`:''}
+  `;
+
+  // Category bars — all items
+  const allItems = [];
+  oneTimeItems.forEach(i => { if(i.val>0) allItems.push({label:i.label + ' (1×)', val:i.val, isOT:true}); });
+  monthlyItems.forEach(i => { if(i.val>0) allItems.push({label:i.label + ' /mo', val:i.val, isOT:false}); });
+  allItems.sort((a,b)=>b.val-a.val);
+  const maxVal = allItems.length > 0 ? allItems[0].val : 1;
+
+  let categoryBarsHTML = '';
+  allItems.forEach((item, idx) => {
+    const w = (item.val / maxVal * 100).toFixed(1);
+    const color = COLORS[idx % COLORS.length];
+    categoryBarsHTML += `
+      <div class="bar-row">
+        <div class="bar-label">${item.label}</div>
+        <div class="bar-track"><div class="bar-fill" style="width:${w}%;background:${color}"></div></div>
+        <div class="bar-val">${fmt(item.val)}</div>
+      </div>`;
+  });
+
+  // Runway table
+  const tableRows = [];
+  let cumulative = totalOneTime;
+  tableRows.push({month:0, label:'Launch (Day 0)', spend:cumulative, remaining:grandTotal-cumulative});
+  for(let m=1; m<=runway; m++) {
+    cumulative += totalMonthly;
+    tableRows.push({month:m, label:`Month ${m}`, spend:cumulative, remaining:grandTotal-cumulative});
+  }
+
+  const PREVIEW_ROWS = 6;
+  const showAll = tableExpanded || tableRows.length <= PREVIEW_ROWS;
+
+  let tableHTML = '';
+  const displayRows = showAll ? tableRows : tableRows.slice(0, PREVIEW_ROWS);
+  displayRows.forEach(r => {
+    const usedPct = grandTotal > 0 ? (r.spend / grandTotal * 100).toFixed(1) : '0.0';
+    const remClass = r.remaining < 0 ? 'style="color:#e74c3c"' : '';
+    tableHTML += `<tr>
+      <td>${r.label}</td>
+      <td class="num">${fmt(r.spend)}</td>
+      <td class="num" ${remClass}>${fmt(r.remaining)}</td>
+      <td class="num">${usedPct}%</td>
+    </tr>`;
+  });
+
+  // Apply all at once
+  document.getElementById('res-total').textContent = fmt(grandTotal);
+  document.getElementById('res-onetime').textContent = fmt(totalOneTime);
+  document.getElementById('res-monthly').textContent = fmt(totalMonthly);
+  document.getElementById('res-runway-cost').textContent = fmt(runwayCost);
+  document.getElementById('stackedBar').innerHTML = stackedBarHTML;
+  document.getElementById('stackedLegend').innerHTML = legendHTML;
+  document.getElementById('categoryBars').innerHTML = categoryBarsHTML;
+  document.getElementById('runwayTable').innerHTML = tableHTML;
+
+  const showAllBtn = document.getElementById('showAllBtn');
+  if(tableRows.length <= PREVIEW_ROWS) {
+    showAllBtn.style.display = 'none';
+  } else {
+    showAllBtn.style.display = 'block';
+    showAllBtn.textContent = tableExpanded ? 'Show Less' : `Show All ${tableRows.length} Months`;
+  }
+
+  if(!resultsEl.classList.contains('show')) {
+    resultsEl.style.display = 'block';
+    requestAnimationFrame(() => { resultsEl.classList.add('show'); });
+  }
+
+  resultsEl.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+function toggleTable() {
+  tableExpanded = !tableExpanded;
+  requestAnimationFrame(calculate);
+}
+
+function copyResults() {
+  if(!lastResults) return;
+  const {totalOneTime, totalMonthly, runwayCost, bufferAmt, bufferPct, grandTotal, runway} = lastResults;
+  const lines = [
+    'STARTUP COST SUMMARY',
+    '====================',
+    `One-Time Startup Costs:   ${fmt(totalOneTime)}`,
+    `Monthly Operating Costs:  ${fmt(totalMonthly)}`,
+    `Operating Runway (${runway} mo): ${fmt(runwayCost)}`,
+    `Emergency Buffer (${bufferPct}%): ${fmt(bufferAmt)}`,
+    '--------------------',
+    `Total Recommended Funding: ${fmt(grandTotal)}`,
+    '',
+    `Generated by calcstack.dev/business-startup-cost-calculator/`
+  ];
+  navigator.clipboard.writeText(lines.join('\n')).then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = 'Copied!';
+    setTimeout(() => { btn.textContent = 'Copy Summary'; }, 2000);
+  });
+}
+
+// Enter key support
+document.addEventListener('keydown', function(e) {
+  if(e.key === 'Enter' && e.target.tagName !== 'BUTTON') {
+    requestAnimationFrame(calculate);
+  }
+});
+
+// Run on load with defaults
+requestAnimationFrame(calculate);
+</script>
+</body>
+</html>
