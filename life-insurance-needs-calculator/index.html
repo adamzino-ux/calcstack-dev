@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Life Insurance Needs Calculator — Free Online Tool | calcstack.dev</title>
+<meta name="description" content="How much life insurance do I need? Use our free calculator to find your ideal coverage amount based on income, debts, dependents, and future expenses.">
+<link rel="canonical" href="https://calcstack.dev/life-insurance-needs-calculator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Life Insurance Needs Calculator",
+  "url": "https://calcstack.dev/life-insurance-needs-calculator/",
+  "description": "Calculate how much life insurance you need based on income replacement, debts, dependents, and future expenses.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "All",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f8f9fa;color:#1a1a2e;font-size:16px;line-height:1.6}
+a{color:#0077b6;text-decoration:none}
+a:hover{text-decoration:underline}
+nav{background:#fff;border-bottom:1px solid #e0e0e0;padding:0 1.5rem}
+.nav-inner{max-width:640px;margin:0 auto;display:flex;align-items:center;height:52px}
+.nav-brand{font-weight:700;font-size:1.1rem;color:#1a1a2e}
+.nav-brand:hover{text-decoration:none;color:#0077b6}
+main{max-width:640px;margin:0 auto;padding:1.5rem 1rem 3rem}
+h1{font-size:1.6rem;font-weight:700;margin-bottom:.4rem;color:#1a1a2e}
+.subtitle{color:#555;font-size:.95rem;margin-bottom:1.5rem}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;box-shadow:0 2px 8px rgba(0,0,0,.04);margin-bottom:2rem}
+.section-title{font-size:1rem;font-weight:700;color:#0077b6;text-transform:uppercase;letter-spacing:.04em;margin-bottom:1.2rem;padding-bottom:.4rem;border-bottom:2px solid #e8f4fb}
+.form-group{margin-bottom:1.2rem}
+label{display:block;font-size:.85rem;font-weight:500;color:#444;margin-bottom:.4rem}
+label .hint{font-weight:400;color:#888;font-size:.8rem}
+input[type="number"],input[type="text"],select{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:6px;font-size:1rem;color:#1a1a2e;background:#fff;transition:border-color .2s,box-shadow .2s;-moz-appearance:textfield}
+input[type="number"]::-webkit-outer-spin-button,input[type="number"]::-webkit-inner-spin-button{-webkit-appearance:none}
+input:focus,select:focus{outline:none;border-color:#0077b6;box-shadow:0 0 0 3px rgba(0,119,182,.15)}
+input.error{border-color:#e74c3c}
+.error-msg{color:#e74c3c;font-size:.8rem;margin-top:.3rem;display:none}
+.error-msg.show{display:block}
+.input-prefix{position:relative}
+.input-prefix span{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#888;font-size:1rem;pointer-events:none}
+.input-prefix input{padding-left:28px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.btn{display:block;width:100%;background:#0077b6;color:#fff;border:none;padding:14px 24px;border-radius:6px;font-size:1rem;font-weight:600;cursor:pointer;transition:background .2s;min-height:44px;margin-top:.5rem}
+.btn:hover{background:#006299}
+.btn:active{background:#005580}
+.results{opacity:0;transition:opacity .3s ease;pointer-events:none}
+.results.visible{opacity:1;pointer-events:auto}
+.big-result{text-align:center;padding:1.5rem;background:linear-gradient(135deg,#e8f4fb,#f0faff);border-radius:8px;margin-bottom:1.5rem}
+.big-result .label{font-size:.9rem;color:#555;margin-bottom:.4rem}
+.big-result .amount{font-size:2.4rem;font-weight:800;color:#0077b6;letter-spacing:-.02em}
+.big-result .sub{font-size:.85rem;color:#666;margin-top:.3rem}
+.copy-btn{display:inline-block;background:#f0f8ff;border:1px solid #b0d8f0;color:#0077b6;font-size:.8rem;padding:5px 12px;border-radius:4px;cursor:pointer;transition:background .2s;margin-top:.7rem;min-height:32px}
+.copy-btn:hover{background:#dceefb}
+.breakdown-table-wrap{overflow-x:auto;margin-top:1rem}
+table{width:100%;border-collapse:collapse;font-size:.88rem}
+th{background:#f0f0f0;padding:9px 10px;text-align:left;font-weight:600;color:#333;white-space:nowrap}
+th.right,td.right{text-align:right}
+td{padding:8px 10px;border-bottom:1px solid #f0f0f0;white-space:nowrap}
+tr:nth-child(even) td{background:#fafafa}
+.bar-chart{margin:1rem 0}
+.bar-item{margin-bottom:.8rem}
+.bar-label{display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:.25rem;color:#333}
+.bar-label .val{font-weight:600;color:#1a1a2e}
+.bar-track{background:#f0f0f0;border-radius:4px;height:16px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;transition:width .5s ease;min-width:4px}
+.c1{background:#0077b6}
+.c2{background:#0096c7}
+.c3{background:#48cae4}
+.c4{background:#e9c46a}
+.c5{background:#f4a261}
+.c6{background:#e76f51}
+.note{background:#fff8e1;border-left:3px solid #f4a261;padding:.7rem 1rem;border-radius:0 4px 4px 0;font-size:.83rem;color:#555;margin-top:1rem}
+.content-section h2{font-size:1.15rem;font-weight:700;margin:1.8rem 0 .6rem;color:#1a1a2e}
+.content-section p{font-size:.92rem;color:#444;margin-bottom:.8rem}
+.content-section ul{padding-left:1.4rem;font-size:.92rem;color:#444;margin-bottom:.8rem}
+.content-section ul li{margin-bottom:.4rem}
+details{border:1px solid #e0e0e0;border-radius:6px;margin-bottom:.6rem}
+summary{padding:.75rem 1rem;cursor:pointer;font-weight:600;font-size:.9rem;color:#1a1a2e;list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"▶ ";color:#0077b6;font-size:.75rem}
+details[open] summary::before{content:"▼ "}
+details p{padding:.5rem 1rem .9rem;font-size:.88rem;color:#555}
+.related-tools{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:.8rem}
+.related-tools a{background:#f8f9fa;border:1px solid #e0e0e0;border-radius:6px;padding:.6rem .9rem;font-size:.85rem;color:#0077b6;transition:background .2s}
+.related-tools a:hover{background:#e8f4fb;text-decoration:none}
+.ad-slot{min-height:0;margin:0}
+footer{background:#fff;border-top:1px solid #e0e0e0;padding:1.2rem 1rem;text-align:center;font-size:.83rem;color:#777}
+footer a{color:#0077b6;margin:0 .5rem}
+.slider-wrap{margin-top:.4rem}
+input[type="range"]{width:100%;accent-color:#0077b6;cursor:pointer}
+.slider-val{font-size:.82rem;color:#0077b6;font-weight:600;text-align:right;margin-top:.1rem}
+@media(max-width:600px){
+  .row2{grid-template-columns:1fr}
+  .related-tools{grid-template-columns:1fr}
+  h1{font-size:1.35rem}
+  .big-result .amount{font-size:1.9rem}
+  .card{padding:1.3rem}
+}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">calcstack.dev</a>
+  </div>
+</nav>
+<main>
+  <h1>Life Insurance Needs Calculator</h1>
+  <p class="subtitle">Find out exactly how much life insurance coverage you need — based on your income, debts, family, and goals.</p>
+
+  <div class="card">
+    <div class="section-title">Your Income & Replacement</div>
+    <div class="row2">
+      <div class="form-group">
+        <label>Annual Income <span class="hint">(pre-tax)</span></label>
+        <div class="input-prefix"><span>$</span><input type="number" id="income" placeholder="85,000" min="0"></div>
+        <div class="error-msg" id="err-income">Please enter a valid income.</div>
+      </div>
+      <div class="form-group">
+        <label>Years of Income to Replace</label>
+        <input type="number" id="incomeYears" value="20" min="1" max="50">
+        <div class="slider-wrap">
+          <input type="range" id="incomeYearsSlider" min="1" max="50" value="20">
+          <div class="slider-val" id="incomeYearsVal">20 years</div>
+        </div>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="form-group">
+        <label>Spouse / Partner Income <span class="hint">(annual)</span></label>
+        <div class="input-prefix"><span>$</span><input type="number" id="spouseIncome" placeholder="0" min="0" value="0"></div>
+      </div>
+      <div class="form-group">
+        <label>Expected Investment Return <span class="hint">(%/yr)</span></label>
+        <input type="number" id="returnRate" value="5" min="0" max="20" step="0.1">
+        <div class="slider-wrap">
+          <input type="range" id="returnRateSlider" min="0" max="12" step="0.1" value="5">
+          <div class="slider-val" id="returnRateVal">5.0%</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:1.5rem">Debts & Immediate Expenses</div>
+    <div class="row2">
+      <div class="form-group">
+        <label>Mortgage Balance</label>
+        <div class="input-prefix"><span>$</span><input type="number" id="mortgage" placeholder="0" min="0" value="0"></div>
+      </div>
+      <div class="form-group">
+        <label>Other Debts <span class="hint">(car, credit, etc.)</span></label>
+        <div class="input-prefix"><span>$</span><input type="number" id="otherDebts" placeholder="0" min="0" value="0"></div>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="form-group">
+        <label>Final Expenses <span class="hint">(funeral, etc.)</span></label>
+        <div class="input-prefix"><span>$</span><input type="number" id="finalExp" placeholder="15000" min="0" value="15000"></div>
+      </div>
+      <div class="form-group">
+        <label>Emergency Fund Needed</label>
+        <div class="input-prefix"><span>$</span><input type="number" id="emergency" placeholder="0" min="0" value="0"></div>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:1.5rem">Future Expenses</div>
+    <div class="row2">
+      <div class="form-group">
+        <label>Children's Education Fund</label>
+        <div class="input-prefix"><span>$</span><input type="number" id="education" placeholder="0" min="0" value="0"></div>
+      </div>
+      <div class="form-group">
+        <label>Other Future Goals</label>
+        <div class="input-prefix"><span>$</span><input type="number" id="futureGoals" placeholder="0" min="0" value="0"></div>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:1.5rem">Existing Assets (offsets coverage)</div>
+    <div class="row2">
+      <div class="form-group">
+        <label>Current Life Insurance</label>
+        <div class="input-prefix"><span>$</span><input type="number" id="existingIns" placeholder="0" min="0" value="0"></div>
+      </div>
+      <div class="form-group">
+        <label>Savings & Investments</label>
+        <div class="input-prefix"><span>$</span><input type="number" id="savings" placeholder="0" min="0" value="0"></div>
+      </div>
+    </div>
+
+    <button class="btn" id="calcBtn">Calculate My Coverage Needs</button>
+  </div>
+
+  <div class="results card" id="results">
+    <div class="big-result">
+      <div class="label">Recommended Coverage Amount</div>
+      <div class="amount" id="totalCoverage">$0</div>
+      <div class="sub" id="coverageSub">Based on your inputs</div>
+      <button class="copy-btn" id="copyBtn">Copy Result</button>
+    </div>
+
+    <div class="section-title">Coverage Breakdown</div>
+    <div class="bar-chart" id="barChart"></div>
+    <div class="breakdown-table-wrap">
+      <table id="breakdownTable">
+        <thead>
+          <tr><th>Component</th><th class="right">Amount</th><th class="right">% of Total Need</th></tr>
+        </thead>
+        <tbody id="breakdownBody"></tbody>
+      </table>
+    </div>
+
+    <div class="note" id="resultsNote"></div>
+  </div>
+
+  <div class="ad-slot" id="ad-mid"></div>
+
+  <div class="content-section">
+    <h2>How to Use This Life Insurance Needs Calculator</h2>
+    <p>Enter your annual income and how many years your family would need that income replaced. Add any outstanding debts (mortgage, car loans, credit cards), one-time costs like funeral expenses, and future goals like college tuition. Then enter any existing assets — savings, investments, or current policies — that would offset the need. Hit Calculate to get a recommended coverage figure broken down by category.</p>
+    <p>Adjust the expected investment return rate to reflect how conservatively or aggressively the death benefit might be invested. A lower rate (3–4%) is more conservative; 5–7% is a common moderate assumption.</p>
+
+    <h2>Why This Matters</h2>
+    <p>Most people significantly underestimate how much life insurance they actually need. The average American household carries about $170,000 in life insurance coverage — but financial planners generally recommend 10–12× your annual income as a starting point. For a household earning $80,000, that gap means a family could face a $650,000 shortfall.</p>
+    <p>The stakes are concrete: without adequate coverage, a surviving spouse may be forced to sell the family home to pay off the mortgage, delay retirement by a decade, or pull children out of college. A 35-year-old with two kids and a $300,000 mortgage who dies without sufficient insurance leaves their family in a genuinely precarious financial position.</p>
+    <p>Life insurance needs are highest between ages 25–55 — the peak earning years when dependents rely most on your income. They decrease as mortgages are paid off, children become independent, and retirement savings accumulate. That's why recalculating every 3–5 years, or after major life events (marriage, new baby, home purchase), is strongly recommended.</p>
+
+    <h2>How It's Calculated</h2>
+    <p>This calculator uses a <strong>needs-based approach</strong>, which is more accurate than simple income multipliers:</p>
+    <p><strong>Income Replacement</strong> uses the present value of an annuity formula to determine how much capital is needed today to pay out your income annually for N years, assuming the invested funds earn a rate of return R:</p>
+    <p style="background:#f8f9fa;padding:.8rem;border-radius:4px;font-family:monospace;font-size:.85rem">PV = Income × [1 − (1 + R)^(−N)] / R</p>
+    <p>Where R is the annual return rate and N is the replacement years. To this we add:</p>
+    <ul>
+      <li><strong>Debts:</strong> Mortgage + other loans (must be paid off immediately)</li>
+      <li><strong>Final expenses:</strong> Funeral, estate, legal costs (~$15,000 typical)</li>
+      <li><strong>Emergency fund:</strong> 3–6 months of expenses</li>
+      <li><strong>Education fund:</strong> College costs per child</li>
+      <li><strong>Future goals:</strong> Any other financial obligations</li>
+    </ul>
+    <p>From this gross need, we subtract your <strong>existing assets</strong> (current life insurance + savings/investments). The result is your recommended additional coverage amount.</p>
+
+    <h2>Tips & Common Mistakes</h2>
+    <ul>
+      <li><strong>Don't forget stay-at-home labor.</strong> If a non-working spouse dies, the surviving partner faces real costs for childcare, cooking, and household management — often $50,000–$100,000/year. Consider insuring both spouses.</li>
+      <li><strong>Don't count on Social Security survivor benefits.</strong> These help but are usually not enough to fully replace income, especially for younger families.</li>
+      <li><strong>Use a conservative return rate.</strong> Using 8–10% because "the market averages that" is risky. 4–5% is more prudent for money a family depends on for survival.</li>
+      <li><strong>Revisit after major life changes.</strong> A new mortgage, second child, or significant salary increase can dramatically change your needs.</li>
+      <li><strong>Term vs. whole life.</strong> For most people, term life insurance (10, 20, or 30-year) gives the most coverage per dollar. This calculator helps you determine the amount regardless of policy type.</li>
+    </ul>
+
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>Is the "10× income" rule accurate?</summary>
+      <p>It's a quick starting point but often insufficient. A 35-year-old with a large mortgage, young children, and no savings might need 15–20× income. A 55-year-old with a paid-off home and grown children might need far less. The needs-based approach this calculator uses is far more accurate than simple multipliers.</p>
+    </details>
+    <details>
+      <summary>Should I include my spouse's income in the calculation?</summary>
+      <p>This calculator accounts for spouse income as a partial offset — meaning your family already has one income stream. However, you should also calculate coverage for your spouse separately, since losing either income can be devastating. Run the calculator twice, once for each partner.</p>
+    </details>
+    <details>
+      <summary>What return rate should I use?</summary>
+      <p>For a conservative, low-risk approach, use 3–4%. For a balanced portfolio assumption, 5–6% is reasonable. Avoid using equity-market averages of 8–10% for money your family depends on — the sequence-of-returns risk is too high during down markets in the early years.</p>
+    </details>
+    <details>
+      <summary>Does this calculator account for inflation?</summary>
+      <p>The return rate you enter should ideally be a real (inflation-adjusted) rate. If you expect 6% nominal returns and 3% inflation, enter 3% as your return rate. This ensures the income replacement figure properly maintains purchasing power over time.</p>
+    </details>
+  </div>
+
+  <div style="margin-bottom:2rem">
+    <h2 style="font-size:1.1rem;font-weight:700;margin-bottom:.8rem;color:#1a1a2e">Related Tools</h2>
+    <div class="related-tools">
+      <a href="/savings-account-interest-calculator/">Savings Account Interest Calculator</a>
+      <a href="/capital-gains-tax-calculator/">Capital Gains Tax Calculator</a>
+      <a href="/mortgage-points-break-even-calculator/">Mortgage Points Break-Even Calculator</a>
+      <a href="/charitable-donation-tax-savings-calculator/">Charitable Donation Tax Savings Calculator</a>
+      <a href="/net-salary-after-tax-calculator/">Net Salary After Tax Calculator</a>
+      <a href="/options-profit-loss-calculator/">Options Profit/Loss Calculator</a>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-bottom"></div>
+</main>
+<footer>
+  <a href="/about/">About</a>
+  <a href="/privacy/">Privacy</a>
+  <a href="/contact/">Contact</a>
+  <span style="display:block;margin-top:.4rem">© 2025 calcstack.dev</span>
+</footer>
+
+<script>
+// Slider sync
+function syncSlider(inputId, sliderId, valId, unit) {
+  const inp = document.getElementById(inputId);
+  const sld = document.getElementById(sliderId);
+  const val = document.getElementById(valId);
+  function update(src) {
+    if (src === 'input') sld.value = inp.value;
+    else inp.value = sld.value;
+    val.textContent = unit === '%' ? parseFloat(sld.value).toFixed(1) + '%' : sld.value + ' years';
+  }
+  inp.addEventListener('input', () => update('input'));
+  sld.addEventListener('input', () => update('slider'));
+}
+syncSlider('incomeYears', 'incomeYearsSlider', 'incomeYearsVal', 'years');
+syncSlider('returnRate', 'returnRateSlider', 'returnRateVal', '%');
+
+function fmt(n) {
+  if (n === null || n === undefined || isNaN(n)) return '$0';
+  return '$' + Math.round(n).toLocaleString('en-US');
+}
+function fmtPct(n) {
+  if (!isFinite(n)) return '—';
+  return n.toFixed(1) + '%';
+}
+function getVal(id) {
+  const v = parseFloat(document.getElementById(id).value);
+  return isNaN(v) ? 0 : Math.max(0, v);
+}
+
+function calculate() {
+  const income = getVal('income');
+  const incomeYears = Math.max(1, getVal('incomeYears'));
+  const spouseIncome = getVal('spouseIncome');
+  const returnRatePct = getVal('returnRate');
+  const mortgage = getVal('mortgage');
+  const otherDebts = getVal('otherDebts');
+  const finalExp = getVal('finalExp');
+  const emergency = getVal('emergency');
+  const education = getVal('education');
+  const futureGoals = getVal('futureGoals');
+  const existingIns = getVal('existingIns');
+  const savings = getVal('savings');
+
+  // Validate
+  const errIncome = document.getElementById('err-income');
+  const incomeInput = document.getElementById('income');
+  if (!income || income <= 0) {
+    incomeInput.classList.add('error');
+    errIncome.classList.add('show');
+    document.getElementById('results').classList.remove('visible');
+    return;
+  }
+  incomeInput.classList.remove('error');
+  errIncome.classList.remove('show');
+
+  // Net income needing replacement (minus spouse income)
+  const netIncome = Math.max(0, income - spouseIncome);
+  const r = returnRatePct / 100;
+
+  // Present value of income annuity
+  let incomeReplacement;
+  if (r === 0) {
+    incomeReplacement = netIncome * incomeYears;
+  } else {
+    incomeReplacement = netIncome * (1 - Math.pow(1 + r, -incomeYears)) / r;
+  }
+
+  const debts = mortgage + otherDebts;
+  const immediateNeeds = finalExp + emergency;
+  const futureNeeds = education + futureGoals;
+  const totalAssets = existingIns + savings;
+
+  const grossNeed = incomeReplacement + debts + immediateNeeds + futureNeeds;
+  const totalCoverage = Math.max(0, grossNeed - totalAssets);
+
+  const components = [
+    { label: 'Income Replacement', amount: incomeReplacement, color: 'c1' },
+    { label: 'Mortgage & Debts', amount: debts, color: 'c2' },
+    { label: 'Final & Emergency Expenses', amount: immediateNeeds, color: 'c3' },
+    { label: 'Education & Future Goals', amount: futureNeeds, color: 'c4' },
+    { label: 'Less: Existing Assets', amount: -totalAssets, color: 'c6' },
+  ].filter(c => c.amount !== 0);
+
+  const maxBar = Math.max(...components.map(c => Math.abs(c.amount)));
+
+  let barHTML = '';
+  components.forEach(c => {
+    const pct = maxBar > 0 ? (Math.abs(c.amount) / maxBar * 100).toFixed(1) : 0;
+    const displayAmt = c.amount < 0 ? '−' + fmt(-c.amount) : fmt(c.amount);
+    barHTML += `<div class="bar-item">
+      <div class="bar-label"><span>${c.label}</span><span class="val">${displayAmt}</span></div>
+      <div class="bar-track"><div class="bar-fill ${c.color}" style="width:${pct}%"></div></div>
+    </div>`;
+  });
+
+  let tableRows = '';
+  const positiveComponents = [
+    { label: 'Income Replacement (PV)', amount: incomeReplacement },
+    { label: 'Mortgage Balance', amount: mortgage },
+    { label: 'Other Debts', amount: otherDebts },
+    { label: 'Final Expenses', amount: finalExp },
+    { label: 'Emergency Fund', amount: emergency },
+    { label: "Children's Education", amount: education },
+    { label: 'Other Future Goals', amount: futureGoals },
+  ];
+  positiveComponents.forEach(c => {
+    if (c.amount > 0) {
+      tableRows += `<tr><td>${c.label}</td><td class="right">${fmt(c.amount)}</td><td class="right">${fmtPct(c.amount / grossNeed * 100)}</td></tr>`;
+    }
+  });
+  tableRows += `<tr style="font-weight:600;background:#e8f4fb"><td>Total Need (Gross)</td><td class="right">${fmt(grossNeed)}</td><td class="right">100%</td></tr>`;
+  if (existingIns > 0) tableRows += `<tr style="color:#888"><td>Less: Existing Insurance</td><td class="right">−${fmt(existingIns)}</td><td class="right">—</td></tr>`;
+  if (savings > 0) tableRows += `<tr style="color:#888"><td>Less: Savings & Investments</td><td class="right">−${fmt(savings)}</td><td class="right">—</td></tr>`;
+  tableRows += `<tr style="font-weight:700;background:#0077b6;color:#fff"><td>Recommended Coverage</td><td class="right">${fmt(totalCoverage)}</td><td class="right">—</td></tr>`;
+
+  const sub = `Replaces ${fmt(netIncome)}/yr for ${incomeYears} yrs at ${returnRatePct}% return`;
+  const noteText = totalCoverage === 0 && totalAssets >= grossNeed
+    ? `✅ Your existing assets ($${Math.round(totalAssets).toLocaleString()}) appear to cover your total need ($${Math.round(grossNeed).toLocaleString()}). You may still want coverage for peace of mind or future obligations.`
+    : `💡 Term life insurance is the most cost-effective way to cover this need. A healthy 35-year-old can often get ${fmt(totalCoverage)} in 20-year term coverage for $40–$80/month.`;
+
+  requestAnimationFrame(() => {
+    document.getElementById('totalCoverage').textContent = fmt(totalCoverage);
+    document.getElementById('coverageSub').textContent = sub;
+    document.getElementById('barChart').innerHTML = barHTML;
+    document.getElementById('breakdownBody').innerHTML = tableRows;
+    document.getElementById('resultsNote').textContent = noteText;
+    const results = document.getElementById('results');
+    results.classList.add('visible');
+    results.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+}
+
+document.getElementById('calcBtn').addEventListener('click', () => {
+  requestAnimationFrame(() => calculate());
+});
+
+document.querySelectorAll('input[type="number"]').forEach(inp => {
+  inp.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
+});
+
+document.getElementById('copyBtn').addEventListener('click', () => {
+  const amt = document.getElementById('totalCoverage').textContent;
+  navigator.clipboard.writeText('Recommended Life Insurance Coverage: ' + amt).then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = 'Copied!';
+    setTimeout(() => { btn.textContent = 'Copy Result'; }, 2000);
+  }).catch(() => {});
+});
+</script>
+</body>
+</html>
