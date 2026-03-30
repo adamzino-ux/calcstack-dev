@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rule of 72 Investment Doubling Calculator — Free Online Tool | calcstack.dev</title>
+<meta name="description" content="Use our free Rule of 72 calculator to instantly find how long it takes to double your investment. Enter any interest rate and see year-by-year growth.">
+<link rel="canonical" href="https://calcstack.dev/rule-of-72-calculator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Rule of 72 Investment Doubling Calculator",
+  "url": "https://calcstack.dev/rule-of-72-calculator/",
+  "description": "Calculate how long it takes to double your investment using the Rule of 72. Enter your interest rate and initial investment for instant results.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f0f4f8;color:#1a1a2e;font-size:16px;line-height:1.6}
+a{color:#0077b6;text-decoration:none}
+a:hover{text-decoration:underline}
+nav{background:#fff;border-bottom:1px solid #e0e0e0;padding:0 1.5rem}
+.nav-inner{max-width:640px;margin:0 auto;height:52px;display:flex;align-items:center}
+.nav-logo{font-weight:700;font-size:1.1rem;color:#1a1a2e}
+.nav-logo span{color:#0077b6}
+main{max-width:640px;margin:0 auto;padding:1.5rem 1rem 2rem}
+h1{font-size:1.6rem;font-weight:700;color:#1a1a2e;margin-bottom:.4rem}
+.subtitle{color:#555;font-size:.95rem;margin-bottom:1.5rem}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:2rem}
+.form-group{margin-bottom:1.25rem}
+label{display:block;font-size:.85rem;font-weight:500;color:#444;margin-bottom:.4rem}
+input[type=number],input[type=text]{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:6px;font-size:1rem;color:#1a1a2e;background:#fff;transition:border-color .2s,box-shadow .2s;-moz-appearance:textfield}
+input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none}
+input:focus{outline:none;border-color:#0077b6;box-shadow:0 0 0 3px rgba(0,119,182,.15)}
+input.error{border-color:#e74c3c}
+.error-msg{color:#e74c3c;font-size:.8rem;margin-top:.35rem;display:none}
+.error-msg.show{display:block}
+.slider-row{display:flex;align-items:center;gap:12px;margin-top:.5rem}
+input[type=range]{flex:1;height:6px;-webkit-appearance:none;appearance:none;background:#ddd;border-radius:3px;cursor:pointer;min-height:auto}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:#0077b6;cursor:pointer}
+input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#0077b6;cursor:pointer;border:none}
+.slider-val{font-weight:600;color:#0077b6;min-width:48px;text-align:right;font-size:.95rem}
+.row-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.btn{background:#0077b6;color:#fff;border:none;padding:12px 24px;border-radius:6px;font-size:1rem;font-weight:600;cursor:pointer;width:100%;min-height:44px;transition:background .2s}
+.btn:hover{background:#006299}
+.btn-secondary{background:#f0f4f8;color:#0077b6;border:1px solid #0077b6;font-size:.8rem;font-weight:600;padding:6px 14px;border-radius:5px;cursor:pointer;min-height:36px;transition:background .2s;white-space:nowrap}
+.btn-secondary:hover{background:#e0ecf5}
+.results{opacity:0;transition:opacity .3s ease;pointer-events:none}
+.results.visible{opacity:1;pointer-events:all}
+.big-result{text-align:center;padding:1.5rem 1rem;background:#f0f7ff;border-radius:8px;margin-bottom:1.5rem;border:1px solid #cce3f5}
+.big-number{font-size:3rem;font-weight:800;color:#0077b6;line-height:1.1}
+.big-label{font-size:.95rem;color:#555;margin-top:.3rem}
+.metrics-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1.5rem}
+.metric-box{background:#f8f9fa;border-radius:6px;padding:1rem;border:1px solid #e8e8e8;text-align:center}
+.metric-val{font-size:1.35rem;font-weight:700;color:#0077b6}
+.metric-lbl{font-size:.78rem;color:#666;margin-top:.2rem}
+h3{font-size:1rem;font-weight:700;color:#1a1a2e;margin-bottom:.75rem}
+.bar-section{margin-bottom:1.5rem}
+.bar-label-row{display:flex;justify-content:space-between;font-size:.82rem;color:#444;margin-bottom:.4rem}
+.bar-track{background:#e8e8e8;border-radius:4px;height:24px;overflow:hidden;margin-bottom:.6rem}
+.bar-fill{height:100%;border-radius:4px;transition:width .6s ease;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;font-size:.78rem;font-weight:600;color:#fff;white-space:nowrap}
+.bar-principal{background:#0077b6}
+.bar-growth{background:#00b894}
+.bar-stacked{display:flex;height:24px;border-radius:4px;overflow:hidden;margin-bottom:.75rem}
+.legend{display:flex;gap:1rem;flex-wrap:wrap;margin-top:.5rem;margin-bottom:1rem}
+.legend-item{display:flex;align-items:center;gap:.4rem;font-size:.82rem;color:#444}
+.legend-dot{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+table{width:100%;border-collapse:collapse;font-size:.88rem}
+thead th{background:#f0f0f0;padding:8px 10px;text-align:left;font-weight:600;font-size:.82rem;color:#444;border-bottom:2px solid #ddd}
+thead th.num{text-align:right}
+tbody tr:nth-child(even){background:#fafafa}
+tbody tr:hover{background:#f0f7ff}
+tbody td{padding:8px 10px;border-bottom:1px solid #eee;color:#333}
+tbody td.num{text-align:right;font-variant-numeric:tabular-nums}
+.table-wrapper{overflow-x:auto}
+.show-all-btn{display:block;width:100%;padding:9px;background:#f8f9fa;border:1px solid #ddd;border-radius:5px;font-size:.85rem;color:#0077b6;font-weight:600;cursor:pointer;margin-top:.75rem;min-height:44px;transition:background .2s}
+.show-all-btn:hover{background:#e0ecf5}
+.results-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem;flex-wrap:wrap;gap:.5rem}
+.comparison-section{margin-bottom:1.5rem}
+.comp-row{display:flex;align-items:center;gap:.75rem;margin-bottom:.5rem;flex-wrap:wrap}
+.comp-label{font-size:.82rem;color:#444;min-width:70px}
+.comp-bar-wrap{flex:1;min-width:120px}
+.comp-val{font-size:.82rem;font-weight:600;color:#0077b6;min-width:55px;text-align:right}
+.ad-slot{min-height:0;margin:0}
+.content-section{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:1.75rem 2rem;margin-bottom:2rem}
+.content-section h2{font-size:1.15rem;font-weight:700;color:#1a1a2e;margin-bottom:.6rem;margin-top:1.25rem}
+.content-section h2:first-child{margin-top:0}
+.content-section p{font-size:.92rem;color:#444;margin-bottom:.75rem;line-height:1.65}
+.content-section ul{padding-left:1.25rem;margin-bottom:.75rem}
+.content-section li{font-size:.92rem;color:#444;margin-bottom:.4rem;line-height:1.65}
+.formula-box{background:#f0f7ff;border-left:3px solid #0077b6;padding:.75rem 1rem;border-radius:0 6px 6px 0;font-family:monospace;font-size:.9rem;color:#1a1a2e;margin:.75rem 0}
+details{border:1px solid #e0e0e0;border-radius:6px;margin-bottom:.6rem;overflow:hidden}
+summary{padding:.75rem 1rem;font-size:.9rem;font-weight:600;cursor:pointer;background:#f8f9fa;color:#1a1a2e;list-style:none;display:flex;justify-content:space-between;align-items:center;min-height:44px}
+summary::after{content:'▼';font-size:.7rem;color:#0077b6;transition:transform .2s}
+details[open] summary::after{transform:rotate(180deg)}
+.details-body{padding:.75rem 1rem;font-size:.88rem;color:#444;line-height:1.65}
+.related-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:.75rem}
+.related-link{background:#f8f9fa;border:1px solid #e0e0e0;border-radius:6px;padding:.75rem 1rem;font-size:.85rem;color:#0077b6;font-weight:500;transition:background .2s;display:block}
+.related-link:hover{background:#e0ecf5;text-decoration:none}
+footer{background:#fff;border-top:1px solid #e0e0e0;padding:1.25rem 1.5rem;text-align:center;font-size:.82rem;color:#666}
+footer a{color:#0077b6;margin:0 .5rem}
+.copy-btn{background:#f0f4f8;color:#0077b6;border:1px solid #cce3f5;font-size:.78rem;padding:4px 10px;border-radius:4px;cursor:pointer;transition:background .2s;min-height:30px}
+.copy-btn:hover{background:#e0ecf5}
+@media(max-width:640px){
+  .row-2{grid-template-columns:1fr}
+  .metrics-grid{grid-template-columns:1fr 1fr}
+  .big-number{font-size:2.4rem}
+  .related-grid{grid-template-columns:1fr}
+  .content-section{padding:1.25rem 1.25rem}
+  .card{padding:1.25rem}
+}
+@media(max-width:400px){
+  .metrics-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">calc<span>stack</span>.dev</a>
+  </div>
+</nav>
+
+<main>
+  <h1>Rule of 72 Investment Doubling Calculator</h1>
+  <p class="subtitle">Find out exactly when your money doubles — and compare multiple interest rates side by side.</p>
+
+  <div class="card">
+    <div class="row-2">
+      <div class="form-group">
+        <label for="principal">Initial Investment ($)</label>
+        <input type="number" id="principal" placeholder="e.g. 10000" value="10000" min="1">
+        <div class="error-msg" id="err-principal">Please enter a valid amount (> $0).</div>
+      </div>
+      <div class="form-group">
+        <label for="rate">Annual Interest Rate (%)</label>
+        <input type="number" id="rate" placeholder="e.g. 8" value="8" min="0.1" max="100" step="0.1">
+        <div class="error-msg" id="err-rate">Please enter a rate between 0.1% and 100%.</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="rateSlider">Interest Rate Slider: <span id="sliderLabel">8%</span></label>
+      <input type="range" id="rateSlider" min="0.5" max="30" step="0.5" value="8">
+    </div>
+
+    <div class="row-2">
+      <div class="form-group">
+        <label for="compounding">Compounding Frequency</label>
+        <select id="compounding" style="width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:6px;font-size:1rem;color:#1a1a2e;background:#fff;cursor:pointer;min-height:44px">
+          <option value="1">Annually</option>
+          <option value="4">Quarterly</option>
+          <option value="12" selected>Monthly</option>
+          <option value="365">Daily</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="projection">Projection Years</label>
+        <input type="number" id="projection" placeholder="e.g. 30" value="30" min="1" max="100">
+        <div class="error-msg" id="err-projection">Please enter years between 1 and 100.</div>
+      </div>
+    </div>
+
+    <button class="btn" id="calcBtn">Calculate Doubling Time</button>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="results" id="results">
+
+    <div class="card">
+      <div class="big-result">
+        <div class="big-number" id="doublingYears">—</div>
+        <div class="big-label">Years to Double Your Investment (Rule of 72)</div>
+      </div>
+
+      <div class="metrics-grid" id="metricsGrid">
+        <!-- filled by JS -->
+      </div>
+
+      <!-- Visual bar -->
+      <div class="bar-section">
+        <h3>Principal vs. Growth at Doubling Point</h3>
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#0077b6"></div>Initial Principal</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#00b894"></div>Investment Growth</div>
+        </div>
+        <div id="doublingBars"></div>
+      </div>
+
+      <!-- Comparison rates -->
+      <div class="comparison-section">
+        <h3>Doubling Time Comparison</h3>
+        <div id="comparisonBars"></div>
+      </div>
+    </div>
+
+    <!-- Growth table -->
+    <div class="card">
+      <div class="results-header">
+        <h3 style="margin:0">Year-by-Year Growth Breakdown</h3>
+        <button class="copy-btn" id="copyBtn">Copy Table</button>
+      </div>
+      <div class="table-wrapper">
+        <table id="growthTable">
+          <thead>
+            <tr>
+              <th>Year</th>
+              <th class="num">Balance</th>
+              <th class="num">Growth This Year</th>
+              <th class="num">Total Growth</th>
+              <th class="num">Doublings</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+      <button class="show-all-btn" id="showAllBtn">▼ Show All Years</button>
+    </div>
+
+  </div>
+  <!-- END RESULTS -->
+
+  <div class="ad-slot" id="ad-mid"></div>
+
+  <!-- CONTENT SECTION -->
+  <div class="content-section">
+    <h2>How to Use This Rule of 72 Calculator</h2>
+    <p>Enter your <strong>initial investment</strong>, your expected <strong>annual interest rate</strong>, and choose how often it compounds. Hit "Calculate" to instantly see how many years it takes to double your money — both via the classic Rule of 72 shortcut and via the exact compound interest formula. The year-by-year table shows your balance at every step.</p>
+
+    <h2>Why This Matters</h2>
+    <p>The Rule of 72 is one of the most powerful mental shortcuts in personal finance. Divide 72 by your annual return and you get a surprisingly accurate estimate of how long your money takes to double. At 6%, your investment doubles in about 12 years. At 9%, it's just 8 years. At 12% (common in aggressive equity funds), it doubles every 6 years.</p>
+    <p>This matters because compounding is non-linear. A 25-year-old investing $10,000 at 8% doesn't just have $20,000 at 65 — they have roughly $217,000 after 4+ doublings. Understanding doubling cycles helps you set realistic retirement targets, compare savings accounts to index funds, and make the case for starting early. Even a 1% difference in returns changes your timeline by months or years.</p>
+    <p>The rule also works in reverse: at a 3% inflation rate, the purchasing power of your $1,000 halves in 24 years. That's why keeping money in a 0.5% savings account during high inflation is a guaranteed loss in real terms.</p>
+
+    <h2>How It's Calculated</h2>
+    <p>The classic Rule of 72 formula is simply:</p>
+    <div class="formula-box">Doubling Time ≈ 72 ÷ Annual Interest Rate (%)</div>
+    <p>For the <strong>exact</strong> doubling time using compound interest, we use the logarithm formula:</p>
+    <div class="formula-box">Exact Years = ln(2) ÷ (n × ln(1 + r/n))</div>
+    <p>Where <strong>r</strong> = annual rate (as decimal), <strong>n</strong> = compounding periods per year, and <strong>ln</strong> is the natural logarithm. The Rule of 72 approximates this with remarkable accuracy for rates between 2% and 20%.</p>
+    <p>This calculator shows both results so you can see how close the approximation is to the exact answer at your chosen rate.</p>
+
+    <h2>Tips & Common Mistakes</h2>
+    <ul>
+      <li><strong>Use 72, not 70 or 69.3:</strong> While 69.3 is mathematically more precise for continuous compounding, 72 is divisible by more numbers (2, 3, 4, 6, 8, 9, 12) making mental math easier.</li>
+      <li><strong>Don't forget inflation:</strong> A 7% nominal return with 3% inflation gives a real return of ~4%. Your purchasing power doubles every 18 years, not 10.</li>
+      <li><strong>Fees matter:</strong> A 1% annual fee on a 7% fund reduces your effective return to 6%, adding 2 full years to your doubling time over a long horizon.</li>
+      <li><strong>Compounding frequency matters less than you think:</strong> Monthly vs. annual compounding at 8% changes your doubling time by only about 0.3 years, not several years.</li>
+      <li><strong>The rule loses accuracy above 20%:</strong> At 24%, the Rule of 72 says 3 years; the exact answer is 3.22. For high rates, use the exact formula instead.</li>
+    </ul>
+
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>What exactly is the Rule of 72?</summary>
+      <div class="details-body">The Rule of 72 is a mathematical shortcut for estimating how long it takes an investment to double at a fixed annual rate of return. Simply divide 72 by the annual return percentage. For example, at 8% annual returns, your investment doubles in approximately 72 ÷ 8 = 9 years. The rule works surprisingly well for rates between 2% and 20%.</div>
+    </details>
+    <details>
+      <summary>Why is the number 72 used instead of 70 or 100?</summary>
+      <div class="details-body">72 was chosen because it's evenly divisible by 2, 3, 4, 6, 8, 9, 12, and 24 — making mental math easy for common interest rates. Mathematically, the exact constant for doubling with continuous compounding is 69.3 (100 × ln 2), but 72 provides a slightly conservative and highly divisible alternative that's more practical for everyday use.</div>
+    </details>
+    <details>
+      <summary>Does this work for inflation and debt too?</summary>
+      <div class="details-body">Yes! The Rule of 72 works for any exponential growth or decay. To find how fast inflation erodes your savings, divide 72 by the inflation rate. At 4% inflation, your purchasing power halves in 18 years. For credit card debt at 18% APR, your balance doubles in just 4 years if you make no payments — a sobering reminder of the cost of carrying high-interest debt.</div>
+    </details>
+    <details>
+      <summary>Is the Rule of 72 accurate for very high or low rates?</summary>
+      <div class="details-body">It's most accurate for rates between 2% and 20%. For very low rates (below 2%), "Rule of 70" is slightly more accurate. For very high rates above 20%, the approximation begins to drift — at 35%, the rule gives ~2.06 years but the exact answer is ~2.31 years. This calculator always shows the exact figure alongside the Rule of 72 estimate so you can see the difference.</div>
+    </details>
+  </div>
+
+  <!-- RELATED TOOLS -->
+  <div class="content-section">
+    <h2 style="margin-top:0">Related Financial Tools</h2>
+    <div class="related-grid">
+      <a href="/balloon-payment-loan-calculator/" class="related-link">🏦 Balloon Payment Loan Calculator</a>
+      <a href="/house-flipping-profit-calculator/" class="related-link">🏠 House Flipping Profit Calculator</a>
+      <a href="/crypto-portfolio-profit-loss-calculator/" class="related-link">₿ Crypto Portfolio Profit & Loss Calculator</a>
+      <a href="/mortgage-refinance-savings-calculator/" class="related-link">🏡 Mortgage Refinance Savings Calculator</a>
+      <a href="/side-hustle-income-tax-calculator/" class="related-link">💼 Side Hustle Income Tax Calculator</a>
+      <a href="/life-insurance-needs-calculator/" class="related-link">🛡️ Life Insurance Needs Calculator</a>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-bottom"></div>
+</main>
+
+<footer>
+  <a href="/about/">About</a>
+  <a href="/privacy/">Privacy</a>
+  <a href="/contact/">Contact</a>
+  <span style="margin-left:.5rem">© 2024 calcstack.dev</span>
+</footer>
+
+<script>
+(function(){
+  // --- helpers ---
+  function fmt(n, d=2){ return n.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d}); }
+  function fmtCur(n){ return '$'+fmt(n,2); }
+  function fmtYrs(y){ const yr=Math.floor(y),mo=Math.round((y-yr)*12); return yr+'y '+(mo>0?mo+'m':''); }
+
+  // --- state ---
+  let allRows=[];
+  let showAll=false;
+
+  // --- sync slider & input ---
+  const rateInput=document.getElementById('rate');
+  const slider=document.getElementById('rateSlider');
+  const sliderLabel=document.getElementById('sliderLabel');
+
+  rateInput.addEventListener('input',function(){
+    const v=parseFloat(this.value);
+    if(!isNaN(v)&&v>=0.5&&v<=30){slider.value=v;sliderLabel.textContent=v+'%';}
+  });
+  slider.addEventListener('input',function(){
+    rateInput.value=this.value;
+    sliderLabel.textContent=this.value+'%';
+  });
+
+  // enter key
+  ['principal','rate','projection'].forEach(id=>{
+    document.getElementById(id).addEventListener('keydown',function(e){
+      if(e.key==='Enter')triggerCalc();
+    });
+  });
+  document.getElementById('compounding').addEventListener('keydown',function(e){
+    if(e.key==='Enter')triggerCalc();
+  });
+
+  document.getElementById('calcBtn').addEventListener('click',triggerCalc);
+
+  function triggerCalc(){
+    requestAnimationFrame(()=>calculate());
+  }
+
+  function validate(){
+    let ok=true;
+    const p=parseFloat(document.getElementById('principal').value);
+    const r=parseFloat(document.getElementById('rate').value);
+    const pr=parseInt(document.getElementById('projection').value);
+
+    const ep=document.getElementById('err-principal');
+    const er=document.getElementById('err-rate');
+    const epr=document.getElementById('err-projection');
+    const pi=document.getElementById('principal');
+    const ri=document.getElementById('rate');
+    const pri=document.getElementById('projection');
+
+    if(isNaN(p)||p<=0){pi.classList.add('error');ep.classList.add('show');ok=false;}
+    else{pi.classList.remove('error');ep.classList.remove('show');}
+
+    if(isNaN(r)||r<0.1||r>100){ri.classList.add('error');er.classList.add('show');ok=false;}
+    else{ri.classList.remove('error');er.classList.remove('show');}
+
+    if(isNaN(pr)||pr<1||pr>100){pri.classList.add('error');epr.classList.add('show');ok=false;}
+    else{pri.classList.remove('error');epr.classList.remove('show');}
+
+    return ok;
+  }
+
+  function calculate(){
+    if(!validate())return;
+
+    const principal=parseFloat(document.getElementById('principal').value);
+    const rate=parseFloat(document.getElementById('rate').value);
+    const n=parseInt(document.getElementById('compounding').value);
+    const projYears=parseInt(document.getElementById('projection').value);
+    const r=rate/100;
+
+    // Rule of 72
+    const rule72=72/rate;
+
+    // Exact doubling time
+    const exactYears=Math.log(2)/(n*Math.log(1+r/n));
+
+    // Value at doubling
+    const doublingBalance=principal*2;
+    const doublingGrowth=principal;
+
+    // Build year-by-year table
+    allRows=[];
+    let prevBal=principal;
+    for(let y=1;y<=projYears;y++){
+      const bal=principal*Math.pow(1+r/n,n*y);
+      const growthThisYear=bal-prevBal;
+      const totalGrowth=bal-principal;
+      const doublings=Math.log2(bal/principal);
+      allRows.push({y,bal,growthThisYear,totalGrowth,doublings});
+      prevBal=bal;
+    }
+
+    // comparison rates
+    const compRates=[2,4,6,8,10,12,15,18];
+    const compData=compRates.map(cr=>{
+      const years=72/cr;
+      return{rate:cr,years};
+    });
+    const maxCompYears=Math.max(...compData.map(d=>d.years));
+
+    // --- DOM updates ---
+    // Big number
+    document.getElementById('doublingYears').textContent=fmtYrs(rule72);
+
+    // Metrics
+    const metricsHTML=`
+      <div class="metric-box">
+        <div class="metric-val">${fmtYrs(exactYears)}</div>
+        <div class="metric-lbl">Exact Doubling Time</div>
+      </div>
+      <div class="metric-box">
+        <div class="metric-val">${fmtYrs(rule72)}</div>
+        <div class="metric-lbl">Rule of 72 Estimate</div>
+      </div>
+      <div class="metric-box">
+        <div class="metric-val">${fmtCur(doublingBalance)}</div>
+        <div class="metric-lbl">Balance at Doubling</div>
+      </div>
+      <div class="metric-box">
+        <div class="metric-val">${fmtCur(allRows.length>0?allRows[allRows.length-1].bal:principal)}</div>
+        <div class="metric-lbl">Balance After ${projYears} Years</div>
+      </div>
+    `;
+    document.getElementById('metricsGrid').innerHTML=metricsHTML;
+
+    // Doubling bars
+    const doublingBarsHTML=`
+      <div class="bar-label-row"><span>Initial Principal</span><span>${fmtCur(principal)}</span></div>
+      <div class="bar-track"><div class="bar-fill bar-principal" style="width:50%">${fmt(50,0)}%</div></div>
+      <div class="bar-label-row"><span>Growth at Doubling</span><span>${fmtCur(doublingGrowth)}</span></div>
+      <div class="bar-track"><div class="bar-fill bar-growth" style="width:50%">${fmt(50,0)}%</div></div>
+      <div class="bar-label-row" style="font-weight:600"><span>Combined at Doubling</span><span>${fmtCur(doublingBalance)}</span></div>
+      <div class="bar-track">
+        <div class="bar-stacked">
+          <div style="flex:1;background:#0077b6"></div>
+          <div style="flex:1;background:#00b894"></div>
+        </div>
+      </div>
+    `;
+    document.getElementById('doublingBars').innerHTML=doublingBarsHTML;
+
+    // Comparison bars
+    let compHTML='';
+    compData.forEach(d=>{
+      const pct=Math.min((d.years/maxCompYears)*100,100);
+      const isActive=Math.abs(d.rate-rate)<0.5;
+      compHTML+=`
+        <div class="comp-row">
+          <div class="comp-label">${d.rate}% rate</div>
+          <div class="comp-bar-wrap">
+            <div class="bar-track" style="margin:0">
+              <div class="bar-fill ${isActive?'bar-growth':'bar-principal'}" style="width:${pct.toFixed(1)}%;min-width:2px">${fmtYrs(d.years)}</div>
+            </div>
+          </div>
+          <div class="comp-val">${fmt(d.years,1)}y</div>
+        </div>
+      `;
+    });
+    document.getElementById('comparisonBars').innerHTML=compHTML;
+
+    // Table
+    showAll=false;
+    renderTable();
+
+    // Show results
+    document.getElementById('results').classList.add('visible');
+    document.getElementById('results').scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+
+  function renderTable(){
+    const limit=showAll?allRows.length:Math.min(10,allRows.length);
+    let tbody='';
+    for(let i=0;i<limit;i++){
+      const row=allRows[i];
+      const dblStr=row.doublings>=1?'×'+fmt(Math.pow(2,Math.floor(row.doublings)),0):'<1×';
+      tbody+=`<tr>
+        <td>${row.y}</td>
+        <td class="num">${fmtCur(row.bal)}</td>
+        <td class="num">+${fmtCur(row.growthThisYear)}</td>
+        <td class="num">+${fmtCur(row.totalGrowth)}</td>
+        <td class="num">${fmt(row.doublings,2)}</td>
+      </tr>`;
+    }
+    document.getElementById('tableBody').innerHTML=tbody;
+    const btn=document.getElementById('showAllBtn');
+    if(allRows.length<=10){btn.style.display='none';}
+    else{
+      btn.style.display='block';
+      btn.textContent=showAll?'▲ Show Less':'▼ Show All '+allRows.length+' Years';
+    }
+  }
+
+  document.getElementById('showAllBtn').addEventListener('click',function(){
+    showAll=!showAll;
+    requestAnimationFrame(()=>renderTable());
+  });
+
+  // Copy button
+  document.getElementById('copyBtn').addEventListener('click',function(){
+    if(!allRows.length)return;
+    let text='Year\tBalance\tGrowth This Year\tTotal Growth\tDoublings\n';
+    allRows.forEach(r=>{
+      text+=`${r.y}\t${fmtCur(r.bal)}\t+${fmtCur(r.growthThisYear)}\t+${fmtCur(r.totalGrowth)}\t${fmt(r.doublings,2)}\n`;
+    });
+    navigator.clipboard.writeText(text).then(()=>{
+      const btn=document.getElementById('copyBtn');
+      btn.textContent='Copied!';
+      setTimeout(()=>btn.textContent='Copy Table',2000);
+    }).catch(()=>{});
+  });
+
+  // init slider label
+  sliderLabel.textContent=slider.value+'%';
+
+})();
+</script>
+</body>
+</html>
