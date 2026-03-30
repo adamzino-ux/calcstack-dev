@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loan Prepayment Savings Calculator — Free Online Tool | calcstack.dev</title>
+<meta name="description" content="Calculate how much interest you save by making extra loan payments. See your payoff date, total savings, and month-by-month breakdown instantly.">
+<link rel="canonical" href="https://calcstack.dev/loan-prepayment-savings-calculator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Loan Prepayment Savings Calculator",
+  "url": "https://calcstack.dev/loan-prepayment-savings-calculator/",
+  "description": "Calculate how much interest you save by making extra loan payments. See your payoff date, total savings, and month-by-month breakdown instantly.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f0f4f8;color:#1a1a2e;font-size:16px;line-height:1.6}
+a{color:#0077b6;text-decoration:none}
+a:hover{text-decoration:underline}
+nav{background:#fff;border-bottom:1px solid #e0e0e0;padding:0 1.5rem}
+nav .nav-inner{max-width:640px;margin:0 auto;display:flex;align-items:center;height:52px}
+nav .site-name{font-weight:700;font-size:1.1rem;color:#1a1a2e}
+nav .site-name:hover{text-decoration:none;color:#0077b6}
+main{max-width:640px;margin:0 auto;padding:1.5rem}
+h1{font-size:1.6rem;font-weight:800;color:#1a1a2e;margin-bottom:.4rem;line-height:1.25}
+.subtitle{color:#555;font-size:.95rem;margin-bottom:1.5rem}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:2rem}
+.section-title{font-size:1rem;font-weight:700;color:#1a1a2e;margin-bottom:1.25rem;padding-bottom:.5rem;border-bottom:2px solid #f0f0f0}
+.form-group{margin-bottom:1.25rem}
+label{display:block;font-size:.85rem;font-weight:500;color:#444;margin-bottom:.4rem}
+.input-prefix-wrap{position:relative;display:flex;align-items:center}
+.input-prefix-wrap .prefix{position:absolute;left:12px;color:#666;font-size:.95rem;pointer-events:none}
+.input-prefix-wrap input{padding-left:28px!important}
+.input-suffix-wrap{position:relative;display:flex;align-items:center}
+.input-suffix-wrap .suffix{position:absolute;right:12px;color:#666;font-size:.95rem;pointer-events:none}
+.input-suffix-wrap input{padding-right:36px!important}
+input[type="number"],input[type="text"]{width:100%;border:1px solid #ddd;border-radius:6px;padding:12px 16px;font-size:1rem;color:#1a1a2e;background:#fff;outline:none;transition:border-color .2s,box-shadow .2s;-moz-appearance:textfield}
+input[type="number"]::-webkit-inner-spin-button,input[type="number"]::-webkit-outer-spin-button{-webkit-appearance:none}
+input:focus{border-color:#0077b6;box-shadow:0 0 0 3px rgba(0,119,182,.15)}
+input.error{border-color:#e74c3c}
+.error-msg{color:#e74c3c;font-size:.8rem;margin-top:.3rem;display:none}
+.error-msg.show{display:block}
+.row-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+input[type="range"]{width:100%;accent-color:#0077b6;cursor:pointer;height:6px;margin-top:.5rem}
+.range-val{font-size:.85rem;color:#0077b6;font-weight:600;text-align:right;margin-top:.2rem}
+.btn{background:#0077b6;color:#fff;border:none;border-radius:6px;padding:12px 24px;font-size:1rem;font-weight:600;cursor:pointer;width:100%;min-height:44px;transition:background .2s}
+.btn:hover{background:#006299}
+.btn:active{background:#005580}
+.results{opacity:0;transition:opacity .3s ease;pointer-events:none}
+.results.show{opacity:1;pointer-events:auto}
+.key-metrics{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+.metric{background:#f8f9fa;border:1px solid #e0e0e0;border-radius:8px;padding:1rem;text-align:center}
+.metric-val{font-size:1.75rem;font-weight:800;color:#0077b6;display:block}
+.metric-val.green{color:#1a8a4a}
+.metric-val.orange{color:#e67e22}
+.metric-label{font-size:.78rem;color:#555;margin-top:.2rem}
+.comparison-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+.comp-card{border-radius:8px;padding:1rem}
+.comp-card.original{background:#fff3f3;border:1px solid #f5c6c6}
+.comp-card.prepay{background:#f0fff4;border:1px solid #b2dfdb}
+.comp-card h3{font-size:.85rem;font-weight:700;margin-bottom:.75rem;color:#1a1a2e}
+.comp-row{display:flex;justify-content:space-between;font-size:.82rem;padding:.25rem 0;border-bottom:1px solid rgba(0,0,0,.05)}
+.comp-row:last-child{border-bottom:none;font-weight:700;margin-top:.25rem;padding-top:.5rem}
+.bar-section{margin-bottom:1.5rem}
+.bar-label{font-size:.82rem;color:#444;margin-bottom:.3rem;display:flex;justify-content:space-between}
+.bar-track{background:#f0f0f0;border-radius:4px;height:22px;overflow:hidden;margin-bottom:.75rem;display:flex}
+.bar-seg{height:100%;transition:width .4s ease;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:600;color:#fff;overflow:hidden;white-space:nowrap}
+.bar-seg.principal{background:#0077b6}
+.bar-seg.interest-orig{background:#e74c3c}
+.bar-seg.interest-pre{background:#27ae60}
+.bar-legend{display:flex;flex-wrap:wrap;gap:.75rem;font-size:.78rem}
+.legend-dot{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:.3rem;vertical-align:middle}
+.savings-bar-wrap{background:#f8f9fa;border-radius:8px;padding:1rem;margin-bottom:1.5rem}
+.savings-bar-title{font-size:.85rem;font-weight:600;color:#444;margin-bottom:.6rem}
+.savings-bar-track{background:#e0e0e0;border-radius:20px;height:28px;overflow:hidden;position:relative}
+.savings-bar-fill{background:linear-gradient(90deg,#0077b6,#27ae60);height:100%;border-radius:20px;transition:width .5s ease;display:flex;align-items:center;justify-content:flex-end;padding-right:8px}
+.savings-pct{font-size:.75rem;font-weight:700;color:#fff}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.82rem;min-width:440px}
+thead th{background:#f0f0f0;padding:8px 10px;text-align:left;font-weight:600;border-bottom:2px solid #ddd;white-space:nowrap}
+thead th:not(:first-child){text-align:right}
+tbody tr:nth-child(even){background:#fafafa}
+tbody tr{border-bottom:1px solid #eee}
+tbody td{padding:7px 10px;white-space:nowrap}
+tbody td:not(:first-child){text-align:right}
+.btn-show{background:none;border:1px solid #0077b6;color:#0077b6;border-radius:6px;padding:8px 18px;font-size:.85rem;cursor:pointer;margin-top:.75rem;min-height:44px}
+.btn-show:hover{background:#f0f8ff}
+.copy-row{display:flex;justify-content:flex-end;margin-bottom:1rem}
+.btn-copy{background:none;border:1px solid #ddd;color:#555;border-radius:6px;padding:6px 14px;font-size:.8rem;cursor:pointer;transition:all .2s;min-height:36px}
+.btn-copy:hover{border-color:#0077b6;color:#0077b6}
+.ad-slot{min-height:0;margin:0}
+.content-section{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;margin-bottom:2rem;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.content-section h2{font-size:1.15rem;font-weight:700;color:#1a1a2e;margin:1.5rem 0 .6rem}
+.content-section h2:first-child{margin-top:0}
+.content-section p{color:#444;font-size:.93rem;margin-bottom:.75rem}
+.content-section ul{padding-left:1.25rem;color:#444;font-size:.93rem}
+.content-section ul li{margin-bottom:.4rem}
+details{border:1px solid #e0e0e0;border-radius:6px;margin-bottom:.6rem}
+summary{padding:.75rem 1rem;cursor:pointer;font-weight:600;font-size:.9rem;color:#1a1a2e;list-style:none;position:relative;padding-right:2rem}
+summary::after{content:'▸';position:absolute;right:1rem;top:50%;transform:translateY(-50%);font-size:.85rem;color:#0077b6;transition:transform .2s}
+details[open] summary::after{transform:translateY(-50%) rotate(90deg)}
+details p{padding:.5rem 1rem 1rem;font-size:.88rem;color:#444}
+.related-tools{background:#f8f9fa;border:1px solid #e0e0e0;border-radius:8px;padding:1.5rem;margin-bottom:2rem}
+.related-tools h2{font-size:1rem;font-weight:700;margin-bottom:1rem;color:#1a1a2e}
+.related-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.related-grid a{background:#fff;border:1px solid #e0e0e0;border-radius:6px;padding:.6rem .9rem;font-size:.83rem;color:#0077b6;transition:border-color .2s}
+.related-grid a:hover{border-color:#0077b6;text-decoration:none;background:#f0f8ff}
+footer{background:#fff;border-top:1px solid #e0e0e0;padding:1.25rem 1.5rem;margin-top:1rem}
+footer .foot-inner{max-width:640px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.5rem;font-size:.82rem;color:#666}
+footer a{color:#555}
+footer a:hover{color:#0077b6}
+.foot-links{display:flex;gap:1rem}
+@media(max-width:639px){
+  .row-2{grid-template-columns:1fr}
+  .key-metrics{grid-template-columns:1fr 1fr}
+  .comparison-grid{grid-template-columns:1fr}
+  .related-grid{grid-template-columns:1fr}
+  .metric-val{font-size:1.4rem}
+  main{padding:1rem}
+  .card{padding:1.5rem}
+  h1{font-size:1.35rem}
+}
+@media(max-width:400px){
+  .key-metrics{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="site-name">calcstack.dev</a>
+  </div>
+</nav>
+
+<main>
+  <h1>Loan Prepayment Savings Calculator</h1>
+  <p class="subtitle">Find out how much interest you save — and how many months sooner you'll be debt-free — by making extra payments on your loan.</p>
+
+  <div class="card">
+    <div class="section-title">Loan Details</div>
+    <div class="row-2">
+      <div class="form-group">
+        <label for="loanAmount">Loan Balance ($)</label>
+        <div class="input-prefix-wrap">
+          <span class="prefix">$</span>
+          <input type="number" id="loanAmount" placeholder="250,000" min="1" max="10000000" value="250000">
+        </div>
+        <div class="error-msg" id="err-loan">Please enter a valid loan amount.</div>
+      </div>
+      <div class="form-group">
+        <label for="annualRate">Annual Interest Rate (%)</label>
+        <div class="input-suffix-wrap">
+          <span class="suffix">%</span>
+          <input type="number" id="annualRate" placeholder="6.5" min="0.01" max="40" step="0.01" value="6.5">
+        </div>
+        <div class="error-msg" id="err-rate">Enter a rate between 0.01% and 40%.</div>
+      </div>
+    </div>
+    <div class="row-2">
+      <div class="form-group">
+        <label for="termMonths">Loan Term (months)</label>
+        <input type="number" id="termMonths" placeholder="360" min="1" max="600" value="360">
+        <div class="error-msg" id="err-term">Enter a term between 1 and 600 months.</div>
+      </div>
+      <div class="form-group">
+        <label for="monthsElapsed">Months Already Paid</label>
+        <input type="number" id="monthsElapsed" placeholder="0" min="0" value="0">
+        <div class="error-msg" id="err-elapsed">Cannot exceed total loan term.</div>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:1.25rem">Extra Payment</div>
+    <div class="form-group">
+      <label for="extraSlider">Monthly Extra Payment: <span id="extraDisplay" style="color:#0077b6;font-weight:700">$200</span></label>
+      <input type="range" id="extraSlider" min="0" max="5000" step="25" value="200">
+    </div>
+    <div class="form-group">
+      <label for="extraPayment">Or type an amount ($)</label>
+      <div class="input-prefix-wrap">
+        <span class="prefix">$</span>
+        <input type="number" id="extraPayment" placeholder="200" min="0" value="200">
+      </div>
+      <div class="error-msg" id="err-extra">Extra payment cannot be negative.</div>
+    </div>
+
+    <button class="btn" id="calcBtn">Calculate Savings</button>
+  </div>
+
+  <div class="results" id="results">
+    <div class="card">
+      <div class="copy-row">
+        <button class="btn-copy" id="copyBtn">Copy Summary</button>
+      </div>
+      <div class="section-title">Your Savings at a Glance</div>
+      <div class="key-metrics" id="keyMetrics"></div>
+
+      <div class="section-title">Loan Comparison</div>
+      <div class="comparison-grid" id="compGrid"></div>
+
+      <div class="section-title">Interest Breakdown</div>
+      <div class="bar-section" id="barSection"></div>
+
+      <div class="savings-bar-wrap" id="savingsBar"></div>
+
+      <div class="section-title">Month-by-Month Schedule</div>
+      <div class="table-wrap">
+        <table id="schedTable">
+          <thead>
+            <tr>
+              <th>Month</th>
+              <th>Payment</th>
+              <th>Principal</th>
+              <th>Interest</th>
+              <th>Balance (Base)</th>
+              <th>Balance (Extra)</th>
+            </tr>
+          </thead>
+          <tbody id="schedBody"></tbody>
+        </table>
+      </div>
+      <div style="text-align:center">
+        <button class="btn-show" id="showAllBtn">Show All Months</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-mid"></div>
+
+  <div class="content-section">
+    <h2>How to Use This Loan Prepayment Savings Calculator</h2>
+    <p>Enter your current loan balance, annual interest rate, and original term in months. If you've already made some payments, enter how many months have elapsed. Then set your planned monthly extra payment using the slider or type it in directly. Hit <strong>Calculate Savings</strong> to instantly see your interest savings, new payoff date, and a full month-by-month amortization table comparing your base schedule to your prepayment schedule.</p>
+
+    <h2>Why This Matters</h2>
+    <p>Loan prepayments are one of the highest-guaranteed "returns" available to anyone with debt. On a $300,000 mortgage at 7% over 30 years, adding just $300 extra per month cuts about 8 years off the loan and saves over $90,000 in interest — money that never reaches the bank. That's nearly a third of the purchase price back in your pocket.</p>
+    <p>This matters most in a high-interest-rate environment. When mortgage rates are 6–7%+, prepaying is mathematically better than most bonds and competitive with conservative stock portfolios — and it's <em>risk-free</em>. It also helps people on adjustable-rate mortgages reduce principal faster before rate resets hit.</p>
+    <p>Car loans, student loans, and personal loans also benefit enormously. A $25,000 auto loan at 9% over 60 months? An extra $100/month shaves around 12 payments and saves ~$1,000. The shorter your remaining term, the more powerful each extra dollar becomes since you're eliminating high-interest early months.</p>
+
+    <h2>How It's Calculated</h2>
+    <p>The calculator first computes your standard monthly payment using the amortization formula:</p>
+    <p><strong>M = P × [r(1+r)ⁿ] / [(1+r)ⁿ − 1]</strong></p>
+    <p>Where <strong>P</strong> = principal, <strong>r</strong> = monthly rate (annual rate ÷ 12), <strong>n</strong> = remaining months. It then runs two parallel amortization schedules month by month — one at your base payment only, one adding your extra payment to principal each month. The interest saved is the difference in total interest paid across both schedules. The payoff date difference shows how many months (and years) earlier you'll be debt-free.</p>
+
+    <h2>Tips & Common Mistakes</h2>
+    <ul>
+      <li><strong>Specify "principal-only" to your lender.</strong> Some lenders apply extra payments to future payments rather than reducing principal. Always designate extra amounts as principal-only in writing or through your lender's payment portal.</li>
+      <li><strong>Check for prepayment penalties.</strong> A small number of loans (particularly some personal loans and older mortgages) include prepayment penalties. Read your loan docs or call your servicer before making extra payments.</li>
+      <li><strong>Emergency fund first.</strong> Before prepaying a low-interest loan (under 4–5%), ensure you have 3–6 months of expenses saved. Liquidity matters — extra loan payments are irreversible.</li>
+      <li><strong>Biweekly payments are a simple hack.</strong> Paying half your monthly payment every two weeks results in 26 half-payments (13 full payments) per year instead of 12 — effectively one free extra payment annually.</li>
+      <li><strong>Lump-sum vs. monthly extra.</strong> A one-time lump sum at the start of a loan saves more total interest than the same amount spread as monthly extras, because it reduces the base principal immediately.</li>
+    </ul>
+
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>Does prepaying always save money?</summary>
+      <p>Yes, mathematically — prepaying always reduces the interest you'll pay. However, from a financial planning standpoint, if your loan rate is 3% and you could earn 8% investing that money in index funds, investing may be the better choice. The break-even point depends on your loan rate vs. your expected investment return, adjusted for risk and taxes.</p>
+    </details>
+    <details>
+      <summary>What if my lender charges a prepayment penalty?</summary>
+      <p>Some loans charge a fee (often 1–3% of the remaining balance or several months' interest) if you pay off the loan early. Check your loan agreement or call your servicer. If a penalty exists, factor it into your savings calculation — though most modern mortgages and federal student loans have no prepayment penalties.</p>
+    </details>
+    <details>
+      <summary>Should I prepay my mortgage or invest in my 401(k)?</summary>
+      <p>If your employer offers a 401(k) match, always contribute enough to get the full match first — that's an instant 50–100% return. Beyond that, compare your mortgage rate to your expected investment return. For most people with mortgages above 6%, prepaying is competitive with conservative investing. Below 4%, most financial advisors suggest investing the difference instead.</p>
+    </details>
+    <details>
+      <summary>How accurate is the month-by-month table?</summary>
+      <p>The table uses standard amortization math and is accurate for fixed-rate loans with no prepayment penalties. It assumes your extra payment is applied entirely to principal each month. Results may vary slightly if your lender calculates interest daily rather than monthly, or if your loan has escrow or other fees built in.</p>
+    </details>
+  </div>
+
+  <div class="related-tools">
+    <h2>Related Tools</h2>
+    <div class="related-grid">
+      <a href="/inheritance-tax-calculator/">Inheritance Tax Calculator</a>
+      <a href="/freelancer-hourly-rate-calculator/">Freelancer Rate & Profit Margin Calculator</a>
+      <a href="/severance-package-tax-calculator/">Severance Package Tax Calculator</a>
+      <a href="/rule-of-72-calculator/">Rule of 72 Investment Doubling Calculator</a>
+      <a href="/balloon-payment-loan-calculator/">Balloon Payment Loan Calculator</a>
+      <a href="/house-flipping-profit-calculator/">House Flipping Profit Calculator</a>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-bottom"></div>
+</main>
+
+<footer>
+  <div class="foot-inner">
+    <span>© <span id="yr"></span> calcstack.dev</span>
+    <div class="foot-links">
+      <a href="/about/">About</a>
+      <a href="/privacy/">Privacy</a>
+      <a href="/contact/">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+// Sync slider and input
+const extraSlider = document.getElementById('extraSlider');
+const extraPayment = document.getElementById('extraPayment');
+const extraDisplay = document.getElementById('extraDisplay');
+
+extraSlider.addEventListener('input', () => {
+  const v = parseFloat(extraSlider.value);
+  extraPayment.value = v;
+  extraDisplay.textContent = '$' + fmt(v, 0);
+});
+extraPayment.addEventListener('input', () => {
+  const v = parseFloat(extraPayment.value) || 0;
+  extraSlider.value = Math.min(v, 5000);
+  extraDisplay.textContent = '$' + fmt(v, 0);
+});
+
+function fmt(n, dec = 2) {
+  if (isNaN(n) || n === null) return '0';
+  return n.toLocaleString('en-US', { minimumFractionDigits: dec, maximumFractionDigits: dec });
+}
+
+function fmtM(n) { // months to "X yr Y mo"
+  const y = Math.floor(n / 12);
+  const m = n % 12;
+  let s = '';
+  if (y > 0) s += y + ' yr ';
+  if (m > 0) s += m + ' mo';
+  return s.trim() || '0 mo';
+}
+
+function clearErrors() {
+  ['err-loan','err-rate','err-term','err-elapsed','err-extra'].forEach(id => {
+    document.getElementById(id).classList.remove('show');
+  });
+  ['loanAmount','annualRate','termMonths','monthsElapsed','extraPayment'].forEach(id => {
+    document.getElementById(id).classList.remove('error');
+  });
+}
+
+function showError(inputId, errId) {
+  document.getElementById(inputId).classList.add('error');
+  document.getElementById(errId).classList.add('show');
+}
+
+let allRows = [];
+let showingAll = false;
+
+document.getElementById('calcBtn').addEventListener('click', () => {
+  requestAnimationFrame(() => { calculate(); });
+});
+
+['loanAmount','annualRate','termMonths','monthsElapsed','extraPayment'].forEach(id => {
+  document.getElementById(id).addEventListener('keydown', e => {
+    if (e.key === 'Enter') { requestAnimationFrame(() => { calculate(); }); }
+  });
+});
+
+document.getElementById('showAllBtn').addEventListener('click', () => {
+  showingAll = !showingAll;
+  renderTable(showingAll ? allRows : allRows.slice(0, 24));
+  document.getElementById('showAllBtn').textContent = showingAll ? 'Show Less' : 'Show All Months';
+});
+
+document.getElementById('copyBtn').addEventListener('click', () => {
+  const btn = document.getElementById('copyBtn');
+  const loanAmt = parseFloat(document.getElementById('loanAmount').value);
+  const rate = parseFloat(document.getElementById('annualRate').value);
+  const term = parseInt(document.getElementById('termMonths').value);
+  const extra = parseFloat(document.getElementById('extraPayment').value) || 0;
+  // build summary text from rendered key metrics
+  const metricsEl = document.getElementById('keyMetrics');
+  let text = 'Loan Prepayment Savings Summary\n';
+  text += '================================\n';
+  metricsEl.querySelectorAll('.metric').forEach(m => {
+    const val = m.querySelector('.metric-val').textContent;
+    const lbl = m.querySelector('.metric-label').textContent;
+    text += lbl + ': ' + val + '\n';
+  });
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'Copied!';
+    setTimeout(() => { btn.textContent = 'Copy Summary'; }, 2000);
+  });
+});
+
+function calculate() {
+  clearErrors();
+  const loanAmt = parseFloat(document.getElementById('loanAmount').value);
+  const annualRate = parseFloat(document.getElementById('annualRate').value);
+  const termMonths = parseInt(document.getElementById('termMonths').value);
+  const monthsElapsed = parseInt(document.getElementById('monthsElapsed').value) || 0;
+  const extra = parseFloat(document.getElementById('extraPayment').value) || 0;
+
+  let valid = true;
+  if (!loanAmt || loanAmt <= 0) { showError('loanAmount', 'err-loan'); valid = false; }
+  if (!annualRate || annualRate < 0.01 || annualRate > 40) { showError('annualRate', 'err-rate'); valid = false; }
+  if (!termMonths || termMonths < 1 || termMonths > 600) { showError('termMonths', 'err-term'); valid = false; }
+  if (monthsElapsed < 0 || monthsElapsed >= termMonths) { showError('monthsElapsed', 'err-elapsed'); valid = false; }
+  if (extra < 0) { showError('extraPayment', 'err-extra'); valid = false; }
+  if (!valid) return;
+
+  const r = annualRate / 100 / 12;
+  const remainingMonths = termMonths - monthsElapsed;
+
+  // Compute base monthly payment for original full term
+  let basePayment;
+  if (r === 0) {
+    basePayment = loanAmt / termMonths;
+  } else {
+    basePayment = loanAmt * (r * Math.pow(1 + r, termMonths)) / (Math.pow(1 + r, termMonths) - 1);
+  }
+
+  // Compute current balance after monthsElapsed payments
+  let balance = loanAmt;
+  for (let i = 0; i < monthsElapsed; i++) {
+    const int = balance * r;
+    const prin = basePayment - int;
+    balance -= prin;
+    if (balance < 0) balance = 0;
+  }
+  const currentBalance = balance;
+
+  // Now run two schedules from current balance
+  // Base schedule: pay basePayment, no extra
+  // Extra schedule: pay basePayment + extra
+
+  let balBase = currentBalance;
+  let balExtra = currentBalance;
+  let totalIntBase = 0;
+  let totalIntExtra = 0;
+  let payoffsBase = remainingMonths;
+  let payoffsExtra = 0;
+  let extraDone = false;
+
+  const rows = [];
+  const maxMonths = remainingMonths + 1;
+
+  for (let mo = 1; mo <= maxMonths; mo++) {
+    if (balBase <= 0 && balExtra <= 0) break;
+
+    const intBase = balBase > 0 ? balBase * r : 0;
+    const prinBase = balBase > 0 ? Math.min(balBase, basePayment - intBase) : 0;
+    balBase = Math.max(0, balBase - prinBase);
+    totalIntBase += intBase;
+
+    const intExtra = balExtra > 0 ? balExtra * r : 0;
+    const paymentExtra = basePayment + extra;
+    const prinExtra = balExtra > 0 ? Math.min(balExtra, paymentExtra - intExtra) : 0;
+    balExtra = Math.max(0, balExtra - prinExtra);
+    totalIntExtra += intExtra;
+
+    if (!extraDone && balExtra <= 0) {
+      payoffsExtra = mo;
+      extraDone = true;
+    }
+
+    rows.push({
+      mo,
+      payBase: balBase > 0 || mo === 1 ? basePayment : (intBase + prinBase),
+      payExtra: !extraDone || mo <= payoffsExtra ? (basePayment + extra) : 0,
+      prinBase,
+      intBase,
+      balBase,
+      balExtra,
+      intExtra,
+      prinExtra
+    });
+  }
+
+  if (!extraDone) payoffsExtra = remainingMonths;
+
+  const savedMonths = payoffsBase - payoffsExtra;
+  const savedInterest = totalIntBase - totalIntExtra;
+  const savedPct = totalIntBase > 0 ? (savedInterest / totalIntBase) * 100 : 0;
+
+  // Store for table render
+  allRows = rows;
+  showingAll = false;
+
+  // Build results HTML
+  const metricsHTML = `
+    <div class="metric"><span class="metric-val green">$${fmt(savedInterest)}</span><div class="metric-label">Interest Saved</div></div>
+    <div class="metric"><span class="metric-val">${fmtM(payoffsExtra)}</span><div class="metric-label">New Payoff Time</div></div>
+    <div class="metric"><span class="metric-val orange">${fmtM(savedMonths)}</span><div class="metric-label">Time Saved</div></div>
+    <div class="metric"><span class="metric-val">$${fmt(basePayment + extra)}</span><div class="metric-label">New Monthly Payment</div></div>
+  `;
+
+  const compHTML = `
+    <div class="comp-card original">
+      <h3>❌ Without Extra Payments</h3>
+      <div class="comp-row"><span>Monthly Payment</span><span>$${fmt(basePayment)}</span></div>
+      <div class="comp-row"><span>Total Months</span><span>${remainingMonths}</span></div>
+      <div class="comp-row"><span>Total Interest</span><span>$${fmt(totalIntBase)}</span></div>
+      <div class="comp-row"><span>Total Cost</span><span>$${fmt(currentBalance + totalIntBase)}</span></div>
+    </div>
+    <div class="comp-card prepay">
+      <h3>✅ With Extra Payments</h3>
+      <div class="comp-row"><span>Monthly Payment</span><span>$${fmt(basePayment + extra)}</span></div>
+      <div class="comp-row"><span>Total Months</span><span>${payoffsExtra}</span></div>
+      <div class="comp-row"><span>Total Interest</span><span>$${fmt(totalIntExtra)}</span></div>
+      <div class="comp-row"><span>Total Cost</span><span>$${fmt(currentBalance + totalIntExtra)}</span></div>
+    </div>
+  `;
+
+  const totalCostBase = currentBalance + totalIntBase;
+  const prinPct = totalCostBase > 0 ? Math.round((currentBalance / totalCostBase) * 100) : 50;
+  const intBasePct = 100 - prinPct;
+  const totalCostExtra = currentBalance + totalIntExtra;
+  const intExtraPct = totalCostExtra > 0 ? Math.round((totalIntExtra / totalCostExtra) * 100) : 0;
+
+  const barHTML = `
+    <div class="bar-label"><span>Without extra payments (interest = ${intBasePct}%)</span></div>
+    <div class="bar-track">
+      <div class="bar-seg principal" style="width:${prinPct}%">${prinPct > 8 ? 'Principal' : ''}</div>
+      <div class="bar-seg interest-orig" style="width:${intBasePct}%">${intBasePct > 8 ? 'Interest' : ''}</div>
+    </div>
+    <div class="bar-label"><span>With extra payments (interest = ${intExtraPct}%)</span></div>
+    <div class="bar-track">
+      <div class="bar-seg principal" style="width:${100 - intExtraPct}%">${(100 - intExtraPct) > 8 ? 'Principal' : ''}</div>
+      <div class="bar-seg interest-pre" style="width:${intExtraPct}%">${intExtraPct > 8 ? 'Interest' : ''}</div>
+    </div>
+    <div class="bar-legend">
+      <span><span class="legend-dot" style="background:#0077b6"></span>Principal</span>
+      <span><span class="legend-dot" style="background:#e74c3c"></span>Interest (base)</span>
+      <span><span class="legend-dot" style="background:#27ae60"></span>Interest (with extra)</span>
+    </div>
+  `;
+
+  const savBarFill = Math.min(Math.round(savedPct), 100);
+  const savBarHTML = `
+    <div class="savings-bar-title">Interest Reduction: ${fmt(savedPct, 1)}% of base interest saved</div>
+    <div class="savings-bar-track">
+      <div class="savings-bar-fill" style="width:${savBarFill}%">
+        ${savBarFill > 10 ? `<span class="savings-pct">-${fmt(savedPct, 1)}%</span>` : ''}
+      </div>
+    </div>
+  `;
+
+  document.getElementById('keyMetrics').innerHTML = metricsHTML;
+  document.getElementById('compGrid').innerHTML = compHTML;
+  document.getElementById('barSection').innerHTML = barHTML;
+  document.getElementById('savingsBar').innerHTML = savBarHTML;
+
+  renderTable(rows.slice(0, 24));
+  document.getElementById('showAllBtn').textContent = 'Show All Months';
+
+  const resultsEl = document.getElementById('results');
+  resultsEl.classList.add('show');
+  resultsEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function renderTable(rows) {
+  let html = '';
+  rows.forEach(row => {
+    const baseBalFmt = row.balBase > 0 ? '$' + fmt(row.balBase) : '—';
+    const extraBalFmt = row.balExtra > 0 ? '$' + fmt(row.balExtra) : '<strong>Paid Off</strong>';
+    html += `<tr>
+      <td>${row.mo}</td>
+      <td>$${fmt(row.payBase)}</td>
+      <td>$${fmt(row.prinBase)}</td>
+      <td>$${fmt(row.intBase)}</td>
+      <td>${baseBalFmt}</td>
+      <td>${extraBalFmt}</td>
+    </tr>`;
+  });
+  document.getElementById('schedBody').innerHTML = html;
+}
+</script>
+</body>
+</html>
