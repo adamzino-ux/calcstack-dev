@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>House Flipping Profit Calculator — Free Online Tool | calcstack.dev</title>
+<meta name="description" content="Calculate your house flipping profit instantly. Enter purchase price, rehab costs, holding costs, and sale price to see your net profit, ROI, and cost breakdown.">
+<link rel="canonical" href="https://calcstack.dev/house-flipping-profit-calculator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "House Flipping Profit Calculator",
+  "url": "https://calcstack.dev/house-flipping-profit-calculator/",
+  "description": "Free online house flipping profit calculator. Calculate net profit, ROI, and cost breakdown for real estate flips.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f4f6f9;color:#1a1a2e;font-size:16px;line-height:1.6}
+a{color:#0077b6;text-decoration:none}
+a:hover{text-decoration:underline}
+nav{background:#fff;border-bottom:1px solid #e0e0e0;padding:0 1.5rem}
+.nav-inner{max-width:640px;margin:0 auto;display:flex;align-items:center;height:52px}
+.nav-brand{font-weight:700;font-size:1.1rem;color:#1a1a2e}
+.nav-brand span{color:#0077b6}
+main{max-width:640px;margin:0 auto;padding:1.5rem 1rem 3rem}
+h1{font-size:1.6rem;font-weight:800;margin-bottom:0.4rem;color:#1a1a2e}
+.subtitle{color:#555;font-size:0.95rem;margin-bottom:1.5rem}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;box-shadow:0 2px 8px rgba(0,0,0,0.06);margin-bottom:2rem}
+.section-title{font-size:1rem;font-weight:700;color:#0077b6;text-transform:uppercase;letter-spacing:.04em;margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:2px solid #e8f4fb}
+.form-group{margin-bottom:1.2rem}
+label{display:block;font-size:0.85rem;font-weight:500;color:#444;margin-bottom:0.4rem}
+input[type="number"],input[type="text"],select{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:6px;font-size:1rem;color:#1a1a2e;background:#fff;transition:border-color .2s,box-shadow .2s;-moz-appearance:textfield}
+input[type="number"]::-webkit-inner-spin-button,input[type="number"]::-webkit-outer-spin-button{-webkit-appearance:none}
+input:focus,select:focus{outline:none;border-color:#0077b6;box-shadow:0 0 0 3px rgba(0,119,182,0.15)}
+input.error{border-color:#e74c3c;box-shadow:0 0 0 3px rgba(231,76,60,0.1)}
+.error-msg{color:#e74c3c;font-size:0.8rem;margin-top:4px;display:none}
+.error-msg.show{display:block}
+.input-prefix{position:relative}
+.input-prefix span{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#888;font-size:1rem;pointer-events:none}
+.input-prefix input{padding-left:28px}
+.row-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.slider-group{display:flex;align-items:center;gap:12px;margin-top:6px}
+input[type="range"]{flex:1;height:4px;accent-color:#0077b6;cursor:pointer;min-height:24px}
+.slider-val{font-size:0.85rem;font-weight:600;color:#0077b6;min-width:38px;text-align:right}
+.btn{background:#0077b6;color:#fff;border:none;padding:13px 24px;border-radius:6px;font-size:1rem;font-weight:600;cursor:pointer;width:100%;transition:background .2s;min-height:44px}
+.btn:hover{background:#006299}
+.btn-secondary{background:#f0f0f0;color:#1a1a2e;font-size:0.85rem;padding:8px 16px;width:auto;min-height:36px}
+.btn-secondary:hover{background:#e0e0e0}
+.results{opacity:0;transition:opacity .3s ease;pointer-events:none}
+.results.visible{opacity:1;pointer-events:auto}
+.key-metrics{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+.metric-box{background:#f8f9fa;border:1px solid #e0e0e0;border-radius:8px;padding:1.2rem;text-align:center}
+.metric-box.highlight{background:#e8f4fb;border-color:#0077b6}
+.metric-box.negative{background:#fef0ef;border-color:#e74c3c}
+.metric-label{font-size:0.78rem;font-weight:600;color:#666;text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
+.metric-value{font-size:1.6rem;font-weight:800;color:#0077b6}
+.metric-box.negative .metric-value{color:#e74c3c}
+.metric-sub{font-size:0.78rem;color:#888;margin-top:2px}
+.breakdown-bar{margin-bottom:1.5rem}
+.bar-title{font-size:0.85rem;font-weight:600;color:#444;margin-bottom:0.6rem}
+.stacked-bar{height:32px;border-radius:6px;overflow:hidden;display:flex;width:100%}
+.bar-seg{height:100%;transition:width .4s ease;min-width:0}
+.bar-legend{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:8px}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:0.8rem;color:#555}
+.legend-dot{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+.seg-purchase{background:#0077b6}
+.seg-rehab{background:#f4a261}
+.seg-holding{background:#e76f51}
+.seg-closing{background:#2a9d8f}
+.seg-agent{background:#e9c46a}
+.seg-profit{background:#52b788}
+table{width:100%;border-collapse:collapse;font-size:0.88rem}
+thead th{background:#f0f0f0;padding:9px 10px;text-align:left;font-weight:600;font-size:0.82rem;color:#555;border-bottom:2px solid #ddd}
+thead th.num{text-align:right}
+tbody tr:nth-child(even){background:#fafafa}
+tbody tr:nth-child(odd){background:#fff}
+tbody td{padding:9px 10px;border-bottom:1px solid #eee;color:#1a1a2e}
+tbody td.num{text-align:right;font-variant-numeric:tabular-nums}
+tbody td.cost{color:#c0392b}
+tbody td.gain{color:#27ae60}
+.table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.show-all-wrap{text-align:center;margin-top:0.8rem}
+.copy-bar{display:flex;justify-content:flex-end;margin-bottom:0.8rem}
+.copy-btn{background:#f0f0f0;color:#1a1a2e;border:1px solid #ddd;border-radius:5px;padding:6px 14px;font-size:0.82rem;cursor:pointer;transition:background .2s}
+.copy-btn:hover{background:#e0e0e0}
+.copy-btn.copied{background:#d4edda;border-color:#27ae60;color:#27ae60}
+.verdict{border-radius:8px;padding:1rem 1.2rem;margin-bottom:1.2rem;font-weight:600;font-size:0.95rem}
+.verdict.good{background:#d4edda;color:#155724;border:1px solid #c3e6cb}
+.verdict.warn{background:#fff3cd;color:#856404;border:1px solid #ffc107}
+.verdict.bad{background:#f8d7da;color:#721c24;border:1px solid #f5c6cb}
+.content-section{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;margin-bottom:2rem}
+.content-section h2{font-size:1.2rem;font-weight:700;color:#1a1a2e;margin-bottom:0.8rem;margin-top:1.6rem}
+.content-section h2:first-child{margin-top:0}
+.content-section p{color:#444;margin-bottom:0.8rem;font-size:0.95rem}
+.content-section ul{padding-left:1.3rem;color:#444;font-size:0.95rem}
+.content-section ul li{margin-bottom:0.5rem}
+details{border:1px solid #e0e0e0;border-radius:6px;margin-bottom:0.6rem}
+summary{padding:0.8rem 1rem;cursor:pointer;font-weight:600;font-size:0.92rem;color:#1a1a2e;list-style:none;display:flex;justify-content:space-between;align-items:center}
+summary::after{content:"＋";color:#0077b6;font-weight:700}
+details[open] summary::after{content:"－"}
+details p{padding:0.6rem 1rem 1rem;color:#555;font-size:0.9rem}
+.related-tools{display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;margin-top:0.8rem}
+.related-link{background:#f8f9fa;border:1px solid #e0e0e0;border-radius:6px;padding:0.7rem 1rem;font-size:0.85rem;color:#0077b6;transition:background .2s;display:block}
+.related-link:hover{background:#e8f4fb;text-decoration:none}
+.ad-slot{min-height:0;margin:0}
+footer{background:#fff;border-top:1px solid #e0e0e0;padding:1.2rem 1.5rem;font-size:0.85rem;color:#888}
+.footer-inner{max-width:640px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem}
+.footer-links{display:flex;gap:1.2rem}
+.footer-links a{color:#888}
+.footer-links a:hover{color:#0077b6}
+@media(max-width:600px){
+.row-2{grid-template-columns:1fr}
+.key-metrics{grid-template-columns:1fr 1fr}
+.related-tools{grid-template-columns:1fr}
+.metric-value{font-size:1.3rem}
+h1{font-size:1.35rem}
+.card{padding:1.4rem}
+.content-section{padding:1.4rem}
+}
+@media(max-width:400px){
+.key-metrics{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">calc<span>stack</span>.dev</a>
+  </div>
+</nav>
+
+<main>
+  <h1>House Flipping Profit Calculator</h1>
+  <p class="subtitle">Estimate your net profit, ROI, and full cost breakdown for any fix-and-flip deal.</p>
+
+  <div class="card">
+    <div class="section-title">Purchase Details</div>
+    <div class="row-2">
+      <div class="form-group">
+        <label for="purchasePrice">Purchase Price</label>
+        <div class="input-prefix"><span>$</span><input type="number" id="purchasePrice" placeholder="150,000" min="0"></div>
+        <div class="error-msg" id="err-purchase">Please enter a valid purchase price.</div>
+      </div>
+      <div class="form-group">
+        <label for="afterRepairValue">After Repair Value (ARV)</label>
+        <div class="input-prefix"><span>$</span><input type="number" id="afterRepairValue" placeholder="220,000" min="0"></div>
+        <div class="error-msg" id="err-arv">Please enter a valid ARV.</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="downPayment">Down Payment (%)</label>
+      <div class="slider-group">
+        <input type="range" id="downPaymentSlider" min="0" max="100" value="20" step="1">
+        <span class="slider-val" id="downPaymentVal">20%</span>
+      </div>
+      <input type="number" id="downPayment" value="20" min="0" max="100" placeholder="20" style="margin-top:6px">
+    </div>
+
+    <div class="section-title" style="margin-top:1.5rem">Renovation & Holding Costs</div>
+    <div class="row-2">
+      <div class="form-group">
+        <label for="rehabCost">Rehab / Renovation Cost</label>
+        <div class="input-prefix"><span>$</span><input type="number" id="rehabCost" placeholder="30,000" min="0"></div>
+      </div>
+      <div class="form-group">
+        <label for="holdingMonths">Holding Period (months)</label>
+        <div class="slider-group">
+          <input type="range" id="holdingSlider" min="1" max="24" value="6" step="1">
+          <span class="slider-val" id="holdingMonthsVal">6 mo</span>
+        </div>
+        <input type="number" id="holdingMonths" value="6" min="1" max="120" placeholder="6" style="margin-top:6px">
+      </div>
+    </div>
+    <div class="row-2">
+      <div class="form-group">
+        <label for="monthlyHolding">Monthly Holding Costs</label>
+        <div class="input-prefix"><span>$</span><input type="number" id="monthlyHolding" placeholder="1,500" min="0"></div>
+        <div class="error-msg" id="err-holding">Enter 0 if none.</div>
+      </div>
+      <div class="form-group">
+        <label for="loanInterestRate">Loan Interest Rate (% / yr)</label>
+        <input type="number" id="loanInterestRate" placeholder="8.5" min="0" max="50" step="0.1">
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:1.5rem">Transaction Costs</div>
+    <div class="row-2">
+      <div class="form-group">
+        <label for="buyingClosing">Buying Closing Costs ($)</label>
+        <div class="input-prefix"><span>$</span><input type="number" id="buyingClosing" placeholder="3,000" min="0"></div>
+      </div>
+      <div class="form-group">
+        <label for="sellingClosing">Selling Closing Costs ($)</label>
+        <div class="input-prefix"><span>$</span><input type="number" id="sellingClosing" placeholder="2,500" min="0"></div>
+      </div>
+    </div>
+    <div class="row-2">
+      <div class="form-group">
+        <label for="agentCommission">Agent Commission (%)</label>
+        <input type="number" id="agentCommission" placeholder="6" min="0" max="20" step="0.1" value="6">
+      </div>
+      <div class="form-group">
+        <label for="otherCosts">Other Costs ($)</label>
+        <div class="input-prefix"><span>$</span><input type="number" id="otherCosts" placeholder="0" min="0"></div>
+      </div>
+    </div>
+
+    <button class="btn" id="calcBtn">Calculate Flip Profit</button>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="results" id="resultsSection">
+    <div class="card">
+      <div class="copy-bar">
+        <button class="copy-btn" id="copyBtn">Copy Results</button>
+      </div>
+      <div id="verdictBox"></div>
+      <div class="key-metrics" id="keyMetrics"></div>
+
+      <div class="breakdown-bar">
+        <div class="bar-title">Cost & Profit Breakdown (% of ARV)</div>
+        <div class="stacked-bar" id="stackedBar"></div>
+        <div class="bar-legend" id="barLegend"></div>
+      </div>
+
+      <div class="section-title">Full Cost Breakdown</div>
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr><th>Item</th><th class="num">Amount</th><th class="num">% of ARV</th></tr>
+          </thead>
+          <tbody id="breakdownBody"></tbody>
+        </table>
+      </div>
+
+      <div class="section-title" style="margin-top:1.5rem">Month-by-Month Holding Cost</div>
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Month</th>
+              <th class="num">Monthly Cost</th>
+              <th class="num">Loan Interest</th>
+              <th class="num">Cumulative</th>
+            </tr>
+          </thead>
+          <tbody id="monthlyBody"></tbody>
+        </table>
+      </div>
+      <div class="show-all-wrap" id="showAllWrap">
+        <button class="btn btn-secondary" id="showAllBtn">Show All Months</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-mid"></div>
+
+  <!-- CONTENT -->
+  <div class="content-section">
+    <h2>How to Use This House Flipping Profit Calculator</h2>
+    <p>Enter your property's purchase price and expected After Repair Value (ARV). Add your rehab budget, monthly holding costs, loan interest rate, and all transaction fees. Click <strong>Calculate Flip Profit</strong> to instantly see your net profit, ROI, and a full cost breakdown — including a month-by-month holding cost table.</p>
+
+    <h2>Why This Matters</h2>
+    <p>House flipping looks simple on TV but the math gets complicated fast. A $180,000 house flipped for $250,000 sounds like a $70,000 gain — until you factor in $35,000 in renovations, $9,000 in agent commissions, $8,400 in 6-month holding costs, and $5,500 in closing fees. That's $57,900 in costs, leaving just $12,100 in net profit on roughly $215,000 invested — a 5.6% ROI. Many beginners skip these details and get burned.</p>
+    <p>Professional flippers typically target a minimum 15–20% ROI and use the 70% rule: never pay more than 70% of ARV minus rehab costs. This calculator helps you stress-test any deal before you commit capital, spot which cost category is eating your margin, and compare scenarios (6-month vs. 9-month hold, different rehab budgets) side by side.</p>
+
+    <h2>How It's Calculated</h2>
+    <p>The calculator uses these formulas:</p>
+    <ul>
+      <li><strong>Total Holding Cost</strong> = (Monthly Holding Cost × Months) + (Loan Balance × Annual Rate / 12 × Months)</li>
+      <li><strong>Agent Commission</strong> = ARV × Commission Rate / 100</li>
+      <li><strong>Total Costs</strong> = Purchase Price + Rehab + Total Holding + Buying Closing + Selling Closing + Agent Commission + Other Costs</li>
+      <li><strong>Net Profit</strong> = ARV − Total Costs</li>
+      <li><strong>ROI</strong> = Net Profit / Total Costs × 100</li>
+      <li><strong>Cash-on-Cash Return</strong> = Net Profit / Cash Invested × 100 (Cash Invested = Down Payment + Rehab + All Fees)</li>
+    </ul>
+
+    <h2>Tips & Common Mistakes</h2>
+    <ul>
+      <li><strong>Underestimating rehab costs</strong> is the #1 mistake. Add a 10–20% contingency buffer on top of your contractor quote.</li>
+      <li><strong>Ignoring holding time</strong>: Every extra month costs money in mortgage interest, property taxes, insurance, and utilities. A 3-month delay can wipe $5,000–$10,000 from your profit.</li>
+      <li><strong>Forgetting the 70% rule</strong>: Max purchase price = (ARV × 0.70) − Rehab Costs. This protects your margin in down markets.</li>
+      <li><strong>Skipping the agent commission</strong>: A 5–6% commission on a $250,000 sale is $12,500–$15,000. It's often the single largest transaction cost.</li>
+      <li><strong>Miscalculating your loan balance</strong>: Interest is charged on the full loan amount, not just what you've drawn. Confirm your draw schedule with your lender.</li>
+    </ul>
+
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>What is a good profit margin for house flipping?</summary>
+      <p>Most experienced flippers target at least 15–20% ROI on total project cost, or a minimum $25,000–$30,000 net profit per deal. Anything below 10% ROI leaves too little margin for unexpected costs or a slow market. The 70% rule is the industry's quick sanity check for deal viability.</p>
+    </details>
+    <details>
+      <summary>What does ARV mean in real estate?</summary>
+      <p>ARV stands for After Repair Value — the estimated market value of the property after all renovations are complete. It's typically determined by a comparative market analysis (CMA) of similar recently-sold properties in the area. Your entire profit calculation depends on an accurate ARV, so conservative estimates are essential.</p>
+    </details>
+    <details>
+      <summary>What are typical holding costs for a flip?</summary>
+      <p>Holding costs vary by property and location but typically include: mortgage/hard money loan interest (8–12% annually is common), property taxes (prorated monthly), homeowner's insurance ($80–$200/month), utilities ($200–$400/month), and HOA fees if applicable. A total of $1,500–$3,000/month is common for a mid-range flip.</p>
+    </details>
+    <details>
+      <summary>Should I use a hard money loan or conventional financing?</summary>
+      <p>Hard money loans (10–14% interest, 1–3 points) close fast and don't require owner-occupancy, making them the standard for flippers. Conventional loans are cheaper but take 30–45 days to close and may not allow rapid resale. Most active flippers use hard money for acquisition and rehab, then either resell or refinance into a conventional loan.</p>
+    </details>
+  </div>
+
+  <div class="content-section">
+    <h2>Related Tools</h2>
+    <div class="related-tools">
+      <a class="related-link" href="/crypto-portfolio-profit-loss-calculator/">Crypto Portfolio Profit &amp; Loss Calculator</a>
+      <a class="related-link" href="/mortgage-refinance-savings-calculator/">Mortgage Refinance Savings Calculator</a>
+      <a class="related-link" href="/side-hustle-income-tax-calculator/">Side Hustle Income Tax Calculator</a>
+      <a class="related-link" href="/life-insurance-needs-calculator/">Life Insurance Needs Calculator</a>
+      <a class="related-link" href="/business-startup-cost-calculator/">Business Startup Cost Calculator</a>
+      <a class="related-link" href="/savings-account-interest-calculator/">Savings Account Interest Calculator</a>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-bottom"></div>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <span>© 2025 calcstack.dev</span>
+    <div class="footer-links">
+      <a href="/about/">About</a>
+      <a href="/privacy/">Privacy</a>
+      <a href="/contact/">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Sync sliders
+const dpSlider = document.getElementById('downPaymentSlider');
+const dpInput  = document.getElementById('downPayment');
+const dpVal    = document.getElementById('downPaymentVal');
+const hmSlider = document.getElementById('holdingSlider');
+const hmInput  = document.getElementById('holdingMonths');
+const hmVal    = document.getElementById('holdingMonthsVal');
+
+dpSlider.addEventListener('input', () => { dpInput.value = dpSlider.value; dpVal.textContent = dpSlider.value + '%'; });
+dpInput.addEventListener('input',  () => { dpSlider.value = Math.min(100,Math.max(0,dpInput.value||0)); dpVal.textContent = dpSlider.value + '%'; });
+hmSlider.addEventListener('input', () => { hmInput.value = hmSlider.value; hmVal.textContent = hmSlider.value + ' mo'; });
+hmInput.addEventListener('input',  () => { hmSlider.value = Math.min(24,Math.max(1,hmInput.value||1)); hmVal.textContent = hmSlider.value + ' mo'; });
+
+function fmt(n){ return '$' + Math.round(n).toLocaleString('en-US'); }
+function fmtD(n){ return '$' + n.toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:0}); }
+function pct(n){ return n.toFixed(1) + '%'; }
+
+let allMonthlyRows = [];
+let showingAll = false;
+
+function clearErrors(){
+  ['err-purchase','err-arv','err-holding'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el) el.classList.remove('show');
+  });
+  document.querySelectorAll('input.error').forEach(el=>el.classList.remove('error'));
+}
+
+function showError(inputId, msgId){
+  const inp = document.getElementById(inputId);
+  const msg = document.getElementById(msgId);
+  if(inp) inp.classList.add('error');
+  if(msg) msg.classList.add('show');
+}
+
+function getVal(id, def=0){ const v = parseFloat(document.getElementById(id).value); return isNaN(v) ? def : v; }
+
+function calculate(){
+  clearErrors();
+  const purchasePrice    = getVal('purchasePrice');
+  const arv              = getVal('afterRepairValue');
+  const downPct          = getVal('downPayment', 20);
+  const rehabCost        = getVal('rehabCost');
+  const holdingMonths    = Math.max(1, getVal('holdingMonths', 6));
+  const monthlyHolding   = getVal('monthlyHolding');
+  const loanRate         = getVal('loanInterestRate', 0);
+  const buyingClosing    = getVal('buyingClosing');
+  const sellingClosing   = getVal('sellingClosing');
+  const agentCommPct     = getVal('agentCommission', 6);
+  const otherCosts       = getVal('otherCosts');
+
+  let valid = true;
+  if(!purchasePrice || purchasePrice <= 0){ showError('purchasePrice','err-purchase'); valid=false; }
+  if(!arv || arv <= 0){ showError('afterRepairValue','err-arv'); valid=false; }
+  if(!valid) return;
+
+  const loanAmount       = purchasePrice * (1 - downPct/100);
+  const cashDown         = purchasePrice * (downPct/100);
+  const monthlyLoanInt   = loanAmount * (loanRate/100/12);
+  const totalLoanInt     = monthlyLoanInt * holdingMonths;
+  const totalHoldingBase = monthlyHolding * holdingMonths;
+  const totalHolding     = totalHoldingBase + totalLoanInt;
+  const agentComm        = arv * agentCommPct / 100;
+  const totalCosts       = purchasePrice + rehabCost + totalHolding + buyingClosing + sellingClosing + agentComm + otherCosts;
+  const netProfit        = arv - totalCosts;
+  const roi              = totalCosts > 0 ? (netProfit / totalCosts * 100) : 0;
+  const cashInvested     = cashDown + rehabCost + buyingClosing + sellingClosing + agentComm + otherCosts + totalHolding;
+  const cocReturn        = cashInvested > 0 ? (netProfit / cashInvested * 100) : 0;
+  const rule70Max        = arv * 0.70 - rehabCost;
+  const rule70OK         = purchasePrice <= rule70Max;
+
+  // Verdict
+  let verdictHTML = '';
+  if(netProfit >= 0 && roi >= 15){
+    verdictHTML = `<div class="verdict good">✅ Strong Deal — Net profit of ${fmt(netProfit)} with ${pct(roi)} ROI. This deal passes the 70% rule: ${rule70OK ? 'Yes ✓' : 'No ✗ (max price: ' + fmt(rule70Max) + ')'}.</div>`;
+  } else if(netProfit >= 0 && roi >= 8){
+    verdictHTML = `<div class="verdict warn">⚠️ Marginal Deal — Net profit of ${fmt(netProfit)} with ${pct(roi)} ROI. Consider negotiating a lower purchase price or cutting costs. 70% rule: ${rule70OK ? 'Passes ✓' : 'Fails — max recommended purchase: ' + fmt(rule70Max)}.</div>`;
+  } else if(netProfit >= 0){
+    verdictHTML = `<div class="verdict warn">⚠️ Low-Margin Deal — Only ${pct(roi)} ROI leaves little room for surprises. 70% rule: ${rule70OK ? 'Passes ✓' : 'Fails — max recommended: ' + fmt(rule70Max)}.</div>`;
+  } else {
+    verdictHTML = `<div class="verdict bad">🚫 Loss Deal — You would lose ${fmt(Math.abs(netProfit))} on this flip. The 70% rule max purchase price is ${fmt(rule70Max)}. Reduce your purchase price or rehab budget.</div>`;
+  }
+
+  // Key metrics
+  const profitClass = netProfit < 0 ? 'negative' : 'highlight';
+  const metricsHTML = `
+    <div class="metric-box ${profitClass}">
+      <div class="metric-label">Net Profit</div>
+      <div class="metric-value">${fmt(netProfit)}</div>
+      <div class="metric-sub">ARV − All Costs</div>
+    </div>
+    <div class="metric-box">
+      <div class="metric-label">Total ROI</div>
+      <div class="metric-value">${pct(roi)}</div>
+      <div class="metric-sub">On Total Costs</div>
+    </div>
+    <div class="metric-box">
+      <div class="metric-label">Cash-on-Cash</div>
+      <div class="metric-value">${pct(cocReturn)}</div>
+      <div class="metric-sub">On Cash Invested</div>
+    </div>
+    <div class="metric-box">
+      <div class="metric-label">Total Costs</div>
+      <div class="metric-value">${fmt(totalCosts)}</div>
+      <div class="metric-sub">All-in Investment</div>
+    </div>`;
+
+  // Stacked bar
+  const segments = [
+    {label:'Purchase', value:purchasePrice, cls:'seg-purchase'},
+    {label:'Rehab', value:rehabCost, cls:'seg-rehab'},
+    {label:'Holding', value:totalHolding, cls:'seg-holding'},
+    {label:'Closing (Buy)', value:buyingClosing, cls:'seg-closing'},
+    {label:'Agent+Closing (Sell)', value:sellingClosing+agentComm, cls:'seg-agent'},
+    {label:'Other', value:otherCosts, cls:null},
+  ].filter(s=>s.value>0);
+  const profitSeg = netProfit > 0 ? [{label:'Profit', value:netProfit, cls:'seg-profit'}] : [];
+  const allSegs = [...segments, ...profitSeg];
+  const total = allSegs.reduce((s,x)=>s+x.value,0)||1;
+
+  let barHTML = '';
+  let legendHTML = '';
+  const colors = ['#0077b6','#f4a261','#e76f51','#2a9d8f','#e9c46a','#a8dadc','#52b788','#ccc'];
+  allSegs.forEach((seg,i)=>{
+    const w = (seg.value/total*100).toFixed(1);
+    const col = seg.cls ? undefined : colors[i % colors.length];
+    const style = seg.cls ? `class="bar-seg ${seg.cls}" style="width:${w}%"` : `class="bar-seg" style="width:${w}%;background:${col}"`;
+    barHTML += `<div ${style} title="${seg.label}: ${fmt(seg.value)}"></div>`;
+    const dotStyle = seg.cls ? `class="legend-dot ${seg.cls}"` : `class="legend-dot" style="background:${col}"`;
+    legendHTML += `<div class="legend-item"><div ${dotStyle}></div><span>${seg.label}: ${fmt(seg.value)} (${pct(seg.value/total*100)})</span></div>`;
+  });
+
+  // Breakdown table
+  const rows = [
+    {label:'Purchase Price', val:purchasePrice, type:'cost'},
+    {label:'Rehab / Renovation', val:rehabCost, type:'cost'},
+    {label:`Holding Costs (${holdingMonths} mo × ${fmtD(monthlyHolding)}/mo)`, val:totalHoldingBase, type:'cost'},
+    {label:`Loan Interest (${pct(loanRate)}/yr on ${fmt(loanAmount)})`, val:totalLoanInt, type:'cost'},
+    {label:'Buying Closing Costs', val:buyingClosing, type:'cost'},
+    {label:'Selling Closing Costs', val:sellingClosing, type:'cost'},
+    {label:`Agent Commission (${pct(agentCommPct)} of ARV)`, val:agentComm, type:'cost'},
+    {label:'Other Costs', val:otherCosts, type:'cost'},
+    {label:'TOTAL COSTS', val:totalCosts, type:'total'},
+    {label:'Sale Price (ARV)', val:arv, type:'gain'},
+    {label:'NET PROFIT', val:netProfit, type: netProfit>=0 ? 'gain':'cost'},
+  ];
+  let bodyHTML = '';
+  rows.forEach(r=>{
+    const cls = r.type==='gain' ? 'gain' : r.type==='cost' ? 'cost' : '';
+    const weight = r.type==='total'||r.label==='NET PROFIT' ? 'style="font-weight:700"' : '';
+    const pctOfARV = arv > 0 ? (r.val / arv * 100).toFixed(1)+'%' : '—';
+    bodyHTML += `<tr ${weight}><td ${weight}>${r.label}</td><td class="num ${cls}" ${weight}>${fmt(r.val)}</td><td class="num" ${weight}>${pctOfARV}</td></tr>`;
+  });
+
+  // Monthly table
+  allMonthlyRows = [];
+  let cumulative = 0;
+  for(let m=1; m<=holdingMonths; m++){
+    const mCost = monthlyHolding;
+    const mInt  = monthlyLoanInt;
+    cumulative += mCost + mInt;
+    allMonthlyRows.push({m, mCost, mInt, cumulative});
+  }
+  showingAll = false;
+
+  const visibleRows = allMonthlyRows.length > 6 ? allMonthlyRows.slice(0,6) : allMonthlyRows;
+  let monthlyHTML = buildMonthlyRows(visibleRows);
+
+  requestAnimationFrame(() => {
+    document.getElementById('verdictBox').innerHTML = verdictHTML;
+    document.getElementById('keyMetrics').innerHTML = metricsHTML;
+    document.getElementById('stackedBar').innerHTML = barHTML;
+    document.getElementById('barLegend').innerHTML = legendHTML;
+    document.getElementById('breakdownBody').innerHTML = bodyHTML;
+    document.getElementById('monthlyBody').innerHTML = monthlyHTML;
+
+    const showAllWrap = document.getElementById('showAllWrap');
+    showAllWrap.style.display = allMonthlyRows.length > 6 ? 'block' : 'none';
+    document.getElementById('showAllBtn').textContent = 'Show All Months';
+    showingAll = false;
+
+    const results = document.getElementById('resultsSection');
+    results.classList.add('visible');
+    results.scrollIntoView({behavior:'smooth', block:'nearest'});
+  });
+}
+
+function buildMonthlyRows(rows){
+  let html = '';
+  rows.forEach(r=>{
+    html += `<tr><td>Month ${r.m}</td><td class="num">${fmt(r.mCost)}</td><td class="num">${fmt(r.mInt)}</td><td class="num">${fmt(r.cumulative)}</td></tr>`;
+  });
+  return html;
+}
+
+document.getElementById('showAllBtn').addEventListener('click', () => {
+  if(!showingAll){
+    document.getElementById('monthlyBody').innerHTML = buildMonthlyRows(allMonthlyRows);
+    document.getElementById('showAllBtn').textContent = 'Show Less';
+    showingAll = true;
+  } else {
+    document.getElementById('monthlyBody').innerHTML = buildMonthlyRows(allMonthlyRows.slice(0,6));
+    document.getElementById('showAllBtn').textContent = 'Show All Months';
+    showingAll = false;
+  }
+});
+
+document.getElementById('calcBtn').addEventListener('click', () => {
+  calculate();
+});
+
+document.querySelectorAll('input').forEach(inp => {
+  inp.addEventListener('keydown', e => { if(e.key === 'Enter') calculate(); });
+});
+
+document.getElementById('copyBtn').addEventListener('click', () => {
+  const purchase = document.getElementById('purchasePrice').value||'0';
+  const arv      = document.getElementById('afterRepairValue').value||'0';
+  const verdict  = document.getElementById('verdictBox').textContent.trim();
+  const metrics  = document.getElementById('keyMetrics').textContent.trim().replace(/\s+/g,' ');
+  const text = `House Flip Analysis\nPurchase: $${parseFloat(purchase).toLocaleString()}\nARV: $${parseFloat(arv).toLocaleString()}\n${verdict}\n${metrics}\nCalculated at calcstack.dev/house-flipping-profit-calculator/`;
+  navigator.clipboard.writeText(text).then(()=>{
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(()=>{ btn.textContent = 'Copy Results'; btn.classList.remove('copied'); }, 2000);
+  }).catch(()=>{});
+});
+</script>
+</body>
+</html>
