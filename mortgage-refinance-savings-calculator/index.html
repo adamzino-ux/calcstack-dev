@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mortgage Refinance Savings Calculator — Free Online Tool | calcstack.dev</title>
+<meta name="description" content="Calculate your mortgage refinance savings instantly. See monthly payment reduction, break-even point, and lifetime interest saved with our free refinance calculator.">
+<link rel="canonical" href="https://calcstack.dev/mortgage-refinance-savings-calculator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Mortgage Refinance Savings Calculator",
+  "url": "https://calcstack.dev/mortgage-refinance-savings-calculator/",
+  "description": "Calculate your mortgage refinance savings. See monthly payment reduction, break-even point, total interest saved, and a year-by-year comparison.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "calcstack.dev",
+    "url": "https://calcstack.dev"
+  }
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#fff;color:#1a1a2e;line-height:1.6;font-size:16px}
+a{color:#0077b6;text-decoration:none}
+a:hover{text-decoration:underline}
+nav{border-bottom:1px solid #e0e0e0;padding:14px 20px;background:#fff}
+nav .nav-inner{max-width:640px;margin:0 auto;display:flex;align-items:center}
+nav .site-name{font-weight:700;font-size:1.05rem;color:#1a1a2e}
+nav .site-name:hover{text-decoration:none;color:#0077b6}
+.container{max-width:640px;margin:0 auto;padding:2rem 1.5rem}
+h1{font-size:1.6rem;font-weight:700;color:#1a1a2e;margin-bottom:.5rem;line-height:1.3}
+.subtitle{color:#555;font-size:.95rem;margin-bottom:2rem}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:2rem}
+.section-title{font-size:1rem;font-weight:700;color:#1a1a2e;margin-bottom:1.25rem;padding-bottom:.5rem;border-bottom:2px solid #0077b6;display:inline-block}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.form-group{margin-bottom:1.25rem}
+label{display:block;font-size:.85rem;font-weight:500;color:#444;margin-bottom:.4rem}
+input[type=number],input[type=text],select{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:6px;font-size:.95rem;color:#1a1a2e;background:#fff;transition:border-color .2s,box-shadow .2s;-moz-appearance:textfield}
+input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none}
+input:focus,select:focus{outline:none;border-color:#0077b6;box-shadow:0 0 0 3px rgba(0,119,182,.15)}
+input.error{border-color:#e74c3c}
+.error-msg{color:#e74c3c;font-size:.8rem;margin-top:.3rem;display:none}
+.error-msg.show{display:block}
+.input-prefix{position:relative}
+.input-prefix span{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#666;font-size:.95rem;pointer-events:none}
+.input-prefix input{padding-left:26px}
+.input-suffix{position:relative}
+.input-suffix span{position:absolute;right:12px;top:50%;transform:translateY(-50%);color:#666;font-size:.95rem;pointer-events:none}
+.input-suffix input{padding-right:30px}
+.slider-row{display:flex;align-items:center;gap:.75rem;margin-top:.5rem}
+input[type=range]{flex:1;height:4px;appearance:none;-webkit-appearance:none;background:#ddd;border-radius:2px;cursor:pointer;min-height:auto}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:#0077b6;cursor:pointer}
+input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:#0077b6;cursor:pointer;border:none}
+.slider-val{font-size:.85rem;font-weight:600;color:#0077b6;min-width:50px;text-align:right}
+.btn{display:inline-flex;align-items:center;justify-content:center;background:#0077b6;color:#fff;border:none;padding:13px 28px;border-radius:6px;font-size:1rem;font-weight:600;cursor:pointer;transition:background .2s;min-height:44px;width:100%}
+.btn:hover{background:#006299}
+.btn-sm{padding:7px 14px;font-size:.8rem;border-radius:4px;width:auto;min-height:36px;font-weight:500}
+.btn-outline{background:#fff;color:#0077b6;border:1px solid #0077b6}
+.btn-outline:hover{background:#f0f7ff}
+.results{opacity:0;transition:opacity .3s ease;pointer-events:none}
+.results.show{opacity:1;pointer-events:auto}
+.key-metrics{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+.metric{background:#f8f9fa;border:1px solid #e0e0e0;border-radius:8px;padding:1.25rem;text-align:center}
+.metric .metric-label{font-size:.75rem;font-weight:500;color:#666;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.3rem}
+.metric .metric-value{font-size:1.5rem;font-weight:700;color:#0077b6;line-height:1.2}
+.metric .metric-sub{font-size:.75rem;color:#888;margin-top:.2rem}
+.metric.highlight{background:#e8f4fd;border-color:#0077b6}
+.metric.positive .metric-value{color:#27ae60}
+.metric.negative .metric-value{color:#e74c3c}
+.bar-section{margin-bottom:1.5rem}
+.bar-title{font-size:.85rem;font-weight:600;color:#444;margin-bottom:.6rem}
+.bar-track{background:#f0f0f0;border-radius:4px;height:28px;position:relative;overflow:hidden;margin-bottom:.4rem}
+.bar-fill{height:100%;border-radius:4px;transition:width .5s ease;display:flex;align-items:center;padding-left:8px;font-size:.75rem;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden}
+.bar-fill.blue{background:#0077b6}
+.bar-fill.green{background:#27ae60}
+.bar-fill.orange{background:#e67e22}
+.bar-fill.red{background:#e74c3c}
+.bar-legend{display:flex;flex-wrap:wrap;gap:.5rem .75rem;font-size:.75rem;color:#555}
+.bar-legend span{display:flex;align-items:center;gap:.3rem}
+.bar-legend .dot{width:10px;height:10px;border-radius:2px;display:inline-block}
+.stacked-bar{display:flex;height:28px;border-radius:4px;overflow:hidden;margin-bottom:.5rem}
+.stacked-seg{display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:#fff;overflow:hidden;white-space:nowrap;padding:0 4px;transition:width .5s ease}
+table{width:100%;border-collapse:collapse;font-size:.85rem}
+thead th{background:#f0f0f0;padding:9px 10px;text-align:left;font-weight:600;color:#333;border-bottom:2px solid #ddd}
+thead th.right{text-align:right}
+tbody tr:nth-child(even){background:#fafafa}
+tbody tr:nth-child(odd){background:#fff}
+tbody td{padding:8px 10px;border-bottom:1px solid #eee;color:#333}
+tbody td.right{text-align:right;font-variant-numeric:tabular-nums}
+tbody td.green{color:#27ae60;font-weight:600}
+tbody td.red{color:#e74c3c}
+.table-wrapper{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.show-all-row{text-align:center;padding:1rem 0 .5rem}
+.tabs{display:flex;gap:0;margin-bottom:1.5rem;border-bottom:2px solid #e0e0e0}
+.tab-btn{padding:9px 18px;border:none;background:none;color:#666;font-size:.9rem;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:color .2s,border-color .2s;min-height:44px}
+.tab-btn.active{color:#0077b6;border-bottom-color:#0077b6;font-weight:700}
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+.copy-row{display:flex;justify-content:flex-end;margin-bottom:.75rem}
+.copy-btn{background:#f8f9fa;border:1px solid #ddd;color:#555;padding:6px 14px;border-radius:4px;font-size:.8rem;cursor:pointer;transition:background .2s;min-height:36px}
+.copy-btn:hover{background:#e8f4fd;color:#0077b6;border-color:#0077b6}
+.ad-slot{min-height:0;margin:0}
+.content-section{margin-bottom:2rem}
+.content-section h2{font-size:1.2rem;font-weight:700;color:#1a1a2e;margin-bottom:.75rem;margin-top:1.75rem}
+.content-section p{color:#444;margin-bottom:.75rem;font-size:.95rem}
+.content-section ul{color:#444;font-size:.95rem;padding-left:1.25rem;margin-bottom:.75rem}
+.content-section ul li{margin-bottom:.4rem}
+details{border:1px solid #e0e0e0;border-radius:6px;margin-bottom:.75rem;background:#f8f9fa}
+details summary{padding:12px 16px;cursor:pointer;font-weight:600;font-size:.9rem;color:#1a1a2e;list-style:none;display:flex;justify-content:space-between;align-items:center}
+details summary::-webkit-details-marker{display:none}
+details summary::after{content:'＋';font-size:1rem;color:#0077b6}
+details[open] summary::after{content:'－'}
+details p{padding:0 16px 12px;font-size:.9rem;color:#444;line-height:1.6}
+.related-tools{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-top:.75rem}
+.related-link{display:block;background:#f8f9fa;border:1px solid #e0e0e0;border-radius:6px;padding:.75rem 1rem;font-size:.85rem;color:#0077b6;font-weight:500;transition:background .2s,border-color .2s}
+.related-link:hover{background:#e8f4fd;border-color:#0077b6;text-decoration:none}
+footer{background:#f8f9fa;border-top:1px solid #e0e0e0;padding:1.5rem 20px;margin-top:2rem;text-align:center;font-size:.85rem;color:#666}
+footer a{color:#555;margin:0 .5rem}
+footer a:hover{color:#0077b6}
+.formula-box{background:#f8f9fa;border-left:3px solid #0077b6;padding:.75rem 1rem;border-radius:0 6px 6px 0;font-family:monospace;font-size:.85rem;color:#333;margin:.75rem 0}
+@media(max-width:640px){
+  .two-col{grid-template-columns:1fr}
+  .key-metrics{grid-template-columns:1fr 1fr}
+  .related-tools{grid-template-columns:1fr}
+  h1{font-size:1.35rem}
+  .card{padding:1.25rem}
+  .metric .metric-value{font-size:1.3rem}
+}
+@media(max-width:400px){
+  .key-metrics{grid-template-columns:1fr}
+  .tabs{overflow-x:auto}
+  .tab-btn{padding:9px 12px;font-size:.82rem}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="site-name">calcstack.dev</a>
+  </div>
+</nav>
+
+<div class="container">
+  <h1>Mortgage Refinance Savings Calculator</h1>
+  <p class="subtitle">Find out how much you could save by refinancing — monthly payment reduction, break-even point, and total lifetime interest saved.</p>
+
+  <div class="card">
+    <div class="section-title">Current Mortgage</div>
+    <div class="two-col">
+      <div class="form-group">
+        <label for="currentBalance">Current Loan Balance</label>
+        <div class="input-prefix">
+          <span>$</span>
+          <input type="number" id="currentBalance" placeholder="250,000" min="1" step="1000">
+        </div>
+        <div class="error-msg" id="err-currentBalance">Please enter a valid loan balance.</div>
+      </div>
+      <div class="form-group">
+        <label for="currentRate">Current Interest Rate</label>
+        <div class="input-suffix">
+          <span>%</span>
+          <input type="number" id="currentRate" placeholder="6.50" min="0.01" max="30" step="0.01">
+        </div>
+        <div class="slider-row">
+          <input type="range" id="currentRateSlider" min="1" max="15" step="0.1" value="6.5">
+          <span class="slider-val" id="currentRateVal">6.50%</span>
+        </div>
+        <div class="error-msg" id="err-currentRate">Please enter a valid interest rate (0.01–30%).</div>
+      </div>
+      <div class="form-group">
+        <label for="remainingTerm">Remaining Term (years)</label>
+        <input type="number" id="remainingTerm" placeholder="25" min="1" max="40" step="1">
+        <div class="slider-row">
+          <input type="range" id="remainingTermSlider" min="1" max="40" step="1" value="25">
+          <span class="slider-val" id="remainingTermVal">25 yrs</span>
+        </div>
+        <div class="error-msg" id="err-remainingTerm">Please enter 1–40 years.</div>
+      </div>
+      <div class="form-group">
+        <label for="currentPayment">Current Monthly Payment</label>
+        <div class="input-prefix">
+          <span>$</span>
+          <input type="number" id="currentPayment" placeholder="Auto-calculated" min="0" step="1">
+        </div>
+        <div class="error-msg" id="err-currentPayment">Enter 0 to auto-calculate.</div>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:1rem">New Refinance Terms</div>
+    <div class="two-col">
+      <div class="form-group">
+        <label for="newRate">New Interest Rate</label>
+        <div class="input-suffix">
+          <span>%</span>
+          <input type="number" id="newRate" placeholder="5.25" min="0.01" max="30" step="0.01">
+        </div>
+        <div class="slider-row">
+          <input type="range" id="newRateSlider" min="1" max="15" step="0.1" value="5.25">
+          <span class="slider-val" id="newRateVal">5.25%</span>
+        </div>
+        <div class="error-msg" id="err-newRate">Please enter a valid interest rate (0.01–30%).</div>
+      </div>
+      <div class="form-group">
+        <label for="newTerm">New Loan Term (years)</label>
+        <input type="number" id="newTerm" placeholder="30" min="1" max="40" step="1">
+        <div class="slider-row">
+          <input type="range" id="newTermSlider" min="1" max="40" step="1" value="30">
+          <span class="slider-val" id="newTermVal">30 yrs</span>
+        </div>
+        <div class="error-msg" id="err-newTerm">Please enter 1–40 years.</div>
+      </div>
+      <div class="form-group">
+        <label for="closingCosts">Closing Costs</label>
+        <div class="input-prefix">
+          <span>$</span>
+          <input type="number" id="closingCosts" placeholder="4,000" min="0" step="100" value="">
+        </div>
+        <div class="error-msg" id="err-closingCosts">Please enter a valid closing cost (≥ 0).</div>
+      </div>
+      <div class="form-group">
+        <label for="stayYears">How Long You Plan to Stay (years)</label>
+        <input type="number" id="stayYears" placeholder="7" min="1" max="40" step="1">
+        <div class="slider-row">
+          <input type="range" id="stayYearsSlider" min="1" max="40" step="1" value="7">
+          <span class="slider-val" id="stayYearsVal">7 yrs</span>
+        </div>
+        <div class="error-msg" id="err-stayYears">Please enter 1–40 years.</div>
+      </div>
+    </div>
+
+    <button class="btn" id="calcBtn">Calculate Refinance Savings</button>
+  </div>
+
+  <div class="results" id="results">
+    <div class="card">
+      <div class="copy-row">
+        <button class="copy-btn" id="copyBtn">📋 Copy Summary</button>
+      </div>
+
+      <div class="key-metrics" id="keyMetrics"></div>
+
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="overview">Overview</button>
+        <button class="tab-btn" data-tab="comparison">Year-by-Year</button>
+        <button class="tab-btn" data-tab="breakdown">Breakdown</button>
+      </div>
+
+      <div class="tab-pane active" id="tab-overview">
+        <div id="overviewContent"></div>
+      </div>
+      <div class="tab-pane" id="tab-comparison">
+        <div id="comparisonContent"></div>
+      </div>
+      <div class="tab-pane" id="tab-breakdown">
+        <div id="breakdownContent"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-mid"></div>
+
+  <div class="content-section">
+    <h2>How to Use This Mortgage Refinance Savings Calculator</h2>
+    <p>Enter your current loan balance, interest rate, and remaining term in the "Current Mortgage" section. Then fill in your proposed new interest rate, new loan term, expected closing costs, and how many years you plan to stay in the home. Click <strong>Calculate Refinance Savings</strong> to instantly see your monthly savings, break-even point, and total interest comparison.</p>
+    <p>Use the sliders for quick adjustments — the calculator updates as you click Calculate, letting you easily compare scenarios side by side.</p>
+
+    <h2>Why This Matters</h2>
+    <p>Refinancing can be one of the smartest financial moves you make — or a costly mistake if the timing is wrong. The difference between a 6.5% and a 5.25% interest rate on a $300,000 mortgage is roughly $240 per month. Over 7 years, that's nearly $20,000 back in your pocket.</p>
+    <p>But the monthly savings don't tell the whole story. Closing costs of $5,000–$8,000 are common, meaning you need to stay in the home long enough to recoup those upfront costs. If you break even at month 30 but plan to move in year 3, refinancing barely pays off.</p>
+    <p>Homeowners who refinanced in 2020–2021 when rates dropped below 3% saved an average of $2,800 per year. With rates rising since then, the calculus has shifted — but if your current rate is above market, refinancing still makes sense. This calculator helps you run the numbers before calling your lender.</p>
+
+    <h2>How It's Calculated</h2>
+    <p>The monthly mortgage payment uses the standard amortization formula:</p>
+    <div class="formula-box">M = P × [r(1+r)ⁿ] / [(1+r)ⁿ − 1]<br>Where: P = principal, r = monthly rate (annual rate ÷ 12), n = total months</div>
+    <p>The <strong>break-even point</strong> is calculated by dividing your total closing costs by your monthly savings: Break-Even Months = Closing Costs ÷ Monthly Payment Reduction.</p>
+    <p>The <strong>total interest comparison</strong> sums all interest payments over each loan's remaining life. Net savings over your stay period accounts for closing costs, actual payments made, and remaining balances if you sell before the loan ends.</p>
+
+    <h2>Tips & Common Mistakes</h2>
+    <ul>
+      <li><strong>Don't ignore closing costs.</strong> "No-closing-cost" refinances often roll costs into the rate, costing more long-term. Always compare total cost of ownership.</li>
+      <li><strong>Resetting your term can cost you.</strong> Refinancing 10 years in from a 30-year to a new 30-year loan significantly increases lifetime interest, even at a lower rate. Consider a 15 or 20-year refi.</li>
+      <li><strong>The "1% rule" is outdated.</strong> Even a 0.5% rate drop can be worthwhile if you have a large balance or plan to stay long-term.</li>
+      <li><strong>Check your credit before applying.</strong> A score improvement of even 40 points can unlock a significantly better rate. Soft-pull rate checks won't affect your score.</li>
+      <li><strong>Factor in tax deductions carefully.</strong> If you itemize, mortgage interest is deductible — but the standard deduction often makes this moot for many homeowners.</li>
+    </ul>
+
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>How do I know if refinancing is worth it?</summary>
+      <p>The primary benchmark is the break-even point — how many months it takes for cumulative monthly savings to exceed your closing costs. If you plan to stay in the home longer than the break-even period, refinancing is generally worth it. Factor in whether you're extending your loan term, which can offset savings.</p>
+    </details>
+    <details>
+      <summary>What are typical refinance closing costs?</summary>
+      <p>Closing costs for a refinance typically range from 2%–5% of the loan amount. On a $250,000 loan, that's $5,000–$12,500. Common fees include origination fees, appraisal ($400–$700), title insurance, and prepaid interest. Some lenders offer to roll costs into the loan or rate.</p>
+    </details>
+    <details>
+      <summary>Does refinancing hurt my credit score?</summary>
+      <p>A mortgage application triggers a hard credit inquiry, which may temporarily lower your score by 5–10 points. However, credit bureaus treat multiple mortgage inquiries within a 14–45 day window as a single inquiry, so shopping multiple lenders within that timeframe won't compound the damage.</p>
+    </details>
+    <details>
+      <summary>Should I refinance to a shorter or longer term?</summary>
+      <p>A shorter term (e.g., 15 years) means higher monthly payments but dramatically less interest paid over the life of the loan. A longer term lowers monthly payments and improves cash flow but increases total interest. The right choice depends on your financial goals, cash flow needs, and how long you plan to stay.</p>
+    </details>
+
+    <h2>Related Tools</h2>
+    <div class="related-tools">
+      <a href="/mortgage-points-break-even-calculator/" class="related-link">📊 Mortgage Points Break-Even Calculator</a>
+      <a href="/savings-account-interest-calculator/" class="related-link">💰 Savings Account Interest Calculator</a>
+      <a href="/capital-gains-tax-calculator/" class="related-link">📈 Capital Gains Tax Calculator</a>
+      <a href="/side-hustle-income-tax-calculator/" class="related-link">💼 Side Hustle Income Tax Calculator</a>
+      <a href="/life-insurance-needs-calculator/" class="related-link">🛡️ Life Insurance Needs Calculator</a>
+      <a href="/business-startup-cost-calculator/" class="related-link">🚀 Business Startup Cost Calculator</a>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-bottom"></div>
+</div>
+
+<footer>
+  <div>
+    <a href="/about/">About</a>
+    <a href="/privacy/">Privacy</a>
+    <a href="/contact/">Contact</a>
+  </div>
+  <div style="margin-top:.5rem">© <span id="yr"></span> calcstack.dev</div>
+</footer>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+// Slider sync helper
+function syncSlider(inputId, sliderId, valId, suffix, decimals) {
+  const inp = document.getElementById(inputId);
+  const sl = document.getElementById(sliderId);
+  const vl = document.getElementById(valId);
+  function updateVal(v) {
+    vl.textContent = parseFloat(v).toFixed(decimals) + suffix;
+  }
+  inp.addEventListener('input', () => {
+    const v = parseFloat(inp.value);
+    if (!isNaN(v)) { sl.value = v; updateVal(v); }
+  });
+  sl.addEventListener('input', () => {
+    inp.value = parseFloat(sl.value).toFixed(decimals);
+    updateVal(sl.value);
+  });
+  updateVal(sl.value);
+}
+syncSlider('currentRate','currentRateSlider','currentRateVal','%',2);
+syncSlider('remainingTerm','remainingTermSlider','remainingTermVal',' yrs',0);
+syncSlider('newRate','newRateSlider','newRateVal','%',2);
+syncSlider('newTerm','newTermSlider','newTermVal',' yrs',0);
+syncSlider('stayYears','stayYearsSlider','stayYearsVal',' yrs',0);
+
+// Set defaults
+document.getElementById('currentBalance').value = 250000;
+document.getElementById('currentRate').value = 6.50;
+document.getElementById('remainingTerm').value = 25;
+document.getElementById('newRate').value = 5.25;
+document.getElementById('newTerm').value = 30;
+document.getElementById('closingCosts').value = 5000;
+document.getElementById('stayYears').value = 7;
+document.getElementById('currentRateSlider').value = 6.5;
+document.getElementById('remainingTermSlider').value = 25;
+document.getElementById('newRateSlider').value = 5.25;
+document.getElementById('newTermSlider').value = 30;
+document.getElementById('stayYearsSlider').value = 7;
+['currentRateVal','remainingTermVal','newRateVal','newTermVal','stayYearsVal'].forEach(id => {
+  const el = document.getElementById(id);
+  if (id === 'currentRateVal') el.textContent = '6.50%';
+  if (id === 'remainingTermVal') el.textContent = '25 yrs';
+  if (id === 'newRateVal') el.textContent = '5.25%';
+  if (id === 'newTermVal') el.textContent = '30 yrs';
+  if (id === 'stayYearsVal') el.textContent = '7 yrs';
+});
+
+function fmt(n) {
+  return '$' + Math.round(n).toLocaleString('en-US');
+}
+function fmtD(n, d) {
+  return '$' + n.toLocaleString('en-US', {minimumFractionDigits:d,maximumFractionDigits:d});
+}
+function fmtN(n) {
+  return n.toLocaleString('en-US');
+}
+
+function monthlyPayment(principal, annualRate, months) {
+  const r = annualRate / 100 / 12;
+  if (r === 0) return principal / months;
+  return principal * (r * Math.pow(1 + r, months)) / (Math.pow(1 + r, months) - 1);
+}
+
+function amortize(principal, annualRate, months) {
+  const r = annualRate / 100 / 12;
+  const pmt = monthlyPayment(principal, annualRate, months);
+  let bal = principal;
+  let rows = [];
+  for (let m = 1; m <= months; m++) {
+    const interest = bal * r;
+    const prinPay = pmt - interest;
+    bal = Math.max(0, bal - prinPay);
+    rows.push({ month: m, payment: pmt, interest, principal: prinPay, balance: bal });
+  }
+  return rows;
+}
+
+function setError(id, show) {
+  const inp = document.getElementById(id);
+  const msg = document.getElementById('err-' + id);
+  if (!msg) return;
+  if (show) { inp.classList.add('error'); msg.classList.add('show'); }
+  else { inp.classList.remove('error'); msg.classList.remove('show'); }
+}
+
+function validate() {
+  let ok = true;
+  const bal = parseFloat(document.getElementById('currentBalance').value);
+  const cr = parseFloat(document.getElementById('currentRate').value);
+  const rt = parseInt(document.getElementById('remainingTerm').value);
+  const nr = parseFloat(document.getElementById('newRate').value);
+  const nt = parseInt(document.getElementById('newTerm').value);
+  const cc = parseFloat(document.getElementById('closingCosts').value);
+  const sy = parseInt(document.getElementById('stayYears').value);
+
+  if (isNaN(bal) || bal <= 0) { setError('currentBalance', true); ok = false; } else setError('currentBalance', false);
+  if (isNaN(cr) || cr < 0.01 || cr > 30) { setError('currentRate', true); ok = false; } else setError('currentRate', false);
+  if (isNaN(rt) || rt < 1 || rt > 40) { setError('remainingTerm', true); ok = false; } else setError('remainingTerm', false);
+  if (isNaN(nr) || nr < 0.01 || nr > 30) { setError('newRate', true); ok = false; } else setError('newRate', false);
+  if (isNaN(nt) || nt < 1 || nt > 40) { setError('newTerm', true); ok = false; } else setError('newTerm', false);
+  if (isNaN(cc) || cc < 0) { setError('closingCosts', true); ok = false; } else setError('closingCosts', false);
+  if (isNaN(sy) || sy < 1 || sy > 40) { setError('stayYears', true); ok = false; } else setError('stayYears', false);
+
+  return ok;
+}
+
+let showAllRows = false;
+let lastCalcData = null;
+
+function calculate() {
+  if (!validate()) return;
+
+  const bal = parseFloat(document.getElementById('currentBalance').value);
+  const cr = parseFloat(document.getElementById('currentRate').value);
+  const rt = parseInt(document.getElementById('remainingTerm').value);
+  const nr = parseFloat(document.getElementById('newRate').value);
+  const nt = parseInt(document.getElementById('newTerm').value);
+  const cc = parseFloat(document.getElementById('closingCosts').value);
+  const sy = parseInt(document.getElementById('stayYears').value);
+  const cpRaw = parseFloat(document.getElementById('currentPayment').value);
+
+  const currentMonths = rt * 12;
+  const newMonths = nt * 12;
+  const stayMonths = sy * 12;
+
+  const currentPmt = (!isNaN(cpRaw) && cpRaw > 0) ? cpRaw : monthlyPayment(bal, cr, currentMonths);
+  const newPmt = monthlyPayment(bal, nr, newMonths);
+
+  const monthlySavings = currentPmt - newPmt;
+
+  // Total interest current
+  const totalInterestCurrent = (currentPmt * currentMonths) - bal;
+
+  // Total interest new
+  const totalInterestNew = (newPmt * newMonths) - bal;
+
+  // Break-even months
+  const breakEvenMonths = monthlySavings > 0 ? Math.ceil(cc / monthlySavings) : Infinity;
+
+  // Amortization schedules
+  const currentAmort = amortize(bal, cr, currentMonths);
+  const newAmort = amortize(bal, nr, newMonths);
+
+  // Stay period analysis
+  const stayCurrentMonths = Math.min(stayMonths, currentMonths);
+  const stayNewMonths = Math.min(stayMonths, newMonths);
+
+  let currentInterestPaid = 0;
+  for (let i = 0; i < stayCurrentMonths; i++) currentInterestPaid += currentAmort[i].interest;
+  let newInterestPaid = 0;
+  for (let i = 0; i < stayNewMonths; i++) newInterestPaid += newAmort[i].interest;
+
+  const currentBalanceAtStay = stayCurrentMonths < currentMonths ? currentAmort[stayCurrentMonths - 1].balance : 0;
+  const newBalanceAtStay = stayNewMonths < newMonths ? newAmort[stayNewMonths - 1].balance : 0;
+
+  const currentTotalCostStay = currentInterestPaid + currentBalanceAtStay;
+  const newTotalCostStay = newInterestPaid + cc + newBalanceAtStay;
+  const netSavingsStay = currentTotalCostStay - newTotalCostStay;
+
+  // Year-by-year cumulative savings
+  const maxYears = Math.max(rt, nt);
+
+  lastCalcData = {
+    bal, cr, rt, nr, nt, cc, sy, currentPmt, newPmt, monthlySavings,
+    totalInterestCurrent, totalInterestNew, breakEvenMonths,
+    currentAmort, newAmort, netSavingsStay, maxYears, stayMonths,
+    currentBalanceAtStay, newBalanceAtStay, currentInterestPaid, newInterestPaid
+  };
+
+  renderResults(lastCalcData, showAllRows);
+}
+
+function renderResults(d, showAll) {
+  const {
+    bal, cr, rt, nr, nt, cc, sy, currentPmt, newPmt, monthlySavings,
+    totalInterestCurrent, totalInterestNew, breakEvenMonths,
+    currentAmort, newAmort, netSavingsStay, maxYears, stayMonths,
+    currentBalanceAtStay, newBalanceAtStay, currentInterestPaid, newInterestPaid
+  } = d;
+
+  requestAnimationFrame(() => {
+    // Key metrics
+    const bePlural = breakEvenMonths === Infinity ? 'N/A' : (breakEvenMonths < 12 ? breakEvenMonths + ' mo' : Math.round(breakEvenMonths / 12 * 10) / 10 + ' yrs');
+    const beGood = breakEvenMonths !== Infinity && breakEvenMonths / 12 < sy;
+
+    let kmHTML = `
+      <div class="metric highlight">
+        <div class="metric-label">Monthly Savings</div>
+        <div class="metric-value ${monthlySavings >= 0 ? 'positive' : 'negative'}" style="color:${monthlySavings>=0?'#27ae60':'#e74c3c'}">${fmtD(Math.abs(monthlySavings),2)}</div>
+        <div class="metric-sub">${monthlySavings >= 0 ? 'reduced payment' : 'higher payment'}</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Break-Even Point</div>
+        <div class="metric-value" style="color:${beGood?'#27ae60':'#e67e22'}">${bePlural}</div>
+        <div class="metric-sub">${beGood ? '✓ before your move date' : breakEvenMonths===Infinity?'No break-even':'after move date'}</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Lifetime Interest Saved</div>
+        <div class="metric-value" style="color:${totalInterestCurrent>totalInterestNew?'#27ae60':'#e74c3c'}">${fmt(Math.abs(totalInterestCurrent - totalInterestNew))}</div>
+        <div class="metric-sub">${totalInterestCurrent >= totalInterestNew ? 'saved vs current' : 'more interest'}</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Net Savings (${sy}yr stay)</div>
+        <div class="metric-value" style="color:${netSavingsStay>=0?'#27ae60':'#e74c3c'}">${fmt(Math.abs(netSavingsStay))}</div>
+        <div class="metric-sub">${netSavingsStay >= 0 ? 'after closing costs' : 'net loss after costs'}</div>
+      </div>`;
+    document.getElementById('keyMetrics').innerHTML = kmHTML;
+
+    // Overview tab
+    let overviewHTML = '';
+
+    // Monthly payment bar
+    const maxPmt = Math.max(currentPmt, newPmt);
+    const curPct = Math.round((currentPmt / maxPmt) * 100);
+    const newPct = Math.round((newPmt / maxPmt) * 100);
+
+    overviewHTML += `
+      <div class="bar-section">
+        <div class="bar-title">Monthly Payment Comparison</div>
+        <div style="margin-bottom:.5rem;font-size:.8rem;color:#666">Current Loan</div>
+        <div class="bar-track"><div class="bar-fill blue" style="width:${curPct}%">${fmtD(currentPmt,2)}</div></div>
+        <div style="margin-bottom:.5rem;font-size:.8rem;color:#666">New Loan (Refinanced)</div>
+        <div class="bar-track"><div class="bar-fill green" style="width:${newPct}%">${fmtD(newPmt,2)}</div></div>
+      </div>`;
+
+    // Total interest bar
+    const maxInt = Math.max(totalInterestCurrent, totalInterestNew);
+    const curIntPct = Math.round((totalInterestCurrent / maxInt) * 100);
+    const newIntPct = Math.round((totalInterestNew / maxInt) * 100);
+
+    overviewHTML += `
+      <div class="bar-section">
+        <div class="bar-title">Total Interest Over Loan Life</div>
+        <div style="margin-bottom:.5rem;font-size:.8rem;color:#666">Current Loan (${rt} years remaining)</div>
+        <div class="bar-track"><div class="bar-fill red" style="width:${curIntPct}%">${fmt(totalInterestCurrent)}</div></div>
+        <div style="margin-bottom:.5rem;font-size:.8rem;color:#666">New Loan (${nt} years)</div>
+        <div class="bar-track"><div class="bar-fill green" style="width:${newIntPct}%">${fmt(totalInterestNew)}</div></div>
+      </div>`;
+
+    // Stacked bar: principal vs interest current
+    const curPrinPct = Math.round((bal / (bal + totalInterestCurrent)) * 100);
+    const curIntPct2 = 100 - curPrinPct;
+    const newPrinPct = Math.round((bal / (bal + totalInterestNew)) * 100);
+    const newIntPct2 = 100 - newPrinPct;
+
+    overviewHTML += `
+      <div class="bar-section">
+        <div class="bar-title">Total Cost Breakdown (Principal + Interest)</div>
+        <div style="margin-bottom:.4rem;font-size:.8rem;color:#666">Current: ${fmt(bal + totalInterestCurrent)}</div>
+        <div class="stacked-bar" style="margin-bottom:.75rem">
+          <div class="stacked-seg" style="width:${curPrinPct}%;background:#0077b6">${curPrinPct > 15 ? 'Principal' : ''}</div>
+          <div class="stacked-seg" style="width:${curIntPct2}%;background:#e74c3c">${curIntPct2 > 15 ? 'Interest' : ''}</div>
+        </div>
+        <div style="margin-bottom:.4rem;font-size:.8rem;color:#666">Refinanced: ${fmt(bal + totalInterestNew)}</div>
+        <div class="stacked-bar">
+          <div class="stacked-seg" style="width:${newPrinPct}%;background:#0077b6">${newPrinPct > 15 ? 'Principal' : ''}</div>
+          <div class="stacked-seg" style="width:${newIntPct2}%;background:#27ae60">${newIntPct2 > 15 ? 'Interest' : ''}</div>
+        </div>
+        <div class="bar-legend" style="margin-top:.6rem">
+          <span><span class="dot" style="background:#0077b6"></span>Principal (${fmt(bal)})</span>
+          <span><span class="dot" style="background:#e74c3c"></span>Current Interest (${fmt(totalInterestCurrent)})</span>
+          <span><span class="dot" style="background:#27ae60"></span>New Interest (${fmt(totalInterestNew)})</span>
+        </div>
+      </div>`;
+
+    // Summary table
+    overviewHTML += `
+      <div class="table-wrapper">
+        <table>
+          <thead><tr><th>Detail</th><th class="right">Current Loan</th><th class="right">New Loan</th></tr></thead>
+          <tbody>
+            <tr><td>Interest Rate</td><td class="right">${cr.toFixed(2)}%</td><td class="right">${nr.toFixed(2)}%</td></tr>
+            <tr><td>Loan Term</td><td class="right">${rt} years</td><td class="right">${nt} years</td></tr>
+            <tr><td>Monthly Payment</td><td class="right">${fmtD(currentPmt,2)}</td><td class="right">${fmtD(newPmt,2)}</td></tr>
+            <tr><td>Monthly Savings</td><td class="right" colspan="2" class="green">${monthlySavings >= 0 ? '+ ' + fmtD(monthlySavings,2) : '− ' + fmtD(-monthlySavings,2)} / month</td></tr>
+            <tr><td>Total Interest</td><td class="right">${fmt(totalInterestCurrent)}</td><td class="right">${fmt(totalInterestNew)}</td></tr>
+            <tr><td>Total Cost (P+I)</td><td class="right">${fmt(bal+totalInterestCurrent)}</td><td class="right">${fmt(bal+totalInterestNew)}</td></tr>
+            <tr><td>Closing Costs</td><td class="right">—</td><td class="right">${fmt(cc)}</td></tr>
+            <tr><td>Break-Even Point</td><td class="right" colspan="2">${breakEvenMonths === Infinity ? 'No break-even (payment increases)' : fmtN(breakEvenMonths) + ' months (' + (breakEvenMonths/12).toFixed(1) + ' years)'}</td></tr>
+          </tbody>
+        </table>
+      </div>`;
+
+    document.getElementById('overviewContent').innerHTML = overviewHTML;
+
+    // Year-by-year tab
+    const maxYearsTable = maxYears;
+    const rowLimit = showAll ? maxYearsTable : Math.min(10, maxYearsTable);
+
+    let cumCurrentInterest = 0;
+    let cumNewInterest = 0;
+    let cumSavings = -cc; // start with negative closing costs
+
+    let tableRows = '';
+    for (let y = 1; y <= rowLimit; y++) {
+      const fromM = (y - 1) * 12;
+      const toM = y * 12;
+
+      let yrCurrentInt = 0, yrCurrentPrin = 0;
+      for (let m = fromM; m < Math.min(toM, currentAmort.length); m++) {
+        yrCurrentInt += currentAmort[m].interest;
+        yrCurrentPrin += currentAmort[m].principal;
+      }
+      let yrNewInt = 0, yrNewPrin = 0;
+      for (let m = fromM; m < Math.min(toM, newAmort.length); m++) {
+        yrNewInt += newAmort[m].interest;
+        yrNewPrin += newAmort[m].principal;
+      }
+
+      cumCurrentInterest += yrCurrentInt;
+      cumNewInterest += yrNewInt;
+      const yrSavings = (yrCurrentInt + yrCurrentPrin > 0 || yrNewInt + yrNewPrin > 0)
+        ? ((yrCurrentInt > 0 || fromM < currentAmort.length) ? yrCurrentInt - yrNewInt : 0) + (yrCurrentPrin - yrNewPrin) : 0;
+
+      const actualCurrentPmt = fromM < currentAmort.length ? (Math.min(toM, currentAmort.length) - fromM) * currentPmt : 0;
+      const actualNewPmt = fromM < newAmort.length ? (Math.min(toM, newAmort.length) - fromM) * newPmt : 0;
+      const annualSavings = actualCurrentPmt - actualNewPmt;
+      cumSavings += annualSavings;
+
+      const curBal = y * 12 <= currentAmort.length ? currentAmort[Math.min(y*12-1, currentAmort.length-1)].balance : 0;
+      const newBal = y * 12 <= newAmort.length ? newAmort[Math.min(y*12-1, newAmort.length-1)].balance : 0;
+
+      const cumClass = cumSavings >= 0 ? 'green' : 'red';
+      const beIndicator = breakEvenMonths !== Infinity && (y-1)*12 < breakEvenMonths && y*12 >= breakEvenMonths ? ' ◀ Break-Even' : '';
+
+      tableRows += `<tr>
+        <td style="font-weight:500">Year ${y}</td>
+        <td class="right">${fmt(actualCurrentPmt)}</td>
+        <td class="right">${fmt(actualNewPmt)}</td>
+        <td class="right ${annualSavings>=0?'green':'red'}">${annualSavings>=0?'+ ':''} ${fmt(Math.abs(annualSavings))}</td>
+        <td class="right ${cumClass}">${cumSavings>=0?'+ ':''}${fmt(Math.abs(cumSavings))}${beIndicator}</td>
+        <td class="right">${fmt(curBal)}</td>
+        <td class="right">${fmt(newBal)}</td>
+      </tr>`;
+    }
+
+    let compHTML = `
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Year</th>
+              <th class="right">Current Pmts</th>
+              <th class="right">New Pmts</th>
+              <th class="right">Annual Δ</th>
+              <th class="right">Cumul. Savings</th>
+              <th class="right">Cur. Balance</th>
+              <th class="right">New Balance</th>
+            </tr>
+          </thead>
+          <tbody>${tableRows}</tbody>
+        </table>
+      </div>`;
+
+    if (!showAll && maxYearsTable > 10) {
+      compHTML += `<div class="show-all-row"><button class="btn btn-outline" id="showAllBtn" style="width:auto">Show All ${maxYearsTable} Years ↓</button></div>`;
+    }
+
+    document.getElementById('comparisonContent').innerHTML = compHTML;
+
+    if (!showAll && maxYearsTable > 10) {
+      document.getElementById('showAllBtn').addEventListener('click', () => {
+        showAllRows = true;
+        renderResults(lastCalcData, true);
+      });
+    }
+
+    // Breakdown tab
+    let bdHTML = '';
+    const stayCurrentPmts = Math.min(stayMonths, currentAmort.length) * currentPmt;
+    const stayNewPmts = Math.min(stayMonths, newAmort.length) * newPmt;
+
+    bdHTML += `
+      <div class="bar-section">
+        <div class="bar-title">Cost Comparison Over Your ${sy}-Year Stay Period</div>`;
+
+    const maxCost = Math.max(stayCurrentPmts, stayNewPmts + cc);
+    const curStayPct = Math.round((stayCurrentPmts / maxCost) * 100);
+    const newStayPct = Math.round(((stayNewPmts + cc) / maxCost) * 100);
+
+    bdHTML += `
+        <div style="margin-bottom:.4rem;font-size:.8rem;color:#666">Current: Total payments ${fmt(stayCurrentPmts)}</div>
+        <div class="bar-track"><div class="bar-fill blue" style="width:${curStayPct}%">${curStayPct>20?fmt(stayCurrentPmts):''}</div></div>
+        <div style="margin-bottom:.4rem;font-size:.8rem;color:#666">Refinanced: Payments + closing costs ${fmt(stayNewPmts + cc)}</div>
+        <div class="bar-track"><div class="bar-fill green" style="width:${newStayPct}%">${newStayPct>20?fmt(stayNewPmts+cc):''}</div></div>
+      </div>`;
+
+    // Interest paid during stay
+    const maxIntStay = Math.max(currentInterestPaid, newInterestPaid);
+    const curIntStayPct = maxIntStay > 0 ? Math.round((currentInterestPaid / maxIntStay) * 100) : 0;
+    const newIntStayPct = maxIntStay > 0 ? Math.round((newInterestPaid / maxIntStay) * 100) : 0;
+
+    bdHTML += `
+      <div class="bar-section">
+        <div class="bar-title">Interest Paid During ${sy}-Year Stay</div>
+        <div style="margin-bottom:.4rem;font-size:.8rem;color:#666">Current Loan: ${fmt(currentInterestPaid)}</div>
+        <div class="bar-track"><div class="bar-fill red" style="width:${curIntStayPct}%"></div></div>
+        <div style="margin-bottom:.4rem;font-size:.8rem;color:#666">New Loan: ${fmt(newInterestPaid)}</div>
+        <div class="bar-track"><div class="bar-fill green" style="width:${newIntStayPct}%"></div></div>
+      </div>`;
+
+    bdHTML += `
+      <div class="table-wrapper">
+        <table>
+          <thead><tr><th>Item</th><th class="right">Current Loan</th><th class="right">Refinanced</th><th class="right">Difference</th></tr></thead>
+          <tbody>
+            <tr><td>Monthly Payment</td><td class="right">${fmtD(currentPmt,2)}</td><td class="right">${fmtD(newPmt,2)}</td><td class="right ${monthlySavings>=0?'green':'red'}">${monthlySavings>=0?'Save ':''} ${fmtD(Math.abs(monthlySavings),2)}/mo</td></tr>
+            <tr><td>Total Pmts (${sy} yrs)</td><td class="right">${fmt(stayCurrentPmts)}</td><td class="right">${fmt(stayNewPmts)}</td><td class="right ${stayCurrentPmts>=stayNewPmts?'green':'red'}">${fmt(Math.abs(stayCurrentPmts-stayNewPmts))}</td></tr>
+            <tr><td>Interest Paid (${sy} yrs)</td><td class="right">${fmt(currentInterestPaid)}</td><td class="right">${fmt(newInterestPaid)}</td><td class="right ${currentInterestPaid>=newInterestPaid?'green':'red'}">${fmt(Math.abs(currentInterestPaid-newInterestPaid))}</td></tr>
+            <tr><td>Remaining Balance</td><td class="right">${fmt(currentBalanceAtStay)}</td><td class="right">${fmt(newBalanceAtStay)}</td><td class="right ${currentBalanceAtStay<=newBalanceAtStay?'green':'red'}">${fmt(Math.abs(currentBalanceAtStay-newBalanceAtStay))}</td></tr>
+            <tr><td>Closing Costs</td><td class="right">—</td><td class="right">${fmt(cc)}</td><td class="right red">${fmt(cc)}</td></tr>
+            <tr style="font-weight:700;background:#f0f7ff"><td>Net Savings (${sy} yr stay)</td><td class="right" colspan="2">After all costs &amp; balances</td><td class="right ${netSavingsStay>=0?'green':'red'}">${netSavingsStay>=0?'Save ':'Cost '} ${fmt(Math.abs(netSavingsStay))}</td></tr>
+          </tbody>
+        </table>
+      </div>`;
+
+    document.getElementById('breakdownContent').innerHTML = bdHTML;
+
+    const results = document.getElementById('results');
+    results.classList.add('show');
+    results.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+}
+
+document.getElementById('calcBtn').addEventListener('click', () => {
+  showAllRows = false;
+  requestAnimationFrame(() => { calculate(); });
+});
+
+document.querySelectorAll('input[type=number]').forEach(inp => {
+  inp.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      showAllRows = false;
+      requestAnimationFrame(() => { calculate(); });
+    }
+  });
+});
+
+// Tabs
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+  });
+});
+
+// Copy button
+document.getElementById('copyBtn').addEventListener('click', () => {
+  if (!lastCalcData) return;
+  const d = lastCalcData;
+  const monthlySavings = d.currentPmt - d.newPmt;
+  const bePlural = d.breakEvenMonths === Infinity ? 'N/A' : (d.breakEvenMonths/12).toFixed(1) + ' years';
+  const text = `Mortgage Refinance Savings Summary
+========================================
+Current Rate: ${d.cr.toFixed(2)}%  →  New Rate: ${d.nr.toFixed(2)}%
+Current Term: ${d.rt} yrs  →  New Term: ${d.nt} yrs
+Loan Balance: ${fmt(d.bal)}
+Closing Costs: ${fmt(d.cc)}
+
+Monthly Payment (Current): ${fmtD(d.currentPmt,2)}
+Monthly Payment (New): ${fmtD(d.newPmt,2)}
+Monthly Savings: ${fmtD(Math.abs(monthlySavings),2)} ${monthlySavings>=0?'saved':'more'}
+
+Break-Even Point: ${bePlural}
+Lifetime Interest Saved: ${fmt(Math.abs(d.totalInterestCurrent - d.totalInterestNew))}
+Net Savings (${d.sy}-yr stay): ${fmt(Math.abs(d.netSavingsStay))} ${d.netSavingsStay>=0?'saved':'net cost'}
+
+Calculated at calcstack.dev/mortgage-refinance-savings-calculator/`;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = '✓ Copied!';
+    setTimeout(() => { btn.textContent = '📋 Copy Summary'; }, 2000);
+  });
+});
+
+// Auto-calculate on load
+requestAnimationFrame(() => { calculate(); });
+</script>
+</body>
+</html>
