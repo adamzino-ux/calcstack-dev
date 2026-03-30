@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Side Hustle Income Tax Calculator — Free Online Tool | calcstack.dev</title>
+<meta name="description" content="Calculate taxes on your side hustle income instantly. Get your federal income tax, self-employment tax, and quarterly estimated payments in seconds.">
+<link rel="canonical" href="https://calcstack.dev/side-hustle-income-tax-calculator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Side Hustle Income Tax Calculator",
+  "url": "https://calcstack.dev/side-hustle-income-tax-calculator/",
+  "description": "Calculate federal income tax and self-employment tax on your side hustle or freelance income. Get quarterly estimated payment amounts.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f0f4f8;color:#1a1a2e;font-size:16px;line-height:1.6}
+a{color:#0077b6;text-decoration:none}
+a:hover{text-decoration:underline;color:#006299}
+nav{background:#fff;border-bottom:1px solid #e0e0e0;padding:0 1.5rem}
+.nav-inner{max-width:640px;margin:0 auto;display:flex;align-items:center;height:52px}
+.nav-brand{font-weight:700;font-size:1.1rem;color:#1a1a2e}
+.nav-brand span{color:#0077b6}
+main{max-width:640px;margin:0 auto;padding:1.5rem 1rem 2rem}
+h1{font-size:1.6rem;font-weight:800;color:#1a1a2e;margin-bottom:.5rem}
+.subtitle{color:#555;font-size:.95rem;margin-bottom:1.5rem}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;box-shadow:0 1px 4px rgba(0,0,0,.06);margin-bottom:2rem}
+.form-group{margin-bottom:1.2rem}
+label{display:block;font-size:.85rem;font-weight:500;color:#444;margin-bottom:.4rem}
+label .hint{font-weight:400;color:#888;font-size:.8rem}
+input[type=number],select{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:6px;font-size:1rem;font-family:inherit;color:#1a1a2e;background:#fff;transition:border-color .2s,box-shadow .2s;-moz-appearance:textfield}
+input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none}
+input[type=number]:focus,select:focus{outline:none;border-color:#0077b6;box-shadow:0 0 0 3px rgba(0,119,182,.15)}
+input.error{border-color:#e74c3c;box-shadow:0 0 0 3px rgba(231,76,60,.12)}
+.error-msg{color:#e74c3c;font-size:.78rem;margin-top:.3rem;display:none}
+.error-msg.show{display:block}
+.row-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.range-group{margin-bottom:1.2rem}
+.range-row{display:flex;align-items:center;gap:.75rem}
+input[type=range]{flex:1;height:6px;accent-color:#0077b6;cursor:pointer;min-height:44px}
+.range-val{font-size:.9rem;font-weight:600;color:#0077b6;min-width:50px;text-align:right}
+button.btn-primary{width:100%;background:#0077b6;color:#fff;border:none;padding:14px 24px;border-radius:6px;font-size:1rem;font-weight:600;cursor:pointer;transition:background .2s;min-height:44px}
+button.btn-primary:hover{background:#006299}
+button.btn-sm{background:#f0f4f8;color:#0077b6;border:1px solid #0077b6;padding:6px 14px;border-radius:5px;font-size:.8rem;font-weight:600;cursor:pointer;transition:all .2s;min-height:36px}
+button.btn-sm:hover{background:#0077b6;color:#fff}
+.results{opacity:0;transition:opacity .3s ease;pointer-events:none}
+.results.visible{opacity:1;pointer-events:all}
+.big-number{font-size:2.4rem;font-weight:800;color:#0077b6;line-height:1}
+.big-label{font-size:.85rem;color:#666;margin-top:.3rem}
+.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+.result-box{background:#f8f9fa;border:1px solid #e8e8e8;border-radius:7px;padding:1rem;text-align:center}
+.result-box .val{font-size:1.4rem;font-weight:700;color:#1a1a2e}
+.result-box .lbl{font-size:.78rem;color:#666;margin-top:.2rem}
+.result-box.accent{background:#ebf5fb;border-color:#bee3f8}
+.result-box.accent .val{color:#0077b6}
+.section-title{font-size:1rem;font-weight:700;color:#1a1a2e;margin-bottom:1rem;padding-bottom:.5rem;border-bottom:2px solid #f0f0f0}
+/* Bar chart */
+.bar-chart{margin-bottom:1.5rem}
+.bar-row{display:flex;align-items:center;gap:.6rem;margin-bottom:.6rem;flex-wrap:wrap}
+.bar-label{font-size:.8rem;color:#444;width:140px;flex-shrink:0}
+.bar-track{flex:1;background:#f0f0f0;border-radius:4px;height:22px;overflow:hidden;min-width:80px}
+.bar-fill{height:100%;border-radius:4px;transition:width .4s ease}
+.bar-amount{font-size:.8rem;font-weight:600;color:#1a1a2e;min-width:70px;text-align:right}
+.bar-blue{background:#0077b6}
+.bar-orange{background:#f4a261}
+.bar-red{background:#e74c3c}
+.bar-green{background:#2ecc71}
+.bar-gray{background:#b0bec5}
+/* Table */
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:.85rem}
+thead th{background:#f0f0f0;padding:8px 10px;text-align:left;font-weight:600;color:#444;white-space:nowrap}
+thead th:not(:first-child){text-align:right}
+tbody tr:nth-child(even){background:#fafafa}
+tbody td{padding:8px 10px;border-bottom:1px solid #eee;white-space:nowrap}
+tbody td:not(:first-child){text-align:right}
+.show-all-btn{text-align:center;margin-top:.75rem}
+.copy-row{display:flex;justify-content:flex-end;margin-bottom:.75rem}
+.quarterly-list{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.quarterly-list li{background:#f8f9fa;border:1px solid #e0e0e0;border-radius:6px;padding:.75rem 1rem}
+.quarterly-list .q-label{font-size:.75rem;color:#888}
+.quarterly-list .q-amount{font-size:1.1rem;font-weight:700;color:#0077b6;margin-top:.1rem}
+.quarterly-list .q-due{font-size:.72rem;color:#aaa}
+/* Content section */
+.content-section{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;margin-bottom:2rem}
+.content-section h2{font-size:1.15rem;font-weight:700;color:#1a1a2e;margin-bottom:.6rem;margin-top:1.4rem}
+.content-section h2:first-child{margin-top:0}
+.content-section p{color:#444;font-size:.92rem;margin-bottom:.75rem}
+.content-section ul{color:#444;font-size:.92rem;padding-left:1.2rem;margin-bottom:.75rem}
+.content-section ul li{margin-bottom:.4rem}
+details{border:1px solid #e8e8e8;border-radius:6px;margin-bottom:.6rem;overflow:hidden}
+summary{padding:.75rem 1rem;font-weight:600;font-size:.9rem;cursor:pointer;background:#f8f9fa;color:#1a1a2e;list-style:none;display:flex;justify-content:space-between;align-items:center}
+summary::-webkit-details-marker{display:none}
+summary::after{content:'＋';font-size:1rem;color:#0077b6;transition:transform .2s}
+details[open] summary::after{content:'－'}
+details p{padding:.75rem 1rem;font-size:.88rem;color:#444;background:#fff;border-top:1px solid #eee}
+.related-tools{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:1.5rem 2rem;margin-bottom:2rem}
+.related-tools h2{font-size:1.05rem;font-weight:700;margin-bottom:.9rem}
+.related-tools ul{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+.related-tools ul li a{font-size:.875rem;color:#0077b6;display:block;padding:.3rem 0}
+.related-tools ul li a:hover{text-decoration:underline}
+.ad-slot{min-height:0;margin:0}
+footer{background:#fff;border-top:1px solid #e0e0e0;padding:1.5rem 1rem;text-align:center;font-size:.82rem;color:#888}
+footer a{color:#0077b6;margin:0 .4rem}
+footer .footer-links{margin-bottom:.4rem}
+/* Disclaimer */
+.disclaimer{background:#fffbeb;border:1px solid #f6d860;border-radius:6px;padding:.75rem 1rem;font-size:.8rem;color:#7a6000;margin-top:1rem}
+@media(max-width:640px){
+  .row-2{grid-template-columns:1fr}
+  .result-grid{grid-template-columns:1fr 1fr}
+  .bar-label{width:110px;font-size:.75rem}
+  .bar-amount{font-size:.75rem;min-width:60px}
+  .related-tools ul{grid-template-columns:1fr}
+  .quarterly-list{grid-template-columns:1fr 1fr}
+  h1{font-size:1.35rem}
+}
+@media(max-width:400px){
+  .result-grid{grid-template-columns:1fr}
+  .quarterly-list{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">calc<span>stack</span>.dev</a>
+  </div>
+</nav>
+
+<main>
+  <h1>Side Hustle Income Tax Calculator</h1>
+  <p class="subtitle">Estimate your federal income tax + self-employment tax on freelance or gig income — plus quarterly payment amounts.</p>
+
+  <div class="card">
+    <div class="row-2">
+      <div class="form-group">
+        <label>Side Hustle Income <span class="hint">(gross annual)</span></label>
+        <input type="number" id="sideIncome" placeholder="e.g. 15000" min="0" max="9999999">
+        <div class="error-msg" id="sideIncomeErr">Please enter a valid income amount.</div>
+      </div>
+      <div class="form-group">
+        <label>W-2 / Day Job Income <span class="hint">(annual)</span></label>
+        <input type="number" id="w2Income" placeholder="e.g. 55000" min="0" max="9999999">
+      </div>
+    </div>
+
+    <div class="row-2">
+      <div class="form-group">
+        <label>Filing Status</label>
+        <select id="filingStatus">
+          <option value="single">Single</option>
+          <option value="mfj">Married Filing Jointly</option>
+          <option value="mfs">Married Filing Separately</option>
+          <option value="hoh">Head of Household</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Business Expenses <span class="hint">(deductible)</span></label>
+        <input type="number" id="expenses" placeholder="e.g. 2000" min="0" max="9999999">
+      </div>
+    </div>
+
+    <div class="range-group">
+      <label>Additional Deductions / Adjustments <span class="hint">(IRA, HSA, etc.)</span></label>
+      <div class="range-row">
+        <input type="range" id="deductionsSlider" min="0" max="30000" step="500" value="0">
+        <span class="range-val" id="deductionsVal">$0</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>State Income Tax Rate <span class="hint">(optional, enter % e.g. 5)</span></label>
+      <input type="number" id="stateRate" placeholder="e.g. 5" min="0" max="15" step="0.1">
+    </div>
+
+    <button class="btn-primary" id="calcBtn">Calculate My Tax</button>
+    <div class="disclaimer">⚠️ This tool provides estimates for educational purposes only. Consult a tax professional for personalized advice.</div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="results card" id="results">
+
+    <div class="copy-row">
+      <button class="btn-sm" id="copyBtn">Copy Summary</button>
+    </div>
+
+    <div style="text-align:center;margin-bottom:1.5rem">
+      <div class="big-number" id="totalTaxBig">$0</div>
+      <div class="big-label">Estimated Total Federal + SE Tax on Side Hustle</div>
+    </div>
+
+    <div class="result-grid" id="resultGrid"></div>
+
+    <div class="section-title">Tax Breakdown</div>
+    <div class="bar-chart" id="barChart"></div>
+
+    <div class="section-title">Quarterly Estimated Payments</div>
+    <ul class="quarterly-list" id="quarterlyList"></ul>
+
+    <div style="margin-top:1.5rem">
+      <div class="section-title">Federal Tax Bracket Breakdown</div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Bracket</th><th>Rate</th><th>Income in Bracket</th><th>Tax Owed</th></tr></thead>
+          <tbody id="bracketBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div style="margin-top:1.5rem">
+      <div class="section-title">Year-by-Year Projection</div>
+      <p style="font-size:.8rem;color:#888;margin-bottom:.75rem">Assumes 10% annual income growth.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Year</th><th>Side Income</th><th>SE Tax</th><th>Fed Income Tax</th><th>State Tax</th><th>Net Kept</th></tr></thead>
+          <tbody id="projBody"></tbody>
+        </table>
+      </div>
+      <div class="show-all-btn"><button class="btn-sm" id="showAllBtn">Show All 10 Years</button></div>
+    </div>
+
+  </div>
+
+  <div class="ad-slot" id="ad-mid"></div>
+
+  <!-- CONTENT SECTION -->
+  <div class="content-section">
+    <h2>How to Use This Side Hustle Tax Calculator</h2>
+    <p>Enter your expected gross side hustle income (before expenses), your regular W-2 salary if you have one, your filing status, and any deductible business expenses. Use the slider to add other adjustments like IRA contributions. Hit <strong>Calculate</strong> to see your self-employment tax, federal income tax, quarterly payment amounts, and an optional state tax estimate.</p>
+
+    <h2>Why This Matters</h2>
+    <p>Unlike a regular job where your employer withholds taxes automatically, side hustle income hits you with a double whammy: <strong>self-employment (SE) tax</strong> on top of regular income tax. A freelancer earning $20,000 on the side could easily owe $3,000–$5,000 in taxes they weren't expecting come April.</p>
+    <p>The IRS expects you to pay quarterly estimated taxes if you'll owe $1,000 or more. Missing those deadlines triggers penalties — typically 4–6% annualized on the underpaid amount. Someone doing rideshare driving, selling on Etsy, consulting, or tutoring all face this reality. Understanding your exposure upfront lets you set aside the right percentage every month (usually 25–30% of net profit is a safe rule of thumb) and avoid a nasty surprise.</p>
+    <p>This calculator also shows how your W-2 income affects which tax bracket your side income falls into — often the most misunderstood part of freelance taxes. Your side hustle income stacks on top of your day job, so even a modest gig income can push you into a higher bracket.</p>
+
+    <h2>How It's Calculated</h2>
+    <p><strong>Self-Employment Tax:</strong> SE tax = Net earnings × 0.9235 × 15.3%. You multiply by 0.9235 first because you can deduct half of SE tax from gross earnings. The 15.3% covers Social Security (12.4%) and Medicare (2.9%). Above $160,200 (2024), the Social Security portion stops.</p>
+    <p><strong>Federal Income Tax:</strong> Your taxable income = W-2 + Net side income − standard deduction − half of SE tax − extra adjustments. That total is run through the 2024 progressive tax brackets (10%, 12%, 22%, 24%, 32%, 35%, 37%).</p>
+    <p><strong>Marginal vs. Effective Rate:</strong> The marginal rate is the rate on your last dollar. The effective rate is total tax ÷ total income — always lower than marginal. Both matter.</p>
+    <p><strong>Quarterly Payments:</strong> Annual estimated tax ÷ 4. Due April 15, June 15, September 15, January 15.</p>
+
+    <h2>Tips &amp; Common Mistakes</h2>
+    <ul>
+      <li><strong>Don't forget SE tax.</strong> Many first-time freelancers only budget for income tax and are blindsided by the extra 14.1% self-employment tax hit.</li>
+      <li><strong>Track every business expense.</strong> A $500 laptop, home office deduction, subscriptions, and mileage all reduce your net profit before taxes are calculated.</li>
+      <li><strong>Pay quarterly.</strong> Set a calendar reminder — missing even one quarter payment adds a penalty, even if you pay in full by April 15.</li>
+      <li><strong>Open a separate savings account.</strong> Transfer 25–30% of every payment you receive to a dedicated tax account so the money is never "spent."</li>
+      <li><strong>Consider a SEP-IRA or Solo 401(k).</strong> Contributing to a retirement account reduces your taxable income and can save you thousands in taxes while building wealth.</li>
+    </ul>
+
+    <h2>Frequently Asked Questions</h2>
+    <details><summary>Do I need to pay taxes if my side hustle made less than $400?</summary><p>If your net side hustle earnings are under $400, you generally don't owe self-employment tax and may not need to file a Schedule C. However, you still must report the income on your Form 1040. Once you cross $400 in net earnings, both SE tax and filing requirements kick in.</p></details>
+    <details><summary>What counts as a deductible business expense?</summary><p>Any ordinary and necessary expense for your business qualifies — equipment, software subscriptions, a portion of your phone or internet bill, home office space (if used exclusively for work), and professional services like accounting fees. The IRS defines "ordinary" as common in your trade and "necessary" as helpful and appropriate. Keep receipts for everything.</p></details>
+    <details><summary>What's the difference between self-employment tax and income tax?</summary><p>Self-employment tax (15.3%) replaces the Social Security and Medicare taxes that employers normally split with employees. Income tax is the regular federal (and state) tax on your earnings. When you're self-employed, you pay both — which is why your combined tax rate is higher than for a W-2 employee at the same income level.</p></details>
+    <details><summary>Can I reduce my SE tax by forming an S-Corp?</summary><p>Yes — once your side hustle profits exceed roughly $40,000–$50,000 annually, electing S-Corp status can reduce SE tax by allowing you to split income between salary and distributions. Distributions aren't subject to SE tax. However, S-Corp administration adds costs and complexity, so the math only works above a certain income threshold. Consult a CPA before making this move.</p></details>
+  </div>
+
+  <!-- RELATED TOOLS -->
+  <div class="related-tools">
+    <h2>Related Tools</h2>
+    <ul>
+      <li><a href="/life-insurance-needs-calculator/">Life Insurance Needs Calculator</a></li>
+      <li><a href="/business-startup-cost-calculator/">Business Startup Cost Calculator</a></li>
+      <li><a href="/savings-account-interest-calculator/">Savings Account Interest Calculator</a></li>
+      <li><a href="/capital-gains-tax-calculator/">Capital Gains Tax Calculator</a></li>
+      <li><a href="/mortgage-points-break-even-calculator/">Mortgage Points Break-Even Calculator</a></li>
+      <li><a href="/charitable-donation-tax-savings-calculator/">Charitable Donation Tax Savings Calculator</a></li>
+    </ul>
+  </div>
+
+  <div class="ad-slot" id="ad-bottom"></div>
+
+  <footer>
+    <div class="footer-links">
+      <a href="/about/">About</a>
+      <a href="/privacy/">Privacy</a>
+      <a href="/contact/">Contact</a>
+    </div>
+    <div>© <span id="yr"></span> calcstack.dev</div>
+  </footer>
+</main>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+// Slider sync
+const slider = document.getElementById('deductionsSlider');
+const sliderVal = document.getElementById('deductionsVal');
+slider.addEventListener('input', () => {
+  sliderVal.textContent = '$' + Number(slider.value).toLocaleString();
+});
+
+// 2024 brackets
+const BRACKETS = {
+  single:    [[11600,0.10],[47150,0.12],[100525,0.22],[191950,0.24],[243725,0.32],[609350,0.35],[Infinity,0.37]],
+  mfj:       [[23200,0.10],[94300,0.12],[201050,0.22],[383900,0.24],[487450,0.32],[731200,0.35],[Infinity,0.37]],
+  mfs:       [[11600,0.10],[47150,0.12],[100525,0.22],[191950,0.24],[243725,0.32],[365600,0.35],[Infinity,0.37]],
+  hoh:       [[16550,0.10],[63100,0.12],[100500,0.22],[191950,0.24],[243700,0.32],[609350,0.35],[Infinity,0.37]]
+};
+const STD_DED = {single:14600,mfj:29200,mfs:14600,hoh:21900};
+const SE_RATE = 0.153;
+const SE_FACTOR = 0.9235;
+const SS_CAP = 160200;
+
+function fmt(n){return '$'+Math.round(n).toLocaleString('en-US')}
+function fmtPct(n){return (n*100).toFixed(1)+'%'}
+
+function calcTaxFromBrackets(taxable, status){
+  const brackets = BRACKETS[status];
+  let tax = 0, prev = 0;
+  const rows = [];
+  for(let i=0;i<brackets.length;i++){
+    const [limit, rate] = brackets[i];
+    if(taxable <= 0) break;
+    const chunk = Math.min(taxable - prev, limit - prev);
+    if(chunk <= 0){prev = limit; continue;}
+    const t = chunk * rate;
+    rows.push({low:prev, high:Math.min(taxable, limit), rate, income:chunk, tax:t});
+    tax += t;
+    prev = limit;
+    if(taxable <= limit) break;
+  }
+  return {tax, rows};
+}
+
+function calcSETax(netEarnings){
+  const seBase = netEarnings * SE_FACTOR;
+  const ssTax = Math.min(seBase, SS_CAP) * 0.124;
+  const medTax = seBase * 0.029;
+  return ssTax + medTax;
+}
+
+function runCalc(sideInc, w2Inc, expenses, status, extraDed, stateRate){
+  const netSide = Math.max(0, sideInc - expenses);
+  const seTax = calcSETax(netSide);
+  const halfSE = seTax / 2;
+  const stdDed = STD_DED[status];
+  const totalGross = w2Inc + netSide;
+  const taxable = Math.max(0, totalGross - stdDed - halfSE - extraDed);
+  const taxableW2Only = Math.max(0, w2Inc - stdDed - extraDed);
+  const {tax: totalFedTax, rows: bracketRows} = calcTaxFromBrackets(taxable, status);
+  const {tax: w2FedTax} = calcTaxFromBrackets(taxableW2Only, status);
+  const sideFedTax = Math.max(0, totalFedTax - w2FedTax);
+  const stateAmt = netSide * (stateRate / 100);
+  const totalOnSide = seTax + sideFedTax + stateAmt;
+  const effectiveRate = netSide > 0 ? totalOnSide / netSide : 0;
+  const marginalRate = bracketRows.length > 0 ? bracketRows[bracketRows.length-1].rate : 0;
+  const quarterly = (seTax + sideFedTax + stateAmt) / 4;
+  return {netSide, seTax, halfSE, sideFedTax, stateAmt, totalOnSide, effectiveRate, marginalRate, quarterly, bracketRows, stdDed, taxable};
+}
+
+let projAllShown = false;
+let lastResult = null;
+let lastParams = null;
+
+function calculate(){
+  const sideRaw = parseFloat(document.getElementById('sideIncome').value);
+  const w2Raw = parseFloat(document.getElementById('w2Income').value) || 0;
+  const expRaw = parseFloat(document.getElementById('expenses').value) || 0;
+  const status = document.getElementById('filingStatus').value;
+  const extraDed = parseFloat(document.getElementById('deductionsSlider').value) || 0;
+  const stateRateRaw = parseFloat(document.getElementById('stateRate').value) || 0;
+
+  const errEl = document.getElementById('sideIncomeErr');
+  const inpEl = document.getElementById('sideIncome');
+  if(!sideRaw || isNaN(sideRaw) || sideRaw < 0){
+    inpEl.classList.add('error');
+    errEl.classList.add('show');
+    return;
+  }
+  inpEl.classList.remove('error');
+  errEl.classList.remove('show');
+
+  const r = runCalc(sideRaw, w2Raw, expRaw, status, extraDed, stateRateRaw);
+  lastResult = r;
+  lastParams = {sideRaw, w2Raw, expRaw, status, extraDed, stateRateRaw};
+
+  requestAnimationFrame(() => {
+    document.getElementById('totalTaxBig').textContent = fmt(r.totalOnSide);
+
+    // Result grid
+    let grid = `
+      <div class="result-box accent"><div class="val">${fmt(r.seTax)}</div><div class="lbl">Self-Employment Tax</div></div>
+      <div class="result-box accent"><div class="val">${fmt(r.sideFedTax)}</div><div class="lbl">Federal Income Tax (on side hustle)</div></div>
+      <div class="result-box"><div class="val">${fmtPct(r.effectiveRate)}</div><div class="lbl">Effective Tax Rate</div></div>
+      <div class="result-box"><div class="val">${fmtPct(r.marginalRate)}</div><div class="lbl">Marginal Tax Rate</div></div>
+      <div class="result-box"><div class="val">${fmt(r.netSide)}</div><div class="lbl">Net Profit (after expenses)</div></div>
+      <div class="result-box"><div class="val">${fmt(r.netSide - r.totalOnSide)}</div><div class="lbl">Take-Home After Tax</div></div>
+    `;
+    if(stateRateRaw > 0) grid += `<div class="result-box"><div class="val">${fmt(r.stateAmt)}</div><div class="lbl">State Income Tax (est.)</div></div>`;
+    document.getElementById('resultGrid').innerHTML = grid;
+
+    // Bar chart
+    const maxVal = r.netSide || 1;
+    function bar(label, amt, cls){
+      const pct = Math.min(100, (amt/maxVal)*100).toFixed(1);
+      return `<div class="bar-row">
+        <div class="bar-label">${label}</div>
+        <div class="bar-track"><div class="bar-fill ${cls}" style="width:${pct}%"></div></div>
+        <div class="bar-amount">${fmt(amt)}</div>
+      </div>`;
+    }
+    let bars = bar('Gross Side Income', sideRaw, 'bar-blue');
+    if(expRaw > 0) bars += bar('Business Expenses', expRaw, 'bar-gray');
+    bars += bar('Net Profit', r.netSide, 'bar-green');
+    bars += bar('Self-Employment Tax', r.seTax, 'bar-orange');
+    bars += bar('Federal Income Tax', r.sideFedTax, 'bar-red');
+    if(stateRateRaw > 0) bars += bar('State Tax', r.stateAmt, 'bar-gray');
+    bars += bar('Take-Home', Math.max(0, r.netSide - r.totalOnSide), 'bar-blue');
+    document.getElementById('barChart').innerHTML = bars;
+
+    // Quarterly
+    const qDates = [
+      ['Q1','April 15, 2025'],['Q2','June 16, 2025'],['Q3','September 15, 2025'],['Q4','January 15, 2026']
+    ];
+    let qHTML = '';
+    qDates.forEach(([q, due]) => {
+      qHTML += `<li><div class="q-label">${q} Estimated Payment</div><div class="q-amount">${fmt(r.quarterly)}</div><div class="q-due">Due ${due}</div></li>`;
+    });
+    document.getElementById('quarterlyList').innerHTML = qHTML;
+
+    // Bracket rows
+    let bHTML = '';
+    r.bracketRows.forEach(row => {
+      bHTML += `<tr><td>${fmt(row.low)} – ${row.high === Infinity ? '∞' : fmt(row.high)}</td><td>${fmtPct(row.rate)}</td><td>${fmt(row.income)}</td><td>${fmt(row.tax)}</td></tr>`;
+    });
+    document.getElementById('bracketBody').innerHTML = bHTML || '<tr><td colspan="4" style="text-align:center;color:#888;">No taxable income</td></tr>';
+
+    // Projection
+    buildProjection(sideRaw, w2Raw, expRaw, status, extraDed, stateRateRaw, projAllShown ? 10 : 3);
+
+    document.getElementById('results').classList.add('visible');
+  });
+}
+
+function buildProjection(sideBase, w2, expBase, status, extraDed, stateRate, showRows){
+  const GROWTH = 1.10;
+  let html = '';
+  for(let y = 1; y <= 10; y++){
+    const inc = sideBase * Math.pow(GROWTH, y-1);
+    const exp = expBase * Math.pow(GROWTH, y-1);
+    const pr = runCalc(inc, w2, exp, status, extraDed, stateRate);
+    const net = Math.max(0, pr.netSide - pr.totalOnSide);
+    html += `<tr${y > showRows ? ' class="hidden-row" style="display:none"' : ''}><td>Year ${y}</td><td>${fmt(inc)}</td><td>${fmt(pr.seTax)}</td><td>${fmt(pr.sideFedTax)}</td><td>${fmt(pr.stateAmt)}</td><td>${fmt(net)}</td></tr>`;
+  }
+  document.getElementById('projBody').innerHTML = html;
+  document.getElementById('showAllBtn').textContent = projAllShown ? 'Show Less' : 'Show All 10 Years';
+}
+
+document.getElementById('showAllBtn').addEventListener('click', () => {
+  projAllShown = !projAllShown;
+  if(lastParams){
+    const {sideRaw,w2Raw,expRaw,status,extraDed,stateRateRaw} = lastParams;
+    buildProjection(sideRaw, w2Raw, expRaw, status, extraDed, stateRateRaw, projAllShown ? 10 : 3);
+  }
+});
+
+document.getElementById('calcBtn').addEventListener('click', () => {
+  requestAnimationFrame(calculate);
+});
+
+document.querySelectorAll('input[type=number]').forEach(inp => {
+  inp.addEventListener('keydown', e => { if(e.key === 'Enter') requestAnimationFrame(calculate); });
+});
+
+document.getElementById('copyBtn').addEventListener('click', () => {
+  if(!lastResult) return;
+  const r = lastResult;
+  const p = lastParams;
+  const txt = `Side Hustle Tax Summary\n${'─'.repeat(28)}\nGross Side Income: ${fmt(p.sideRaw)}\nBusiness Expenses: ${fmt(p.expRaw)}\nNet Profit: ${fmt(r.netSide)}\n\nSelf-Employment Tax: ${fmt(r.seTax)}\nFederal Income Tax (side hustle): ${fmt(r.sideFedTax)}\nState Tax (est.): ${fmt(r.stateAmt)}\nTotal Tax: ${fmt(r.totalOnSide)}\n\nEffective Rate: ${fmtPct(r.effectiveRate)}\nMarginal Rate: ${fmtPct(r.marginalRate)}\nQuarterly Payment: ${fmt(r.quarterly)}\nTake-Home: ${fmt(Math.max(0,r.netSide - r.totalOnSide))}\n\nGenerated by calcstack.dev`;
+  navigator.clipboard.writeText(txt).then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy Summary', 2000);
+  });
+});
+</script>
+</body>
+</html>
