@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crypto Portfolio Profit and Loss Calculator — Free Online Tool | calcstack.dev</title>
+<meta name="description" content="Calculate your crypto portfolio profit and loss instantly. Track multiple coins, see total gains/losses, ROI percentage, and portfolio breakdown. Free crypto P&L calculator.">
+<link rel="canonical" href="https://calcstack.dev/crypto-portfolio-profit-loss-calculator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Crypto Portfolio Profit and Loss Calculator",
+  "url": "https://calcstack.dev/crypto-portfolio-profit-loss-calculator/",
+  "description": "Calculate your crypto portfolio profit and loss. Track multiple coins, see total gains, losses, ROI, and portfolio breakdown.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f4f6f9;color:#1a1a2e;font-size:16px;line-height:1.6}
+a{color:#0077b6;text-decoration:none}
+a:hover{text-decoration:underline;color:#006299}
+nav{background:#fff;border-bottom:1px solid #e0e0e0;padding:0 1.5rem}
+.nav-inner{max-width:640px;margin:0 auto;display:flex;align-items:center;height:52px}
+.nav-brand{font-weight:700;font-size:1.1rem;color:#1a1a2e}
+.nav-brand:hover{text-decoration:none;color:#0077b6}
+.container{max-width:640px;margin:0 auto;padding:1.5rem}
+h1{font-size:1.6rem;font-weight:700;color:#1a1a2e;margin-bottom:0.4rem}
+.subtitle{color:#555;font-size:0.95rem;margin-bottom:1.5rem}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;box-shadow:0 2px 8px rgba(0,0,0,0.04);margin-bottom:2rem}
+label{display:block;font-size:0.85rem;font-weight:500;color:#444;margin-bottom:5px}
+input[type=text],input[type=number]{width:100%;border:1px solid #ddd;border-radius:5px;padding:12px 16px;font-size:0.95rem;color:#1a1a2e;outline:none;transition:border-color .2s,box-shadow .2s;background:#fff}
+input:focus{border-color:#0077b6;box-shadow:0 0 0 3px rgba(0,119,182,0.15)}
+input.error-input{border-color:#e74c3c}
+.error-msg{color:#e74c3c;font-size:0.8rem;margin-top:4px;display:none}
+.error-msg.visible{display:block}
+.btn{background:#0077b6;color:#fff;border:none;border-radius:6px;padding:12px 24px;font-size:1rem;font-weight:600;cursor:pointer;transition:background .2s;min-height:44px}
+.btn:hover{background:#006299}
+.btn-full{width:100%}
+.btn-sm{padding:7px 14px;font-size:0.82rem;font-weight:500;border-radius:5px;min-height:36px}
+.btn-danger{background:#e74c3c;color:#fff;border:none;border-radius:5px;padding:7px 14px;font-size:0.82rem;cursor:pointer;min-height:36px;transition:background .2s}
+.btn-danger:hover{background:#c0392b}
+.btn-ghost{background:#f0f0f0;color:#1a1a2e;border:none;border-radius:5px;padding:7px 14px;font-size:0.82rem;cursor:pointer;min-height:36px;transition:background .2s}
+.btn-ghost:hover{background:#e0e0e0}
+.section-title{font-size:1rem;font-weight:700;color:#1a1a2e;margin-bottom:1rem}
+.coin-row{background:#f8f9fa;border:1px solid #e8e8e8;border-radius:7px;padding:1rem;margin-bottom:0.75rem}
+.coin-row-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem}
+.coin-label{font-weight:600;font-size:0.9rem;color:#0077b6}
+.fields-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem}
+.fields-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.75rem}
+.add-coin-btn{width:100%;border:2px dashed #0077b6;background:transparent;color:#0077b6;font-size:0.9rem;font-weight:600;padding:10px;border-radius:6px;cursor:pointer;transition:all .2s;min-height:44px}
+.add-coin-btn:hover{background:rgba(0,119,182,0.07)}
+.results{opacity:0;transition:opacity 0.3s ease;pointer-events:none}
+.results.visible{opacity:1;pointer-events:all}
+.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+.summary-box{background:#f8f9fa;border:1px solid #e0e0e0;border-radius:7px;padding:1rem;text-align:center}
+.summary-box .big-num{font-size:1.6rem;font-weight:700;margin:4px 0}
+.summary-box .big-num.profit{color:#27ae60}
+.summary-box .big-num.loss{color:#e74c3c}
+.summary-box .big-num.neutral{color:#0077b6}
+.summary-box .lbl{font-size:0.78rem;color:#666;font-weight:500;text-transform:uppercase;letter-spacing:.03em}
+.bar-section{margin-bottom:1.5rem}
+.bar-label{display:flex;justify-content:space-between;font-size:0.82rem;color:#555;margin-bottom:4px}
+.bar-track{background:#e8e8e8;border-radius:20px;height:14px;overflow:hidden;margin-bottom:8px}
+.bar-fill{height:100%;border-radius:20px;transition:width 0.5s ease}
+.bar-fill.profit{background:#27ae60}
+.bar-fill.loss{background:#e74c3c}
+.bar-fill.cost{background:#0077b6}
+.bar-fill.value{background:#f39c12}
+.portfolio-bar{display:flex;height:22px;border-radius:6px;overflow:hidden;margin-bottom:0.4rem}
+.portfolio-bar-seg{height:100%;transition:width 0.5s ease}
+.bar-legend{display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:1.5rem}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:0.8rem;color:#555}
+.legend-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:0.88rem}
+thead th{background:#f0f0f0;padding:9px 10px;text-align:left;font-weight:600;color:#444;white-space:nowrap;border-bottom:2px solid #ddd}
+thead th.num{text-align:right}
+tbody td{padding:9px 10px;border-bottom:1px solid #eee;color:#1a1a2e}
+tbody td.num{text-align:right;font-variant-numeric:tabular-nums}
+tbody tr:nth-child(even){background:#fafafa}
+.gain{color:#27ae60;font-weight:600}
+.loss-val{color:#e74c3c;font-weight:600}
+.copy-row{display:flex;justify-content:flex-end;margin-bottom:0.75rem}
+.copied{background:#27ae60!important}
+.show-all-wrap{text-align:center;margin-top:0.75rem}
+.hidden-rows{display:none}
+h2{font-size:1.15rem;font-weight:700;color:#1a1a2e;margin-bottom:0.6rem}
+.content-section{margin-bottom:2rem}
+.content-section p{color:#444;font-size:0.95rem;margin-bottom:0.75rem}
+.content-section ul{color:#444;font-size:0.95rem;padding-left:1.3rem;margin-bottom:0.75rem}
+.content-section ul li{margin-bottom:0.4rem}
+details{border:1px solid #e0e0e0;border-radius:6px;padding:0.75rem 1rem;margin-bottom:0.6rem;background:#fff}
+summary{cursor:pointer;font-weight:600;font-size:0.92rem;color:#1a1a2e;list-style:none;display:flex;justify-content:space-between;align-items:center}
+summary::after{content:"＋";font-size:1.1rem;color:#0077b6}
+details[open] summary::after{content:"−"}
+details p{margin-top:0.6rem;font-size:0.9rem;color:#555}
+.related-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.6rem}
+.related-link{background:#f8f9fa;border:1px solid #e0e0e0;border-radius:6px;padding:0.6rem 0.9rem;font-size:0.88rem;color:#0077b6;font-weight:500;transition:background .2s}
+.related-link:hover{background:#eef6fb;text-decoration:none}
+.ad-slot{min-height:0;margin:0}
+footer{background:#fff;border-top:1px solid #e0e0e0;padding:1.2rem 1.5rem;text-align:center;font-size:0.82rem;color:#888}
+footer a{color:#888;margin:0 0.5rem}
+footer a:hover{color:#0077b6}
+.formula-box{background:#f0f6fb;border-left:3px solid #0077b6;padding:0.75rem 1rem;border-radius:0 5px 5px 0;font-family:monospace;font-size:0.87rem;color:#1a1a2e;margin:0.5rem 0 0.75rem}
+@media(max-width:640px){
+  .fields-grid,.fields-grid-3{grid-template-columns:1fr 1fr}
+  .summary-grid{grid-template-columns:1fr 1fr}
+  .related-grid{grid-template-columns:1fr}
+  h1{font-size:1.3rem}
+  .card{padding:1.25rem}
+}
+@media(max-width:400px){
+  .fields-grid-3{grid-template-columns:1fr}
+  .summary-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">calcstack.dev</a>
+  </div>
+</nav>
+
+<div class="container">
+  <h1>Crypto Portfolio Profit &amp; Loss Calculator</h1>
+  <p class="subtitle">Track every coin in your portfolio — see total P&amp;L, ROI, and a full visual breakdown instantly.</p>
+
+  <div class="card">
+    <div class="section-title">Your Crypto Holdings</div>
+    <div id="coinsContainer"></div>
+    <button class="add-coin-btn" id="addCoinBtn" onclick="addCoin()">+ Add Another Coin</button>
+    <div style="height:1.25rem"></div>
+    <button class="btn btn-full" id="calcBtn">Calculate Portfolio P&amp;L</button>
+  </div>
+
+  <div class="card results" id="results">
+    <div class="copy-row">
+      <button class="btn btn-sm" id="copyBtn" onclick="copyResults()">Copy Summary</button>
+    </div>
+    <div id="resultsContent"></div>
+  </div>
+
+  <div class="ad-slot" id="ad-mid"></div>
+
+  <div class="content-section">
+    <h2>How to Use This Crypto Profit &amp; Loss Calculator</h2>
+    <p>Enter the name of each cryptocurrency you hold, the amount you invested (total cost basis), the number of coins/tokens you own, and the current price per coin. Hit "Calculate Portfolio P&amp;L" to instantly see your total profit or loss, return on investment (ROI), and a full breakdown for each asset. You can add as many coins as you like.</p>
+    <p>The results include a visual portfolio bar showing each asset's share of your total investment, per-coin performance, and an overall summary with your net gain or loss in both dollar and percentage terms.</p>
+  </div>
+
+  <div class="content-section">
+    <h2>Why This Matters</h2>
+    <p>Crypto markets move fast — sometimes 10%, 20%, or even 50% in a single day. Without a clear picture of your cost basis versus current value, it's easy to make emotional decisions based on price charts rather than actual performance. A proper P&amp;L view forces clarity.</p>
+    <p>Say you bought 0.5 BTC for $15,000 back in 2022, added 50 ETH at $1,200 each ($60,000 total), and picked up 10,000 ADA at $0.30 ($3,000). If BTC is now at $65,000, ETH at $3,400, and ADA at $0.45, your portfolio has grown from $78,000 to $205,500 — a gain of $127,500 (+163%). But you'd never know which coin is dragging down the portfolio without breaking it apart. ETH might be your biggest winner; ADA might barely be breaking even.</p>
+    <p>This calculator is useful for tax season (understanding your unrealized gains), for rebalancing decisions, and simply for staying grounded when fear or greed kicks in during volatile markets. Long-term investors, day traders, and DeFi enthusiasts all benefit from knowing exactly where they stand.</p>
+  </div>
+
+  <div class="content-section">
+    <h2>How It's Calculated</h2>
+    <p>The core formulas are straightforward:</p>
+    <div class="formula-box">Current Value = Coins Held × Current Price Per Coin</div>
+    <div class="formula-box">Profit / Loss ($) = Current Value − Total Amount Invested</div>
+    <div class="formula-box">ROI (%) = ((Current Value − Amount Invested) ÷ Amount Invested) × 100</div>
+    <p>Portfolio totals are simple sums across all holdings. The allocation bar shows each asset's share of your <em>total invested amount</em>, so you can see where your capital is concentrated. The gain/loss percentage is calculated per asset, giving you a clear ranking of your best and worst performers.</p>
+  </div>
+
+  <div class="content-section">
+    <h2>Tips &amp; Common Mistakes</h2>
+    <ul>
+      <li><strong>Use your actual cost basis</strong>, not the initial price — include all fees paid to the exchange or wallet. These reduce your real profit.</li>
+      <li><strong>Don't confuse "coins held" with "coins bought"</strong> — if you've already sold some, enter only what you currently hold.</li>
+      <li><strong>Track stablecoins too</strong> — USDC, USDT, and DAI sitting idle still count as part of your invested capital and affect your overall ROI.</li>
+      <li><strong>Update prices regularly</strong> — this calculator uses prices you enter manually, so refresh your current prices each time you want an accurate read.</li>
+      <li><strong>Consider taxes before celebrating gains</strong> — in most countries, capital gains on crypto are taxable. Use the <a href="/capital-gains-tax-calculator/">Capital Gains Tax Calculator</a> to estimate what you'll owe.</li>
+    </ul>
+  </div>
+
+  <div class="content-section">
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>Does this calculator account for trading fees?</summary>
+      <p>Not automatically — but you can include fees in your "Total Amount Invested" figure. For example, if you spent $1,000 on crypto and paid $15 in fees, enter $1,015 as your invested amount. This gives you an accurate cost basis and a more realistic P&amp;L figure.</p>
+    </details>
+    <details>
+      <summary>What's the difference between realized and unrealized P&amp;L?</summary>
+      <p>Unrealized P&amp;L is what this calculator shows — the gain or loss based on current market prices for coins you still hold. Realized P&amp;L only comes into play when you actually sell. Until you sell, the numbers are paper profits or losses and can swing wildly.</p>
+    </details>
+    <details>
+      <summary>How do I calculate P&amp;L if I bought the same coin multiple times at different prices?</summary>
+      <p>Add up your total investment across all purchases and enter the combined total in the "Amount Invested" field. For "Coins Held," enter the total number of tokens across all purchases. This gives you your blended average cost basis, which is the most common method used for tax purposes.</p>
+    </details>
+    <details>
+      <summary>Can I use this for NFTs or DeFi tokens?</summary>
+      <p>Yes — any asset with a quantity and a current price works with this calculator. Enter the number of tokens (or NFTs at a floor price) you hold, the current price, and your original investment. It works for any digital asset where you can assign a dollar value per unit.</p>
+    </details>
+  </div>
+
+  <div class="content-section">
+    <h2>Related Tools</h2>
+    <div class="related-grid">
+      <a href="/capital-gains-tax-calculator/" class="related-link">Capital Gains Tax Calculator</a>
+      <a href="/side-hustle-income-tax-calculator/" class="related-link">Side Hustle Income Tax Calculator</a>
+      <a href="/savings-account-interest-calculator/" class="related-link">Savings Account Interest Calculator</a>
+      <a href="/mortgage-refinance-savings-calculator/" class="related-link">Mortgage Refinance Savings Calculator</a>
+      <a href="/life-insurance-needs-calculator/" class="related-link">Life Insurance Needs Calculator</a>
+      <a href="/business-startup-cost-calculator/" class="related-link">Business Startup Cost Calculator</a>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-bottom"></div>
+</div>
+
+<footer>
+  <a href="/about/">About</a>
+  <a href="/privacy/">Privacy</a>
+  <a href="/contact/">Contact</a>
+  <span style="margin-left:0.5rem">© 2024 calcstack.dev</span>
+</footer>
+
+<script>
+// ── Colour palette for coins ──────────────────────────────────────────────────
+const COLORS = ['#0077b6','#f39c12','#27ae60','#9b59b6','#e74c3c','#1abc9c','#e67e22','#3498db','#e91e63','#00bcd4','#8bc34a','#ff5722'];
+
+let coinCount = 0;
+
+function fmt(n, dec = 2) {
+  if (isNaN(n)) return '—';
+  return n.toLocaleString('en-US', { minimumFractionDigits: dec, maximumFractionDigits: dec });
+}
+function fmtUSD(n) {
+  if (isNaN(n)) return '—';
+  return '$' + fmt(n, 2);
+}
+function signClass(n) { return n >= 0 ? 'gain' : 'loss-val'; }
+function signPrefix(n) { return n >= 0 ? '+' : ''; }
+
+function addCoin(name = '', invested = '', qty = '', price = '') {
+  coinCount++;
+  const id = coinCount;
+  const color = COLORS[(id - 1) % COLORS.length];
+  const div = document.createElement('div');
+  div.className = 'coin-row';
+  div.id = 'coin-' + id;
+  div.innerHTML = `
+    <div class="coin-row-header">
+      <span class="coin-label" style="color:${color}">&#9632; Coin #${id}</span>
+      <button class="btn-danger btn-sm" onclick="removeCoin(${id})" style="min-height:32px;padding:5px 12px">Remove</button>
+    </div>
+    <div class="fields-grid-3">
+      <div>
+        <label for="name-${id}">Coin / Token Name</label>
+        <input type="text" id="name-${id}" placeholder="e.g. Bitcoin" value="${name}" autocomplete="off">
+      </div>
+      <div>
+        <label for="invested-${id}">Amount Invested ($)</label>
+        <input type="number" id="invested-${id}" placeholder="e.g. 5000" min="0" value="${invested}" step="any">
+        <div class="error-msg" id="err-invested-${id}">Enter a valid positive amount.</div>
+      </div>
+      <div>
+        <label for="qty-${id}">Coins / Tokens Held</label>
+        <input type="number" id="qty-${id}" placeholder="e.g. 0.25" min="0" value="${qty}" step="any">
+        <div class="error-msg" id="err-qty-${id}">Enter a valid quantity.</div>
+      </div>
+    </div>
+    <div style="margin-top:0.75rem">
+      <div class="fields-grid">
+        <div>
+          <label for="price-${id}">Current Price per Coin ($)</label>
+          <input type="number" id="price-${id}" placeholder="e.g. 65000" min="0" value="${price}" step="any">
+          <div class="error-msg" id="err-price-${id}">Enter a valid current price.</div>
+        </div>
+        <div style="display:flex;align-items:flex-end">
+          <div id="quick-${id}" style="font-size:0.82rem;color:#888;padding-bottom:14px"></div>
+        </div>
+      </div>
+    </div>`;
+  document.getElementById('coinsContainer').appendChild(div);
+
+  // Live quick preview
+  ['invested','qty','price'].forEach(field => {
+    document.getElementById(`${field}-${id}`).addEventListener('input', () => quickPreview(id));
+  });
+  // Enter key
+  div.querySelectorAll('input').forEach(inp => {
+    inp.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
+  });
+}
+
+function quickPreview(id) {
+  const qty = parseFloat(document.getElementById('qty-'+id).value);
+  const price = parseFloat(document.getElementById('price-'+id).value);
+  const invested = parseFloat(document.getElementById('invested-'+id).value);
+  const el = document.getElementById('quick-'+id);
+  if (!isNaN(qty) && !isNaN(price) && qty >= 0 && price >= 0) {
+    const val = qty * price;
+    const pl = isNaN(invested) ? null : val - invested;
+    let txt = `Value: ${fmtUSD(val)}`;
+    if (pl !== null) txt += ` &nbsp;|&nbsp; <span class="${signClass(pl)}">${signPrefix(pl)}${fmtUSD(pl)}</span>`;
+    el.innerHTML = txt;
+  } else {
+    el.innerHTML = '';
+  }
+}
+
+function removeCoin(id) {
+  const el = document.getElementById('coin-' + id);
+  if (el) el.remove();
+  // If no coins left, add a fresh one
+  if (document.getElementById('coinsContainer').children.length === 0) {
+    coinCount = 0;
+    addCoin();
+  }
+}
+
+function clearErrors() {
+  document.querySelectorAll('.error-input').forEach(e => e.classList.remove('error-input'));
+  document.querySelectorAll('.error-msg').forEach(e => e.classList.remove('visible'));
+}
+
+function calculate() {
+  clearErrors();
+  const rows = document.getElementById('coinsContainer').querySelectorAll('.coin-row');
+  if (rows.length === 0) return;
+
+  let hasError = false;
+  const coins = [];
+
+  rows.forEach(row => {
+    const idAttr = row.id.replace('coin-', '');
+    const nameEl = document.getElementById('name-' + idAttr);
+    const investedEl = document.getElementById('invested-' + idAttr);
+    const qtyEl = document.getElementById('qty-' + idAttr);
+    const priceEl = document.getElementById('price-' + idAttr);
+
+    const name = nameEl.value.trim() || ('Coin #' + idAttr);
+    const invested = parseFloat(investedEl.value);
+    const qty = parseFloat(qtyEl.value);
+    const price = parseFloat(priceEl.value);
+
+    let rowError = false;
+    if (isNaN(invested) || invested < 0) {
+      investedEl.classList.add('error-input');
+      document.getElementById('err-invested-' + idAttr).classList.add('visible');
+      rowError = true; hasError = true;
+    }
+    if (isNaN(qty) || qty < 0) {
+      qtyEl.classList.add('error-input');
+      document.getElementById('err-qty-' + idAttr).classList.add('visible');
+      rowError = true; hasError = true;
+    }
+    if (isNaN(price) || price < 0) {
+      priceEl.classList.add('error-input');
+      document.getElementById('err-price-' + idAttr).classList.add('visible');
+      rowError = true; hasError = true;
+    }
+
+    if (!rowError) {
+      coins.push({ id: idAttr, name, invested, qty, price, color: COLORS[(parseInt(idAttr) - 1) % COLORS.length] });
+    }
+  });
+
+  if (hasError) return;
+  if (coins.length === 0) return;
+
+  // Compute per-coin values
+  coins.forEach(c => {
+    c.currentValue = c.qty * c.price;
+    c.pnl = c.currentValue - c.invested;
+    c.roi = c.invested > 0 ? (c.pnl / c.invested) * 100 : 0;
+  });
+
+  const totalInvested = coins.reduce((s, c) => s + c.invested, 0);
+  const totalValue = coins.reduce((s, c) => s + c.currentValue, 0);
+  const totalPnL = totalValue - totalInvested;
+  const totalROI = totalInvested > 0 ? (totalPnL / totalInvested) * 100 : 0;
+  const totalGain = coins.filter(c => c.pnl > 0).reduce((s, c) => s + c.pnl, 0);
+  const totalLoss = coins.filter(c => c.pnl < 0).reduce((s, c) => s + c.pnl, 0);
+
+  // Sort coins by pnl desc for the table
+  const sorted = [...coins].sort((a, b) => b.roi - a.roi);
+
+  // Build portfolio bar
+  let barSegs = '';
+  coins.forEach(c => {
+    const pct = totalInvested > 0 ? (c.invested / totalInvested) * 100 : 0;
+    barSegs += `<div class="portfolio-bar-seg" style="width:${pct.toFixed(2)}%;background:${c.color}" title="${c.name}: ${fmt(pct, 1)}%"></div>`;
+  });
+
+  // Legend
+  let legend = '';
+  coins.forEach(c => {
+    const pct = totalInvested > 0 ? (c.invested / totalInvested) * 100 : 0;
+    legend += `<div class="legend-item"><div class="legend-dot" style="background:${c.color}"></div>${c.name} (${fmt(pct, 1)}%)</div>`;
+  });
+
+  // Cost vs value bar
+  const costPct = totalValue > 0 ? Math.min((totalInvested / totalValue) * 100, 100) : 100;
+  const valPct = 100;
+
+  // Table rows
+  let visibleRows = '';
+  let hiddenRows = '';
+  sorted.forEach((c, i) => {
+    const row = `<tr>
+      <td><span style="color:${c.color};font-weight:600">${c.name}</span></td>
+      <td class="num">${fmt(c.qty, 4)}</td>
+      <td class="num">${fmtUSD(c.price)}</td>
+      <td class="num">${fmtUSD(c.invested)}</td>
+      <td class="num">${fmtUSD(c.currentValue)}</td>
+      <td class="num ${signClass(c.pnl)}">${signPrefix(c.pnl)}${fmtUSD(c.pnl)}</td>
+      <td class="num ${signClass(c.roi)}">${signPrefix(c.roi)}${fmt(c.roi, 2)}%</td>
+    </tr>`;
+    if (i < 5) visibleRows += row;
+    else hiddenRows += row;
+  });
+
+  const showAllBtn = hiddenRows ? `<div class="show-all-wrap"><button class="btn-ghost" onclick="toggleAll(this)">Show All ${sorted.length} Coins</button></div>` : '';
+
+  const pnlClass = totalPnL >= 0 ? 'profit' : 'loss';
+  const roiClass = totalROI >= 0 ? 'profit' : 'loss';
+
+  // Best & worst
+  const best = sorted[0];
+  const worst = sorted[sorted.length - 1];
+
+  requestAnimationFrame(() => {
+    const html = `
+      <div class="section-title">Portfolio Summary</div>
+      <div class="summary-grid">
+        <div class="summary-box">
+          <div class="lbl">Total Invested</div>
+          <div class="big-num neutral">${fmtUSD(totalInvested)}</div>
+        </div>
+        <div class="summary-box">
+          <div class="lbl">Current Value</div>
+          <div class="big-num neutral">${fmtUSD(totalValue)}</div>
+        </div>
+        <div class="summary-box">
+          <div class="lbl">Net Profit / Loss</div>
+          <div class="big-num ${pnlClass}">${signPrefix(totalPnL)}${fmtUSD(totalPnL)}</div>
+        </div>
+        <div class="summary-box">
+          <div class="lbl">Overall ROI</div>
+          <div class="big-num ${roiClass}">${signPrefix(totalROI)}${fmt(totalROI, 2)}%</div>
+        </div>
+      </div>
+
+      <div class="bar-section">
+        <div class="section-title" style="margin-bottom:0.75rem">Portfolio Allocation by Investment</div>
+        <div class="portfolio-bar">${barSegs}</div>
+        <div class="bar-legend">${legend}</div>
+      </div>
+
+      <div class="bar-section">
+        <div class="bar-label"><span>Cost Basis</span><span>${fmtUSD(totalInvested)}</span></div>
+        <div class="bar-track"><div class="bar-fill cost" style="width:${costPct.toFixed(1)}%"></div></div>
+        <div class="bar-label"><span>Current Value</span><span>${fmtUSD(totalValue)}</span></div>
+        <div class="bar-track"><div class="bar-fill value" style="width:100%"></div></div>
+        ${totalGain > 0 ? `<div class="bar-label"><span>Total Gains</span><span class="gain">+${fmtUSD(totalGain)}</span></div><div class="bar-track"><div class="bar-fill profit" style="width:${(totalValue > 0 ? (totalGain/totalValue)*100 : 0).toFixed(1)}%"></div></div>` : ''}
+        ${totalLoss < 0 ? `<div class="bar-label"><span>Total Losses</span><span class="loss-val">${fmtUSD(totalLoss)}</span></div><div class="bar-track"><div class="bar-fill loss" style="width:${(totalValue > 0 ? (Math.abs(totalLoss)/totalValue)*100 : 0).toFixed(1)}%"></div></div>` : ''}
+      </div>
+
+      ${sorted.length > 1 ? `<div style="background:#f8f9fa;border:1px solid #e0e0e0;border-radius:7px;padding:0.9rem 1rem;margin-bottom:1.5rem;font-size:0.88rem">
+        <strong>Best performer:</strong> <span style="color:${best.color}">${best.name}</span> &nbsp;<span class="${signClass(best.roi)}">${signPrefix(best.roi)}${fmt(best.roi,2)}%</span>
+        &nbsp;&nbsp;|&nbsp;&nbsp;
+        <strong>Worst performer:</strong> <span style="color:${worst.color}">${worst.name}</span> &nbsp;<span class="${signClass(worst.roi)}">${signPrefix(worst.roi)}${fmt(worst.roi,2)}%</span>
+      </div>` : ''}
+
+      <div class="section-title">Coin-by-Coin Breakdown</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Coin</th>
+              <th class="num">Qty</th>
+              <th class="num">Price</th>
+              <th class="num">Invested</th>
+              <th class="num">Value</th>
+              <th class="num">P&amp;L ($)</th>
+              <th class="num">ROI</th>
+            </tr>
+          </thead>
+          <tbody id="visibleBody">
+            ${visibleRows}
+          </tbody>
+          ${hiddenRows ? `<tbody id="hiddenBody" class="hidden-rows">${hiddenRows}</tbody>` : ''}
+        </table>
+      </div>
+      ${showAllBtn}
+    `;
+
+    document.getElementById('resultsContent').innerHTML = html;
+    const resultsEl = document.getElementById('results');
+    resultsEl.classList.add('visible');
+    setTimeout(() => {
+      resultsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 80);
+  });
+}
+
+function toggleAll(btn) {
+  const hidden = document.getElementById('hiddenBody');
+  if (!hidden) return;
+  if (hidden.classList.contains('hidden-rows')) {
+    hidden.classList.remove('hidden-rows');
+    btn.textContent = 'Show Less';
+  } else {
+    hidden.classList.add('hidden-rows');
+    const total = document.querySelectorAll('#visibleBody tr').length + document.querySelectorAll('#hiddenBody tr').length;
+    btn.textContent = 'Show All ' + total + ' Coins';
+  }
+}
+
+let copyTimeout;
+function copyResults() {
+  const btn = document.getElementById('copyBtn');
+  const rows = document.getElementById('coinsContainer').querySelectorAll('.coin-row');
+  const lines = ['CRYPTO PORTFOLIO P&L SUMMARY', '='.repeat(40)];
+
+  rows.forEach(row => {
+    const id = row.id.replace('coin-', '');
+    const name = (document.getElementById('name-'+id)?.value.trim()) || ('Coin #'+id);
+    const invested = parseFloat(document.getElementById('invested-'+id)?.value);
+    const qty = parseFloat(document.getElementById('qty-'+id)?.value);
+    const price = parseFloat(document.getElementById('price-'+id)?.value);
+    if (!isNaN(invested) && !isNaN(qty) && !isNaN(price)) {
+      const val = qty * price;
+      const pl = val - invested;
+      const roi = invested > 0 ? (pl/invested)*100 : 0;
+      lines.push(`${name}: Invested ${fmtUSD(invested)} | Value ${fmtUSD(val)} | P&L ${signPrefix(pl)}${fmtUSD(pl)} (${signPrefix(roi)}${fmt(roi,2)}%)`);
+    }
+  });
+
+  const totalInvested = Array.from(rows).reduce((s, row) => {
+    const id = row.id.replace('coin-', '');
+    const v = parseFloat(document.getElementById('invested-'+id)?.value);
+    return s + (isNaN(v) ? 0 : v);
+  }, 0);
+  const totalValue = Array.from(rows).reduce((s, row) => {
+    const id = row.id.replace('coin-', '');
+    const qty = parseFloat(document.getElementById('qty-'+id)?.value);
+    const price = parseFloat(document.getElementById('price-'+id)?.value);
+    return s + (isNaN(qty)||isNaN(price) ? 0 : qty*price);
+  }, 0);
+  const totalPnL = totalValue - totalInvested;
+  const totalROI = totalInvested > 0 ? (totalPnL/totalInvested)*100 : 0;
+
+  lines.push('='.repeat(40));
+  lines.push(`TOTAL INVESTED: ${fmtUSD(totalInvested)}`);
+  lines.push(`CURRENT VALUE:  ${fmtUSD(totalValue)}`);
+  lines.push(`NET P&L:        ${signPrefix(totalPnL)}${fmtUSD(totalPnL)}`);
+  lines.push(`OVERALL ROI:    ${signPrefix(totalROI)}${fmt(totalROI,2)}%`);
+  lines.push('');
+  lines.push('Calculated at calcstack.dev');
+
+  navigator.clipboard.writeText(lines.join('\n')).then(() => {
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    clearTimeout(copyTimeout);
+    copyTimeout = setTimeout(() => {
+      btn.textContent = 'Copy Summary';
+      btn.classList.remove('copied');
+    }, 2000);
+  }).catch(() => {
+    btn.textContent = 'Failed';
+    setTimeout(() => { btn.textContent = 'Copy Summary'; }, 2000);
+  });
+}
+
+// Init
+document.getElementById('calcBtn').addEventListener('click', () => {
+  requestAnimationFrame(() => { calculate(); });
+});
+
+// Pre-populate with 3 example coins
+addCoin('Bitcoin', '15000', '0.25', '65000');
+addCoin('Ethereum', '8000', '3', '3200');
+addCoin('Solana', '2000', '20', '150');
+</script>
+</body>
+</html>
