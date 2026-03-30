@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Balloon Payment Loan Calculator — Free Online Tool | calcstack.dev</title>
+<meta name="description" content="Calculate balloon payment loans instantly. See monthly payments, total interest, and the final balloon payment with a full amortization breakdown.">
+<link rel="canonical" href="https://calcstack.dev/balloon-payment-loan-calculator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Balloon Payment Loan Calculator",
+  "url": "https://calcstack.dev/balloon-payment-loan-calculator/",
+  "description": "Calculate balloon payment loans instantly. See monthly payments, total interest, and the final balloon payment with a full amortization breakdown.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#fff;color:#1a1a2e;line-height:1.6;font-size:16px}
+a{color:#0077b6;text-decoration:none}
+a:hover{text-decoration:underline}
+nav{border-bottom:1px solid #e0e0e0;padding:0.75rem 1.5rem;background:#fff}
+nav .nav-inner{max-width:640px;margin:0 auto;display:flex;align-items:center}
+nav .brand{font-weight:700;font-size:1.1rem;color:#1a1a2e}
+nav .brand span{color:#0077b6}
+.container{max-width:640px;margin:0 auto;padding:1.5rem}
+h1{font-size:1.6rem;font-weight:700;color:#1a1a2e;margin-bottom:0.4rem}
+.subtitle{color:#555;font-size:0.95rem;margin-bottom:1.5rem}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;box-shadow:0 2px 8px rgba(0,0,0,0.06);margin-bottom:2rem}
+.form-group{margin-bottom:1.25rem}
+label{display:block;font-size:0.85rem;font-weight:500;color:#444;margin-bottom:0.4rem}
+input[type=number],input[type=text],select{width:100%;border:1px solid #ddd;border-radius:6px;padding:12px 16px;font-size:1rem;color:#1a1a2e;background:#fff;transition:border-color 0.2s,box-shadow 0.2s;-moz-appearance:textfield;appearance:textfield}
+input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appearance:none}
+input:focus,select:focus{outline:none;border-color:#0077b6;box-shadow:0 0 0 3px rgba(0,119,182,0.15)}
+input.error{border-color:#e74c3c}
+.error-msg{color:#e74c3c;font-size:0.8rem;margin-top:0.3rem;display:none}
+.error-msg.visible{display:block}
+.input-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.slider-row{display:flex;align-items:center;gap:0.75rem;margin-top:0.5rem}
+input[type=range]{flex:1;accent-color:#0077b6;height:6px;cursor:pointer}
+.slider-val{font-size:0.85rem;font-weight:600;color:#0077b6;min-width:60px;text-align:right}
+.btn{background:#0077b6;color:#fff;border:none;border-radius:6px;padding:12px 24px;font-size:1rem;font-weight:600;cursor:pointer;width:100%;min-height:44px;transition:background 0.2s}
+.btn:hover{background:#006299}
+.btn-secondary{background:#f0f0f0;color:#1a1a2e;border:1px solid #ddd;padding:8px 16px;font-size:0.85rem;font-weight:500;border-radius:6px;cursor:pointer;min-height:36px;transition:background 0.2s;white-space:nowrap}
+.btn-secondary:hover{background:#e0e0e0}
+.btn-sm{padding:6px 14px;font-size:0.8rem;border-radius:5px;min-height:32px;width:auto}
+.results{opacity:0;transition:opacity 0.3s ease;display:none}
+.results.visible{opacity:1;display:block}
+.key-metric{text-align:center;padding:1.25rem;background:#f0f8ff;border-radius:8px;border:1px solid #cce4f7;margin-bottom:1.25rem}
+.key-metric .label{font-size:0.85rem;color:#555;margin-bottom:0.25rem}
+.key-metric .value{font-size:2rem;font-weight:700;color:#0077b6}
+.metrics-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.75rem;margin-bottom:1.5rem}
+.metric-box{background:#f8f9fa;border-radius:8px;padding:1rem;text-align:center;border:1px solid #e8e8e8}
+.metric-box .m-label{font-size:0.75rem;color:#777;margin-bottom:0.25rem}
+.metric-box .m-value{font-size:1.1rem;font-weight:700;color:#1a1a2e}
+.metric-box .m-value.accent{color:#0077b6}
+.section-title{font-size:1rem;font-weight:700;color:#1a1a2e;margin-bottom:0.75rem}
+.bar-section{margin-bottom:1.5rem}
+.bar-label{display:flex;justify-content:space-between;align-items:center;font-size:0.82rem;margin-bottom:0.3rem}
+.bar-track{background:#e8e8e8;border-radius:4px;height:24px;overflow:hidden;margin-bottom:0.6rem;position:relative}
+.bar-fill{height:100%;border-radius:4px;transition:width 0.4s ease;display:flex;align-items:center;padding-left:8px;font-size:0.75rem;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden}
+.bar-fill.principal{background:#0077b6}
+.bar-fill.interest{background:#e67e22}
+.bar-fill.balloon{background:#8e44ad}
+.bar-fill.regular{background:#27ae60}
+.legend{display:flex;flex-wrap:wrap;gap:0.75rem;margin-top:0.5rem;margin-bottom:1rem}
+.legend-item{display:flex;align-items:center;gap:0.35rem;font-size:0.8rem;color:#555}
+.legend-dot{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+.legend-dot.principal{background:#0077b6}
+.legend-dot.interest{background:#e67e22}
+.legend-dot.balloon{background:#8e44ad}
+.legend-dot.regular{background:#27ae60}
+.table-wrapper{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:0.82rem;min-width:480px}
+thead th{background:#f0f0f0;padding:8px 10px;text-align:left;font-weight:600;color:#444;border-bottom:2px solid #ddd;white-space:nowrap}
+thead th:not(:first-child){text-align:right}
+tbody tr:nth-child(even){background:#fafafa}
+tbody tr:last-child{background:#fff8e1;font-weight:700}
+tbody tr.balloon-row{background:#f3e8ff;font-weight:700}
+tbody td{padding:7px 10px;border-bottom:1px solid #eee;color:#1a1a2e}
+tbody td:not(:first-child){text-align:right;font-variant-numeric:tabular-nums}
+.table-toggle{text-align:center;margin-top:0.75rem}
+.copy-row{display:flex;justify-content:flex-end;margin-bottom:0.75rem}
+.copied-msg{font-size:0.78rem;color:#27ae60;margin-left:0.5rem;align-self:center;opacity:0;transition:opacity 0.3s}
+.copied-msg.show{opacity:1}
+.content-section{margin-bottom:2rem}
+.content-section h2{font-size:1.15rem;font-weight:700;color:#1a1a2e;margin-bottom:0.6rem;padding-bottom:0.3rem;border-bottom:2px solid #e0e0e0}
+.content-section p,.content-section li{font-size:0.92rem;color:#333;line-height:1.7}
+.content-section ul{padding-left:1.4rem;margin-top:0.5rem}
+.content-section ul li{margin-bottom:0.4rem}
+details{border:1px solid #e0e0e0;border-radius:6px;padding:0.75rem 1rem;margin-bottom:0.5rem}
+summary{font-weight:600;cursor:pointer;font-size:0.92rem;color:#1a1a2e;list-style:none;padding-right:1rem;position:relative}
+summary::after{content:'▼';position:absolute;right:0;font-size:0.7rem;color:#0077b6;transition:transform 0.2s}
+details[open] summary::after{transform:rotate(-180deg)}
+summary::-webkit-details-marker{display:none}
+details p{font-size:0.88rem;color:#444;margin-top:0.6rem;line-height:1.6}
+.related-tools{background:#f8f9fa;border-radius:8px;padding:1.25rem;margin-bottom:2rem;border:1px solid #e0e0e0}
+.related-tools h2{font-size:1rem;font-weight:700;color:#1a1a2e;margin-bottom:0.75rem}
+.related-tools ul{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:0.5rem}
+.related-tools ul li a{font-size:0.85rem;color:#0077b6;display:block;padding:4px 0}
+.related-tools ul li a:hover{text-decoration:underline}
+.ad-slot{min-height:0;margin:0}
+footer{border-top:1px solid #e0e0e0;padding:1.25rem 1.5rem;text-align:center;font-size:0.82rem;color:#777;margin-top:1rem}
+footer a{color:#0077b6;margin:0 0.5rem}
+@media(max-width:600px){
+.input-row{grid-template-columns:1fr}
+.metrics-grid{grid-template-columns:1fr 1fr}
+.related-tools ul{grid-template-columns:1fr}
+h1{font-size:1.35rem}
+.key-metric .value{font-size:1.65rem}
+}
+@media(max-width:400px){
+.metrics-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="brand">calc<span>stack</span>.dev</a>
+  </div>
+</nav>
+
+<div class="container">
+  <h1>Balloon Payment Loan Calculator</h1>
+  <p class="subtitle">Calculate your monthly payment, total interest, and final balloon amount with full amortization breakdown.</p>
+
+  <div class="card">
+    <div class="input-row">
+      <div class="form-group">
+        <label for="loanAmount">Loan Amount ($)</label>
+        <input type="number" id="loanAmount" placeholder="e.g. 200000" min="0" step="1000" value="200000">
+        <div class="error-msg" id="err-loanAmount">Please enter a valid loan amount.</div>
+      </div>
+      <div class="form-group">
+        <label for="interestRate">Annual Interest Rate (%)</label>
+        <input type="number" id="interestRate" placeholder="e.g. 5.5" min="0" max="50" step="0.1" value="5.5">
+        <div class="error-msg" id="err-interestRate">Please enter a valid interest rate (0–50%).</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="loanTerm">Loan Term (Years) — <em>amortization period</em></label>
+      <input type="number" id="loanTerm" placeholder="e.g. 30" min="1" max="50" step="1" value="30">
+      <div class="slider-row">
+        <input type="range" id="loanTermSlider" min="1" max="50" step="1" value="30">
+        <span class="slider-val" id="loanTermSliderVal">30 yrs</span>
+      </div>
+      <div class="error-msg" id="err-loanTerm">Please enter a valid loan term (1–50 years).</div>
+    </div>
+
+    <div class="form-group">
+      <label for="balloonYear">Balloon Payment Due After (Years)</label>
+      <input type="number" id="balloonYear" placeholder="e.g. 7" min="1" max="50" step="1" value="7">
+      <div class="slider-row">
+        <input type="range" id="balloonYearSlider" min="1" max="50" step="1" value="7">
+        <span class="slider-val" id="balloonYearSliderVal">7 yrs</span>
+      </div>
+      <div class="error-msg" id="err-balloonYear">Balloon due year must be between 1 and loan term.</div>
+    </div>
+
+    <div class="form-group">
+      <label for="extraPayment">Extra Monthly Payment ($) <em style="font-weight:400;color:#777">(optional)</em></label>
+      <input type="number" id="extraPayment" placeholder="0" min="0" step="50" value="0">
+    </div>
+
+    <button class="btn" id="calcBtn">Calculate Balloon Payment</button>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="results card" id="results">
+
+    <div class="copy-row">
+      <button class="btn-secondary btn-sm" id="copyBtn">Copy Summary</button>
+      <span class="copied-msg" id="copiedMsg">Copied!</span>
+    </div>
+
+    <div class="key-metric">
+      <div class="label">Final Balloon Payment</div>
+      <div class="value" id="balloonValue">—</div>
+    </div>
+
+    <div class="metrics-grid" id="metricsGrid"></div>
+
+    <!-- Visual breakdown -->
+    <div class="bar-section">
+      <div class="section-title">Payment Breakdown</div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot principal"></div>Principal Paid</div>
+        <div class="legend-item"><div class="legend-dot interest"></div>Interest Paid</div>
+        <div class="legend-item"><div class="legend-dot balloon"></div>Balloon (Remaining Principal)</div>
+      </div>
+      <div id="barChartArea"></div>
+    </div>
+
+    <!-- Monthly cost bar -->
+    <div class="bar-section">
+      <div class="section-title">Monthly Payment Composition</div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot regular"></div>Principal</div>
+        <div class="legend-item"><div class="legend-dot interest"></div>Interest</div>
+      </div>
+      <div id="monthlyBarArea"></div>
+    </div>
+
+    <!-- Amortization table -->
+    <div class="section-title" style="margin-bottom:0.5rem">Year-by-Year Amortization</div>
+    <div class="table-wrapper">
+      <table id="amortTable">
+        <thead>
+          <tr>
+            <th>Year</th>
+            <th>Payment</th>
+            <th>Principal</th>
+            <th>Interest</th>
+            <th>Balance</th>
+          </tr>
+        </thead>
+        <tbody id="amortBody"></tbody>
+      </table>
+    </div>
+    <div class="table-toggle" id="tableToggle"></div>
+
+  </div>
+  <!-- /RESULTS -->
+
+  <div class="ad-slot" id="ad-mid"></div>
+
+  <!-- CONTENT SECTION -->
+  <div class="content-section">
+    <h2>How to Use This Balloon Payment Calculator</h2>
+    <p>Enter your loan amount, annual interest rate, full amortization term, and the year when the balloon payment comes due. Optionally add an extra monthly payment to see how it reduces the balloon. Click <strong>Calculate Balloon Payment</strong> to instantly see your monthly payment, total interest paid, and the lump-sum balance owed at the balloon date.</p>
+  </div>
+
+  <div class="content-section">
+    <h2>Why This Matters</h2>
+    <p>Balloon payment loans are common in commercial real estate, auto financing, and certain mortgage products. They offer lower monthly payments because they're calculated over a longer amortization period (say, 30 years) but become fully due after a shorter term — often 5, 7, or 10 years.</p>
+    <p>Here's a concrete example: A $200,000 loan at 5.5% amortized over 30 years has a monthly payment of about $1,136. After 7 years, you've paid around $82,000 but only reduced your principal by roughly $20,000 — leaving a balloon payment close to $180,000 due all at once. That's a shock if you're not prepared.</p>
+    <p>Businesses use balloon loans to keep cash flow low during a growth phase, planning to refinance or sell before the balloon hits. Homebuyers sometimes accept them for lower initial rates. Either way, understanding the exact balloon amount years in advance is critical for financial planning. This tool gives you that clarity immediately.</p>
+  </div>
+
+  <div class="content-section">
+    <h2>How It's Calculated</h2>
+    <p>The monthly payment is calculated using the standard amortization formula based on the full loan term:</p>
+    <p style="background:#f8f9fa;border:1px solid #e0e0e0;border-radius:6px;padding:0.75rem 1rem;font-family:monospace;font-size:0.88rem;margin:0.5rem 0">M = P × [r(1+r)^n] / [(1+r)^n − 1]</p>
+    <p>Where <strong>P</strong> = principal, <strong>r</strong> = monthly interest rate (annual rate ÷ 12), and <strong>n</strong> = total months in amortization period. The loan is then amortized month-by-month for the balloon period. Each month, interest accrues on the remaining balance, the rest of the payment reduces principal. After the balloon period, whatever balance remains is your balloon payment — due in full.</p>
+  </div>
+
+  <div class="content-section">
+    <h2>Tips &amp; Common Mistakes</h2>
+    <ul>
+      <li><strong>Don't confuse term and amortization:</strong> The balloon due year is when you must pay — the amortization term only sets your monthly payment amount.</li>
+      <li><strong>Plan your exit strategy early:</strong> Will you refinance, sell, or have cash ready? Waiting until year 6 of a 7-year balloon is too late to plan.</li>
+      <li><strong>Extra payments matter a lot:</strong> Even $200/month extra can significantly reduce your balloon balance — use the extra payment field to see the impact.</li>
+      <li><strong>Watch out for prepayment penalties:</strong> Some balloon loans charge fees for paying off early. Factor this into your exit plan cost.</li>
+      <li><strong>Rising rates risk:</strong> If you plan to refinance at balloon maturity, rates may be higher. The balloon amount stays the same, but new payments could be much larger.</li>
+    </ul>
+  </div>
+
+  <div class="content-section">
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>What happens if I can't pay the balloon payment?</summary>
+      <p>If you can't pay the balloon, you risk default and potential foreclosure or repossession. Most borrowers plan to either refinance into a new loan or sell the asset before the balloon comes due. Speak with your lender well in advance — many will negotiate an extension or refinance.</p>
+    </details>
+    <details>
+      <summary>Is a balloon loan the same as an interest-only loan?</summary>
+      <p>No. An interest-only loan requires only interest payments, so the full principal is due at the end. A balloon loan amortizes over a longer period, so each payment reduces principal slightly — the remaining balance at the balloon date is less than the original amount, but still a large lump sum.</p>
+    </details>
+    <details>
+      <summary>Can I refinance a balloon loan before it's due?</summary>
+      <p>Yes — and most borrowers do. Use this calculator's balloon amount as the new loan principal when estimating what your refinanced payments will be. Check for prepayment penalties in your original loan agreement before refinancing.</p>
+    </details>
+    <details>
+      <summary>Why are monthly payments lower on a balloon loan?</summary>
+      <p>Because payments are calculated as if the loan will be repaid over a longer period (e.g., 30 years), even though the full balance is actually due in 7 years. The math spreads repayment over more time, reducing each monthly payment — but the tradeoff is a massive lump sum at the end.</p>
+    </details>
+  </div>
+
+  <!-- RELATED TOOLS -->
+  <div class="related-tools">
+    <h2>Related Tools</h2>
+    <ul>
+      <li><a href="/house-flipping-profit-calculator/">House Flipping Profit Calculator</a></li>
+      <li><a href="/crypto-portfolio-profit-loss-calculator/">Crypto Portfolio Profit &amp; Loss Calculator</a></li>
+      <li><a href="/mortgage-refinance-savings-calculator/">Mortgage Refinance Savings Calculator</a></li>
+      <li><a href="/side-hustle-income-tax-calculator/">Side Hustle Income Tax Calculator</a></li>
+      <li><a href="/life-insurance-needs-calculator/">Life Insurance Needs Calculator</a></li>
+      <li><a href="/business-startup-cost-calculator/">Business Startup Cost Calculator</a></li>
+    </ul>
+  </div>
+
+  <div class="ad-slot" id="ad-bottom"></div>
+</div>
+
+<footer>
+  <a href="/about/">About</a>
+  <a href="/privacy/">Privacy</a>
+  <a href="/contact/">Contact</a>
+  <br style="margin-bottom:0.5rem">
+  <span>© <span id="yr"></span> calcstack.dev</span>
+</footer>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+// Slider sync helpers
+function syncSlider(inputId, sliderId, displayId, suffix) {
+  var inp = document.getElementById(inputId);
+  var sld = document.getElementById(sliderId);
+  var disp = document.getElementById(displayId);
+  function update(val) {
+    disp.textContent = val + ' ' + suffix;
+    inp.value = val;
+    sld.value = val;
+  }
+  sld.addEventListener('input', function() { update(this.value); });
+  inp.addEventListener('input', function() {
+    var v = Math.max(parseInt(sld.min)||1, Math.min(parseInt(sld.max)||50, parseInt(this.value)||1));
+    sld.value = v;
+    disp.textContent = v + ' ' + suffix;
+  });
+}
+syncSlider('loanTerm','loanTermSlider','loanTermSliderVal','yrs');
+syncSlider('balloonYear','balloonYearSlider','balloonYearSliderVal','yrs');
+
+function fmt(n, dec) {
+  dec = dec === undefined ? 2 : dec;
+  return '$' + n.toFixed(dec).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+function fmtNum(n, dec) {
+  dec = dec === undefined ? 2 : dec;
+  return n.toFixed(dec).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+function showError(id, msg) {
+  var el = document.getElementById(id);
+  if (el) { el.textContent = msg; el.classList.add('visible'); }
+  var inEl = document.getElementById(id.replace('err-',''));
+  if (inEl) inEl.classList.add('error');
+}
+function clearError(id) {
+  var el = document.getElementById(id);
+  if (el) el.classList.remove('visible');
+  var inEl = document.getElementById(id.replace('err-',''));
+  if (inEl) inEl.classList.remove('error');
+}
+function clearAllErrors() {
+  ['loanAmount','interestRate','loanTerm','balloonYear'].forEach(function(id) { clearError('err-'+id); });
+}
+
+function calculate() {
+  clearAllErrors();
+  var loan = parseFloat(document.getElementById('loanAmount').value);
+  var rate = parseFloat(document.getElementById('interestRate').value);
+  var term = parseInt(document.getElementById('loanTerm').value);
+  var balloonYr = parseInt(document.getElementById('balloonYear').value);
+  var extra = parseFloat(document.getElementById('extraPayment').value) || 0;
+
+  var valid = true;
+  if (!loan || loan <= 0) { showError('err-loanAmount','Please enter a valid loan amount greater than 0.'); valid = false; }
+  if (isNaN(rate) || rate < 0 || rate > 50) { showError('err-interestRate','Please enter a valid interest rate between 0 and 50%.'); valid = false; }
+  if (!term || term < 1 || term > 50) { showError('err-loanTerm','Please enter a valid loan term between 1 and 50 years.'); valid = false; }
+  if (!balloonYr || balloonYr < 1 || balloonYr > term) { showError('err-balloonYear','Balloon due year must be at least 1 and no more than the loan term ('+term+' years).'); valid = false; }
+  if (!valid) return;
+
+  var monthlyRate = rate / 100 / 12;
+  var totalMonths = term * 12;
+  var balloonMonths = balloonYr * 12;
+
+  // Monthly payment based on full amortization
+  var monthlyPayment;
+  if (monthlyRate === 0) {
+    monthlyPayment = loan / totalMonths;
+  } else {
+    monthlyPayment = loan * (monthlyRate * Math.pow(1 + monthlyRate, totalMonths)) / (Math.pow(1 + monthlyRate, totalMonths) - 1);
+  }
+
+  // Amortize month-by-month up to balloon date
+  var balance = loan;
+  var totalInterestPaid = 0;
+  var totalPrincipalPaid = 0;
+  var yearlyData = [];
+  var prevBalance = loan;
+
+  for (var yr = 1; yr <= balloonYr; yr++) {
+    var yrInterest = 0;
+    var yrPrincipal = 0;
+    var yrPayment = 0;
+    var startBal = balance;
+
+    for (var m = 1; m <= 12; m++) {
+      if (balance <= 0) break;
+      var interest = balance * monthlyRate;
+      var principal = Math.min(monthlyPayment + extra - interest, balance);
+      if (principal < 0) principal = 0; // interest only scenario if extra negative (shouldn't happen)
+      var actualPayment = interest + principal;
+      balance -= principal;
+      if (balance < 0.005) balance = 0;
+
+      yrInterest += interest;
+      yrPrincipal += principal;
+      yrPayment += actualPayment;
+      totalInterestPaid += interest;
+      totalPrincipalPaid += principal;
+    }
+
+    yearlyData.push({
+      year: yr,
+      payment: yrPayment,
+      principal: yrPrincipal,
+      interest: yrInterest,
+      endBalance: balance,
+      isBalloon: (yr === balloonYr)
+    });
+  }
+
+  var balloonAmount = balance;
+  var totalCost = monthlyPayment * balloonMonths + extra * balloonMonths + balloonAmount;
+  var effectiveMonthlyPrincipal = (loan - balloonAmount) / balloonMonths;
+
+  // Year 1 interest for monthly composition bar
+  var yr1Interest = yearlyData[0] ? yearlyData[0].interest / 12 : 0;
+  var yr1Principal = yearlyData[0] ? yearlyData[0].principal / 12 : 0;
+  var monthlyTotal = yr1Interest + yr1Principal;
+
+  // Proportions for bar chart
+  var total3 = totalPrincipalPaid + totalInterestPaid + balloonAmount;
+  var pPrincipal = total3 > 0 ? (totalPrincipalPaid / total3 * 100) : 0;
+  var pInterest = total3 > 0 ? (totalInterestPaid / total3 * 100) : 0;
+  var pBalloon = total3 > 0 ? (balloonAmount / total3 * 100) : 0;
+
+  var pMonthlyPrincipal = monthlyTotal > 0 ? (yr1Principal / monthlyTotal * 100) : 0;
+  var pMonthlyInterest = monthlyTotal > 0 ? (yr1Interest / monthlyTotal * 100) : 0;
+
+  // Build result HTML
+  requestAnimationFrame(function() {
+    document.getElementById('balloonValue').textContent = fmt(balloonAmount);
+
+    // Metrics
+    var mgHTML = '<div class="metric-box"><div class="m-label">Monthly Payment</div><div class="m-value accent">' + fmt(monthlyPayment + extra) + '</div></div>' +
+      '<div class="metric-box"><div class="m-label">Total Interest Paid</div><div class="m-value">' + fmt(totalInterestPaid) + '</div></div>' +
+      '<div class="metric-box"><div class="m-label">Principal Repaid</div><div class="m-value">' + fmt(totalPrincipalPaid) + '</div></div>' +
+      '<div class="metric-box"><div class="m-label">Total Cost (incl. balloon)</div><div class="m-value">' + fmt(totalCost) + '</div></div>' +
+      '<div class="metric-box"><div class="m-label">Balloon Due Month</div><div class="m-value">' + (balloonYr * 12).toLocaleString() + '</div></div>' +
+      '<div class="metric-box"><div class="m-label">Base Monthly</div><div class="m-value">' + fmt(monthlyPayment) + '</div></div>';
+    document.getElementById('metricsGrid').innerHTML = mgHTML;
+
+    // Bar chart
+    var barHTML = '<div class="bar-label"><span>Total Loan Cost Breakdown</span><span>' + fmt(loan) + ' principal</span></div>' +
+      '<div class="bar-track">' +
+      '<div class="bar-fill principal" style="width:' + Math.max(pPrincipal, 1).toFixed(1) + '%">' + (pPrincipal >= 8 ? fmtNum(pPrincipal, 0) + '%' : '') + '</div>' +
+      '</div>' +
+      '<div class="bar-label"><span>Principal Paid</span><span>' + fmt(totalPrincipalPaid) + ' (' + fmtNum(pPrincipal,1) + '%)</span></div>' +
+
+      '<div class="bar-track">' +
+      '<div class="bar-fill interest" style="width:' + Math.max(pInterest, 1).toFixed(1) + '%">' + (pInterest >= 8 ? fmtNum(pInterest, 0) + '%' : '') + '</div>' +
+      '</div>' +
+      '<div class="bar-label"><span>Interest Paid</span><span>' + fmt(totalInterestPaid) + ' (' + fmtNum(pInterest,1) + '%)</span></div>' +
+
+      '<div class="bar-track">' +
+      '<div class="bar-fill balloon" style="width:' + Math.max(pBalloon, 1).toFixed(1) + '%">' + (pBalloon >= 8 ? fmtNum(pBalloon, 0) + '%' : '') + '</div>' +
+      '</div>' +
+      '<div class="bar-label"><span>Balloon Payment</span><span>' + fmt(balloonAmount) + ' (' + fmtNum(pBalloon,1) + '%)</span></div>';
+    document.getElementById('barChartArea').innerHTML = barHTML;
+
+    // Monthly bar
+    var mBarHTML = '<div class="bar-track" style="height:28px">' +
+      '<div class="bar-fill regular" style="width:' + Math.max(pMonthlyPrincipal, 1).toFixed(1) + '%;background:#27ae60">' + (pMonthlyPrincipal >= 10 ? fmtNum(pMonthlyPrincipal,0) + '%' : '') + '</div>' +
+      '<div class="bar-fill interest" style="width:' + Math.max(pMonthlyInterest, 1).toFixed(1) + '%;background:#e67e22;border-radius:0 4px 4px 0">' + (pMonthlyInterest >= 10 ? fmtNum(pMonthlyInterest,0) + '%' : '') + '</div>' +
+      '</div>' +
+      '<div class="bar-label" style="margin-top:0.4rem"><span>First-year avg. monthly principal: <strong>' + fmt(yr1Principal) + '</strong></span><span>Interest: <strong>' + fmt(yr1Interest) + '</strong></span></div>';
+    document.getElementById('monthlyBarArea').innerHTML = mBarHTML;
+
+    // Amortization table
+    var SHOW_INIT = 5;
+    var rows = '';
+    for (var i = 0; i < yearlyData.length; i++) {
+      var d = yearlyData[i];
+      var hiddenClass = i >= SHOW_INIT ? ' class="hidden-row" style="display:none"' : '';
+      if (d.isBalloon) {
+        rows += '<tr class="balloon-row"' + (i >= SHOW_INIT ? ' style="display:none"' : '') + '>' +
+          '<td>Year ' + d.year + ' ★ Balloon</td>' +
+          '<td>' + fmt(d.payment) + '</td>' +
+          '<td>' + fmt(d.principal) + '</td>' +
+          '<td>' + fmt(d.interest) + '</td>' +
+          '<td>' + fmt(d.endBalance) + ' + ' + fmt(balloonAmount) + '</td>' +
+          '</tr>';
+      } else {
+        rows += '<tr' + hiddenClass + '>' +
+          '<td>Year ' + d.year + '</td>' +
+          '<td>' + fmt(d.payment) + '</td>' +
+          '<td>' + fmt(d.principal) + '</td>' +
+          '<td>' + fmt(d.interest) + '</td>' +
+          '<td>' + fmt(d.endBalance) + '</td>' +
+          '</tr>';
+      }
+    }
+    document.getElementById('amortBody').innerHTML = rows;
+
+    // Table toggle
+    var tgl = document.getElementById('tableToggle');
+    if (yearlyData.length > SHOW_INIT) {
+      tgl.innerHTML = '<button class="btn-secondary" id="showAllBtn" style="margin-top:0.5rem">Show All ' + yearlyData.length + ' Years</button>';
+      document.getElementById('showAllBtn').addEventListener('click', function() {
+        var hidden = document.querySelectorAll('#amortBody tr[style*="display:none"]');
+        if (hidden.length > 0) {
+          hidden.forEach(function(r) { r.style.display = ''; });
+          this.textContent = 'Show Less';
+        } else {
+          var all = document.querySelectorAll('#amortBody tr');
+          for (var j = SHOW_INIT; j < all.length; j++) all[j].style.display = 'none';
+          this.textContent = 'Show All ' + yearlyData.length + ' Years';
+        }
+      });
+    } else {
+      tgl.innerHTML = '';
+    }
+
+    // Store summary for copy
+    window._summary = [
+      'Balloon Payment Loan Summary',
+      '-----------------------------',
+      'Loan Amount: ' + fmt(loan),
+      'Interest Rate: ' + rate + '%',
+      'Amortization Term: ' + term + ' years',
+      'Balloon Due: Year ' + balloonYr + ' (Month ' + balloonYr*12 + ')',
+      'Monthly Payment: ' + fmt(monthlyPayment + extra),
+      'Total Interest Paid: ' + fmt(totalInterestPaid),
+      'Principal Repaid: ' + fmt(totalPrincipalPaid),
+      'Balloon Payment: ' + fmt(balloonAmount),
+      'Total Cost: ' + fmt(totalCost),
+      'Calculated at calcstack.dev/balloon-payment-loan-calculator/'
+    ].join('\n');
+
+    var resultsEl = document.getElementById('results');
+    resultsEl.style.display = 'block';
+    requestAnimationFrame(function() { resultsEl.classList.add('visible'); });
+    resultsEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+}
+
+document.getElementById('calcBtn').addEventListener('click', function() {
+  requestAnimationFrame(function() { calculate(); });
+});
+
+['loanAmount','interestRate','loanTerm','balloonYear','extraPayment'].forEach(function(id) {
+  document.getElementById(id).addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') { requestAnimationFrame(function() { calculate(); }); }
+  });
+});
+
+document.getElementById('copyBtn').addEventListener('click', function() {
+  if (!window._summary) return;
+  var btn = this;
+  var msg = document.getElementById('copiedMsg');
+  navigator.clipboard ? navigator.clipboard.writeText(window._summary).then(function() {
+    msg.classList.add('show');
+    setTimeout(function() { msg.classList.remove('show'); }, 2000);
+  }) : (function() {
+    var ta = document.createElement('textarea');
+    ta.value = window._summary;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    msg.classList.add('show');
+    setTimeout(function() { msg.classList.remove('show'); }, 2000);
+  })();
+});
+
+// Auto-calculate on load
+window.addEventListener('load', function() { requestAnimationFrame(function() { calculate(); }); });
+</script>
+</body>
+</html>
