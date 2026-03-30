@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inheritance Tax Calculator — Free Online Tool | calcstack.dev</title>
+<meta name="description" content="Calculate inheritance tax owed on an estate with our free online tool. Enter estate value, deductions, and exemptions to see your IHT liability instantly.">
+<link rel="canonical" href="https://calcstack.dev/inheritance-tax-calculator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Inheritance Tax Calculator",
+  "url": "https://calcstack.dev/inheritance-tax-calculator/",
+  "description": "Free online inheritance tax calculator. Estimate IHT liability on an estate including spouse exemptions, nil-rate band, and residence nil-rate band.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f4f6f9;color:#1a1a2e;font-size:16px;line-height:1.6}
+a{color:#0077b6;text-decoration:none}
+a:hover{text-decoration:underline}
+nav{background:#fff;border-bottom:1px solid #e0e0e0;padding:0 1.5rem;height:52px;display:flex;align-items:center}
+nav a{font-weight:700;font-size:1.05rem;color:#1a1a2e}
+nav a:hover{color:#0077b6;text-decoration:none}
+.container{max-width:640px;margin:0 auto;padding:1.5rem}
+h1{font-size:1.65rem;font-weight:800;color:#1a1a2e;margin-bottom:.4rem}
+.subtitle{color:#555;font-size:.95rem;margin-bottom:1.8rem}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;box-shadow:0 1px 6px rgba(0,0,0,.06);margin-bottom:2rem}
+.section-title{font-size:1rem;font-weight:700;color:#0077b6;text-transform:uppercase;letter-spacing:.05em;margin-bottom:1.2rem;padding-bottom:.5rem;border-bottom:2px solid #e8f4fb}
+label{display:block;font-size:.85rem;font-weight:500;color:#444;margin-bottom:.35rem;margin-top:1rem}
+label:first-of-type{margin-top:0}
+input[type=number],input[type=text],select{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:6px;font-size:.95rem;color:#1a1a2e;background:#fff;transition:border-color .2s,box-shadow .2s;-webkit-appearance:none}
+input[type=number]:focus,select:focus{outline:none;border-color:#0077b6;box-shadow:0 0 0 3px rgba(0,119,182,.15)}
+input.error{border-color:#e74c3c}
+.error-msg{color:#e74c3c;font-size:.8rem;margin-top:.3rem;display:none}
+.error-msg.show{display:block}
+.row-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.btn{background:#0077b6;color:#fff;border:none;padding:13px 24px;border-radius:6px;font-size:1rem;font-weight:600;cursor:pointer;width:100%;margin-top:1.4rem;transition:background .2s;min-height:44px}
+.btn:hover{background:#006299}
+.btn-secondary{background:#f0f0f0;color:#444;font-size:.82rem;font-weight:500;padding:7px 14px;border:none;border-radius:5px;cursor:pointer;transition:background .2s;min-height:36px}
+.btn-secondary:hover{background:#e0e0e0}
+.results{display:none;opacity:0;transition:opacity .3s ease}
+.results.visible{display:block;opacity:1}
+.key-metric{text-align:center;padding:1.4rem 1rem;background:#f0f8ff;border-radius:8px;border:1px solid #cce4f6;margin-bottom:1.5rem}
+.key-metric .km-label{font-size:.85rem;color:#555;margin-bottom:.3rem}
+.key-metric .km-value{font-size:2.4rem;font-weight:800;color:#0077b6;line-height:1.1}
+.key-metric .km-sub{font-size:.82rem;color:#777;margin-top:.3rem}
+.metrics-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+.metric-box{background:#f8f9fa;border-radius:6px;border:1px solid #e0e0e0;padding:1rem;text-align:center}
+.metric-box .mb-label{font-size:.78rem;color:#666;margin-bottom:.2rem}
+.metric-box .mb-value{font-size:1.25rem;font-weight:700;color:#1a1a2e}
+.breakdown-title{font-size:.9rem;font-weight:600;color:#444;margin-bottom:.8rem}
+.bar-container{margin-bottom:1.2rem}
+.bar-row{display:flex;align-items:center;gap:.6rem;margin-bottom:.55rem}
+.bar-label{font-size:.78rem;color:#555;width:130px;flex-shrink:0;text-align:right}
+.bar-track{flex:1;background:#f0f0f0;border-radius:4px;height:22px;overflow:hidden;position:relative}
+.bar-fill{height:100%;border-radius:4px;transition:width .5s ease;display:flex;align-items:center;justify-content:flex-end;padding-right:6px}
+.bar-fill span{font-size:.7rem;font-weight:600;color:#fff;white-space:nowrap}
+.bar-exempt{background:#28a745}
+.bar-nil{background:#17a2b8}
+.bar-rnrb{background:#6f42c1}
+.bar-taxable{background:#e74c3c}
+.bar-tax{background:#fd7e14}
+table{width:100%;border-collapse:collapse;font-size:.85rem}
+th{background:#f0f0f0;padding:9px 10px;text-align:left;font-weight:600;color:#444;border-bottom:2px solid #ddd}
+th.num{text-align:right}
+td{padding:8px 10px;border-bottom:1px solid #eee;color:#333}
+td.num{text-align:right;font-family:monospace}
+tr:nth-child(even) td{background:#fafafa}
+.table-wrapper{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.copy-row{display:flex;justify-content:flex-end;margin-top:.8rem}
+.show-all-wrap{text-align:center;margin-top:.8rem}
+.ad-slot{min-height:0;margin:0}
+.content-section h2{font-size:1.15rem;font-weight:700;color:#1a1a2e;margin:1.8rem 0 .6rem}
+.content-section p{color:#444;font-size:.92rem;margin-bottom:.8rem}
+.content-section ul{color:#444;font-size:.92rem;padding-left:1.3rem;margin-bottom:.8rem}
+.content-section ul li{margin-bottom:.4rem}
+details{border:1px solid #e0e0e0;border-radius:6px;margin-bottom:.6rem}
+details summary{cursor:pointer;padding:.75rem 1rem;font-size:.9rem;font-weight:600;color:#1a1a2e;list-style:none;display:flex;align-items:center;justify-content:space-between}
+details summary::after{content:"▸";color:#0077b6}
+details[open] summary::after{content:"▾"}
+details p{padding:.2rem 1rem .75rem;color:#555;font-size:.88rem}
+.related-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.related-link{background:#f8f9fa;border:1px solid #e0e0e0;border-radius:6px;padding:.75rem 1rem;font-size:.85rem;font-weight:500;color:#0077b6;transition:background .2s}
+.related-link:hover{background:#e8f4fb;text-decoration:none}
+footer{background:#fff;border-top:1px solid #e0e0e0;padding:1.2rem 1.5rem;text-align:center;font-size:.82rem;color:#777;margin-top:2rem}
+footer a{color:#555;margin:0 .6rem}
+footer a:hover{color:#0077b6}
+.copied-note{font-size:.78rem;color:#28a745;margin-left:.5rem;opacity:0;transition:opacity .3s}
+.copied-note.show{opacity:1}
+.info-note{background:#fffbe6;border:1px solid #ffe58f;border-radius:6px;padding:.75rem 1rem;font-size:.82rem;color:#7a6000;margin-bottom:1rem}
+@media(max-width:600px){
+.row-2{grid-template-columns:1fr}
+.metrics-row{grid-template-columns:1fr 1fr}
+.bar-label{width:100px;font-size:.72rem}
+h1{font-size:1.35rem}
+.key-metric .km-value{font-size:1.9rem}
+.related-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/">calcstack.dev</a>
+</nav>
+
+<div class="container">
+  <h1>Inheritance Tax Calculator</h1>
+  <p class="subtitle">Estimate the inheritance tax (IHT) owed on an estate — including nil-rate bands, spousal exemptions, and charitable deductions.</p>
+
+  <div class="card">
+    <div class="section-title">Estate Details</div>
+
+    <label for="estateValue">Total Gross Estate Value ($)</label>
+    <input type="number" id="estateValue" placeholder="e.g. 1,200,000" min="0" step="1000">
+    <div class="error-msg" id="err-estate">Please enter a valid estate value (0 or more).</div>
+
+    <div class="row-2">
+      <div>
+        <label for="debts">Debts & Liabilities ($)</label>
+        <input type="number" id="debts" placeholder="e.g. 50,000" min="0" step="1000" value="0">
+      </div>
+      <div>
+        <label for="funeralCosts">Funeral / Admin Costs ($)</label>
+        <input type="number" id="funeralCosts" placeholder="e.g. 10,000" min="0" step="1000" value="0">
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:1.5rem">Exemptions & Reliefs</div>
+
+    <div class="row-2">
+      <div>
+        <label for="spouseExemption">Spouse / Civil Partner Transfer ($)</label>
+        <input type="number" id="spouseExemption" placeholder="e.g. 0" min="0" step="1000" value="0">
+      </div>
+      <div>
+        <label for="charityGifts">Charitable Gifts ($)</label>
+        <input type="number" id="charityGifts" placeholder="e.g. 0" min="0" step="1000" value="0">
+      </div>
+    </div>
+
+    <div class="row-2">
+      <div>
+        <label for="annualGifts">Lifetime / Annual Gifts ($)</label>
+        <input type="number" id="annualGifts" placeholder="e.g. 0" min="0" step="1000" value="0">
+      </div>
+      <div>
+        <label for="businessRelief">Business / Agricultural Relief ($)</label>
+        <input type="number" id="businessRelief" placeholder="e.g. 0" min="0" step="1000" value="0">
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:1.5rem">Tax Rate Configuration</div>
+
+    <div class="row-2">
+      <div>
+        <label for="nilRateBand">Nil-Rate Band Threshold ($)</label>
+        <input type="number" id="nilRateBand" placeholder="325,000" min="0" step="1000" value="325000">
+      </div>
+      <div>
+        <label for="rnrb">Residence Nil-Rate Band ($)</label>
+        <input type="number" id="rnrb" placeholder="175,000" min="0" step="1000" value="175000">
+      </div>
+    </div>
+
+    <div class="row-2">
+      <div>
+        <label for="taxRate">Standard IHT Tax Rate (%)</label>
+        <input type="number" id="taxRate" placeholder="40" min="0" max="100" step="1" value="40">
+      </div>
+      <div>
+        <label for="charityRate">Charity Rate (if ≥10% donated, %)</label>
+        <input type="number" id="charityRate" placeholder="36" min="0" max="100" step="1" value="36">
+      </div>
+    </div>
+
+    <div class="info-note">💡 U.S. federal estate tax exemption is $13.61M (2024). UK IHT nil-rate band is £325,000. Adjust the thresholds above to match your jurisdiction.</div>
+
+    <button class="btn" id="calcBtn">Calculate Inheritance Tax</button>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="card results" id="results">
+
+    <div class="key-metric">
+      <div class="km-label">Estimated Inheritance Tax Due</div>
+      <div class="km-value" id="res-tax">$0</div>
+      <div class="km-sub" id="res-rate-note">at 40% on taxable estate</div>
+    </div>
+
+    <div class="metrics-row">
+      <div class="metric-box">
+        <div class="mb-label">Net Estate Value</div>
+        <div class="mb-value" id="res-net">—</div>
+      </div>
+      <div class="metric-box">
+        <div class="mb-label">Total Exemptions</div>
+        <div class="mb-value" id="res-exempt">—</div>
+      </div>
+      <div class="metric-box">
+        <div class="mb-label">Taxable Estate</div>
+        <div class="mb-value" id="res-taxable">—</div>
+      </div>
+      <div class="metric-box">
+        <div class="mb-label">Estate After Tax</div>
+        <div class="mb-value" id="res-after">—</div>
+      </div>
+    </div>
+
+    <!-- Visual Bar Breakdown -->
+    <div class="breakdown-title">Estate Breakdown Visualisation</div>
+    <div class="bar-container" id="bar-chart"></div>
+
+    <!-- Detailed Table -->
+    <div class="breakdown-title" style="margin-top:1.2rem">Calculation Breakdown</div>
+    <div class="table-wrapper">
+      <table id="breakdown-table">
+        <thead>
+          <tr><th>Item</th><th class="num">Amount</th><th class="num">Running Total</th></tr>
+        </thead>
+        <tbody id="breakdown-tbody"></tbody>
+      </table>
+    </div>
+
+    <div class="copy-row">
+      <button class="btn-secondary" id="copyBtn">📋 Copy Summary</button>
+      <span class="copied-note" id="copied-note">Copied!</span>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-mid"></div>
+
+  <!-- CONTENT SECTION -->
+  <div class="content-section">
+    <h2>How to Use This Inheritance Tax Calculator</h2>
+    <p>Enter the total gross value of the estate — including property, savings, investments, and personal possessions. Then add any debts, funeral costs, spousal transfers, charitable gifts, and other reliefs. Adjust the nil-rate band and tax rate to match your jurisdiction (U.S., UK, or elsewhere), then click <strong>Calculate</strong> to see the estimated tax liability and a full breakdown.</p>
+
+    <h2>Why This Matters</h2>
+    <p>Inheritance tax can quietly consume a significant portion of an estate if not planned for in advance. In the UK, estates worth more than £325,000 face a 40% tax on the surplus — so a £600,000 estate might owe £110,000. In the U.S., the federal estate tax exemption is $13.61 million in 2024, but several states impose their own estate or inheritance taxes starting at much lower thresholds — Oregon and Massachusetts begin at just $1 million.</p>
+    <p>Understanding your potential liability early allows families to structure wills strategically: using spousal transfers, charitable donations (which can reduce the rate to 36% in the UK), trusts, or lifetime gifting programs. A person with a £900,000 estate and a £175,000 residence nil-rate band could reduce their tax bill by over £70,000 simply by structuring assets correctly. This tool helps you model different scenarios quickly before consulting a financial adviser or solicitor.</p>
+
+    <h2>How It's Calculated</h2>
+    <p><strong>Step 1 — Net Estate:</strong> Gross Estate − Debts − Funeral/Admin Costs</p>
+    <p><strong>Step 2 — Taxable Estate:</strong> Net Estate − Spouse Exemption − Charitable Gifts − Gifts & Reliefs − Nil-Rate Band − Residence Nil-Rate Band</p>
+    <p><strong>Step 3 — Tax Due:</strong> Taxable Estate × Tax Rate (standard 40%, or 36% if ≥10% of net estate is donated to charity)</p>
+    <p>The charity reduced rate applies when charitable gifts represent at least 10% of the net estate after deducting all nil-rate bands.</p>
+
+    <h2>Tips &amp; Common Mistakes</h2>
+    <ul>
+      <li><strong>Don't forget transferable nil-rate bands:</strong> If a spouse died previously without using their full nil-rate band, the survivor's estate may claim up to double — $650,000 or £650,000 depending on jurisdiction.</li>
+      <li><strong>Life insurance can be written in trust:</strong> If not placed in trust, a life insurance payout becomes part of the estate and is taxed at 40%. Writing it in trust sidesteps this entirely.</li>
+      <li><strong>Gifts within 7 years may still count:</strong> In the UK, gifts made within 7 years of death can be brought back into the estate under "potentially exempt transfers." This calculator assumes gifts already qualify as exempt.</li>
+      <li><strong>Business & Agricultural Relief can be 100%:</strong> Qualifying business assets may be fully exempt — enter the full value in the Business/Agricultural Relief field.</li>
+      <li><strong>State taxes vary widely:</strong> If you're in the U.S., check your state's specific exemption threshold — 12 states plus D.C. have separate estate taxes.</li>
+    </ul>
+
+    <h2>Frequently Asked Questions</h2>
+
+    <details>
+      <summary>What is the inheritance tax threshold for 2024?</summary>
+      <p>In the UK, the nil-rate band is £325,000 and the residence nil-rate band adds up to £175,000 (total £500,000 per person). In the U.S., the federal estate tax exemption is $13.61 million per individual in 2024. Many U.S. states have lower thresholds — adjust the "Nil-Rate Band" field to match yours.</p>
+    </details>
+
+    <details>
+      <summary>Does my spouse have to pay inheritance tax?</summary>
+      <p>In most countries, transfers between married couples or civil partners are fully exempt from inheritance tax — enter the full value of assets passing to your spouse in the "Spouse / Civil Partner Transfer" field. The surviving spouse may also inherit the deceased's unused nil-rate band.</p>
+    </details>
+
+    <details>
+      <summary>Can I reduce inheritance tax with charitable gifts?</summary>
+      <p>Yes. In the UK, donating at least 10% of your net estate to charity reduces the standard 40% rate to 36%. In the U.S., charitable bequests are fully deductible against the estate. Use the "Charitable Gifts" field and set the charity rate to 36% if applicable.</p>
+    </details>
+
+    <details>
+      <summary>Is this calculator accurate for my country?</summary>
+      <p>This tool uses configurable thresholds and rates, so it works for any jurisdiction. Simply enter your country's nil-rate band, residence exemption, and applicable tax rate. Always consult a qualified estate planning attorney or tax adviser for advice tailored to your specific situation.</p>
+    </details>
+
+    <h2>Related Tools</h2>
+    <div class="related-grid">
+      <a class="related-link" href="/freelancer-hourly-rate-calculator/">Freelancer Rate & Profit Margin Calculator</a>
+      <a class="related-link" href="/severance-package-tax-calculator/">Severance Package Tax Calculator</a>
+      <a class="related-link" href="/rule-of-72-calculator/">Rule of 72 Investment Doubling Calculator</a>
+      <a class="related-link" href="/balloon-payment-loan-calculator/">Balloon Payment Loan Calculator</a>
+      <a class="related-link" href="/house-flipping-profit-calculator/">House Flipping Profit Calculator</a>
+      <a class="related-link" href="/crypto-portfolio-profit-loss-calculator/">Crypto Portfolio Profit and Loss Calculator</a>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-bottom"></div>
+</div>
+
+<footer>
+  <a href="/about/">About</a>
+  <a href="/privacy/">Privacy</a>
+  <a href="/contact/">Contact</a>
+  <br style="margin-bottom:.5rem">
+  <span>© 2024 calcstack.dev — Free Financial Calculators</span>
+</footer>
+
+<script>
+function fmt(n){
+  if(isNaN(n)||n===null)return '$0';
+  return '$'+Math.round(n).toLocaleString('en-US');
+}
+function fmtPct(n){return n.toFixed(1)+'%'}
+
+function getVal(id,def=0){
+  const v=parseFloat(document.getElementById(id).value);
+  return isNaN(v)?def:v;
+}
+
+function showError(id,show){
+  const el=document.getElementById('err-'+id);
+  const inp=document.getElementById(id);
+  if(el){el.classList.toggle('show',show);}
+  if(inp){inp.classList.toggle('error',show);}
+}
+
+function calculate(){
+  // Read inputs
+  const gross=getVal('estateValue',-1);
+  const debts=getVal('debts',0);
+  const funeral=getVal('funeralCosts',0);
+  const spouse=getVal('spouseExemption',0);
+  const charity=getVal('charityGifts',0);
+  const gifts=getVal('annualGifts',0);
+  const business=getVal('businessRelief',0);
+  const nrb=getVal('nilRateBand',325000);
+  const rnrb=getVal('rnrb',175000);
+  const rate=getVal('taxRate',40)/100;
+  const charityRate=getVal('charityRate',36)/100;
+
+  // Validate
+  let valid=true;
+  if(gross<0){showError('estate',true);valid=false;}
+  else{showError('estate',false);}
+  if(!valid)return;
+
+  const netEstate=Math.max(0,gross-debts-funeral);
+  const totalExemptions=Math.min(netEstate,spouse+charity+gifts+business);
+  const afterExemptions=Math.max(0,netEstate-totalExemptions);
+
+  const availableNRB=Math.max(0,nrb);
+  const availableRNRB=Math.max(0,rnrb);
+  const nrbUsed=Math.min(afterExemptions,availableNRB);
+  const afterNRB=Math.max(0,afterExemptions-nrbUsed);
+  const rnrbUsed=Math.min(afterNRB,availableRNRB);
+  const taxableEstate=Math.max(0,afterNRB-rnrbUsed);
+
+  // Check charity reduced rate
+  const charityPct=netEstate>0?(charity/netEstate)*100:0;
+  const useCharityRate=charityPct>=10&&charity>0;
+  const appliedRate=useCharityRate?charityRate:rate;
+
+  const taxDue=taxableEstate*appliedRate;
+  const estateAfterTax=Math.max(0,netEstate-taxDue);
+  const effectiveRate=netEstate>0?(taxDue/netEstate)*100:0;
+
+  // Build bar chart data
+  const barData=[
+    {label:'Debts & Costs',value:debts+funeral,cls:'bar-taxable',barColor:'#adb5bd'},
+    {label:'Spouse Exempt.',value:spouse,cls:'bar-exempt'},
+    {label:'Charity Gifts',value:charity,cls:'bar-nil'},
+    {label:'Gifts & Reliefs',value:gifts+business,cls:'bar-rnrb'},
+    {label:'Nil-Rate Band',value:nrbUsed,cls:'bar-nil'},
+    {label:'Res. NRB',value:rnrbUsed,cls:'bar-rnrb'},
+    {label:'Taxable Estate',value:taxableEstate,cls:'bar-taxable'},
+    {label:'Tax Due',value:taxDue,cls:'bar-tax'},
+  ].filter(d=>d.value>0);
+
+  const maxVal=gross>0?gross:1;
+
+  let barHTML='';
+  barData.forEach(d=>{
+    const pct=Math.min(100,(d.value/maxVal)*100);
+    const label=pct>8?fmt(d.value):'';
+    barHTML+=`<div class="bar-row">
+      <div class="bar-label">${d.label}</div>
+      <div class="bar-track">
+        <div class="bar-fill ${d.cls}" style="width:${pct.toFixed(1)}%"><span>${label}</span></div>
+      </div>
+    </div>`;
+  });
+
+  // Build breakdown table
+  const rows=[
+    ['Gross Estate Value',gross,gross],
+    ['Less: Debts & Liabilities',-(debts),gross-debts],
+    ['Less: Funeral / Admin Costs',-(funeral),gross-debts-funeral],
+    ['= Net Estate Value',null,netEstate],
+    ['Less: Spouse/CP Exemption',-(spouse),netEstate-spouse],
+    ['Less: Charitable Gifts',-(charity),netEstate-spouse-charity],
+    ['Less: Gifts & Annual Exemptions',-(gifts),netEstate-spouse-charity-gifts],
+    ['Less: Business/Agri. Relief',-(business),netEstate-spouse-charity-gifts-business],
+    ['= After Exemptions',null,afterExemptions],
+    ['Less: Nil-Rate Band',-(nrbUsed),afterExemptions-nrbUsed],
+    ['Less: Residence NRB',-(rnrbUsed),afterExemptions-nrbUsed-rnrbUsed],
+    ['= Taxable Estate',null,taxableEstate],
+    [`Tax @ ${(appliedRate*100).toFixed(0)}%${useCharityRate?' (charity reduced rate)':''}`,taxDue,null],
+    ['= Tax Due',null,taxDue],
+    ['Estate After Tax',null,estateAfterTax],
+  ];
+
+  let tbodyHTML='';
+  rows.forEach(([item,change,running])=>{
+    const isSeparator=item.startsWith('=');
+    const bg=isSeparator?'style="font-weight:700;background:#f0f8ff"':'';
+    const changeStr=change!==null?(change>=0?fmt(change):`−${fmt(Math.abs(change))}`): '';
+    const runStr=running!==null?fmt(running):'';
+    tbodyHTML+=`<tr ${bg}><td>${item}</td><td class="num">${changeStr}</td><td class="num">${runStr}</td></tr>`;
+  });
+
+  // Compose summary text for copy
+  const summary=
+`Inheritance Tax Summary
+========================
+Gross Estate: ${fmt(gross)}
+Net Estate: ${fmt(netEstate)}
+Total Exemptions: ${fmt(totalExemptions)}
+Nil-Rate Band Used: ${fmt(nrbUsed)}
+Residence NRB Used: ${fmt(rnrbUsed)}
+Taxable Estate: ${fmt(taxableEstate)}
+Tax Rate: ${(appliedRate*100).toFixed(0)}%${useCharityRate?' (charity reduced)':''}
+Tax Due: ${fmt(taxDue)}
+Estate After Tax: ${fmt(estateAfterTax)}
+Effective Rate: ${effectiveRate.toFixed(1)}%`;
+
+  requestAnimationFrame(()=>{
+    document.getElementById('res-tax').textContent=fmt(taxDue);
+    document.getElementById('res-rate-note').textContent=
+      `at ${(appliedRate*100).toFixed(0)}% on taxable estate${useCharityRate?' (charity reduced rate)':''}${taxableEstate<=0?' — no tax due':''}`;
+    document.getElementById('res-net').textContent=fmt(netEstate);
+    document.getElementById('res-exempt').textContent=fmt(totalExemptions+nrbUsed+rnrbUsed);
+    document.getElementById('res-taxable').textContent=fmt(taxableEstate);
+    document.getElementById('res-after').textContent=fmt(estateAfterTax);
+    document.getElementById('bar-chart').innerHTML=barHTML;
+    document.getElementById('breakdown-tbody').innerHTML=tbodyHTML;
+
+    const resultsEl=document.getElementById('results');
+    resultsEl.style.display='block';
+    requestAnimationFrame(()=>{resultsEl.classList.add('visible');});
+    resultsEl.scrollIntoView({behavior:'smooth',block:'start'});
+
+    document.getElementById('copyBtn')._summary=summary;
+  });
+}
+
+document.getElementById('calcBtn').addEventListener('click',()=>{
+  calculate();
+});
+
+document.querySelectorAll('input[type=number]').forEach(inp=>{
+  inp.addEventListener('keydown',e=>{
+    if(e.key==='Enter')calculate();
+  });
+});
+
+document.getElementById('copyBtn').addEventListener('click',function(){
+  const text=this._summary||'';
+  navigator.clipboard.writeText(text).then(()=>{
+    const note=document.getElementById('copied-note');
+    note.classList.add('show');
+    setTimeout(()=>note.classList.remove('show'),2000);
+  }).catch(()=>{
+    const ta=document.createElement('textarea');
+    ta.value=text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    const note=document.getElementById('copied-note');
+    note.classList.add('show');
+    setTimeout(()=>note.classList.remove('show'),2000);
+  });
+});
+</script>
+</body>
+</html>
