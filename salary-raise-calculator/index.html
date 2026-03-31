@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paycheck Raise Impact Calculator — Free Online Tool | calcstack.dev</title>
+<meta name="description" content="Calculate the exact impact of a salary raise on your paycheck. See take-home pay changes, tax effects, and year-over-year earnings growth instantly.">
+<link rel="canonical" href="https://calcstack.dev/salary-raise-calculator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Paycheck Raise Impact Calculator",
+  "url": "https://calcstack.dev/salary-raise-calculator/",
+  "description": "Calculate the exact impact of a salary raise on your paycheck. See take-home pay changes, tax effects, and year-over-year earnings growth.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#fff;color:#1a1a2e;font-size:16px;line-height:1.6}
+a{color:#0077b6;text-decoration:none}
+a:hover{text-decoration:underline}
+nav{border-bottom:1px solid #e0e0e0;padding:0 1.5rem}
+.nav-inner{max-width:640px;margin:0 auto;height:48px;display:flex;align-items:center}
+.nav-brand{font-weight:700;font-size:1.05rem;color:#1a1a2e}
+.nav-brand:hover{text-decoration:none;color:#0077b6}
+main{max-width:640px;margin:0 auto;padding:1.5rem}
+h1{font-size:1.6rem;font-weight:800;margin-bottom:0.4rem;color:#1a1a2e}
+.subtitle{color:#555;font-size:0.95rem;margin-bottom:1.5rem}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;box-shadow:0 2px 8px rgba(0,0,0,0.06);margin-bottom:2rem}
+.form-group{margin-bottom:1.2rem}
+label{display:block;font-size:0.85rem;font-weight:500;color:#444;margin-bottom:6px}
+input[type=number],input[type=text],select{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:6px;font-size:1rem;font-family:inherit;color:#1a1a2e;background:#fff;transition:border-color 0.2s,box-shadow 0.2s;min-height:44px;-moz-appearance:textfield}
+input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appearance:none}
+input:focus,select:focus{outline:none;border-color:#0077b6;box-shadow:0 0 0 3px rgba(0,119,182,0.15)}
+input.error{border-color:#e74c3c}
+.error-msg{color:#e74c3c;font-size:0.8rem;margin-top:4px;display:none}
+.error-msg.show{display:block}
+.row-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.slider-row{display:flex;align-items:center;gap:12px;margin-top:6px}
+input[type=range]{flex:1;height:6px;accent-color:#0077b6;min-height:auto;padding:0;border:none;box-shadow:none}
+input[type=range]:focus{box-shadow:none}
+.slider-val{min-width:52px;text-align:right;font-weight:600;color:#0077b6;font-size:0.95rem}
+.btn{background:#0077b6;color:#fff;border:none;padding:12px 24px;border-radius:6px;font-size:1rem;font-weight:600;cursor:pointer;transition:background 0.2s;min-height:44px;width:100%}
+.btn:hover{background:#006299}
+.btn-secondary{background:#f0f0f0;color:#1a1a2e;margin-top:0.7rem}
+.btn-secondary:hover{background:#e0e0e0}
+.results{opacity:0;transition:opacity 0.3s ease;pointer-events:none}
+.results.visible{opacity:1;pointer-events:auto}
+.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+.kpi{background:#f8f9fa;border:1px solid #e0e0e0;border-radius:8px;padding:1.2rem 1rem;text-align:center}
+.kpi-label{font-size:0.78rem;font-weight:500;color:#666;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:4px}
+.kpi-val{font-size:1.55rem;font-weight:800;color:#0077b6;line-height:1.1}
+.kpi-sub{font-size:0.78rem;color:#888;margin-top:3px}
+.kpi.highlight{background:#e8f4fd;border-color:#b3d9f2}
+.section-title{font-size:1rem;font-weight:700;color:#1a1a2e;margin-bottom:1rem}
+.bar-group{margin-bottom:1.2rem}
+.bar-label{font-size:0.82rem;font-weight:500;color:#555;margin-bottom:4px;display:flex;justify-content:space-between}
+.bar-track{background:#f0f0f0;border-radius:4px;height:22px;overflow:hidden;position:relative}
+.bar-fill{height:100%;border-radius:4px;transition:width 0.5s ease;display:flex;align-items:center;padding-left:8px;font-size:0.75rem;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden}
+.bar-blue{background:#0077b6}
+.bar-green{background:#2ecc71}
+.bar-orange{background:#e67e22}
+.bar-red{background:#e74c3c}
+.bar-purple{background:#8e44ad}
+.stacked-bar{display:flex;height:28px;border-radius:6px;overflow:hidden;margin-bottom:6px}
+.stacked-seg{height:100%;transition:width 0.5s ease;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;color:#fff;overflow:hidden;white-space:nowrap}
+.bar-legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:0.78rem;color:#555}
+.legend-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+.diff-tag{display:inline-block;padding:2px 8px;border-radius:12px;font-size:0.78rem;font-weight:700;margin-left:6px}
+.diff-pos{background:#d4f5e2;color:#1a7a3c}
+.diff-neg{background:#fde8e8;color:#c0392b}
+table{width:100%;border-collapse:collapse;font-size:0.88rem}
+th{background:#f0f0f0;padding:8px 10px;text-align:left;font-weight:600;color:#444;border-bottom:2px solid #ddd}
+th.num,td.num{text-align:right}
+td{padding:7px 10px;border-bottom:1px solid #eee;color:#1a1a2e}
+tr:nth-child(even) td{background:#fafafa}
+.table-wrap{overflow-x:auto}
+.show-all-btn{background:none;border:1px solid #0077b6;color:#0077b6;padding:6px 16px;border-radius:6px;font-size:0.83rem;cursor:pointer;margin-top:10px;min-height:36px;transition:background 0.2s}
+.show-all-btn:hover{background:#e8f4fd}
+.copy-btn{background:none;border:1px solid #ddd;color:#555;padding:5px 12px;border-radius:5px;font-size:0.78rem;cursor:pointer;transition:all 0.2s;min-height:32px}
+.copy-btn:hover{border-color:#0077b6;color:#0077b6}
+.results-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem}
+.divider{border:none;border-top:1px solid #eee;margin:1.5rem 0}
+.content-section{margin-bottom:2rem}
+.content-section h2{font-size:1.2rem;font-weight:700;color:#1a1a2e;margin-bottom:0.7rem;margin-top:1.5rem}
+.content-section p{color:#444;margin-bottom:0.8rem;font-size:0.95rem}
+.content-section ul{padding-left:1.4rem;color:#444;font-size:0.95rem}
+.content-section ul li{margin-bottom:0.4rem}
+details{border:1px solid #e0e0e0;border-radius:6px;padding:12px 16px;margin-bottom:8px}
+summary{font-weight:600;cursor:pointer;font-size:0.95rem;color:#1a1a2e;list-style:none;display:flex;justify-content:space-between;align-items:center}
+summary::after{content:"＋";color:#0077b6;font-size:1.1rem}
+details[open] summary::after{content:"－"}
+details p{margin-top:8px;font-size:0.9rem;color:#444}
+.related-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:0.5rem}
+.related-link{background:#f8f9fa;border:1px solid #e0e0e0;border-radius:6px;padding:10px 14px;font-size:0.88rem;color:#0077b6;display:block;transition:background 0.2s}
+.related-link:hover{background:#e8f4fd;text-decoration:none}
+.ad-slot{min-height:0;margin:0}
+footer{border-top:1px solid #e0e0e0;padding:1.2rem 1.5rem;text-align:center;font-size:0.82rem;color:#888;margin-top:1rem}
+footer a{color:#888;margin:0 8px}
+footer a:hover{color:#0077b6}
+@media(max-width:640px){
+  .row-2{grid-template-columns:1fr}
+  .kpi-grid{grid-template-columns:1fr 1fr}
+  .related-grid{grid-template-columns:1fr}
+  .kpi-val{font-size:1.3rem}
+  h1{font-size:1.35rem}
+  .card{padding:1.4rem 1.2rem}
+}
+@media(max-width:400px){
+  .kpi-grid{grid-template-columns:1fr 1fr}
+  .kpi-val{font-size:1.15rem}
+}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">calcstack.dev</a>
+  </div>
+</nav>
+
+<main>
+  <h1>Paycheck Raise Impact Calculator</h1>
+  <p class="subtitle">See exactly how a salary raise changes your take-home pay, taxes, and long-term earnings.</p>
+
+  <div class="card">
+    <div class="row-2">
+      <div class="form-group">
+        <label for="currentSalary">Current Annual Salary ($)</label>
+        <input type="number" id="currentSalary" placeholder="e.g. 65000" min="0" value="">
+        <div class="error-msg" id="err-salary">Please enter a valid salary.</div>
+      </div>
+      <div class="form-group">
+        <label for="payFreq">Pay Frequency</label>
+        <select id="payFreq">
+          <option value="52">Weekly (52×/yr)</option>
+          <option value="26">Bi-Weekly (26×/yr)</option>
+          <option value="24">Semi-Monthly (24×/yr)</option>
+          <option value="12" selected>Monthly (12×/yr)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="raiseType">Raise Type</label>
+      <select id="raiseType" onchange="toggleRaiseInput()">
+        <option value="pct">Percentage Raise (%)</option>
+        <option value="flat">Fixed Dollar Amount ($)</option>
+      </select>
+    </div>
+
+    <div class="form-group" id="raiseAmountGroup">
+      <label for="raiseAmount" id="raiseAmountLabel">Raise Amount (%)</label>
+      <div class="slider-row">
+        <input type="range" id="raiseSlider" min="0" max="50" step="0.5" value="5" oninput="syncSlider()">
+        <span class="slider-val" id="sliderDisplay">5%</span>
+      </div>
+      <input type="number" id="raiseAmount" placeholder="5" value="5" min="0" step="0.5">
+      <div class="error-msg" id="err-raise">Please enter a valid raise amount.</div>
+    </div>
+
+    <div class="row-2">
+      <div class="form-group">
+        <label for="filingStatus">Filing Status</label>
+        <select id="filingStatus">
+          <option value="single">Single</option>
+          <option value="mfj">Married Filing Jointly</option>
+          <option value="mfs">Married Filing Separately</option>
+          <option value="hoh">Head of Household</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="stateRate">State Income Tax Rate (%)</label>
+        <input type="number" id="stateRate" value="5" min="0" max="20" step="0.1" placeholder="5">
+      </div>
+    </div>
+
+    <div class="row-2">
+      <div class="form-group">
+        <label for="retirement401k">401(k) Contribution (%)</label>
+        <input type="number" id="retirement401k" value="6" min="0" max="100" step="0.5" placeholder="6">
+      </div>
+      <div class="form-group">
+        <label for="otherDeductions">Other Pre-Tax Deductions ($/yr)</label>
+        <input type="number" id="otherDeductions" value="0" min="0" placeholder="0">
+      </div>
+    </div>
+
+    <button class="btn" id="calcBtn">Calculate Raise Impact</button>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="results" id="results">
+    <div class="card">
+      <div class="results-header">
+        <span class="section-title" style="margin-bottom:0">Your Raise Impact</span>
+        <button class="copy-btn" id="copyBtn" onclick="copyResults()">Copy Summary</button>
+      </div>
+
+      <div class="kpi-grid" id="kpiGrid"></div>
+
+      <hr class="divider">
+      <div class="section-title">Paycheck Comparison</div>
+      <div id="paycheckComparison"></div>
+
+      <hr class="divider">
+      <div class="section-title">Annual Income Breakdown</div>
+      <div id="incomeBreakdown"></div>
+
+      <hr class="divider">
+      <div class="section-title">Year-Over-Year Cumulative Earnings</div>
+      <div class="table-wrap">
+        <table id="yoyTable"></table>
+      </div>
+      <button class="show-all-btn" id="showAllBtn" onclick="toggleYOY()">Show All 10 Years</button>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-mid"></div>
+
+  <!-- CONTENT SECTION -->
+  <div class="content-section">
+    <h2>How to Use This Salary Raise Calculator</h2>
+    <p>Enter your current annual salary, choose how often you get paid, and input your raise — either as a percentage or a flat dollar amount. Fill in your filing status, state tax rate, 401(k) contribution, and any other pre-tax deductions. Hit "Calculate Raise Impact" to instantly see the difference in your paycheck, annual taxes, and take-home pay.</p>
+
+    <h2>Why This Matters</h2>
+    <p>A 5% raise sounds great on paper, but how much actually ends up in your pocket? For someone earning $65,000, a 5% raise is $3,250 more per year — but after federal income tax, FICA, and a 6% 401(k) contribution, the real monthly take-home increase might be closer to $140–$170. Knowing this matters for budgeting, negotiating raises, and planning major purchases.</p>
+    <p>This tool is especially useful when you're negotiating compensation — if an employer offers a 3% cost-of-living raise but inflation is running at 4%, you're actually taking a pay cut in real terms. It's also valuable for comparing a raise at your current job versus a higher-paying offer elsewhere, since a jump in tax bracket can eat into a bigger headline number.</p>
+
+    <h2>How It's Calculated</h2>
+    <p>The calculator uses 2024 U.S. federal income tax brackets, standard deductions, and FICA rates. Here's the core flow:</p>
+    <ul>
+      <li><strong>Gross Pay</strong> = Annual Salary ÷ Pay Periods</li>
+      <li><strong>Pre-Tax Deductions</strong> = 401(k) contribution + other pre-tax items</li>
+      <li><strong>Federal Taxable Income</strong> = Gross − Standard Deduction − Pre-Tax Deductions</li>
+      <li><strong>Federal Tax</strong> = Applied progressively using 2024 brackets (10%–37%)</li>
+      <li><strong>FICA</strong> = Social Security (6.2% up to $168,600) + Medicare (1.45%, +0.9% above $200K)</li>
+      <li><strong>State Tax</strong> = Taxable income × your entered state rate</li>
+      <li><strong>Net Take-Home</strong> = Gross − All taxes − All deductions</li>
+    </ul>
+
+    <h2>Tips &amp; Common Mistakes</h2>
+    <ul>
+      <li><strong>Don't forget FICA:</strong> Social Security (6.2%) and Medicare (1.45%) come out of every dollar, regardless of bracket.</li>
+      <li><strong>Pre-tax 401(k) reduces your taxable income:</strong> A higher raise may actually push you to save more — increasing your 401(k) % can keep your tax bill low.</li>
+      <li><strong>State taxes vary wildly:</strong> Florida and Texas have 0% state income tax; California tops out near 13.3%. Always use your actual state rate.</li>
+      <li><strong>Marginal vs. effective rate confusion:</strong> Moving into a higher bracket only taxes the dollars above the threshold — your whole income isn't taxed at the new rate.</li>
+      <li><strong>One-time bonuses are taxed differently:</strong> This tool is for recurring salary raises. Bonuses are often withheld at a flat 22% federal supplemental rate.</li>
+    </ul>
+
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>Does a raise always push me into a higher tax bracket?</summary>
+      <p>Not necessarily, and even if it does, only the portion of income above the bracket threshold is taxed at the higher rate. For example, if the 22% bracket starts at $47,150 (single filer) and your raise takes you from $45,000 to $50,000, only $2,850 of the raise is taxed at 22% — the rest is still at 12%.</p>
+    </details>
+    <details>
+      <summary>Why is my actual take-home increase less than the raise amount?</summary>
+      <p>Because taxes — federal, state, FICA — are applied to the additional income. A $5,000 raise might only add $2,800–$3,500 to your annual take-home pay depending on your tax situation. The higher your income, the smaller the after-tax share of each additional dollar.</p>
+    </details>
+    <details>
+      <summary>Should I increase my 401(k) contribution after a raise?</summary>
+      <p>Often yes. If your lifestyle hasn't changed, routing some or all of the raise into your 401(k) reduces your taxable income and accelerates retirement savings. Since 401(k) contributions are pre-tax, a $1,000 increase in contributions might only cost you $700–$780 in take-home pay, depending on your bracket.</p>
+    </details>
+    <details>
+      <summary>How accurate are these tax calculations?</summary>
+      <p>The calculator uses 2024 federal tax brackets, standard deductions, and FICA thresholds. It provides a solid estimate for W-2 employees. It doesn't account for credits, itemized deductions, AMT, investment income, or complex situations — for those, consult a tax professional or use official IRS tools.</p>
+    </details>
+  </div>
+
+  <!-- RELATED TOOLS -->
+  <div class="content-section">
+    <h2>Related Tools</h2>
+    <div class="related-grid">
+      <a href="/loan-prepayment-savings-calculator/" class="related-link">Loan Prepayment Savings Calculator</a>
+      <a href="/inheritance-tax-calculator/" class="related-link">Inheritance Tax Calculator</a>
+      <a href="/freelancer-hourly-rate-calculator/" class="related-link">Freelancer Rate &amp; Profit Margin Calculator</a>
+      <a href="/severance-package-tax-calculator/" class="related-link">Severance Package Tax Calculator</a>
+      <a href="/rule-of-72-calculator/" class="related-link">Rule of 72 Investment Doubling Calculator</a>
+      <a href="/balloon-payment-loan-calculator/" class="related-link">Balloon Payment Loan Calculator</a>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-bottom"></div>
+</main>
+
+<footer>
+  <a href="/about/">About</a>
+  <a href="/privacy/">Privacy</a>
+  <a href="/contact/">Contact</a>
+  <span style="margin-left:8px">© 2024 calcstack.dev</span>
+</footer>
+
+<script>
+// ---- State ----
+let yoyExpanded = false;
+let lastResult = null;
+
+// ---- Slider sync ----
+function syncSlider() {
+  const slider = document.getElementById('raiseSlider');
+  const input = document.getElementById('raiseAmount');
+  const display = document.getElementById('sliderDisplay');
+  const isPct = document.getElementById('raiseType').value === 'pct';
+  input.value = slider.value;
+  display.textContent = isPct ? slider.value + '%' : '$' + fmt(+slider.value);
+}
+
+function toggleRaiseInput() {
+  const isPct = document.getElementById('raiseType').value === 'pct';
+  document.getElementById('raiseAmountLabel').textContent = isPct ? 'Raise Amount (%)' : 'Raise Amount ($)';
+  const slider = document.getElementById('raiseSlider');
+  const display = document.getElementById('sliderDisplay');
+  if (isPct) {
+    slider.max = 50; slider.step = 0.5; slider.value = 5;
+    document.getElementById('raiseAmount').value = 5;
+    display.textContent = '5%';
+  } else {
+    slider.max = 50000; slider.step = 500; slider.value = 5000;
+    document.getElementById('raiseAmount').value = 5000;
+    display.textContent = '$5,000';
+  }
+}
+
+document.getElementById('raiseAmount').addEventListener('input', function() {
+  const v = +this.value;
+  const slider = document.getElementById('raiseSlider');
+  const display = document.getElementById('sliderDisplay');
+  const isPct = document.getElementById('raiseType').value === 'pct';
+  if (!isNaN(v)) {
+    slider.value = Math.min(v, +slider.max);
+    display.textContent = isPct ? v + '%' : '$' + fmt(v);
+  }
+});
+
+// ---- Tax helpers ----
+const BRACKETS = {
+  single:    [[11600,0.10],[47150,0.12],[100525,0.22],[191950,0.24],[243725,0.32],[609350,0.35],[Infinity,0.37]],
+  mfj:       [[23200,0.10],[94300,0.12],[201050,0.22],[383900,0.24],[487450,0.32],[731200,0.35],[Infinity,0.37]],
+  mfs:       [[11600,0.10],[47150,0.12],[100525,0.22],[191950,0.24],[243725,0.32],[365600,0.35],[Infinity,0.37]],
+  hoh:       [[16550,0.10],[63100,0.12],[100500,0.22],[191950,0.24],[243700,0.32],[609350,0.35],[Infinity,0.37]]
+};
+const STD_DED = {single:14600, mfj:29200, mfs:14600, hoh:21900};
+
+function federalTax(taxable) {
+  if (taxable <= 0) return 0;
+  let tax = 0, prev = 0;
+  for (const [top, rate] of BRACKETS[window._filingStatus || 'single']) {
+    if (taxable <= top) { tax += (taxable - prev) * rate; break; }
+    tax += (top - prev) * rate; prev = top;
+  }
+  return tax;
+}
+
+function ficaTax(gross) {
+  const ssCap = 168600;
+  const ss = Math.min(gross, ssCap) * 0.062;
+  const mc = gross * 0.0145 + (gross > 200000 ? (gross - 200000) * 0.009 : 0);
+  return ss + mc;
+}
+
+function calcTakeHome(annualGross, filingStatus, stateRatePct, k401Pct, otherDed) {
+  window._filingStatus = filingStatus;
+  const k401 = annualGross * (k401Pct / 100);
+  const preTax = k401 + otherDed;
+  const stdDed = STD_DED[filingStatus] || 14600;
+  const fedTaxable = Math.max(0, annualGross - preTax - stdDed);
+  const fedTax = federalTax(fedTaxable);
+  const fica = ficaTax(annualGross);
+  const stateTax = Math.max(0, annualGross - preTax) * (stateRatePct / 100);
+  const totalTax = fedTax + fica + stateTax;
+  const takeHome = annualGross - totalTax - preTax;
+  return { annualGross, k401, preTax, fedTaxable, fedTax, fica, stateTax, totalTax, takeHome, stdDed,
+    effFedRate: annualGross > 0 ? fedTax / annualGross * 100 : 0,
+    effTotalRate: annualGross > 0 ? totalTax / annualGross * 100 : 0 };
+}
+
+// ---- Format ----
+function fmt(n, dec=0) {
+  if (isNaN(n) || n === null) return '—';
+  return n.toLocaleString('en-US', {minimumFractionDigits:dec, maximumFractionDigits:dec});
+}
+function fmtD(n, dec=2) { return '$' + fmt(n, dec); }
+function fmtPct(n) { return n.toFixed(2) + '%'; }
+
+// ---- Validate ----
+function validateInputs(salary, raise) {
+  let ok = true;
+  const se = document.getElementById('err-salary');
+  const re = document.getElementById('err-raise');
+  const si = document.getElementById('currentSalary');
+  const ri = document.getElementById('raiseAmount');
+  si.classList.remove('error'); se.classList.remove('show');
+  ri.classList.remove('error'); re.classList.remove('show');
+  if (!salary || salary <= 0 || salary > 10000000) {
+    si.classList.add('error'); se.classList.add('show'); ok = false;
+  }
+  if (isNaN(raise) || raise < 0 || raise > 2000000) {
+    ri.classList.add('error'); re.classList.add('show'); ok = false;
+  }
+  return ok;
+}
+
+// ---- Main Calculate ----
+function calculate() {
+  const salary = parseFloat(document.getElementById('currentSalary').value);
+  const raiseAmt = parseFloat(document.getElementById('raiseAmount').value);
+  const raiseType = document.getElementById('raiseType').value;
+  const filingStatus = document.getElementById('filingStatus').value;
+  const stateRate = parseFloat(document.getElementById('stateRate').value) || 0;
+  const k401Pct = parseFloat(document.getElementById('retirement401k').value) || 0;
+  const otherDed = parseFloat(document.getElementById('otherDeductions').value) || 0;
+  const periods = parseInt(document.getElementById('payFreq').value);
+
+  if (!validateInputs(salary, raiseAmt)) return;
+
+  const newSalary = raiseType === 'pct'
+    ? salary * (1 + raiseAmt / 100)
+    : salary + raiseAmt;
+  const raiseDollar = newSalary - salary;
+  const raisePct = (raiseDollar / salary) * 100;
+
+  const before = calcTakeHome(salary, filingStatus, stateRate, k401Pct, otherDed);
+  const after = calcTakeHome(newSalary, filingStatus, stateRate, k401Pct, otherDed);
+
+  const annualTakeHomeDiff = after.takeHome - before.takeHome;
+  const perPaycheckGross = raiseDollar / periods;
+  const perPaycheckNet = annualTakeHomeDiff / periods;
+
+  // Build YOY data (10 years)
+  const yoyData = [];
+  for (let y = 1; y <= 10; y++) {
+    yoyData.push({
+      year: y,
+      cumulativeBefore: before.annualGross * y,
+      cumulativeAfter: after.annualGross * y,
+      cumulativeTakeHomeBefore: before.takeHome * y,
+      cumulativeTakeHomeAfter: after.takeHome * y,
+      cumulativeDiff: annualTakeHomeDiff * y
+    });
+  }
+
+  lastResult = { before, after, raiseDollar, raisePct, annualTakeHomeDiff, perPaycheckGross, perPaycheckNet, periods, yoyData };
+
+  requestAnimationFrame(() => renderResults(lastResult));
+}
+
+function renderResults(r) {
+  const { before, after, raiseDollar, raisePct, annualTakeHomeDiff, perPaycheckGross, perPaycheckNet, periods, yoyData } = r;
+
+  // KPIs
+  const kpiHTML = `
+    <div class="kpi highlight">
+      <div class="kpi-label">Annual Raise</div>
+      <div class="kpi-val">${fmtD(raiseDollar)}</div>
+      <div class="kpi-sub">${fmtPct(raisePct)} increase</div>
+    </div>
+    <div class="kpi highlight">
+      <div class="kpi-label">Extra Take-Home / Yr</div>
+      <div class="kpi-val">${fmtD(annualTakeHomeDiff)}</div>
+      <div class="kpi-sub">${fmtPct(annualTakeHomeDiff/raiseDollar*100)} of raise kept</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Per Paycheck (Gross)</div>
+      <div class="kpi-val">${fmtD(perPaycheckGross)}</div>
+      <div class="kpi-sub">+${fmtD(before.annualGross/periods)} → ${fmtD(after.annualGross/periods)}</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Per Paycheck (Net)</div>
+      <div class="kpi-val">${fmtD(perPaycheckNet)}</div>
+      <div class="kpi-sub">+${fmtD(before.takeHome/periods)} → ${fmtD(after.takeHome/periods)}</div>
+    </div>
+  `;
+  document.getElementById('kpiGrid').innerHTML = kpiHTML;
+
+  // Paycheck comparison bars
+  const maxGross = after.annualGross;
+  const pBefore = before.annualGross / maxGross * 100;
+  const pAfter = 100;
+  const pThBefore = before.takeHome / maxGross * 100;
+  const pThAfter = after.takeHome / maxGross * 100;
+  const pTaxBefore = before.totalTax / maxGross * 100;
+  const pTaxAfter = after.totalTax / maxGross * 100;
+
+  const compHTML = `
+    <div class="bar-group">
+      <div class="bar-label"><span>Gross Salary (Before)</span><span>${fmtD(before.annualGross)}</span></div>
+      <div class="bar-track"><div class="bar-fill bar-blue" style="width:${pBefore.toFixed(1)}%">${fmtD(before.annualGross)}</div></div>
+    </div>
+    <div class="bar-group">
+      <div class="bar-label"><span>Gross Salary (After)</span><span>${fmtD(after.annualGross)}</span></div>
+      <div class="bar-track"><div class="bar-fill bar-green" style="width:${pAfter.toFixed(1)}%">${fmtD(after.annualGross)}</div></div>
+    </div>
+    <div class="bar-group">
+      <div class="bar-label"><span>Take-Home (Before)</span><span>${fmtD(before.takeHome)}</span></div>
+      <div class="bar-track"><div class="bar-fill bar-blue" style="width:${pThBefore.toFixed(1)}%;opacity:0.75">${fmtD(before.takeHome)}</div></div>
+    </div>
+    <div class="bar-group">
+      <div class="bar-label"><span>Take-Home (After)</span><span>${fmtD(after.takeHome)}</span></div>
+      <div class="bar-track"><div class="bar-fill bar-green" style="width:${pThAfter.toFixed(1)}%;opacity:0.85">${fmtD(after.takeHome)}</div></div>
+    </div>
+    <div class="bar-group">
+      <div class="bar-label"><span>Total Tax (Before)</span><span>${fmtD(before.totalTax)}</span></div>
+      <div class="bar-track"><div class="bar-fill bar-red" style="width:${pTaxBefore.toFixed(1)}%">${fmtD(before.totalTax)}</div></div>
+    </div>
+    <div class="bar-group">
+      <div class="bar-label"><span>Total Tax (After)</span><span>${fmtD(after.totalTax)}</span></div>
+      <div class="bar-track"><div class="bar-fill bar-orange" style="width:${pTaxAfter.toFixed(1)}%">${fmtD(after.totalTax)}</div></div>
+    </div>
+  `;
+  document.getElementById('paycheckComparison').innerHTML = compHTML;
+
+  // Stacked income breakdown (After salary)
+  const g = after.annualGross;
+  const wFed = (after.fedTax / g * 100).toFixed(1);
+  const wFica = (after.fica / g * 100).toFixed(1);
+  const wState = (after.stateTax / g * 100).toFixed(1);
+  const wK401 = (after.k401 / g * 100).toFixed(1);
+  const wTH = (after.takeHome / g * 100).toFixed(1);
+
+  const breakdownHTML = `
+    <p style="font-size:0.83rem;color:#888;margin-bottom:8px">After-raise annual salary breakdown:</p>
+    <div class="stacked-bar">
+      <div class="stacked-seg bar-blue" style="width:${wTH}%" title="Take-Home">${wTH}%</div>
+      <div class="stacked-seg bar-red" style="width:${wFed}%" title="Fed Tax">${wFed}%</div>
+      <div class="stacked-seg bar-purple" style="width:${wFica}%" title="FICA">${wFica}%</div>
+      <div class="stacked-seg bar-orange" style="width:${wState}%" title="State">${wState}%</div>
+      <div class="stacked-seg bar-green" style="width:${wK401}%" title="401k">${wK401}%</div>
+    </div>
+    <div class="bar-legend">
+      <span class="legend-item"><span class="legend-dot" style="background:#0077b6"></span>Take-Home (${fmtD(after.takeHome)})</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#e74c3c"></span>Fed Tax (${fmtD(after.fedTax)})</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#8e44ad"></span>FICA (${fmtD(after.fica)})</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#e67e22"></span>State Tax (${fmtD(after.stateTax)})</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#2ecc71"></span>401(k) (${fmtD(after.k401)})</span>
+    </div>
+    <div class="table-wrap" style="margin-top:1rem">
+    <table>
+      <tr><th>Item</th><th class="num">Before</th><th class="num">After</th><th class="num">Change</th></tr>
+      ${row("Gross Salary", before.annualGross, after.annualGross)}
+      ${row("Federal Income Tax", before.fedTax, after.fedTax)}
+      ${row("FICA (SS + Medicare)", before.fica, after.fica)}
+      ${row("State Income Tax", before.stateTax, after.stateTax)}
+      ${row("Total Taxes", before.totalTax, after.totalTax)}
+      ${row("401(k) Contribution", before.k401, after.k401)}
+      ${row("Other Pre-Tax Deductions", before.preTax - before.k401, after.preTax - after.k401)}
+      ${row("Net Take-Home Pay", before.takeHome, after.takeHome, true)}
+      <tr><td>Eff. Federal Rate</td><td class="num">${fmtPct(before.effFedRate)}</td><td class="num">${fmtPct(after.effFedRate)}</td><td class="num">${diffTag(after.effFedRate - before.effFedRate, true, true)}</td></tr>
+      <tr><td>Eff. Total Tax Rate</td><td class="num">${fmtPct(before.effTotalRate)}</td><td class="num">${fmtPct(after.effTotalRate)}</td><td class="num">${diffTag(after.effTotalRate - before.effTotalRate, true, true)}</td></tr>
+    </table>
+    </div>
+  `;
+  document.getElementById('incomeBreakdown').innerHTML = breakdownHTML;
+
+  // YOY Table
+  renderYOY(yoyData, yoyExpanded);
+
+  const resultsEl = document.getElementById('results');
+  resultsEl.classList.add('visible');
+  resultsEl.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function row(label, bVal, aVal, bold=false) {
+  const diff = aVal - bVal;
+  const s = bold ? ' style="font-weight:700"' : '';
+  return `<tr${s}><td${s}>${label}</td><td class="num"${s}>${fmtD(bVal)}</td><td class="num"${s}>${fmtD(aVal)}</td><td class="num"${s}>${diffTag(diff, false)}</td></tr>`;
+}
+
+function diffTag(val, isPct=false, isRate=false) {
+  if (Math.abs(val) < 0.005) return '<span>—</span>';
+  const pos = val > 0;
+  const cls = (isRate ? !pos : pos) ? 'diff-pos' : 'diff-neg';
+  const sign = pos ? '+' : '';
+  const txt = isPct ? sign + val.toFixed(2) + '%' : sign + fmtD(val);
+  return `<span class="diff-tag ${cls}">${txt}</span>`;
+}
+
+function renderYOY(data, expanded) {
+  const rows = expanded ? data : data.slice(0, 5);
+  let html = `<thead><tr>
+    <th>Year</th>
+    <th class="num">Cumulative Gross (Before)</th>
+    <th class="num">Cumulative Gross (After)</th>
+    <th class="num">Cumulative Take-Home (Before)</th>
+    <th class="num">Cumulative Take-Home (After)</th>
+    <th class="num">Extra Take-Home</th>
+  </tr></thead><tbody>`;
+  for (const d of rows) {
+    html += `<tr>
+      <td>${d.year}</td>
+      <td class="num">${fmtD(d.cumulativeBefore)}</td>
+      <td class="num">${fmtD(d.cumulativeAfter)}</td>
+      <td class="num">${fmtD(d.cumulativeTakeHomeBefore)}</td>
+      <td class="num">${fmtD(d.cumulativeTakeHomeAfter)}</td>
+      <td class="num"><span class="diff-tag diff-pos">+${fmtD(d.cumulativeDiff)}</span></td>
+    </tr>`;
+  }
+  html += '</tbody>';
+  document.getElementById('yoyTable').innerHTML = html;
+  document.getElementById('showAllBtn').textContent = expanded ? 'Show Less' : 'Show All 10 Years';
+}
+
+function toggleYOY() {
+  if (!lastResult) return;
+  yoyExpanded = !yoyExpanded;
+  renderYOY(lastResult.yoyData, yoyExpanded);
+}
+
+// ---- Copy ----
+function copyResults() {
+  if (!lastResult) return;
+  const r = lastResult;
+  const txt = [
+    'Paycheck Raise Impact Summary',
+    '================================',
+    `Annual Raise: ${fmtD(r.raiseDollar)} (${fmtPct(r.raisePct)})`,
+    `Extra Take-Home/Year: ${fmtD(r.annualTakeHomeDiff)}`,
+    `Per Paycheck (Gross): +${fmtD(r.perPaycheckGross)}`,
+    `Per Paycheck (Net): +${fmtD(r.perPaycheckNet)}`,
+    '',
+    `Before: Gross ${fmtD(r.before.annualGross)} | Take-Home ${fmtD(r.before.takeHome)} | Total Tax ${fmtD(r.before.totalTax)}`,
+    `After:  Gross ${fmtD(r.after.annualGross)} | Take-Home ${fmtD(r.after.takeHome)} | Total Tax ${fmtD(r.after.totalTax)}`,
+    '',
+    'Generated by calcstack.dev/salary-raise-calculator/'
+  ].join('\n');
+
+  navigator.clipboard.writeText(txt).then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy Summary', 2000);
+  });
+}
+
+// ---- Event listeners ----
+document.getElementById('calcBtn').addEventListener('click', () => {
+  requestAnimationFrame(() => calculate());
+});
+
+document.querySelectorAll('input, select').forEach(el => {
+  el.addEventListener('keydown', e => {
+    if (e.key === 'Enter') requestAnimationFrame(() => calculate());
+  });
+});
+</script>
+</body>
+</html>
