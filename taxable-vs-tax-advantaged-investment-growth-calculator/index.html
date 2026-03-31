@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Taxable vs Tax-Advantaged Investment Growth Calculator — Free Online Tool | calcstack.dev</title>
+<meta name="description" content="Compare taxable vs tax-advantaged (401k, IRA, Roth) investment growth side-by-side. See exactly how much taxes cost you over time with our free calculator.">
+<link rel="canonical" href="https://calcstack.dev/taxable-vs-tax-advantaged-investment-growth-calculator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Taxable vs Tax-Advantaged Investment Growth Calculator",
+  "url": "https://calcstack.dev/taxable-vs-tax-advantaged-investment-growth-calculator/",
+  "description": "Compare taxable vs tax-advantaged investment account growth side-by-side to see how taxes impact your long-term wealth.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#fff;color:#1a1a2e;font-size:16px;line-height:1.6}
+a{color:#0077b6;text-decoration:none}
+a:hover{text-decoration:underline}
+nav{background:#fff;border-bottom:1px solid #e0e0e0;padding:0.75rem 1.5rem}
+nav .nav-inner{max-width:640px;margin:0 auto;display:flex;align-items:center}
+nav .site-name{font-weight:700;font-size:1.1rem;color:#1a1a2e}
+nav .site-name:hover{text-decoration:none;color:#0077b6}
+.container{max-width:640px;margin:0 auto;padding:1.5rem}
+h1{font-size:1.6rem;font-weight:800;color:#1a1a2e;margin-bottom:0.4rem;line-height:1.3}
+.subtitle{color:#555;font-size:0.95rem;margin-bottom:1.75rem}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;box-shadow:0 2px 8px rgba(0,0,0,0.06);margin-bottom:2rem}
+.section-title{font-size:1rem;font-weight:700;color:#1a1a2e;margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:2px solid #0077b6;display:inline-block}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.form-group{display:flex;flex-direction:column;gap:0.3rem}
+.form-group.full{grid-column:1/-1}
+label{font-size:0.85rem;font-weight:500;color:#444}
+input[type=number],input[type=text],select{width:100%;border:1px solid #ddd;border-radius:6px;padding:12px 16px;font-size:1rem;color:#1a1a2e;background:#fff;transition:border-color 0.2s,box-shadow 0.2s;min-height:44px}
+input:focus,select:focus{outline:none;border-color:#0077b6;box-shadow:0 0 0 3px rgba(0,119,182,0.15)}
+input.error{border-color:#e74c3c}
+.error-msg{font-size:0.78rem;color:#e74c3c;display:none}
+.error-msg.show{display:block}
+.input-hint{font-size:0.75rem;color:#888}
+.tabs{display:flex;gap:0.5rem;margin-bottom:1.25rem;flex-wrap:wrap}
+.tab{padding:8px 16px;border-radius:6px;border:1px solid #ddd;background:#fff;font-size:0.85rem;font-weight:500;cursor:pointer;color:#555;transition:all 0.2s;min-height:36px}
+.tab.active{background:#0077b6;color:#fff;border-color:#0077b6}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+.btn{background:#0077b6;color:#fff;border:none;border-radius:6px;padding:12px 24px;font-size:1rem;font-weight:600;cursor:pointer;width:100%;min-height:44px;transition:background 0.2s;margin-top:1.25rem}
+.btn:hover{background:#006299}
+.results{opacity:0;transition:opacity 0.3s ease;display:none}
+.results.visible{opacity:1;display:block}
+.big-number{font-size:2.2rem;font-weight:800;color:#0077b6;line-height:1.1}
+.big-label{font-size:0.85rem;color:#666;margin-bottom:0.2rem;font-weight:500}
+.results-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+.result-box{background:#f8f9fa;border-radius:8px;padding:1.25rem;text-align:center;border:1px solid #e0e0e0}
+.result-box.highlight{background:#e8f4fd;border-color:#0077b6}
+.result-box .diff-label{font-size:0.75rem;color:#27ae60;font-weight:600;margin-top:0.25rem}
+.bar-section{margin-bottom:1.5rem}
+.bar-section h3{font-size:0.9rem;font-weight:700;color:#444;margin-bottom:0.75rem}
+.bar-group{margin-bottom:0.75rem}
+.bar-label{font-size:0.8rem;color:#555;margin-bottom:0.25rem;display:flex;justify-content:space-between}
+.bar-track{background:#eee;border-radius:4px;height:28px;overflow:hidden;position:relative}
+.bar-fill{height:100%;border-radius:4px;transition:width 0.6s ease;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;font-size:0.75rem;font-weight:600;color:#fff;min-width:2px}
+.bar-fill.taxable{background:#e74c3c}
+.bar-fill.trad{background:#f39c12}
+.bar-fill.roth{background:#27ae60}
+.bar-fill.principal{background:#0077b6}
+.bar-fill.gain{background:#48cae4}
+.bar-fill.taxes{background:#e74c3c}
+.stacked-bar{height:28px;border-radius:4px;overflow:hidden;display:flex;width:100%}
+.stacked-seg{height:100%;transition:width 0.6s ease}
+table{width:100%;border-collapse:collapse;font-size:0.85rem}
+th{background:#f0f0f0;padding:8px 10px;text-align:left;font-weight:600;color:#333;white-space:nowrap}
+th.num,td.num{text-align:right}
+td{padding:7px 10px;border-bottom:1px solid #eee;color:#444}
+tr:nth-child(even) td{background:#fafafa}
+.table-wrap{overflow-x:auto}
+.show-all-btn{background:none;border:1px solid #0077b6;color:#0077b6;border-radius:6px;padding:6px 16px;font-size:0.85rem;cursor:pointer;margin-top:0.75rem;transition:all 0.2s;min-height:36px}
+.show-all-btn:hover{background:#0077b6;color:#fff}
+.copy-btn{background:none;border:1px solid #ddd;color:#555;border-radius:6px;padding:5px 12px;font-size:0.8rem;cursor:pointer;transition:all 0.2s;min-height:32px}
+.copy-btn:hover{border-color:#0077b6;color:#0077b6}
+.copy-btn.copied{border-color:#27ae60;color:#27ae60}
+.summary-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.25rem}
+.ad-slot{min-height:0;margin:0}
+.content-section{margin-bottom:2rem}
+.content-section h2{font-size:1.15rem;font-weight:700;color:#1a1a2e;margin-bottom:0.75rem;margin-top:1.5rem}
+.content-section p{color:#444;margin-bottom:0.75rem;font-size:0.95rem}
+.content-section ul{padding-left:1.25rem;color:#444;font-size:0.95rem}
+.content-section li{margin-bottom:0.5rem}
+details{border:1px solid #e0e0e0;border-radius:6px;padding:0.75rem 1rem;margin-bottom:0.5rem}
+summary{font-weight:600;cursor:pointer;color:#1a1a2e;font-size:0.95rem;list-style:none;display:flex;justify-content:space-between;align-items:center}
+summary::after{content:'▸';color:#0077b6;font-size:0.85rem;transition:transform 0.2s}
+details[open] summary::after{transform:rotate(90deg)}
+details p{margin-top:0.5rem;color:#444;font-size:0.9rem}
+.related-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-top:0.75rem}
+.related-link{background:#f8f9fa;border:1px solid #e0e0e0;border-radius:6px;padding:0.75rem 1rem;font-size:0.875rem;color:#0077b6;transition:all 0.2s;display:block}
+.related-link:hover{background:#e8f4fd;border-color:#0077b6;text-decoration:none}
+footer{background:#f8f9fa;border-top:1px solid #e0e0e0;padding:1.5rem;text-align:center;font-size:0.85rem;color:#666;margin-top:2rem}
+footer a{color:#0077b6;margin:0 0.5rem}
+.savings-row{background:#e8f9ef;font-weight:600}
+.savings-row td{color:#1a6b36}
+.legend{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:0.75rem}
+.legend-item{display:flex;align-items:center;gap:0.35rem;font-size:0.8rem;color:#555}
+.legend-dot{width:12px;height:12px;border-radius:2px;flex-shrink:0}
+@media(max-width:640px){
+  .form-grid{grid-template-columns:1fr}
+  .form-group.full{grid-column:1}
+  .results-grid{grid-template-columns:1fr}
+  h1{font-size:1.35rem}
+  .card{padding:1.25rem}
+  .big-number{font-size:1.7rem}
+  .related-grid{grid-template-columns:1fr}
+  .tabs{gap:0.35rem}
+  .tab{padding:7px 12px;font-size:0.8rem}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="site-name">calcstack.dev</a>
+  </div>
+</nav>
+
+<div class="container">
+  <h1>Taxable vs Tax-Advantaged Investment Growth Calculator</h1>
+  <p class="subtitle">See how much more wealth you build by using tax-advantaged accounts like 401(k), Traditional IRA, and Roth IRA versus a regular taxable brokerage account.</p>
+
+  <div class="card">
+    <div class="section-title">Investment Inputs</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="initial">Initial Investment ($)</label>
+        <input type="number" id="initial" value="10000" min="0" step="100" placeholder="10000">
+        <span class="error-msg" id="initial-err">Please enter a valid amount ≥ 0</span>
+      </div>
+      <div class="form-group">
+        <label for="annual">Annual Contribution ($)</label>
+        <input type="number" id="annual" value="6000" min="0" step="100" placeholder="6000">
+        <span class="error-msg" id="annual-err">Please enter a valid amount ≥ 0</span>
+      </div>
+      <div class="form-group">
+        <label for="years">Investment Period (Years)</label>
+        <input type="number" id="years" value="30" min="1" max="60" placeholder="30">
+        <span class="error-msg" id="years-err">Enter 1–60 years</span>
+      </div>
+      <div class="form-group">
+        <label for="returnRate">Annual Return Rate (%)</label>
+        <input type="number" id="returnRate" value="7" min="0.1" max="30" step="0.1" placeholder="7">
+        <span class="error-msg" id="return-err">Enter a return rate between 0.1% and 30%</span>
+      </div>
+      <div class="form-group">
+        <label for="taxRate">Marginal Income Tax Rate (%)</label>
+        <input type="number" id="taxRate" value="24" min="0" max="60" step="1" placeholder="24">
+        <span class="input-hint">Your ordinary income tax bracket</span>
+        <span class="error-msg" id="tax-err">Enter 0–60%</span>
+      </div>
+      <div class="form-group">
+        <label for="capGainsRate">Long-Term Capital Gains Rate (%)</label>
+        <input type="number" id="capGainsRate" value="15" min="0" max="40" step="1" placeholder="15">
+        <span class="input-hint">Typically 0%, 15%, or 20%</span>
+        <span class="error-msg" id="cg-err">Enter 0–40%</span>
+      </div>
+      <div class="form-group">
+        <label for="dividendYield">Annual Dividend Yield (%)</label>
+        <input type="number" id="dividendYield" value="2" min="0" max="20" step="0.1" placeholder="2">
+        <span class="input-hint">Taxed annually in taxable accounts</span>
+      </div>
+      <div class="form-group">
+        <label for="inflationRate">Inflation Rate (%) <span style="font-weight:400;color:#aaa">optional</span></label>
+        <input type="number" id="inflationRate" value="0" min="0" max="15" step="0.1" placeholder="0">
+        <span class="input-hint">Set to 0 to ignore inflation</span>
+      </div>
+    </div>
+
+    <div style="margin-top:1.25rem">
+      <div class="section-title">Withdrawal Assumptions</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="withdrawalRate">Withdrawal Tax (Traditional IRA/401k) (%)</label>
+          <input type="number" id="withdrawalRate" value="22" min="0" max="60" step="1" placeholder="22">
+          <span class="input-hint">Your expected retirement tax bracket</span>
+        </div>
+        <div class="form-group">
+          <label for="rothWithdrawal">Roth Withdrawal Tax (%)</label>
+          <input type="number" id="rothWithdrawal" value="0" min="0" max="0" step="1" placeholder="0">
+          <span class="input-hint">Always 0% — Roth withdrawals are tax-free</span>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn" id="calcBtn">Calculate Growth Comparison</button>
+  </div>
+
+  <div class="results" id="results">
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.5rem">
+        <div class="section-title" style="margin-bottom:0">Results Summary</div>
+        <button class="copy-btn" id="copyBtn">Copy Summary</button>
+      </div>
+      <div class="results-grid" id="summaryBoxes"></div>
+      <div id="barCharts"></div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">Year-by-Year Breakdown</div>
+      <div class="tabs">
+        <button class="tab active" data-tab="taxable">Taxable</button>
+        <button class="tab" data-tab="trad">Traditional (401k/IRA)</button>
+        <button class="tab" data-tab="roth">Roth IRA</button>
+      </div>
+      <div class="tab-panel active" id="tab-taxable"></div>
+      <div class="tab-panel" id="tab-trad"></div>
+      <div class="tab-panel" id="tab-roth"></div>
+    </div>
+
+    <div class="ad-slot" id="ad-mid"></div>
+  </div>
+
+  <div class="content-section">
+    <h2>How to Use This Taxable vs Tax-Advantaged Account Calculator</h2>
+    <p>Enter your initial investment, annual contribution, expected return rate, and tax rates in the fields above. The calculator models growth in three account types simultaneously: a standard taxable brokerage account, a Traditional IRA or 401(k), and a Roth IRA. Click "Calculate" to see the after-tax value of each account at the end of your chosen investment period.</p>
+    <p>The year-by-year breakdown tables show exactly how each account grows annually. Switch between tabs to compare the details of each account type.</p>
+
+    <h2>Why This Matters</h2>
+    <p>The difference between investing in a taxable account versus a tax-advantaged account can be enormous over a long horizon. Consider two investors who each contribute $6,000 per year with a 7% annual return over 30 years. The investor using a taxable brokerage account might pay taxes on dividends every year and capital gains when selling — easily losing 15–30% of their potential wealth to taxes. The investor maxing out a Roth IRA pays no taxes on growth or withdrawals at all.</p>
+    <p>For someone in the 24% tax bracket earning 2% dividends on $500,000, that's $2,400 in annual taxes that never compounds. Over 30 years, that drag compounds into a six-figure difference. This calculator makes that invisible cost visible.</p>
+    <p>Financial advisors, young professionals building their first portfolios, and anyone considering whether to invest extra money in a taxable account versus a backdoor Roth all benefit from this analysis. Even a 5–10 year comparison reveals tens of thousands of dollars in differences — enough to change your strategy entirely.</p>
+
+    <h2>How It's Calculated</h2>
+    <p><strong>Taxable Account:</strong> Each year, dividends are taxed at the ordinary income rate, reducing the amount that compounds. At the end of the period, capital gains tax is applied to the profit above cost basis.</p>
+    <p><em>After-tax final value = Final Balance − (Capital Gains Tax Rate × (Final Balance − Cost Basis))</em></p>
+    <p><strong>Traditional IRA / 401(k):</strong> Contributions are pre-tax (reducing taxable income today). All growth is tax-deferred. At withdrawal, the entire balance is taxed as ordinary income at your expected retirement tax rate.</p>
+    <p><em>After-tax value = Total Balance × (1 − Withdrawal Tax Rate)</em></p>
+    <p><strong>Roth IRA:</strong> Contributions are post-tax (no upfront deduction). All growth and qualified withdrawals are completely tax-free.</p>
+    <p><em>After-tax value = Total Balance (no tax applied)</em></p>
+    <p>The taxable account's effective annual return is reduced by the drag of dividend taxes each year, creating a compounding disadvantage versus the tax-deferred and tax-free accounts.</p>
+
+    <h2>Tips & Common Mistakes</h2>
+    <ul>
+      <li><strong>Don't ignore dividend yield drag.</strong> Even a 1–2% dividend yield taxed at 24% annually creates meaningful compounding drag over 20–30 years. Many investors forget this hidden cost.</li>
+      <li><strong>Match your current vs. retirement tax rate.</strong> If you expect to be in a higher bracket in retirement, a Roth is almost always better. If you expect a lower bracket, a Traditional account may win.</li>
+      <li><strong>Max tax-advantaged accounts first.</strong> The calculator consistently shows that even a Traditional IRA beats a taxable account by tens of thousands over 20+ years, even after withdrawal taxes.</li>
+      <li><strong>Set a realistic return rate.</strong> 7% is a common inflation-adjusted historical average for diversified U.S. stock portfolios. Overestimating returns inflates all three scenarios equally, but the tax drag gap widens at higher returns.</li>
+      <li><strong>Use the inflation field to see real purchasing power.</strong> Setting inflation to 3% shows results in today's dollars, which can be sobering but gives a more honest picture of your future wealth.</li>
+    </ul>
+
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>What's the main difference between a taxable and tax-advantaged account?</summary>
+      <p>In a taxable brokerage account, you pay taxes on dividends each year and capital gains when you sell investments. In a tax-advantaged account (401k, IRA, Roth IRA), growth is either tax-deferred or tax-free, dramatically improving long-term compounding.</p>
+    </details>
+    <details>
+      <summary>Is a Roth IRA always better than a Traditional IRA?</summary>
+      <p>Not always. If your current tax rate is significantly higher than your expected retirement tax rate, the Traditional IRA wins because the upfront deduction saves more taxes than you'll pay later. If you expect to be in a similar or higher bracket in retirement, the Roth IRA usually wins. This calculator helps you see the exact difference for your specific situation.</p>
+    </details>
+    <details>
+      <summary>Does this account for contribution limits?</summary>
+      <p>This calculator does not enforce IRS contribution limits (e.g., $7,000/year for IRA in 2024). It models the mathematical growth of whatever contribution amount you enter. Always check current IRS limits when planning actual contributions.</p>
+    </details>
+    <details>
+      <summary>What if I have a mix of taxable and tax-advantaged accounts?</summary>
+      <p>Most investors should use this tool to compare the marginal dollar — i.e., where should your next $1,000 go? The answer is almost always to fill tax-advantaged accounts first (especially any 401k with an employer match), then taxable accounts with whatever remains.</p>
+    </details>
+  </div>
+
+  <div class="content-section">
+    <h2>Related Tools</h2>
+    <div class="related-grid">
+      <a href="/buy-vs-lease-vs-finance-car-calculator/" class="related-link">Buy vs Lease vs Finance Car Calculator</a>
+      <a href="/dividend-income-portfolio-calculator/" class="related-link">Dividend Income Portfolio Calculator</a>
+      <a href="/mortgage-extra-payment-accelerator/" class="related-link">Mortgage Extra Payment Accelerator</a>
+      <a href="/investment-fee-impact-calculator/" class="related-link">Net Investment Fee Impact Calculator</a>
+      <a href="/savings-rate-fire-timeline-calculator/" class="related-link">Savings Rate FIRE Timeline Calculator</a>
+      <a href="/lump-sum-vs-annuity-calculator/" class="related-link">Lump Sum vs Annuity Calculator</a>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-bottom"></div>
+</div>
+
+<footer>
+  <div>
+    <a href="/about/">About</a>
+    <a href="/privacy/">Privacy</a>
+    <a href="/contact/">Contact</a>
+  </div>
+  <div style="margin-top:0.5rem">© 2024 calcstack.dev — Free Financial Calculators</div>
+</footer>
+
+<script>
+(function(){
+  // Tab logic — pure CSS class toggle, no DOM rebuild
+  document.querySelectorAll('.tab').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      var target = this.dataset.tab;
+      document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+      document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
+      this.classList.add('active');
+      document.getElementById('tab-'+target).classList.add('active');
+    });
+  });
+
+  function fmt(n){ return '$'+Math.round(n).toLocaleString('en-US'); }
+  function fmtN(n){ return Math.round(n).toLocaleString('en-US'); }
+  function pct(n){ return n.toFixed(1)+'%'; }
+
+  function getVal(id){ return parseFloat(document.getElementById(id).value)||0; }
+
+  function validate(){
+    var ok = true;
+    function chk(id, errId, cond){
+      var el = document.getElementById(id);
+      var em = document.getElementById(errId);
+      if(!cond(parseFloat(el.value))){
+        el.classList.add('error');
+        em.classList.add('show');
+        ok = false;
+      } else {
+        el.classList.remove('error');
+        em.classList.remove('show');
+      }
+    }
+    chk('initial','initial-err', function(v){ return !isNaN(v)&&v>=0; });
+    chk('annual','annual-err', function(v){ return !isNaN(v)&&v>=0; });
+    chk('years','years-err', function(v){ return !isNaN(v)&&v>=1&&v<=60; });
+    chk('returnRate','return-err', function(v){ return !isNaN(v)&&v>=0.1&&v<=30; });
+    chk('taxRate','tax-err', function(v){ return !isNaN(v)&&v>=0&&v<=60; });
+    chk('capGainsRate','cg-err', function(v){ return !isNaN(v)&&v>=0&&v<=40; });
+    return ok;
+  }
+
+  function calculate(){
+    if(!validate()) return;
+
+    var initial = getVal('initial');
+    var annual = getVal('annual');
+    var years = Math.round(getVal('years'));
+    var r = getVal('returnRate')/100;
+    var taxRate = getVal('taxRate')/100;
+    var cgRate = getVal('capGainsRate')/100;
+    var divYield = getVal('dividendYield')/100;
+    var inflation = getVal('inflationRate')/100;
+    var withdrawalTax = getVal('withdrawalRate')/100;
+    // Roth withdrawal always 0
+
+    // Growth rate for price appreciation (total return minus dividend)
+    var priceR = r - divYield;
+    if(priceR < 0) priceR = 0;
+
+    // --- TAXABLE ACCOUNT ---
+    // Each year: dividends taxed, then price growth compounds
+    // After-tax effective growth on non-dividend portion
+    var taxableRows = [];
+    var txBalance = initial;
+    var txCostBasis = initial;
+    var txTotalContrib = initial;
+    for(var i=1;i<=years;i++){
+      var divIncome = txBalance * divYield;
+      var divTax = divIncome * taxRate;
+      var priceGain = txBalance * priceR;
+      txBalance = txBalance + divIncome - divTax + priceGain + annual;
+      txCostBasis += annual;
+      txTotalContrib += annual;
+      var capitalGain = Math.max(0, txBalance - txCostBasis);
+      var cgTaxOwed = capitalGain * cgRate;
+      var afterTaxVal = txBalance - cgTaxOwed;
+      var inflFactor = Math.pow(1+inflation, i);
+      taxableRows.push({
+        year: i,
+        balance: txBalance,
+        costBasis: txCostBasis,
+        divTaxYr: divTax,
+        cgTaxIfSold: cgTaxOwed,
+        afterTax: afterTaxVal,
+        real: afterTaxVal / inflFactor
+      });
+    }
+
+    // --- TRADITIONAL IRA / 401k ---
+    // Pre-tax: contribute full amount, deferred growth, taxed on withdrawal
+    var tradRows = [];
+    var trBalance = initial; // assume initial already pre-tax invested
+    var trContrib = initial;
+    for(var i=1;i<=years;i++){
+      trBalance = trBalance * (1+r) + annual;
+      trContrib += annual;
+      var withdrawalTaxAmt = trBalance * withdrawalTax;
+      var afterTaxTrad = trBalance - withdrawalTaxAmt;
+      var inflFactor = Math.pow(1+inflation, i);
+      tradRows.push({
+        year: i,
+        balance: trBalance,
+        contributed: trContrib,
+        taxOnWithdraw: withdrawalTaxAmt,
+        afterTax: afterTaxTrad,
+        real: afterTaxTrad / inflFactor
+      });
+    }
+
+    // --- ROTH IRA ---
+    // Post-tax contributions, tax-free growth
+    // To be apples-to-apples with traditional, we need to account for the fact
+    // that traditional contributions are pre-tax. If contributing $6k to Roth,
+    // that's the same as contributing $6k/(1-taxRate) pre-tax to Traditional.
+    // For simplicity (common approach): same nominal contributions, but note
+    // Traditional has a tax benefit upfront that Roth doesn't.
+    // We'll show two perspectives: same dollar contribution and note the difference.
+    var rothRows = [];
+    var rothBalance = initial;
+    var rothContrib = initial;
+    for(var i=1;i<=years;i++){
+      rothBalance = rothBalance * (1+r) + annual;
+      rothContrib += annual;
+      // All tax-free at withdrawal
+      var inflFactor = Math.pow(1+inflation, i);
+      rothRows.push({
+        year: i,
+        balance: rothBalance,
+        contributed: rothContrib,
+        afterTax: rothBalance,
+        real: rothBalance / inflFactor
+      });
+    }
+
+    var finalTaxable = taxableRows[years-1];
+    var finalTrad = tradRows[years-1];
+    var finalRoth = rothRows[years-1];
+
+    var maxAfterTax = Math.max(finalTaxable.afterTax, finalTrad.afterTax, finalRoth.afterTax);
+
+    // Build results HTML in one pass
+    var summaryHTML = '';
+    summaryHTML += '<div class="result-box">';
+    summaryHTML += '<div class="big-label">Taxable Account</div>';
+    summaryHTML += '<div class="big-number" style="color:#e74c3c">'+fmt(finalTaxable.afterTax)+'</div>';
+    summaryHTML += '<div style="font-size:0.78rem;color:#888;margin-top:0.25rem">After capital gains tax</div>';
+    summaryHTML += '</div>';
+    summaryHTML += '<div class="result-box">';
+    summaryHTML += '<div class="big-label">Traditional IRA/401k</div>';
+    summaryHTML += '<div class="big-number" style="color:#f39c12">'+fmt(finalTrad.afterTax)+'</div>';
+    summaryHTML += '<div style="font-size:0.78rem;color:#888;margin-top:0.25rem">After withdrawal tax ('+Math.round(withdrawalTax*100)+'%)</div>';
+    var tradVsTaxable = finalTrad.afterTax - finalTaxable.afterTax;
+    if(tradVsTaxable > 0) summaryHTML += '<div class="diff-label">+'+fmt(tradVsTaxable)+' vs taxable</div>';
+    summaryHTML += '</div>';
+    summaryHTML += '<div class="result-box highlight">';
+    summaryHTML += '<div class="big-label">Roth IRA</div>';
+    summaryHTML += '<div class="big-number">'+fmt(finalRoth.afterTax)+'</div>';
+    summaryHTML += '<div style="font-size:0.78rem;color:#888;margin-top:0.25rem">Completely tax-free</div>';
+    var rothVsTaxable = finalRoth.afterTax - finalTaxable.afterTax;
+    if(rothVsTaxable > 0) summaryHTML += '<div class="diff-label">+'+fmt(rothVsTaxable)+' vs taxable</div>';
+    summaryHTML += '</div>';
+
+    // Bar charts
+    var barMax = Math.max(finalTaxable.balance, finalTrad.balance, finalRoth.balance);
+    var barHTML = '';
+    barHTML += '<div class="bar-section">';
+    barHTML += '<h3>After-Tax Value Comparison</h3>';
+    barHTML += '<div class="legend"><span class="legend-item"><span class="legend-dot" style="background:#e74c3c"></span>Taxable</span>';
+    barHTML += '<span class="legend-item"><span class="legend-dot" style="background:#f39c12"></span>Traditional</span>';
+    barHTML += '<span class="legend-item"><span class="legend-dot" style="background:#27ae60"></span>Roth</span></div>';
+
+    var items = [
+      {label:'Taxable Account', val:finalTaxable.afterTax, cls:'taxable'},
+      {label:'Traditional IRA/401k', val:finalTrad.afterTax, cls:'trad'},
+      {label:'Roth IRA', val:finalRoth.afterTax, cls:'roth'}
+    ];
+    items.forEach(function(it){
+      var w = Math.round((it.val/maxAfterTax)*100);
+      barHTML += '<div class="bar-group">';
+      barHTML += '<div class="bar-label"><span>'+it.label+'</span><span>'+fmt(it.val)+'</span></div>';
+      barHTML += '<div class="bar-track"><div class="bar-fill '+it.cls+'" style="width:'+w+'%"></div></div>';
+      barHTML += '</div>';
+    });
+    barHTML += '</div>';
+
+    // Stacked breakdown for taxable
+    var txTotal = finalTaxable.balance;
+    var txPrincipal = txCostBasis;
+    var txGain = Math.max(0, txTotal - txPrincipal);
+    var txTaxesPaid = finalTaxable.cgTaxIfSold;
+    var txNet = finalTaxable.afterTax;
+    var stackMax = Math.max(txTotal, finalTrad.balance, finalRoth.balance);
+
+    barHTML += '<div class="bar-section">';
+    barHTML += '<h3>Breakdown: What You Keep vs. What Goes to Taxes</h3>';
+    barHTML += '<div class="legend"><span class="legend-item"><span class="legend-dot" style="background:#0077b6"></span>Principal</span>';
+    barHTML += '<span class="legend-item"><span class="legend-dot" style="background:#48cae4"></span>Gain Kept</span>';
+    barHTML += '<span class="legend-item"><span class="legend-dot" style="background:#e74c3c"></span>Taxes Owed</span></div>';
+
+    function stackedBar(label, principal, gain, taxes){
+      var total = principal + gain + taxes;
+      if(total<=0) return '';
+      var pw = Math.round((principal/total)*100);
+      var gw = Math.round((gain/total)*100);
+      var tw = 100-pw-gw;
+      if(tw<0) tw=0;
+      var html = '<div class="bar-group">';
+      html += '<div class="bar-label"><span>'+label+'</span><span>Total: '+fmt(total)+'</span></div>';
+      html += '<div class="stacked-bar">';
+      html += '<div class="stacked-seg" style="width:'+pw+'%;background:#0077b6" title="Principal: '+fmt(principal)+'"></div>';
+      html += '<div class="stacked-seg" style="width:'+gw+'%;background:#48cae4" title="Gain: '+fmt(gain)+'"></div>';
+      html += '<div class="stacked-seg" style="width:'+tw+'%;background:#e74c3c" title="Taxes: '+fmt(taxes)+'"></div>';
+      html += '</div>';
+      html += '<div style="font-size:0.75rem;color:#888;margin-top:0.2rem">';
+      html += 'Principal: '+fmt(principal)+' | Gain kept: '+fmt(gain)+' | Taxes: '+fmt(taxes);
+      html += '</div></div>';
+      return html;
+    }
+
+    var txGainKept = txTotal - txPrincipal - txTaxesPaid;
+    barHTML += stackedBar('Taxable Account', txPrincipal, Math.max(0,txGainKept), txTaxesPaid);
+
+    var trPrincipal = trContrib;
+    var trGain = Math.max(0, finalTrad.balance - trPrincipal);
+    var trTaxes = finalTrad.taxOnWithdraw;
+    var trGainKept = trGain - (trTaxes - trPrincipal*withdrawalTax);
+    // Simplified: tax on full balance = tax on (principal + gain)
+    var trPrincipalTax = trPrincipal * withdrawalTax;
+    var trGainTax = trGain * withdrawalTax;
+    barHTML += stackedBar('Traditional IRA/401k', trPrincipal - trPrincipalTax, trGain - trGainTax, trTaxes);
+
+    var roPrincipal = rothContrib;
+    var roGain = Math.max(0, finalRoth.balance - roPrincipal);
+    barHTML += stackedBar('Roth IRA', roPrincipal, roGain, 0);
+    barHTML += '</div>';
+
+    // Copy summary text
+    var copyText = 'Investment Growth Comparison ('+years+' years)\n';
+    copyText += 'Taxable Account: '+fmt(finalTaxable.afterTax)+' after-tax\n';
+    copyText += 'Traditional IRA/401k: '+fmt(finalTrad.afterTax)+' after-tax\n';
+    copyText += 'Roth IRA: '+fmt(finalRoth.afterTax)+' after-tax (tax-free)\n';
+    copyText += 'Best account wins by: '+fmt(maxAfterTax - finalTaxable.afterTax)+' vs taxable\n';
+    copyText += 'Inputs: $'+initial+' initial, $'+annual+'/yr, '+pct(r*100)+' return, '+pct(taxRate*100)+' tax rate';
+
+    document.getElementById('copyBtn').dataset.copy = copyText;
+
+    // Tables
+    function buildTaxableTable(rows, showAll){
+      var display = showAll ? rows : rows.slice(0,15);
+      var html = '<div class="table-wrap"><table>';
+      html += '<thead><tr><th>Year</th><th class="num">Balance</th><th class="num">Div Tax Paid</th><th class="num">CG Tax (if sold)</th><th class="num">After-Tax Value</th>';
+      if(inflation>0) html += '<th class="num">Real Value</th>';
+      html += '</tr></thead><tbody>';
+      display.forEach(function(row){
+        html += '<tr><td>'+row.year+'</td>';
+        html += '<td class="num">'+fmt(row.balance)+'</td>';
+        html += '<td class="num">'+fmt(row.divTaxYr)+'</td>';
+        html += '<td class="num">'+fmt(row.cgTaxIfSold)+'</td>';
+        html += '<td class="num">'+fmt(row.afterTax)+'</td>';
+        if(inflation>0) html += '<td class="num">'+fmt(row.real)+'</td>';
+        html += '</tr>';
+      });
+      html += '</tbody></table></div>';
+      return html;
+    }
+
+    function buildTradTable(rows, showAll){
+      var display = showAll ? rows : rows.slice(0,15);
+      var html = '<div class="table-wrap"><table>';
+      html += '<thead><tr><th>Year</th><th class="num">Balance</th><th class="num">Contributed</th><th class="num">Tax on Withdrawal</th><th class="num">After-Tax Value</th>';
+      if(inflation>0) html += '<th class="num">Real Value</th>';
+      html += '</tr></thead><tbody>';
+      display.forEach(function(row){
+        html += '<tr><td>'+row.year+'</td>';
+        html += '<td class="num">'+fmt(row.balance)+'</td>';
+        html += '<td class="num">'+fmt(row.contributed)+'</td>';
+        html += '<td class="num">'+fmt(row.taxOnWithdraw)+'</td>';
+        html += '<td class="num">'+fmt(row.afterTax)+'</td>';
+        if(inflation>0) html += '<td class="num">'+fmt(row.real)+'</td>';
+        html += '</tr>';
+      });
+      html += '</tbody></table></div>';
+      return html;
+    }
+
+    function buildRothTable(rows, showAll){
+      var display = showAll ? rows : rows.slice(0,15);
+      var html = '<div class="table-wrap"><table>';
+      html += '<thead><tr><th>Year</th><th class="num">Balance</th><th class="num">Contributed</th><th class="num">Growth</th><th class="num">After-Tax Value</th>';
+      if(inflation>0) html += '<th class="num">Real Value</th>';
+      html += '</tr></thead><tbody>';
+      display.forEach(function(row){
+        var growth = row.balance - row.contributed;
+        html += '<tr><td>'+row.year+'</td>';
+        html += '<td class="num">'+fmt(row.balance)+'</td>';
+        html += '<td class="num">'+fmt(row.contributed)+'</td>';
+        html += '<td class="num">'+fmt(growth)+'</td>';
+        html += '<td class="num">'+fmt(row.afterTax)+'</td>';
+        if(inflation>0) html += '<td class="num">'+fmt(row.real)+'</td>';
+        html += '</tr>';
+      });
+      html += '</tbody></table></div>';
+      return html;
+    }
+
+    var txShowAll = false;
+    var trShowAll = false;
+    var roShowAll = false;
+
+    function renderTables(){
+      var txHTML = buildTaxableTable(taxableRows, txShowAll);
+      if(years>15){
+        txHTML += '<button class="show-all-btn" id="txToggle">'+(txShowAll?'Show Less':'Show All '+years+' Years')+'</button>';
+      }
+      var trHTML = buildTradTable(tradRows, trShowAll);
+      if(years>15){
+        trHTML += '<button class="show-all-btn" id="trToggle">'+(trShowAll?'Show Less':'Show All '+years+' Years')+'</button>';
+      }
+      var roHTML = buildRothTable(rothRows, roShowAll);
+      if(years>15){
+        roHTML += '<button class="show-all-btn" id="roToggle">'+(roShowAll?'Show Less':'Show All '+years+' Years')+'</button>';
+      }
+      document.getElementById('tab-taxable').innerHTML = txHTML;
+      document.getElementById('tab-trad').innerHTML = trHTML;
+      document.getElementById('tab-roth').innerHTML = roHTML;
+
+      var txT = document.getElementById('txToggle');
+      if(txT) txT.addEventListener('click',function(){ txShowAll=!txShowAll; requestAnimationFrame(renderTables); });
+      var trT = document.getElementById('trToggle');
+      if(trT) trT.addEventListener('click',function(){ trShowAll=!trShowAll; requestAnimationFrame(renderTables); });
+      var roT = document.getElementById('roToggle');
+      if(roT) roT.addEventListener('click',function(){ roShowAll=!roShowAll; requestAnimationFrame(renderTables); });
+    }
+
+    requestAnimationFrame(function(){
+      document.getElementById('summaryBoxes').innerHTML = summaryHTML;
+      document.getElementById('barCharts').innerHTML = barHTML;
+      txShowAll=false; trShowAll=false; roShowAll=false;
+      renderTables();
+      var res = document.getElementById('results');
+      res.style.display='block';
+      requestAnimationFrame(function(){ res.classList.add('visible'); });
+    });
+  }
+
+  document.getElementById('calcBtn').addEventListener('click', function(){
+    requestAnimationFrame(calculate);
+  });
+
+  document.querySelectorAll('input').forEach(function(inp){
+    inp.addEventListener('keydown', function(e){
+      if(e.key==='Enter'){ requestAnimationFrame(calculate); }
+    });
+  });
+
+  // Lock roth withdrawal to 0
+  document.getElementById('rothWithdrawal').addEventListener('input',function(){ this.value='0'; });
+
+  // Copy button
+  document.getElementById('copyBtn').addEventListener('click', function(){
+    var text = this.dataset.copy || '';
+    if(!text) return;
+    var self = this;
+    if(navigator.clipboard && window.isSecureContext){
+      navigator.clipboard.writeText(text).then(function(){
+        self.textContent='Copied!';
+        self.classList.add('copied');
+        setTimeout(function(){ self.textContent='Copy Summary'; self.classList.remove('copied'); },2000);
+      });
+    } else {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position='fixed';ta.style.opacity='0';
+      document.body.appendChild(ta);ta.focus();ta.select();
+      try{ document.execCommand('copy'); }catch(e){}
+      document.body.removeChild(ta);
+      self.textContent='Copied!';
+      self.classList.add('copied');
+      setTimeout(function(){ self.textContent='Copy Summary'; self.classList.remove('copied'); },2000);
+    }
+  });
+
+  // Run on load with defaults
+  requestAnimationFrame(calculate);
+})();
+</script>
+</body>
+</html>
