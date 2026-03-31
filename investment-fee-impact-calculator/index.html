@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Net Investment Fee Impact Calculator — Free Online Tool | calcstack.dev</title>
+<meta name="description" content="See exactly how much investment fees cost you over time. Calculate the true dollar impact of expense ratios and advisory fees on your portfolio growth.">
+<link rel="canonical" href="https://calcstack.dev/investment-fee-impact-calculator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Net Investment Fee Impact Calculator",
+  "url": "https://calcstack.dev/investment-fee-impact-calculator/",
+  "description": "Calculate how much investment fees cost you over time and see the true dollar impact of expense ratios and advisory fees on your portfolio.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f0f4f8;color:#1a1a2e;font-size:16px;line-height:1.6}
+a{color:#0077b6;text-decoration:none}
+a:hover{text-decoration:underline}
+nav{background:#fff;border-bottom:1px solid #e0e0e0;padding:0 1.5rem}
+.nav-inner{max-width:640px;margin:0 auto;display:flex;align-items:center;height:52px}
+.nav-brand{font-weight:700;font-size:1.1rem;color:#1a1a2e}
+.nav-brand span{color:#0077b6}
+main{max-width:640px;margin:0 auto;padding:1.5rem}
+h1{font-size:1.6rem;font-weight:800;color:#1a1a2e;margin-bottom:.4rem;line-height:1.25}
+.subtitle{color:#555;font-size:.95rem;margin-bottom:1.5rem}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:2rem}
+.form-group{margin-bottom:1.2rem}
+label{display:block;font-size:.85rem;font-weight:500;color:#444;margin-bottom:.4rem}
+label .hint{font-weight:400;color:#888;font-size:.8rem;margin-left:.3rem}
+input[type=number],input[type=text]{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:6px;font-size:1rem;font-family:inherit;color:#1a1a2e;transition:border-color .2s,box-shadow .2s;background:#fff}
+input:focus{outline:none;border-color:#0077b6;box-shadow:0 0 0 3px rgba(0,119,182,.15)}
+input.error{border-color:#e74c3c;box-shadow:0 0 0 3px rgba(231,76,60,.12)}
+.error-msg{color:#e74c3c;font-size:.8rem;margin-top:.3rem;display:none}
+.error-msg.show{display:block}
+.row-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.slider-row{display:flex;align-items:center;gap:.8rem;margin-top:.4rem}
+input[type=range]{flex:1;height:6px;accent-color:#0077b6;cursor:pointer}
+.slider-val{font-size:.9rem;font-weight:600;color:#0077b6;min-width:3.5rem;text-align:right}
+.btn{background:#0077b6;color:#fff;border:none;padding:13px 24px;border-radius:6px;font-size:1rem;font-weight:600;cursor:pointer;width:100%;min-height:44px;transition:background .2s;font-family:inherit}
+.btn:hover{background:#006299}
+.btn:active{background:#005580}
+.results{opacity:0;transition:opacity .3s ease;pointer-events:none}
+.results.show{opacity:1;pointer-events:all}
+.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+.summary-card{background:#f8f9fa;border:1px solid #e0e0e0;border-radius:8px;padding:1.2rem;text-align:center}
+.summary-card.highlight{background:#fff8e1;border-color:#f0a500}
+.summary-card .big-num{font-size:1.7rem;font-weight:800;color:#0077b6;line-height:1.1}
+.summary-card.highlight .big-num{color:#c0392b}
+.summary-card .label{font-size:.78rem;color:#555;margin-top:.3rem;font-weight:500}
+.section-title{font-size:1rem;font-weight:700;color:#1a1a2e;margin-bottom:1rem}
+.bar-wrap{margin-bottom:1.5rem}
+.bar-label{display:flex;justify-content:space-between;font-size:.82rem;font-weight:500;color:#444;margin-bottom:.3rem}
+.bar-track{background:#f0f0f0;border-radius:4px;height:28px;overflow:hidden;display:flex;border:1px solid #e0e0e0}
+.bar-seg{height:100%;transition:width .4s ease;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;font-size:.78rem;font-weight:600;color:#fff;min-width:0;overflow:hidden;white-space:nowrap}
+.bar-principal{background:#0077b6}
+.bar-gains-low{background:#00a8e8}
+.bar-gains-high{background:#48cae4}
+.bar-fees{background:#e74c3c}
+.legend{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:.6rem}
+.legend-item{display:flex;align-items:center;gap:.35rem;font-size:.78rem;color:#444}
+.legend-dot{width:12px;height:12px;border-radius:2px;flex-shrink:0}
+.compare-bars{margin-bottom:1.5rem}
+.compare-row{display:flex;align-items:center;gap:.8rem;margin-bottom:.6rem}
+.compare-row .name{font-size:.82rem;font-weight:600;color:#444;min-width:90px;max-width:90px}
+.compare-bar-outer{flex:1;background:#f0f0f0;border-radius:4px;height:26px;border:1px solid #e0e0e0;overflow:hidden}
+.compare-bar-inner{height:100%;border-radius:4px;transition:width .5s ease;display:flex;align-items:center;padding-left:8px;font-size:.78rem;font-weight:600;color:#fff}
+.bar-no-fee{background:#0077b6}
+.bar-with-fee{background:#e74c3c}
+.compare-row .amt{font-size:.82rem;font-weight:700;color:#1a1a2e;min-width:100px;text-align:right}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:.85rem}
+thead th{background:#f0f0f0;padding:8px 12px;text-align:left;font-size:.8rem;font-weight:600;color:#333;white-space:nowrap;border-bottom:2px solid #e0e0e0}
+thead th.num{text-align:right}
+tbody tr:nth-child(even){background:#fafafa}
+tbody tr:nth-child(odd){background:#fff}
+tbody td{padding:7px 12px;border-bottom:1px solid #f0f0f0;white-space:nowrap}
+tbody td.num{text-align:right;font-variant-numeric:tabular-nums}
+tbody tr:last-child td{border-bottom:none;font-weight:700;background:#f0f4f8}
+.show-all-wrap{text-align:center;margin-top:.8rem}
+.btn-secondary{background:#f0f4f8;color:#0077b6;border:1px solid #0077b6;padding:8px 20px;border-radius:6px;font-size:.85rem;font-weight:600;cursor:pointer;min-height:36px;transition:background .2s;font-family:inherit}
+.btn-secondary:hover{background:#e0eef5}
+.copy-btn{background:#f8f9fa;color:#0077b6;border:1px solid #ddd;padding:7px 16px;border-radius:6px;font-size:.82rem;font-weight:600;cursor:pointer;min-height:36px;transition:all .2s;font-family:inherit}
+.copy-btn:hover{background:#e0eef5;border-color:#0077b6}
+.copy-row{display:flex;justify-content:flex-end;margin-bottom:.8rem}
+.ad-slot{min-height:0;margin:0}
+.content-section{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;margin-bottom:2rem;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.content-section h2{font-size:1.15rem;font-weight:700;color:#1a1a2e;margin-bottom:.6rem;margin-top:1.4rem}
+.content-section h2:first-child{margin-top:0}
+.content-section p{color:#444;font-size:.92rem;margin-bottom:.7rem;line-height:1.65}
+.content-section ul{padding-left:1.4rem;margin-bottom:.7rem}
+.content-section ul li{color:#444;font-size:.92rem;margin-bottom:.4rem;line-height:1.6}
+details{border:1px solid #e0e0e0;border-radius:6px;margin-bottom:.5rem;overflow:hidden}
+summary{padding:.75rem 1rem;font-weight:600;font-size:.9rem;cursor:pointer;background:#f8f9fa;list-style:none;display:flex;justify-content:space-between;align-items:center}
+summary::-webkit-details-marker{display:none}
+summary::after{content:'＋';font-size:1rem;color:#0077b6}
+details[open] summary::after{content:'－'}
+details p{padding:.75rem 1rem;font-size:.88rem;color:#444;line-height:1.6;background:#fff}
+.related-tools{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:1.5rem;margin-bottom:2rem}
+.related-tools h2{font-size:1rem;font-weight:700;margin-bottom:1rem;color:#1a1a2e}
+.related-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+.related-grid a{font-size:.85rem;background:#f8f9fa;border:1px solid #e0e0e0;border-radius:6px;padding:.6rem .8rem;color:#0077b6;transition:background .2s}
+.related-grid a:hover{background:#e0eef5;text-decoration:none}
+footer{background:#fff;border-top:1px solid #e0e0e0;padding:1.2rem 1.5rem;text-align:center;font-size:.82rem;color:#666}
+footer a{color:#0077b6;margin:0 .5rem}
+.formula-box{background:#f8f9fa;border-left:3px solid #0077b6;padding:.8rem 1rem;border-radius:0 6px 6px 0;font-family:'Courier New',monospace;font-size:.85rem;color:#1a1a2e;margin:.6rem 0 .8rem}
+@media(max-width:640px){
+  .row-2{grid-template-columns:1fr}
+  .summary-grid{grid-template-columns:1fr 1fr}
+  h1{font-size:1.35rem}
+  .card{padding:1.5rem}
+  .summary-card .big-num{font-size:1.4rem}
+  .related-grid{grid-template-columns:1fr}
+  .compare-row .name{min-width:70px;max-width:70px;font-size:.76rem}
+  .compare-row .amt{min-width:80px;font-size:.76rem}
+}
+@media(max-width:400px){
+  .summary-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">calc<span>stack</span>.dev</a>
+  </div>
+</nav>
+
+<main>
+  <h1>Net Investment Fee Impact Calculator</h1>
+  <p class="subtitle">See exactly how much investment fees cost you — in real dollars — over your entire investing horizon.</p>
+
+  <div class="card">
+    <div class="row-2">
+      <div class="form-group">
+        <label>Initial Investment <span class="hint">($ lump sum)</span></label>
+        <input type="number" id="initialAmt" value="50000" min="0" step="1000" placeholder="50000">
+        <div class="error-msg" id="err-initial">Please enter a valid positive amount.</div>
+      </div>
+      <div class="form-group">
+        <label>Monthly Contribution <span class="hint">($)</span></label>
+        <input type="number" id="monthly" value="500" min="0" step="50" placeholder="500">
+        <div class="error-msg" id="err-monthly">Enter 0 or a positive amount.</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Investment Period <span class="hint">(years)</span></label>
+      <div class="slider-row">
+        <input type="range" id="yearsSlider" min="1" max="50" value="30">
+        <span class="slider-val" id="yearsVal">30 yrs</span>
+      </div>
+      <div class="error-msg" id="err-years"></div>
+    </div>
+
+    <div class="form-group">
+      <label>Expected Annual Return <span class="hint">(% before fees)</span></label>
+      <div class="slider-row">
+        <input type="range" id="returnSlider" min="1" max="15" step="0.1" value="7">
+        <span class="slider-val" id="returnVal">7.0%</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Low-Fee Portfolio <span class="hint">(e.g. index fund, annual %)</span></label>
+      <div class="slider-row">
+        <input type="range" id="lowFeeSlider" min="0" max="2" step="0.01" value="0.05">
+        <span class="slider-val" id="lowFeeVal">0.05%</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>High-Fee Portfolio <span class="hint">(e.g. managed fund, annual %)</span></label>
+      <div class="slider-row">
+        <input type="range" id="highFeeSlider" min="0" max="3" step="0.01" value="1.00">
+        <span class="slider-val" id="highFeeVal">1.00%</span>
+      </div>
+    </div>
+
+    <button class="btn" id="calcBtn">Calculate Fee Impact</button>
+  </div>
+
+  <div class="results" id="results">
+    <div class="card">
+      <div class="copy-row">
+        <button class="copy-btn" id="copyBtn">Copy Summary</button>
+      </div>
+      <div class="summary-grid" id="summaryGrid"></div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">Portfolio Value at Year-End Comparison</div>
+      <div class="compare-bars" id="compareBars"></div>
+
+      <div class="section-title" style="margin-top:1.2rem">Portfolio Composition (High-Fee Portfolio)</div>
+      <div class="bar-wrap" id="compositionBar"></div>
+
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#0077b6"></div>Total Contributions</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#48cae4"></div>Net Gains (Low-Fee)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#e74c3c"></div>Lost to Fees (vs Low-Fee)</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">Year-by-Year Breakdown</div>
+      <div class="table-wrap">
+        <table id="breakdownTable"></table>
+      </div>
+      <div class="show-all-wrap" id="showAllWrap">
+        <button class="btn-secondary" id="showAllBtn">Show All Years</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-mid"></div>
+
+  <div class="content-section">
+    <h2>How to Use This Investment Fee Impact Calculator</h2>
+    <p>Enter your starting investment amount, how much you contribute each month, your expected annual return, and the fee percentage for both a low-cost and a high-cost portfolio. Hit <strong>Calculate Fee Impact</strong> to instantly see the dollar difference fees make over your chosen time horizon — broken down year by year.</p>
+    <p>Adjust the sliders to explore different scenarios. The results update with each calculation, showing your final portfolio value, the fees paid, and crucially — the wealth you <em>never accumulate</em> because fees compound against you.</p>
+
+    <h2>Why This Matters</h2>
+    <p>Investment fees are one of the most insidious costs in personal finance because they work silently, compounding against you every single year. Most people focus on picking the right stocks or timing the market, but research consistently shows that fees are one of the few variables you can actually control — and they have an enormous impact.</p>
+    <p>Consider a $50,000 portfolio with $500/month contributions over 30 years at a 7% return. A low-cost index fund charging 0.05% (like a Vanguard or Fidelity fund) grows to roughly <strong>$617,000</strong>. Switch to an actively managed fund charging 1.25%, and you end up with about <strong>$515,000</strong> — a difference of over $100,000. That's not fees you paid out-of-pocket. That's wealth that was <em>never created</em> because fees continuously eroded your compounding base.</p>
+    <p>This matters for everyone — from 25-year-olds just starting their 401(k) to 55-year-olds catching up on retirement savings. Even a 0.5% difference in fees translates to tens of thousands of dollars over a typical investing lifetime.</p>
+
+    <h2>How It's Calculated</h2>
+    <p>Each year, the portfolio grows by the net return (gross return minus the fee), then adds the annual equivalent of monthly contributions. Specifically:</p>
+    <div class="formula-box">Net Rate = Annual Return % − Fee %<br>Value(year) = Value(year−1) × (1 + Net Rate) + Monthly × 12 × (1 + Net Rate/2)</div>
+    <p>The monthly contributions use a mid-year approximation (they're assumed to go in evenly throughout the year, so on average they earn half a year's return). The "fee drag" shown is the cumulative difference between the low-fee and high-fee portfolios at each point in time.</p>
+    <p>Total contributions = Initial Amount + (Monthly × 12 × Years). Total net gains = Final Value − Total Contributions. Fees lost = Low-Fee Final Value − High-Fee Final Value.</p>
+
+    <h2>Tips & Common Mistakes</h2>
+    <ul>
+      <li><strong>Don't ignore small differences.</strong> A 0.5% fee gap seems trivial, but on a $200k portfolio, that's $1,000/year in fees — and far more in lost compounding over decades.</li>
+      <li><strong>Check your 401(k) expense ratios.</strong> Many employer plan menus include high-cost actively managed funds alongside cheaper index options. The default fund isn't always the cheapest.</li>
+      <li><strong>Advisor fees stack on top of fund fees.</strong> If you pay a 1% AUM advisor fee AND hold funds with a 0.5% expense ratio, your total fee drag is 1.5%. This calculator lets you model that combined total.</li>
+      <li><strong>Tax drag is separate.</strong> This calculator focuses on investment fees only. Taxes on capital gains and dividends create additional drag not modeled here.</li>
+      <li><strong>Past returns ≠ future returns.</strong> Use a conservative return assumption (5–7% for a diversified stock portfolio) for a realistic projection rather than optimistic historical peaks.</li>
+    </ul>
+
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>What's a reasonable expense ratio for an index fund?</summary>
+      <p>Broad market index funds from providers like Vanguard, Fidelity, and Schwab typically charge between 0.03% and 0.20% annually. Fidelity's ZERO funds charge 0%. Actively managed funds typically range from 0.5% to over 1.5%. For most long-term investors, keeping total fees below 0.25% is a realistic and achievable goal.</p>
+    </details>
+    <details>
+      <summary>Does this account for inflation?</summary>
+      <p>No — all values are in nominal (today's) dollars. To get a rough real (inflation-adjusted) figure, subtract the inflation rate (historically ~2.5–3%) from your assumed return. For example, if you enter 7% return, that's roughly 4–4.5% in real purchasing power terms. The fee impact percentage stays the same either way.</p>
+    </details>
+    <details>
+      <summary>What if my fee is charged differently — flat dollar or commission?</summary>
+      <p>This calculator models annual percentage-based fees, which is the most common structure for mutual funds, ETFs, and AUM-based advisors. To convert a flat fee to an approximate percentage, divide the annual dollar fee by your average portfolio value. For example, $2,000/year on a $200,000 portfolio ≈ 1.0%.</p>
+    </details>
+    <details>
+      <summary>Why does the high-fee portfolio lose so much more than I actually paid in fees?</summary>
+      <p>Because each dollar paid in fees is a dollar that <em>doesn't compound</em> going forward. A $500 fee at year 10 doesn't just cost $500 — it costs $500 × (1 + net rate)^(years remaining) in foregone future value. That multiplier effect is why fee drag grows dramatically in later years and why the total "cost" of fees far exceeds the sum of annual fee payments.</p>
+    </details>
+  </div>
+
+  <div class="related-tools">
+    <h2>Related Tools</h2>
+    <div class="related-grid">
+      <a href="/savings-rate-fire-timeline-calculator/">Savings Rate FIRE Timeline Calculator</a>
+      <a href="/lump-sum-vs-annuity-calculator/">Lump Sum vs Annuity Calculator</a>
+      <a href="/paycheck-withholding-optimizer/">Paycheck Withholding Optimizer</a>
+      <a href="/salary-raise-calculator/">Paycheck Raise Impact Calculator</a>
+      <a href="/loan-prepayment-savings-calculator/">Loan Prepayment Savings Calculator</a>
+      <a href="/inheritance-tax-calculator/">Inheritance Tax Calculator</a>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-bottom"></div>
+</main>
+
+<footer>
+  <a href="/about/">About</a>
+  <a href="/privacy/">Privacy</a>
+  <a href="/contact/">Contact</a>
+  <br style="margin-bottom:.4rem">
+  <span>© <span id="yr"></span> calcstack.dev</span>
+</footer>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+// Slider sync
+function syncSlider(sliderId, valId, suffix, decimals) {
+  const s = document.getElementById(sliderId);
+  const v = document.getElementById(valId);
+  function update() { v.textContent = parseFloat(s.value).toFixed(decimals) + suffix; }
+  s.addEventListener('input', update);
+  update();
+}
+syncSlider('yearsSlider','yearsVal',' yrs',0);
+syncSlider('returnSlider','returnVal','%',1);
+syncSlider('lowFeeSlider','lowFeeVal','%',2);
+syncSlider('highFeeSlider','highFeeVal','%',2);
+
+function fmt(n) { return '$' + Math.round(n).toLocaleString('en-US'); }
+function fmtN(n) { return Math.round(n).toLocaleString('en-US'); }
+function pct(n) { return n.toFixed(2) + '%'; }
+
+function setErr(id, msg, show) {
+  const el = document.getElementById(id);
+  if (show) { el.textContent = msg; el.classList.add('show'); }
+  else { el.classList.remove('show'); }
+}
+function setInputErr(id, show) {
+  const el = document.getElementById(id);
+  if (show) el.classList.add('error');
+  else el.classList.remove('error');
+}
+
+let allRows = [];
+let showAll = false;
+
+function buildTable(rows, limit) {
+  const vis = limit ? rows.slice(0, limit) : rows;
+  let html = '<thead><tr><th>Year</th><th class="num">Contributions</th><th class="num">Low-Fee Value</th><th class="num">High-Fee Value</th><th class="num">Fee Drag</th><th class="num">Cumul. Fees Lost</th></tr></thead><tbody>';
+  for (let i = 0; i < vis.length; i++) {
+    const r = vis[i];
+    const isLast = i === rows.length - 1 && !limit;
+    html += `<tr>
+      <td>${r.year}</td>
+      <td class="num">${fmt(r.contrib)}</td>
+      <td class="num">${fmt(r.lowVal)}</td>
+      <td class="num">${fmt(r.highVal)}</td>
+      <td class="num" style="color:#c0392b">-${fmt(r.drag)}</td>
+      <td class="num" style="color:#c0392b">-${fmt(r.cumulDrag)}</td>
+    </tr>`;
+  }
+  if (limit && rows.length > limit) {
+    html += `<tr><td colspan="6" style="text-align:center;color:#888;font-size:.8rem;padding:8px">… ${rows.length - limit} more rows hidden</td></tr>`;
+  }
+  html += '</tbody>';
+  return html;
+}
+
+function calculate() {
+  const initial = parseFloat(document.getElementById('initialAmt').value);
+  const monthly = parseFloat(document.getElementById('monthly').value);
+  const years = parseInt(document.getElementById('yearsSlider').value);
+  const grossReturn = parseFloat(document.getElementById('returnSlider').value) / 100;
+  const lowFee = parseFloat(document.getElementById('lowFeeSlider').value) / 100;
+  const highFee = parseFloat(document.getElementById('highFeeSlider').value) / 100;
+
+  let valid = true;
+  if (isNaN(initial) || initial < 0) { setInputErr('initialAmt',true); setErr('err-initial','Please enter a valid positive amount.',true); valid=false; }
+  else { setInputErr('initialAmt',false); setErr('err-initial','',false); }
+  if (isNaN(monthly) || monthly < 0) { setInputErr('monthly',true); setErr('err-monthly','Enter 0 or a positive amount.',true); valid=false; }
+  else { setInputErr('monthly',false); setErr('err-monthly','',false); }
+  if (!valid) return;
+
+  const lowRate = grossReturn - lowFee;
+  const highRate = grossReturn - highFee;
+  const annualContrib = monthly * 12;
+
+  allRows = [];
+  let lowVal = initial;
+  let highVal = initial;
+  let totalContrib = initial;
+
+  for (let y = 1; y <= years; y++) {
+    lowVal = lowVal * (1 + lowRate) + annualContrib * (1 + lowRate / 2);
+    highVal = highVal * (1 + highRate) + annualContrib * (1 + highRate / 2);
+    totalContrib = initial + annualContrib * y;
+    const drag = Math.max(0, lowVal - highVal);
+    allRows.push({
+      year: y,
+      contrib: totalContrib,
+      lowVal: lowVal,
+      highVal: highVal,
+      drag: Math.max(0, lowVal - highVal),
+      cumulDrag: Math.max(0, lowVal - highVal)
+    });
+  }
+
+  const finalLow = allRows[years-1].lowVal;
+  const finalHigh = allRows[years-1].highVal;
+  const feeLost = Math.max(0, finalLow - finalHigh);
+  const finalContrib = initial + annualContrib * years;
+  const gainLow = Math.max(0, finalLow - finalContrib);
+  const gainHigh = Math.max(0, finalHigh - finalContrib);
+  const feePct = finalLow > 0 ? (feeLost / finalLow * 100) : 0;
+
+  // Summary cards
+  const summaryHTML = `
+    <div class="summary-card">
+      <div class="big-num">${fmt(finalLow)}</div>
+      <div class="label">Low-Fee Portfolio<br>(${pct(lowFee * 100)} fee)</div>
+    </div>
+    <div class="summary-card">
+      <div class="big-num">${fmt(finalHigh)}</div>
+      <div class="label">High-Fee Portfolio<br>(${pct(highFee * 100)} fee)</div>
+    </div>
+    <div class="summary-card highlight">
+      <div class="big-num" style="color:#c0392b">-${fmt(feeLost)}</div>
+      <div class="label">Total Wealth Lost to Fees</div>
+    </div>
+    <div class="summary-card">
+      <div class="big-num">${feePct.toFixed(1)}%</div>
+      <div class="label">Of potential portfolio lost to fee drag</div>
+    </div>`;
+
+  // Compare bars
+  const maxVal = finalLow;
+  const lowPct = 100;
+  const highPct = maxVal > 0 ? (finalHigh / maxVal * 100) : 0;
+  const compareBarsHTML = `
+    <div class="compare-row">
+      <div class="name">Low-Fee<br><span style="font-size:.72rem;color:#888">${pct(lowFee * 100)}/yr</span></div>
+      <div class="compare-bar-outer">
+        <div class="compare-bar-inner bar-no-fee" style="width:${lowPct.toFixed(1)}%">${fmt(finalLow)}</div>
+      </div>
+      <div class="amt">${fmt(finalLow)}</div>
+    </div>
+    <div class="compare-row">
+      <div class="name">High-Fee<br><span style="font-size:.72rem;color:#888">${pct(highFee * 100)}/yr</span></div>
+      <div class="compare-bar-outer">
+        <div class="compare-bar-inner bar-with-fee" style="width:${highPct.toFixed(1)}%">${fmt(finalHigh)}</div>
+      </div>
+      <div class="amt">${fmt(finalHigh)}</div>
+    </div>`;
+
+  // Composition bar (high-fee portfolio breakdown)
+  const total = finalHigh + feeLost;
+  const cPct = total > 0 ? (finalContrib / total * 100) : 0;
+  const gPct = total > 0 ? (gainHigh / total * 100) : 0;
+  const fPct = total > 0 ? (feeLost / total * 100) : 0;
+  const compositionHTML = `
+    <div class="bar-wrap">
+      <div class="bar-label">
+        <span>Contributions: ${fmt(finalContrib)}</span>
+        <span>Gains: ${fmt(gainHigh)}</span>
+        <span style="color:#c0392b">Fees Lost: ${fmt(feeLost)}</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-seg bar-principal" style="width:${cPct.toFixed(1)}%" title="Contributions">${cPct > 8 ? Math.round(cPct)+'%' : ''}</div>
+        <div class="bar-seg bar-gains-high" style="width:${gPct.toFixed(1)}%" title="Net Gains">${gPct > 8 ? Math.round(gPct)+'%' : ''}</div>
+        <div class="bar-seg bar-fees" style="width:${fPct.toFixed(1)}%" title="Lost to Fees">${fPct > 5 ? Math.round(fPct)+'%' : ''}</div>
+      </div>
+    </div>`;
+
+  showAll = false;
+  const tableHTML = buildTable(allRows, 10);
+  const showWrap = allRows.length > 10 ? 'block' : 'none';
+
+  // Copy text
+  const copyText = `Investment Fee Impact Summary\n` +
+    `Period: ${years} years | Gross Return: ${(grossReturn*100).toFixed(1)}%\n` +
+    `Low-Fee (${pct(lowFee*100)}): ${fmt(finalLow)}\n` +
+    `High-Fee (${pct(highFee*100)}): ${fmt(finalHigh)}\n` +
+    `Wealth Lost to Fees: ${fmt(feeLost)} (${feePct.toFixed(1)}% of potential portfolio)\n` +
+    `Total Contributions: ${fmt(finalContrib)}`;
+
+  requestAnimationFrame(() => {
+    document.getElementById('summaryGrid').innerHTML = summaryHTML;
+    document.getElementById('compareBars').innerHTML = compareBarsHTML;
+    document.getElementById('compositionBar').innerHTML = compositionHTML;
+    document.getElementById('breakdownTable').innerHTML = tableHTML;
+    document.getElementById('showAllWrap').style.display = showWrap;
+    document.getElementById('results').classList.add('show');
+
+    document.getElementById('copyBtn').onclick = () => {
+      navigator.clipboard.writeText(copyText).then(() => {
+        const btn = document.getElementById('copyBtn');
+        btn.textContent = 'Copied!';
+        setTimeout(() => btn.textContent = 'Copy Summary', 2000);
+      }).catch(() => {
+        const btn = document.getElementById('copyBtn');
+        btn.textContent = 'Copy failed';
+        setTimeout(() => btn.textContent = 'Copy Summary', 2000);
+      });
+    };
+
+    document.getElementById('showAllBtn').onclick = () => {
+      showAll = !showAll;
+      document.getElementById('breakdownTable').innerHTML = buildTable(allRows, showAll ? null : 10);
+      document.getElementById('showAllBtn').textContent = showAll ? 'Show Less' : 'Show All Years';
+    };
+  });
+}
+
+document.getElementById('calcBtn').addEventListener('click', () => {
+  requestAnimationFrame(() => calculate());
+});
+
+['initialAmt','monthly'].forEach(id => {
+  document.getElementById(id).addEventListener('keydown', e => {
+    if (e.key === 'Enter') requestAnimationFrame(() => calculate());
+  });
+});
+
+// Auto-calculate on load
+window.addEventListener('DOMContentLoaded', () => {
+  requestAnimationFrame(() => calculate());
+});
+</script>
+</body>
+</html>
