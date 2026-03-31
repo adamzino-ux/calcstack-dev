@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mortgage Down Payment vs Investment Opportunity Cost Calculator — Free Online Tool | calcstack.dev</title>
+<meta name="description" content="Compare putting money into a mortgage down payment vs investing it. See the real opportunity cost with year-by-year projections and net worth comparison.">
+<link rel="canonical" href="https://calcstack.dev/mortgage-down-payment-vs-investment-opportunity-cost-calculator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Mortgage Down Payment vs Investment Opportunity Cost Calculator",
+  "url": "https://calcstack.dev/mortgage-down-payment-vs-investment-opportunity-cost-calculator/",
+  "description": "Compare putting money into a mortgage down payment vs investing it. See the real opportunity cost with year-by-year projections and net worth comparison.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f4f6f9;color:#1a1a2e;font-size:16px;line-height:1.6}
+a{color:#0077b6;text-decoration:none}
+a:hover{text-decoration:underline}
+nav{background:#fff;border-bottom:1px solid #e0e0e0;padding:0 1rem}
+.nav-inner{max-width:640px;margin:0 auto;display:flex;align-items:center;height:48px}
+.nav-logo{font-weight:700;font-size:1.1rem;color:#1a1a2e}
+.nav-logo span{color:#0077b6}
+main{max-width:640px;margin:0 auto;padding:1.5rem 1rem 2rem}
+h1{font-size:1.45rem;font-weight:700;color:#1a1a2e;margin-bottom:0.4rem;line-height:1.3}
+.subtitle{color:#555;font-size:0.92rem;margin-bottom:1.5rem}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;box-shadow:0 1px 4px rgba(0,0,0,0.06);margin-bottom:2rem}
+.section-title{font-size:1rem;font-weight:700;color:#1a1a2e;margin-bottom:1.2rem;padding-bottom:0.5rem;border-bottom:2px solid #f0f0f0}
+.row-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.form-group{margin-bottom:1.2rem}
+label{display:block;font-size:0.85rem;font-weight:500;color:#444;margin-bottom:0.4rem}
+input[type=number],input[type=text],select{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:6px;font-size:0.95rem;color:#1a1a2e;background:#fff;transition:border-color .2s,box-shadow .2s;-webkit-appearance:none}
+input:focus,select:focus{outline:none;border-color:#0077b6;box-shadow:0 0 0 3px rgba(0,119,182,0.15)}
+input.error{border-color:#e74c3c}
+.error-msg{font-size:0.78rem;color:#e74c3c;margin-top:0.3rem;display:none}
+.error-msg.show{display:block}
+.slider-wrap{display:flex;align-items:center;gap:10px;margin-top:6px}
+input[type=range]{flex:1;height:4px;accent-color:#0077b6;cursor:pointer;min-height:24px}
+.slider-val{font-size:0.85rem;font-weight:600;color:#0077b6;min-width:52px;text-align:right}
+.btn-primary{background:#0077b6;color:#fff;border:none;padding:13px 24px;border-radius:6px;font-size:1rem;font-weight:600;cursor:pointer;width:100%;transition:background .2s;min-height:44px}
+.btn-primary:hover{background:#006299}
+.btn-secondary{background:#fff;color:#0077b6;border:1px solid #0077b6;padding:7px 16px;border-radius:6px;font-size:0.82rem;font-weight:600;cursor:pointer;transition:all .2s;min-height:36px}
+.btn-secondary:hover{background:#e8f4fb}
+.results{opacity:0;transition:opacity 0.3s ease;pointer-events:none}
+.results.visible{opacity:1;pointer-events:auto}
+.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+.summary-card{border-radius:8px;padding:1.2rem;text-align:center}
+.summary-card.blue{background:#e8f4fb;border:1px solid #b8ddf5}
+.summary-card.green{background:#e8f5e9;border:1px solid #a5d6a7}
+.summary-card.neutral{background:#f8f9fa;border:1px solid #e0e0e0}
+.summary-label{font-size:0.78rem;font-weight:500;color:#555;margin-bottom:0.3rem;line-height:1.3}
+.summary-value{font-size:1.6rem;font-weight:700;line-height:1.2}
+.summary-value.blue{color:#0077b6}
+.summary-value.green{color:#2e7d32}
+.summary-value.orange{color:#e65100}
+.winner-badge{display:inline-block;padding:4px 12px;border-radius:20px;font-size:0.75rem;font-weight:700;margin-top:6px}
+.badge-blue{background:#0077b6;color:#fff}
+.badge-green{background:#2e7d32;color:#fff}
+.badge-tie{background:#666;color:#fff}
+.bar-section{margin-bottom:1.5rem}
+.bar-label{font-size:0.82rem;font-weight:600;color:#444;margin-bottom:0.5rem}
+.bar-track{background:#f0f0f0;border-radius:4px;height:32px;overflow:hidden;display:flex;position:relative}
+.bar-seg{height:100%;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;color:#fff;transition:width 0.5s ease;overflow:hidden;white-space:nowrap}
+.bar-legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:0.75rem;color:#444}
+.legend-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+.comparison-bar-wrap{margin-bottom:1rem}
+.cbar-label{font-size:0.8rem;color:#555;margin-bottom:3px;display:flex;justify-content:space-between}
+.cbar-track{background:#f0f0f0;border-radius:4px;height:24px;overflow:hidden}
+.cbar-fill{height:100%;border-radius:4px;transition:width 0.5s ease;display:flex;align-items:center;padding-left:8px;font-size:0.72rem;font-weight:700;color:#fff}
+table{width:100%;border-collapse:collapse;font-size:0.82rem}
+thead th{background:#f0f0f0;padding:8px 10px;text-align:left;font-weight:600;color:#333;border-bottom:2px solid #ddd}
+thead th.num{text-align:right}
+tbody tr:nth-child(even){background:#fafafa}
+tbody tr:hover{background:#f0f8ff}
+tbody td{padding:7px 10px;border-bottom:1px solid #eee;color:#333}
+tbody td.num{text-align:right;font-variant-numeric:tabular-nums}
+.better{color:#2e7d32;font-weight:600}
+.table-wrap{overflow-x:auto}
+.show-all-wrap{text-align:center;margin-top:0.8rem}
+.copy-row{display:flex;justify-content:flex-end;margin-bottom:0.8rem}
+.ad-slot{min-height:0;margin:0}
+.content-section{margin-bottom:2rem}
+.content-section h2{font-size:1.1rem;font-weight:700;color:#1a1a2e;margin-bottom:0.7rem;margin-top:1.5rem}
+.content-section p{color:#444;font-size:0.92rem;margin-bottom:0.8rem}
+.content-section ul{padding-left:1.4rem;color:#444;font-size:0.92rem}
+.content-section li{margin-bottom:0.4rem}
+details{border:1px solid #e0e0e0;border-radius:6px;margin-bottom:0.6rem;padding:0}
+summary{padding:0.8rem 1rem;cursor:pointer;font-weight:600;font-size:0.9rem;color:#1a1a2e;list-style:none;display:flex;justify-content:space-between;align-items:center}
+summary::after{content:'▼';font-size:0.7rem;color:#0077b6;transition:transform 0.2s}
+details[open] summary::after{transform:rotate(180deg)}
+details p{padding:0 1rem 0.8rem;font-size:0.88rem;color:#444;line-height:1.6}
+.related-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.6rem}
+.related-link{display:block;background:#f8f9fa;border:1px solid #e0e0e0;border-radius:6px;padding:0.7rem 1rem;font-size:0.83rem;color:#0077b6;font-weight:500;transition:background .15s}
+.related-link:hover{background:#e8f4fb;text-decoration:none}
+footer{border-top:1px solid #e0e0e0;background:#fff;padding:1.2rem 1rem;margin-top:1rem}
+.footer-inner{max-width:640px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:0.5rem}
+.footer-links{display:flex;gap:1rem;font-size:0.82rem}
+.footer-copy{font-size:0.78rem;color:#888}
+.pmi-note{font-size:0.75rem;color:#888;margin-top:2px}
+.net-worth-diff{text-align:center;padding:1rem;border-radius:8px;margin-bottom:1.5rem}
+.net-worth-diff.invest-wins{background:#e8f5e9;border:1px solid #a5d6a7}
+.net-worth-diff.mortgage-wins{background:#e8f4fb;border:1px solid #b8ddf5}
+.net-worth-diff h3{font-size:0.85rem;color:#555;margin-bottom:0.3rem}
+.net-worth-diff .big{font-size:1.8rem;font-weight:700}
+.tabs{display:flex;gap:0;margin-bottom:1.5rem;border-radius:6px;overflow:hidden;border:1px solid #ddd}
+.tab-btn{flex:1;padding:10px 8px;background:#f8f9fa;border:none;font-size:0.83rem;font-weight:600;color:#555;cursor:pointer;transition:all .2s;border-right:1px solid #ddd}
+.tab-btn:last-child{border-right:none}
+.tab-btn.active{background:#0077b6;color:#fff}
+.tab-content{display:none}
+.tab-content.active{display:block}
+@media(max-width:600px){
+  .row-2{grid-template-columns:1fr}
+  .summary-grid{grid-template-columns:1fr 1fr}
+  .summary-value{font-size:1.2rem}
+  .related-grid{grid-template-columns:1fr}
+  h1{font-size:1.2rem}
+  .card{padding:1.2rem}
+  .footer-inner{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">calc<span>stack</span>.dev</a>
+  </div>
+</nav>
+
+<main>
+<h1>Mortgage Down Payment vs Investment Opportunity Cost Calculator</h1>
+<p class="subtitle">See whether putting more money into a down payment—or investing it—grows your net worth faster over time.</p>
+
+<div class="card">
+  <div class="section-title">🏠 Home Purchase Details</div>
+  <div class="row-2">
+    <div class="form-group">
+      <label for="homePrice">Home Price ($)</label>
+      <input type="number" id="homePrice" value="450000" min="1" placeholder="450000">
+      <div class="error-msg" id="err-homePrice">Enter a valid home price.</div>
+    </div>
+    <div class="form-group">
+      <label for="downAmt">Down Payment Amount ($)</label>
+      <input type="number" id="downAmt" value="90000" min="1" placeholder="90000">
+      <div class="error-msg" id="err-downAmt">Enter a valid down payment.</div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label>Down Payment % — <span id="downPctDisplay">20.0%</span></label>
+    <div class="slider-wrap">
+      <input type="range" id="downPctSlider" min="3" max="50" step="0.5" value="20">
+      <span class="slider-val" id="downPctSliderVal">20.0%</span>
+    </div>
+    <div class="pmi-note" id="pmiNote"></div>
+  </div>
+  <div class="row-2">
+    <div class="form-group">
+      <label for="mortgageRate">Mortgage Interest Rate (%)</label>
+      <input type="number" id="mortgageRate" value="6.75" min="0.1" max="20" step="0.01" placeholder="6.75">
+      <div class="error-msg" id="err-mortgageRate">Enter a valid rate (0.1–20%).</div>
+    </div>
+    <div class="form-group">
+      <label for="loanTerm">Loan Term (years)</label>
+      <select id="loanTerm">
+        <option value="30" selected>30 years</option>
+        <option value="20">20 years</option>
+        <option value="15">15 years</option>
+        <option value="10">10 years</option>
+      </select>
+    </div>
+  </div>
+  <div class="row-2">
+    <div class="form-group">
+      <label for="pmiRate">PMI Rate (% of loan/yr, 0 if ≥20%)</label>
+      <input type="number" id="pmiRate" value="0.5" min="0" max="3" step="0.05" placeholder="0.5">
+    </div>
+    <div class="form-group">
+      <label for="homeAppreciation">Home Appreciation Rate (%/yr)</label>
+      <input type="number" id="homeAppreciation" value="3.5" min="0" max="20" step="0.1" placeholder="3.5">
+    </div>
+  </div>
+
+  <div class="section-title" style="margin-top:1rem">📈 Investment Scenario</div>
+  <div class="row-2">
+    <div class="form-group">
+      <label for="investReturn">Expected Investment Return (%/yr)</label>
+      <input type="number" id="investReturn" value="7" min="0.1" max="30" step="0.1" placeholder="7">
+      <div class="error-msg" id="err-investReturn">Enter a valid return rate.</div>
+    </div>
+    <div class="form-group">
+      <label for="taxRate">Marginal Tax Rate (% on returns)</label>
+      <input type="number" id="taxRate" value="25" min="0" max="50" step="1" placeholder="25">
+    </div>
+  </div>
+  <div class="row-2">
+    <div class="form-group">
+      <label for="yearsAnalysis">Analysis Period (years)</label>
+      <select id="yearsAnalysis">
+        <option value="5">5 years</option>
+        <option value="10" selected>10 years</option>
+        <option value="15">15 years</option>
+        <option value="20">20 years</option>
+        <option value="30">30 years</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="altDown">Alternative Down Payment ($)</label>
+      <input type="number" id="altDown" value="45000" min="1" placeholder="45000">
+      <div class="error-msg" id="err-altDown">Enter a valid alternative down payment.</div>
+      <div class="pmi-note">The smaller down payment scenario (difference gets invested)</div>
+    </div>
+  </div>
+
+  <button class="btn-primary" id="calcBtn">Calculate Opportunity Cost</button>
+</div>
+
+<!-- Results -->
+<div class="results" id="results">
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+      <div class="section-title" style="margin-bottom:0">📊 Results Summary</div>
+      <button class="btn-secondary" id="copyBtn">Copy Results</button>
+    </div>
+
+    <div id="verdictBox" class="net-worth-diff"></div>
+
+    <div class="summary-grid" id="summaryGrid"></div>
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('visual')">Visual Breakdown</button>
+      <button class="tab-btn" onclick="switchTab('table')">Year-by-Year</button>
+      <button class="tab-btn" onclick="switchTab('details')">Loan Details</button>
+    </div>
+
+    <div class="tab-content active" id="tab-visual">
+      <div id="visualSection"></div>
+    </div>
+    <div class="tab-content" id="tab-table">
+      <div class="table-wrap" id="tableSection"></div>
+      <div class="show-all-wrap">
+        <button class="btn-secondary" id="showAllBtn" onclick="toggleShowAll()">Show All Years</button>
+      </div>
+    </div>
+    <div class="tab-content" id="tab-details">
+      <div id="detailsSection"></div>
+    </div>
+  </div>
+</div>
+
+<div class="ad-slot" id="ad-mid"></div>
+
+<div class="content-section card">
+  <h2>How to Use This Down Payment vs Invest Calculator</h2>
+  <p>Enter your home price, the two down payment amounts you're comparing, your mortgage rate, and your expected investment return. The calculator shows you which scenario produces higher net worth at the end of your chosen analysis period—taking into account home equity, investment growth, PMI costs, and interest savings.</p>
+  <p>The "alternative down payment" is the smaller amount you'd put down if you chose to invest the difference. The difference between your two down payment amounts is treated as the invested sum.</p>
+
+  <h2>Why This Matters</h2>
+  <p>This is one of the most debated personal finance decisions: should you put 20% down to avoid PMI and reduce interest, or put down less, keep more cash liquid, and invest the difference?</p>
+  <p>Here's a concrete example: On a $450,000 home, the difference between a 20% down payment ($90,000) and a 10% down payment ($45,000) is $45,000. If you invest that $45,000 at 7% annually for 10 years, it grows to roughly $88,500. But your larger down payment saves you about $31,000 in interest over those same 10 years and eliminates ~$18,000 in PMI. The math isn't obvious—it depends heavily on investment returns, your mortgage rate, and how long you hold the loan.</p>
+  <p>High-income earners with tax-advantaged space left (401k, IRA) and a stable income may benefit more from investing. First-time buyers who stretch to 20% might deplete emergency funds. There's no universal answer—which is exactly why this calculator exists.</p>
+
+  <h2>How It's Calculated</h2>
+  <p><strong>Scenario A (Larger Down Payment):</strong> Lower loan balance → lower monthly payments, less interest, no PMI. Home equity = Home Value – Remaining Loan Balance.</p>
+  <p><strong>Scenario B (Smaller Down Payment + Invest):</strong> Higher loan balance + potential PMI, but you invest the difference as a lump sum. Investment Value = Principal × (1 + after-tax return)^years.</p>
+  <p><strong>Net Worth Comparison:</strong></p>
+  <ul>
+    <li>Net Worth A = Home Equity (Scenario A) + savings from lower payments</li>
+    <li>Net Worth B = Home Equity (Scenario B) + Investment Portfolio Value</li>
+    <li>Opportunity Cost = |Net Worth A – Net Worth B|</li>
+  </ul>
+  <p>After-tax return = Annual Return × (1 – Tax Rate). PMI is removed automatically once equity reaches 20%.</p>
+
+  <h2>Tips & Common Mistakes</h2>
+  <ul>
+    <li><strong>Don't ignore PMI duration:</strong> PMI cancels when you hit 20% equity—typically 4–7 years on a normal schedule. Factor this in rather than assuming you pay PMI forever.</li>
+    <li><strong>Use realistic investment returns:</strong> The S&P 500 has averaged ~10% historically, but after inflation and taxes, 5–7% is more conservative and realistic for planning purposes.</li>
+    <li><strong>Consider liquidity:</strong> Home equity is illiquid. An investment portfolio gives you flexibility in emergencies. This calculator doesn't price in that optionality—it's worth considering separately.</li>
+    <li><strong>Match the analysis period to your plans:</strong> Planning to sell in 5 years? Use 5 years. Holding forever? Use 30. The winning scenario often changes at different horizons.</li>
+    <li><strong>Don't forget closing costs:</strong> Some lenders charge higher rates or fees for low down payments, which can shift the math significantly.</li>
+  </ul>
+
+  <h2>Frequently Asked Questions</h2>
+  <details>
+    <summary>Is it always better to invest instead of making a bigger down payment?</summary>
+    <p>Not always. If your mortgage rate is higher than your expected after-tax investment return, paying down the mortgage wins. In a 7% mortgage environment, investing in bonds yielding 4–5% after tax doesn't beat the guaranteed interest savings. Equities might, but with more risk.</p>
+  </details>
+  <details>
+    <summary>Does this calculator account for the mortgage interest tax deduction?</summary>
+    <p>The base calculation doesn't include the mortgage interest deduction. If you itemize deductions, your effective mortgage rate is lower (multiply by 1 minus your tax rate). Adjust the mortgage rate input accordingly—for example, a 7% mortgage with a 25% tax bracket is effectively 5.25% if you itemize.</p>
+  </details>
+  <details>
+    <summary>When does PMI go away in this calculator?</summary>
+    <p>PMI is applied until your loan-to-value ratio drops below 80% (i.e., equity exceeds 20%). The calculator tracks this year by year using loan amortization and home appreciation, and stops applying PMI costs once that threshold is crossed.</p>
+  </details>
+  <details>
+    <summary>What investment return should I use?</summary>
+    <p>A conservative estimate for a diversified stock portfolio is 6–8% nominal (before taxes). After a 25% tax rate on gains, that's 4.5–6% effective. For bonds or balanced portfolios, use 3–5%. The tool lets you adjust this—try a few scenarios to see how sensitive the result is.</p>
+  </details>
+</div>
+
+<div class="card">
+  <div class="section-title">🔗 Related Tools</div>
+  <div class="related-grid">
+    <a href="/taxable-vs-tax-advantaged-investment-growth-calculator/" class="related-link">Taxable vs Tax-Advantaged Investment Growth</a>
+    <a href="/buy-vs-lease-vs-finance-car-calculator/" class="related-link">Buy vs Lease vs Finance Car Calculator</a>
+    <a href="/dividend-income-portfolio-calculator/" class="related-link">Dividend Income Portfolio Calculator</a>
+    <a href="/mortgage-extra-payment-accelerator/" class="related-link">Mortgage Extra Payment Accelerator</a>
+    <a href="/investment-fee-impact-calculator/" class="related-link">Net Investment Fee Impact Calculator</a>
+    <a href="/savings-rate-fire-timeline-calculator/" class="related-link">Savings Rate FIRE Timeline Calculator</a>
+  </div>
+</div>
+
+<div class="ad-slot" id="ad-bottom"></div>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-links">
+      <a href="/about/">About</a>
+      <a href="/privacy/">Privacy</a>
+      <a href="/contact/">Contact</a>
+    </div>
+    <div class="footer-copy">© 2025 calcstack.dev</div>
+  </div>
+</footer>
+
+<script>
+// ── helpers ──────────────────────────────────────────────────────────────────
+function fmt(n,dec=0){
+  if(isNaN(n)||!isFinite(n))return '$0';
+  return '$'+n.toFixed(dec).replace(/\B(?=(\d{3})+(?!\d))/g,',');
+}
+function fmtN(n,dec=0){
+  return n.toFixed(dec).replace(/\B(?=(\d{3})+(?!\d))/g,',');
+}
+function pct(n,dec=1){return n.toFixed(dec)+'%'}
+
+// ── slider sync ──────────────────────────────────────────────────────────────
+const homeP=document.getElementById('homePrice');
+const downA=document.getElementById('downAmt');
+const slider=document.getElementById('downPctSlider');
+const sliderVal=document.getElementById('downPctSliderVal');
+const pctDisplay=document.getElementById('downPctDisplay');
+const pmiNote=document.getElementById('pmiNote');
+
+function syncSliderFromAmt(){
+  const hp=parseFloat(homeP.value)||450000;
+  const da=parseFloat(downA.value)||90000;
+  const p=Math.min(50,Math.max(3,(da/hp)*100));
+  slider.value=p;
+  sliderVal.textContent=pct(p);
+  pctDisplay.textContent=pct(p);
+  updatePmiNote(da/hp);
+}
+function syncAmtFromSlider(){
+  const hp=parseFloat(homeP.value)||450000;
+  const p=parseFloat(slider.value);
+  downA.value=Math.round(hp*p/100);
+  sliderVal.textContent=pct(p);
+  pctDisplay.textContent=pct(p);
+  updatePmiNote(p/100);
+}
+function updatePmiNote(ratio){
+  if(ratio<0.2) pmiNote.textContent='⚠️ Down payment below 20% — PMI will apply until equity reaches 20%.';
+  else pmiNote.textContent='✅ 20%+ down — no PMI required.';
+}
+slider.addEventListener('input',syncAmtFromSlider);
+downA.addEventListener('input',syncSliderFromAmt);
+homeP.addEventListener('input',syncSliderFromAmt);
+syncSliderFromAmt();
+
+// ── amortization ─────────────────────────────────────────────────────────────
+function amortize(principal,annualRate,termYears){
+  const r=annualRate/12/100;
+  const n=termYears*12;
+  const pmt=r===0?principal/n:principal*(r*Math.pow(1+r,n))/(Math.pow(1+r,n)-1);
+  let bal=principal;
+  const rows=[];
+  for(let i=1;i<=n;i++){
+    const int=bal*r;
+    const prin=pmt-int;
+    bal=Math.max(0,bal-prin);
+    rows.push({month:i,payment:pmt,interest:int,principal:prin,balance:bal});
+  }
+  return{payment:pmt,rows};
+}
+
+// ── validation ───────────────────────────────────────────────────────────────
+function validate(){
+  let ok=true;
+  const checks=[
+    ['homePrice',v=>v>0,'Enter a valid home price.'],
+    ['downAmt',v=>v>0,'Enter a valid down payment.'],
+    ['mortgageRate',v=>v>0&&v<=20,'Enter a valid rate (0.1–20%).'],
+    ['investReturn',v=>v>0&&v<=30,'Enter a valid return rate.'],
+    ['altDown',v=>v>0,'Enter a valid alternative down payment.'],
+  ];
+  checks.forEach(([id,test,msg])=>{
+    const el=document.getElementById(id);
+    const errEl=document.getElementById('err-'+id);
+    const val=parseFloat(el.value);
+    if(!test(val)){
+      el.classList.add('error');
+      if(errEl){errEl.classList.add('show');errEl.textContent=msg;}
+      ok=false;
+    } else {
+      el.classList.remove('error');
+      if(errEl)errEl.classList.remove('show');
+    }
+  });
+  return ok;
+}
+
+// ── full calculation ──────────────────────────────────────────────────────────
+let fullTableRows=[];
+let showingAll=false;
+let copyText='';
+
+function calculate(){
+  if(!validate())return;
+
+  const homePrice=parseFloat(document.getElementById('homePrice').value);
+  const downBig=parseFloat(document.getElementById('downAmt').value);
+  const downSmall=parseFloat(document.getElementById('altDown').value);
+  const mortRate=parseFloat(document.getElementById('mortgageRate').value);
+  const loanTerm=parseInt(document.getElementById('loanTerm').value);
+  const pmiRate=parseFloat(document.getElementById('pmiRate').value)||0;
+  const homeApp=parseFloat(document.getElementById('homeAppreciation').value)||0;
+  const invReturn=parseFloat(document.getElementById('investReturn').value);
+  const taxR=parseFloat(document.getElementById('taxRate').value)||0;
+  const years=parseInt(document.getElementById('yearsAnalysis').value);
+
+  if(downBig<=downSmall){
+    alert('The main down payment should be larger than the alternative. Swap the values if needed.');
+    return;
+  }
+  if(downBig>=homePrice){
+    alert('Down payment cannot exceed the home price.');
+    return;
+  }
+
+  const investedDiff=downBig-downSmall;
+  const afterTaxReturn=invReturn*(1-taxR/100)/100;
+
+  // Scenario A: big down payment
+  const loanA=homePrice-downBig;
+  const amortA=amortize(loanA,mortRate,loanTerm);
+
+  // Scenario B: small down payment
+  const loanB=homePrice-downSmall;
+  const amortB=amortize(loanB,mortRate,loanTerm);
+
+  // year-by-year
+  const tableRows=[];
+  let invValue=investedDiff;
+  let cumulativePmiB=0;
+  let cumulativeIntA=0;
+  let cumulativeIntB=0;
+  let cumulativePmtA=0;
+  let cumulativePmtB=0;
+
+  for(let y=1;y<=Math.min(years,loanTerm);y++){
+    // home value this year
+    const homeVal=homePrice*Math.pow(1+homeApp/100,y);
+
+    // get year-end balances from amort rows
+    const rowsA=amortA.rows.slice((y-1)*12,y*12);
+    const rowsB=amortB.rows.slice((y-1)*12,y*12);
+    const balA=rowsA.length?rowsA[rowsA.length-1].balance:0;
+    const balB=rowsB.length?rowsB[rowsB.length-1].balance:0;
+
+    const intA=rowsA.reduce((s,r)=>s+r.interest,0);
+    const intB=rowsB.reduce((s,r)=>s+r.interest,0);
+    const pmtA=rowsA.reduce((s,r)=>s+r.payment,0);
+    const pmtB=rowsB.reduce((s,r)=>s+r.payment,0);
+
+    cumulativeIntA+=intA;
+    cumulativeIntB+=intB;
+    cumulativePmtA+=pmtA;
+    cumulativePmtB+=pmtB;
+
+    // PMI for B: apply until LTV <= 80%
+    let pmiThisYear=0;
+    if(pmiRate>0){
+      for(let m=(y-1)*12;m<y*12;m++){
+        if(m>=amortB.rows.length)break;
+        const mb=amortB.rows[m];
+        const hvMid=homePrice*Math.pow(1+homeApp/100,(m+1)/12);
+        const ltv=mb.balance/hvMid;
+        if(ltv>0.8) pmiThisYear+=loanB*(pmiRate/100)/12;
+      }
+    }
+    cumulativePmiB+=pmiThisYear;
+
+    // investment grows
+    invValue=investedDiff*Math.pow(1+afterTaxReturn,y);
+
+    const equityA=homeVal-balA;
+    const equityB=homeVal-balB;
+
+    // Net worth: equity + investment (for B) — cumulative extra costs
+    // Scenario A net worth = equity A (no investment side)
+    // Scenario B net worth = equity B + investment portfolio
+    // We also account for payment difference: B pays more each month (higher loan)
+    // The payment difference is not invested here — simplification: we compare net worth directly
+    const nwA=equityA;
+    const nwB=equityB+invValue;
+
+    tableRows.push({
+      year:y,homeVal,
+      equityA,balA,cumulativeIntA,
+      equityB,balB,cumulativeIntB,cumulativePmiB,
+      invValue,nwA,nwB,
+      winner:nwA>nwB?'A':'B'
+    });
+  }
+
+  // handle if analysis period > loan term
+  for(let y=loanTerm+1;y<=years;y++){
+    const homeVal=homePrice*Math.pow(1+homeApp/100,y);
+    invValue=investedDiff*Math.pow(1+afterTaxReturn,y);
+    const equityA=homeVal;
+    const equityB=homeVal;
+    const nwA=equityA;
+    const nwB=equityB+invValue;
+    tableRows.push({
+      year:y,homeVal,
+      equityA,balA:0,cumulativeIntA,
+      equityB,balB:0,cumulativeIntB,cumulativePmiB,
+      invValue,nwA,nwB,
+      winner:nwA>nwB?'A':'B'
+    });
+  }
+
+  fullTableRows=tableRows;
+  const final=tableRows[tableRows.length-1];
+  const diff=Math.abs(final.nwA-final.nwB);
+  const winner=final.nwA>final.nwB?'A':'B';
+
+  // build copy text
+  copyText=`Down Payment vs Investment Opportunity Cost
+Analysis Period: ${years} years
+Home Price: ${fmt(homePrice)}
+Scenario A (Big Down ${fmt(downBig)}): Final Net Worth ${fmt(final.nwA)}
+Scenario B (Small Down ${fmt(downSmall)} + Invest ${fmt(investedDiff)}): Final Net Worth ${fmt(final.nwB)}
+Winner: ${winner==='A'?'Bigger Down Payment':'Invest the Difference'} by ${fmt(diff)}`;
+
+  requestAnimationFrame(()=>{
+    renderResults(final,winner,diff,homePrice,downBig,downSmall,investedDiff,years,loanA,loanB,amortA,amortB,cumulativePmiB,cumulativeIntA,cumulativeIntB);
+    document.getElementById('results').classList.add('visible');
+    document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'});
+  });
+}
+
+function renderResults(final,winner,diff,homePrice,downBig,downSmall,investedDiff,years,loanA,loanB,amortA,amortB,pmiB,intA,intB){
+  // verdict
+  const verdictEl=document.getElementById('verdictBox');
+  if(winner==='A'){
+    verdictEl.className='net-worth-diff mortgage-wins';
+    verdictEl.innerHTML=`<h3>At ${years} years, the Bigger Down Payment wins by:</h3><div class="big" style="color:#0077b6">${fmt(diff)}</div><div style="font-size:0.8rem;color:#555;margin-top:4px">Higher net worth with ${pct(downBig/homePrice*100)} down vs ${pct(downSmall/homePrice*100)} down</div>`;
+  } else {
+    verdictEl.className='net-worth-diff invest-wins';
+    verdictEl.innerHTML=`<h3>At ${years} years, Investing the Difference wins by:</h3><div class="big" style="color:#2e7d32">${fmt(diff)}</div><div style="font-size:0.8rem;color:#555;margin-top:4px">Invest ${fmt(investedDiff)} difference, ${pct(downSmall/homePrice*100)} down payment</div>`;
+  }
+
+  // summary cards
+  document.getElementById('summaryGrid').innerHTML=`
+    <div class="summary-card blue">
+      <div class="summary-label">🏠 Scenario A Net Worth<br>(Big Down ${pct(downBig/homePrice*100)})</div>
+      <div class="summary-value blue">${fmt(final.nwA)}</div>
+      <div class="summary-label" style="margin-top:4px">Equity: ${fmt(final.equityA)}</div>
+      ${winner==='A'?'<span class="winner-badge badge-blue">✓ WINNER</span>':''}
+    </div>
+    <div class="summary-card green">
+      <div class="summary-label">📈 Scenario B Net Worth<br>(Small Down ${pct(downSmall/homePrice*100)} + Invest)</div>
+      <div class="summary-value green">${fmt(final.nwB)}</div>
+      <div class="summary-label" style="margin-top:4px">Equity: ${fmt(final.equityB)} + ${fmt(final.invValue)} invested</div>
+      ${winner==='B'?'<span class="winner-badge badge-green">✓ WINNER</span>':''}
+    </div>
+    <div class="summary-card neutral">
+      <div class="summary-label">💰 Total Interest Saved<br>(Scenario A vs B)</div>
+      <div class="summary-value ${intA<intB?'blue':'orange'}">${fmt(Math.abs(intB-intA))}</div>
+      <div class="summary-label" style="margin-top:4px">${intA<intB?'Scenario A saves interest':'Scenario B saves interest'}</div>
+    </div>
+    <div class="summary-card neutral">
+      <div class="summary-label">🔴 Total PMI Paid<br>(Scenario B)</div>
+      <div class="summary-value orange">${fmt(pmiB)}</div>
+      <div class="summary-label" style="margin-top:4px">Until 80% LTV reached</div>
+    </div>
+  `;
+
+  // visual bars
+  const maxNW=Math.max(final.nwA,final.nwB,1);
+  const wA=Math.round(final.nwA/maxNW*100);
+  const wB=Math.round(final.nwB/maxNW*100);
+  const maxInt=Math.max(intA,intB,1);
+  const wIA=Math.round(intA/maxInt*100);
+  const wIB=Math.round(intB/maxInt*100);
+
+  // stacked bar for scenario A: equity
+  const totalA=final.equityA;
+  const totalB=final.equityB+final.invValue;
+  const eqAPct=Math.round(final.equityA/Math.max(totalA,1)*100);
+  const eqBPct=Math.round(final.equityB/Math.max(totalB,1)*100);
+  const invBPct=100-eqBPct;
+
+  document.getElementById('visualSection').innerHTML=`
+    <div class="bar-section">
+      <div class="bar-label">Net Worth Comparison (${years} Years)</div>
+      <div class="comparison-bar-wrap">
+        <div class="cbar-label"><span>Scenario A — Big Down (${pct(downBig/homePrice*100)})</span><span>${fmt(final.nwA)}</span></div>
+        <div class="cbar-track"><div class="cbar-fill" style="width:${wA}%;background:#0077b6">${wA>15?fmt(final.nwA):''}</div></div>
+      </div>
+      <div class="comparison-bar-wrap">
+        <div class="cbar-label"><span>Scenario B — Small Down + Invest</span><span>${fmt(final.nwB)}</span></div>
+        <div class="cbar-track"><div class="cbar-fill" style="width:${wB}%;background:#2e7d32">${wB>15?fmt(final.nwB):''}</div></div>
+      </div>
+    </div>
+    <div class="bar-section">
+      <div class="bar-label">Scenario A Wealth Breakdown</div>
+      <div class="bar-track">
+        <div class="bar-seg" style="width:100%;background:#0077b6">Home Equity ${fmt(final.equityA)}</div>
+      </div>
+      <div class="bar-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#0077b6"></div>Home Equity ${fmt(final.equityA)}</div>
+      </div>
+    </div>
+    <div class="bar-section">
+      <div class="bar-label">Scenario B Wealth Breakdown</div>
+      <div class="bar-track">
+        <div class="bar-seg" style="width:${eqBPct}%;background:#0077b6;min-width:${eqBPct>5?'auto':'0'}">${eqBPct>12?'Equity':'...'}</div>
+        <div class="bar-seg" style="width:${invBPct}%;background:#2e7d32">${invBPct>12?'Investment '+fmt(final.invValue):''}</div>
+      </div>
+      <div class="bar-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#0077b6"></div>Home Equity ${fmt(final.equityB)}</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#2e7d32"></div>Investment Portfolio ${fmt(final.invValue)}</div>
+      </div>
+    </div>
+    <div class="bar-section">
+      <div class="bar-label">Cumulative Interest Paid</div>
+      <div class="comparison-bar-wrap">
+        <div class="cbar-label"><span>Scenario A Interest</span><span>${fmt(intA)}</span></div>
+        <div class="cbar-track"><div class="cbar-fill" style="width:${wIA}%;background:#e74c3c">${wIA>15?fmt(intA):''}</div></div>
+      </div>
+      <div class="comparison-bar-wrap">
+        <div class="cbar-label"><span>Scenario B Interest + PMI</span><span>${fmt(intB+pmiB)}</span></div>
+        <div class="cbar-track"><div class="cbar-fill" style="width:${wIB}%;background:#e67e22">${wIB>15?fmt(intB+pmiB):''}</div></div>
+      </div>
+    </div>
+  `;
+
+  // table
+  renderTable(false);
+
+  // loan details
+  const mthPmtA=amortA.payment;
+  const mthPmtB=amortB.payment;
+  document.getElementById('detailsSection').innerHTML=`
+    <table>
+      <thead><tr><th>Detail</th><th class="num">Scenario A</th><th class="num">Scenario B</th></tr></thead>
+      <tbody>
+        <tr><td>Down Payment</td><td class="num">${fmt(downBig)}</td><td class="num">${fmt(downSmall)}</td></tr>
+        <tr><td>Down Payment %</td><td class="num">${pct(downBig/homePrice*100)}</td><td class="num">${pct(downSmall/homePrice*100)}</td></tr>
+        <tr><td>Loan Amount</td><td class="num">${fmt(loanA)}</td><td class="num">${fmt(loanB)}</td></tr>
+        <tr><td>Monthly Payment (P+I)</td><td class="num">${fmt(mthPmtA)}</td><td class="num">${fmt(mthPmtB)}</td></tr>
+        <tr><td>Monthly Difference</td><td class="num" colspan="2" style="text-align:right">Scenario B is ${fmt(mthPmtB-mthPmtA)}/mo higher</td></tr>
+        <tr><td>Cumulative Interest (${years}yr)</td><td class="num">${fmt(intA)}</td><td class="num">${fmt(intB)}</td></tr>
+        <tr><td>Total PMI Paid</td><td class="num">$0</td><td class="num">${fmt(pmiB)}</td></tr>
+        <tr><td>Amount Invested (Difference)</td><td class="num">—</td><td class="num">${fmt(investedDiff)}</td></tr>
+        <tr><td>Investment Value (${years}yr)</td><td class="num">—</td><td class="num">${fmt(final.invValue)}</td></tr>
+        <tr><td><strong>Final Net Worth</strong></td><td class="num"><strong>${fmt(final.nwA)}</strong></td><td class="num"><strong>${fmt(final.nwB)}</strong></td></tr>
+      </tbody>
+    </table>
+  `;
+}
+
+function renderTable(all){
+  const rows=all?fullTableRows:fullTableRows.slice(0,10);
+  let html=`<table>
+    <thead><tr>
+      <th>Year</th>
+      <th class="num">Home Value</th>
+      <th class="num">Equity A</th>
+      <th class="num">Equity B</th>
+      <th class="num">Portfolio</th>
+      <th class="num">NW-A</th>
+      <th class="num">NW-B</th>
+      <th class="num">Winner</th>
+    </tr></thead><tbody>`;
+  rows.forEach(r=>{
+    html+=`<tr>
+      <td>${r.year}</td>
+      <td class="num">${fmt(r.homeVal)}</td>
+      <td class="num">${fmt(r.equityA)}</td>
+      <td class="num">${fmt(r.equityB)}</td>
+      <td class="num">${fmt(r.invValue)}</td>
+      <td class="num">${fmt(r.nwA)}</td>
+      <td class="num">${fmt(r.nwB)}</td>
+      <td class="num ${r.winner==='A'?'better':''}" style="${r.winner==='B'?'color:#2e7d32;font-weight:600':''}">${r.winner==='A'?'Down ✓':'Invest ✓'}</td>
+    </tr>`;
+  });
+  html+='</tbody></table>';
+  document.getElementById('tableSection').innerHTML=html;
+  const btn=document.getElementById('showAllBtn');
+  if(fullTableRows.length<=10){btn.style.display='none';}
+  else{btn.style.display='inline-block';btn.textContent=all?'Show Less':'Show All '+fullTableRows.length+' Years';}
+}
+
+function toggleShowAll(){
+  showingAll=!showingAll;
+  renderTable(showingAll);
+}
+
+function switchTab(name){
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>{
+    const names=['visual','table','details'];
+    b.classList.toggle('active',names[i]===name);
+  });
+  document.querySelectorAll('.tab-content').forEach(c=>{
+    c.classList.toggle('active',c.id==='tab-'+name);
+  });
+}
+
+// copy button
+document.getElementById('copyBtn').addEventListener('click',()=>{
+  if(!copyText)return;
+  navigator.clipboard.writeText(copyText).then(()=>{
+    const btn=document.getElementById('copyBtn');
+    btn.textContent='Copied!';
+    setTimeout(()=>btn.textContent='Copy Results',2000);
+  }).catch(()=>{
+    const ta=document.createElement('textarea');
+    ta.value=copyText;ta.style.position='fixed';ta.style.opacity='0';
+    document.body.appendChild(ta);ta.select();document.execCommand('copy');
+    document.body.removeChild(ta);
+    const btn=document.getElementById('copyBtn');
+    btn.textContent='Copied!';
+    setTimeout(()=>btn.textContent='Copy Results',2000);
+  });
+});
+
+// calculate button
+document.getElementById('calcBtn').addEventListener('click',()=>{
+  requestAnimationFrame(()=>calculate());
+});
+
+// enter key
+document.querySelectorAll('input').forEach(el=>{
+  el.addEventListener('keydown',e=>{if(e.key==='Enter')requestAnimationFrame(()=>calculate());});
+});
+
+// initial calc
+requestAnimationFrame(()=>calculate());
+</script>
+</body>
+</html>
