@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buy vs Lease vs Finance Car Calculator — Free Online Tool | calcstack.dev</title>
+<meta name="description" content="Should I buy or lease a car? Compare total costs of buying outright, leasing, or financing a car. Free calculator with year-by-year breakdown.">
+<link rel="canonical" href="https://calcstack.dev/buy-vs-lease-vs-finance-car-calculator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Buy vs Lease vs Finance Car Calculator",
+  "url": "https://calcstack.dev/buy-vs-lease-vs-finance-car-calculator/",
+  "description": "Compare the total cost of buying outright, leasing, or financing a car over any time period.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f0f4f8;color:#1a1a2e;font-size:16px;line-height:1.6}
+a{color:#0077b6;text-decoration:none}
+a:hover{text-decoration:underline}
+nav{background:#fff;border-bottom:1px solid #e0e0e0;padding:0 1.5rem}
+.nav-inner{max-width:640px;margin:0 auto;display:flex;align-items:center;height:52px}
+.nav-brand{font-weight:700;font-size:1.05rem;color:#1a1a2e}
+.nav-brand span{color:#0077b6}
+main{max-width:640px;margin:0 auto;padding:1.5rem 1rem 2rem}
+h1{font-size:1.55rem;font-weight:800;color:#1a1a2e;margin-bottom:.4rem;line-height:1.3}
+.subtitle{color:#555;font-size:.95rem;margin-bottom:1.5rem}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:1.75rem 1.5rem;box-shadow:0 1px 4px rgba(0,0,0,.06);margin-bottom:1.5rem}
+.section-title{font-size:1rem;font-weight:700;color:#1a1a2e;margin-bottom:1rem;padding-bottom:.4rem;border-bottom:2px solid #0077b6;display:inline-block}
+.tabs{display:flex;gap:0;border-radius:6px;overflow:hidden;border:1px solid #ddd;margin-bottom:1.25rem;width:100%}
+.tab-btn{flex:1;padding:10px 6px;background:#f8f9fa;border:none;cursor:pointer;font-size:.85rem;font-weight:600;color:#555;transition:background .2s,color .2s;min-height:44px}
+.tab-btn.active{background:#0077b6;color:#fff}
+.tab-btn:not(:last-child){border-right:1px solid #ddd}
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+.form-group{margin-bottom:1rem}
+.form-group.full{grid-column:1/-1}
+label{display:block;font-size:.85rem;font-weight:500;color:#444;margin-bottom:5px}
+input[type=number],input[type=text],select{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:6px;font-size:.95rem;color:#1a1a2e;background:#fff;transition:border-color .2s,box-shadow .2s;-webkit-appearance:none;min-height:44px}
+input:focus,select:focus{outline:none;border-color:#0077b6;box-shadow:0 0 0 3px rgba(0,119,182,.15)}
+input.error{border-color:#e74c3c;box-shadow:0 0 0 3px rgba(231,76,60,.1)}
+.error-msg{color:#e74c3c;font-size:.78rem;margin-top:4px}
+.input-hint{color:#888;font-size:.78rem;margin-top:3px}
+.slider-wrap{display:flex;align-items:center;gap:.75rem}
+input[type=range]{flex:1;height:6px;accent-color:#0077b6;cursor:pointer;min-height:auto}
+.slider-val{font-size:.9rem;font-weight:600;color:#0077b6;min-width:50px;text-align:right}
+.btn-primary{background:#0077b6;color:#fff;border:none;padding:13px 24px;border-radius:6px;font-size:1rem;font-weight:600;cursor:pointer;width:100%;transition:background .2s;min-height:48px;margin-top:.25rem}
+.btn-primary:hover{background:#006299}
+.btn-secondary{background:#f0f4f8;color:#1a1a2e;border:1px solid #ddd;padding:8px 16px;border-radius:6px;font-size:.85rem;font-weight:600;cursor:pointer;transition:background .2s;min-height:40px}
+.btn-secondary:hover{background:#e4eaf0}
+.btn-sm{padding:6px 14px;font-size:.8rem;min-height:36px}
+#results{opacity:0;transition:opacity .3s ease;pointer-events:none}
+#results.visible{opacity:1;pointer-events:auto}
+.winner-banner{background:linear-gradient(135deg,#0077b6,#005f8e);color:#fff;border-radius:8px;padding:1.25rem 1.5rem;margin-bottom:1.25rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem}
+.winner-label{font-size:.85rem;opacity:.85;font-weight:500}
+.winner-name{font-size:1.5rem;font-weight:800}
+.winner-amount{font-size:1rem;opacity:.9}
+.comparison-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.75rem;margin-bottom:1.25rem}
+.cost-card{background:#f8f9fa;border:1px solid #e0e0e0;border-radius:8px;padding:1rem;text-align:center;transition:border-color .3s}
+.cost-card.best{border-color:#0077b6;background:#e8f4fd}
+.cost-card-label{font-size:.78rem;font-weight:600;color:#555;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.3rem}
+.cost-card-amount{font-size:1.25rem;font-weight:800;color:#1a1a2e}
+.cost-card.best .cost-card-amount{color:#0077b6}
+.cost-card-sub{font-size:.75rem;color:#888;margin-top:.2rem}
+.badge-best{display:inline-block;background:#0077b6;color:#fff;font-size:.65rem;font-weight:700;border-radius:20px;padding:2px 8px;margin-top:.3rem;text-transform:uppercase;letter-spacing:.04em}
+.bar-section{margin-bottom:1.5rem}
+.bar-title{font-size:.85rem;font-weight:600;color:#444;margin-bottom:.5rem}
+.bar-group{margin-bottom:.75rem}
+.bar-label{display:flex;justify-content:space-between;font-size:.8rem;color:#555;margin-bottom:3px}
+.bar-track{background:#e8edf2;border-radius:4px;height:22px;overflow:hidden;position:relative}
+.bar-fill{height:100%;border-radius:4px;transition:width .6s ease;display:flex;align-items:center;padding-left:8px;font-size:.72rem;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden}
+.bar-buy{background:#0077b6}
+.bar-lease{background:#e67e22}
+.bar-finance{background:#27ae60}
+.bar-stack{display:flex;height:22px;border-radius:4px;overflow:hidden}
+.stacked-label{font-size:.72rem;font-weight:600;display:flex;align-items:center;justify-content:center;overflow:hidden;white-space:nowrap}
+.detail-tabs{display:flex;gap:0;border-radius:6px;overflow:hidden;border:1px solid #ddd;margin-bottom:1rem}
+.detail-tab{flex:1;padding:8px 6px;background:#f8f9fa;border:none;cursor:pointer;font-size:.8rem;font-weight:600;color:#555;transition:background .2s;min-height:40px}
+.detail-tab.active{background:#1a1a2e;color:#fff}
+.detail-tab:not(:last-child){border-right:1px solid #ddd}
+.detail-pane{display:none}
+.detail-pane.active{display:block}
+table{width:100%;border-collapse:collapse;font-size:.82rem}
+th{background:#f0f0f0;text-align:left;padding:8px 10px;font-weight:600;color:#444;white-space:nowrap}
+th.num,td.num{text-align:right}
+td{padding:7px 10px;border-bottom:1px solid #f0f0f0;color:#1a1a2e}
+tr:nth-child(even) td{background:#fafafa}
+tr:last-child td{border-bottom:none}
+.tbl-scroll{overflow-x:auto}
+.show-all-wrap{text-align:center;margin-top:.75rem}
+.summary-table{width:100%;border-collapse:collapse;font-size:.88rem}
+.summary-table th{background:#f0f0f0;padding:9px 12px;font-weight:600;color:#444;text-align:left}
+.summary-table th.num,.summary-table td.num{text-align:right}
+.summary-table td{padding:9px 12px;border-bottom:1px solid #f0f0f0}
+.summary-table tr:nth-child(even) td{background:#fafafa}
+.green{color:#27ae60;font-weight:700}
+.red{color:#e74c3c;font-weight:700}
+.copy-row{display:flex;justify-content:flex-end;margin-bottom:.75rem}
+.ad-slot{min-height:0;margin:0}
+.content-section{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:1.75rem 1.5rem;margin-bottom:1.5rem}
+.content-section h2{font-size:1.1rem;font-weight:700;color:#1a1a2e;margin-bottom:.6rem;margin-top:1.25rem}
+.content-section h2:first-child{margin-top:0}
+.content-section p{color:#444;font-size:.92rem;margin-bottom:.75rem;line-height:1.65}
+.content-section ul{padding-left:1.25rem;color:#444;font-size:.92rem}
+.content-section li{margin-bottom:.4rem;line-height:1.6}
+details{border:1px solid #e0e0e0;border-radius:6px;margin-bottom:.5rem;overflow:hidden}
+summary{padding:.75rem 1rem;font-weight:600;font-size:.9rem;cursor:pointer;background:#f8f9fa;list-style:none;position:relative;padding-right:2rem}
+summary::-webkit-details-marker{display:none}
+summary::after{content:'＋';position:absolute;right:1rem;top:50%;transform:translateY(-50%);color:#0077b6;font-size:1rem}
+details[open] summary::after{content:'－'}
+details p{padding:.75rem 1rem;font-size:.88rem;color:#444;line-height:1.6}
+.related-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.related-link{display:block;background:#f8f9fa;border:1px solid #e0e0e0;border-radius:6px;padding:.7rem 1rem;font-size:.85rem;font-weight:500;color:#0077b6;transition:background .2s}
+.related-link:hover{background:#e8f4fd;text-decoration:none}
+footer{background:#fff;border-top:1px solid #e0e0e0;padding:1.25rem 1.5rem;text-align:center;font-size:.82rem;color:#888}
+footer a{color:#0077b6;margin:0 .5rem}
+@media(max-width:600px){
+  .form-row{grid-template-columns:1fr}
+  .comparison-grid{grid-template-columns:1fr}
+  .related-grid{grid-template-columns:1fr}
+  h1{font-size:1.3rem}
+  .winner-name{font-size:1.25rem}
+  .cost-card-amount{font-size:1.1rem}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">calc<span>stack</span>.dev</a>
+  </div>
+</nav>
+
+<main>
+  <h1>Buy vs Lease vs Finance Car Calculator</h1>
+  <p class="subtitle">Compare the true total cost of buying outright, leasing, or financing your next car — side by side.</p>
+
+  <div class="card">
+    <div class="section-title">Car & Shared Details</div>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="carPrice">Car Price ($)</label>
+        <input type="number" id="carPrice" value="35000" min="0" placeholder="35000">
+      </div>
+      <div class="form-group">
+        <label for="downPayment">Down Payment ($)</label>
+        <input type="number" id="downPayment" value="5000" min="0" placeholder="5000">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="salesTax">Sales Tax (%)</label>
+        <input type="number" id="salesTax" value="8" min="0" max="20" step="0.1" placeholder="8">
+      </div>
+      <div class="form-group">
+        <label for="yearsOwn">Comparison Period (years)</label>
+        <input type="number" id="yearsOwn" value="5" min="1" max="20" placeholder="5">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="annualMiles">Annual Miles Driven</label>
+        <input type="number" id="annualMiles" value="12000" min="0" placeholder="12000">
+      </div>
+      <div class="form-group">
+        <label for="annualInsurance">Annual Insurance ($)</label>
+        <input type="number" id="annualInsurance" value="1800" min="0" placeholder="1800">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Annual Maintenance ($)</label>
+        <input type="number" id="annualMaint" value="700" min="0" placeholder="700">
+      </div>
+      <div class="form-group">
+        <label>Annual Depreciation Rate (%)</label>
+        <div class="slider-wrap">
+          <input type="range" id="deprSlider" min="5" max="25" value="15" step="0.5">
+          <span class="slider-val" id="deprVal">15%</span>
+        </div>
+        <input type="hidden" id="deprRate" value="15">
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="tabs" role="tablist">
+      <button class="tab-btn active" onclick="switchTab('buy')" id="tab-buy">💵 Buy Cash</button>
+      <button class="tab-btn" onclick="switchTab('lease')" id="tab-lease">🔑 Lease</button>
+      <button class="tab-btn" onclick="switchTab('finance')" id="tab-finance">🏦 Finance</button>
+    </div>
+
+    <div id="pane-buy" class="tab-pane active">
+      <div class="section-title">Buy Outright Details</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Dealer Fees ($)</label>
+          <input type="number" id="buyFees" value="800" min="0" placeholder="800">
+        </div>
+        <div class="form-group">
+          <label>Opportunity Cost Rate (%/yr)</label>
+          <input type="number" id="buyOpportunity" value="5" min="0" max="30" step="0.5" placeholder="5">
+          <div class="input-hint">If you invested the cash instead</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="pane-lease" class="tab-pane">
+      <div class="section-title">Lease Details</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Monthly Payment ($)</label>
+          <input type="number" id="leaseMonthly" value="399" min="0" placeholder="399">
+        </div>
+        <div class="form-group">
+          <label>Lease Term (months)</label>
+          <input type="number" id="leaseTerm" value="36" min="12" max="60" placeholder="36">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Acquisition Fee ($)</label>
+          <input type="number" id="leaseAcqFee" value="695" min="0" placeholder="695">
+        </div>
+        <div class="form-group">
+          <label>Disposition Fee ($)</label>
+          <input type="number" id="leaseDispoFee" value="350" min="0" placeholder="350">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Excess Mileage Fee (¢/mile)</label>
+          <input type="number" id="leaseMileFee" value="25" min="0" max="100" step="1" placeholder="25">
+        </div>
+        <div class="form-group">
+          <label>Allowed Miles/Year in Lease</label>
+          <input type="number" id="leaseAllowedMiles" value="12000" min="0" placeholder="12000">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Lease Cycles During Comparison Period</label>
+        <div class="input-hint">Calculator auto-estimates. Assumes same lease terms repeat.</div>
+      </div>
+    </div>
+
+    <div id="pane-finance" class="tab-pane">
+      <div class="section-title">Finance (Loan) Details</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Loan Term (months)</label>
+          <input type="number" id="loanTerm" value="60" min="12" max="96" placeholder="60">
+        </div>
+        <div class="form-group">
+          <label>Annual Interest Rate (%)</label>
+          <input type="number" id="loanRate" value="6.5" min="0" max="30" step="0.1" placeholder="6.5">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Dealer / Origination Fees ($)</label>
+          <input type="number" id="loanFees" value="500" min="0" placeholder="500">
+        </div>
+        <div class="form-group">
+          <label>Extended Warranty ($)</label>
+          <input type="number" id="loanWarranty" value="0" min="0" placeholder="0">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="errorBox" style="display:none;background:#fdf0f0;border:1px solid #e74c3c;border-radius:6px;padding:.75rem 1rem;margin-bottom:1rem;font-size:.88rem;color:#e74c3c;"></div>
+
+  <button class="btn-primary" onclick="calculate()">⚡ Compare All Three Options</button>
+
+  <div id="results" style="margin-top:1.5rem">
+    <div class="winner-banner" id="winnerBanner"></div>
+
+    <div class="card">
+      <div class="section-title">Total Cost Comparison</div>
+      <div class="comparison-grid" id="compGrid"></div>
+
+      <div class="bar-section" id="barSection"></div>
+    </div>
+
+    <div class="card">
+      <div class="copy-row">
+        <button class="btn-secondary btn-sm" onclick="copyResults()" id="copyBtn">📋 Copy Summary</button>
+      </div>
+      <div class="section-title">Detailed Breakdown</div>
+      <div class="detail-tabs">
+        <button class="detail-tab active" onclick="switchDetail('buy')" id="dtab-buy">Buy Cash</button>
+        <button class="detail-tab" onclick="switchDetail('lease')" id="dtab-lease">Lease</button>
+        <button class="detail-tab" onclick="switchDetail('finance')" id="dtab-finance">Finance</button>
+      </div>
+      <div id="dpane-buy" class="detail-pane active">
+        <div id="buy-summary"></div>
+        <div class="tbl-scroll"><div id="buy-table"></div></div>
+        <div class="show-all-wrap" id="buy-show-wrap"></div>
+      </div>
+      <div id="dpane-lease" class="detail-pane">
+        <div id="lease-summary"></div>
+        <div class="tbl-scroll"><div id="lease-table"></div></div>
+        <div class="show-all-wrap" id="lease-show-wrap"></div>
+      </div>
+      <div id="dpane-finance" class="detail-pane">
+        <div id="finance-summary"></div>
+        <div class="tbl-scroll"><div id="finance-table"></div></div>
+        <div class="show-all-wrap" id="finance-show-wrap"></div>
+      </div>
+    </div>
+
+    <div class="ad-slot" id="ad-mid"></div>
+  </div>
+
+  <!-- CONTENT SECTION -->
+  <div class="content-section">
+    <h2>How to Use This Should I Buy or Lease a Car Calculator</h2>
+    <p>Enter your car's purchase price, down payment, tax rate, and how many years you plan to keep it. Then fill in the details for each option: cash purchase costs, lease monthly payment and terms, or loan interest rate and term. Hit "Compare All Three Options" and you'll instantly see total out-of-pocket costs, residual value, and a year-by-year breakdown for each scenario.</p>
+
+    <h2>Why This Matters</h2>
+    <p>Most people focus only on the monthly payment — but that's one of the most misleading numbers in car shopping. A $299/month lease on a $42,000 SUV can easily cost you <strong>$28,000+</strong> over 3 years with nothing to show for it. A $550/month financed payment on the same car might leave you with a $15,000 asset after 5 years.</p>
+    <p>Here's a real scenario: You're comparing a $35,000 sedan. Buying cash costs about $38,800 upfront (with tax and fees) but you own an asset worth ~$18,000 after 5 years, so your net cost is ~$20,800. Leasing at $399/month over two back-to-back 3-year leases totals roughly $29,000+ in payments alone over 6 years — and you own nothing. Financing at 6.5% for 60 months means ~$33,000 in total payments, minus $18,000 residual value = ~$15,000 net after 5 years.</p>
+    <p>The "best" choice depends on your situation: how many miles you drive, whether you value ownership, your investment alternatives for that down payment cash, and your tolerance for maintenance. This tool helps you see all of that clearly.</p>
+
+    <h2>How It's Calculated</h2>
+    <p><strong>Buy Cash:</strong> Total cost = Car price + Sales tax + Fees + (Annual insurance + maintenance) × years − Residual value. Residual value uses compound depreciation: <em>Value = Price × (1 − depreciation rate)^years</em>. Opportunity cost is also shown (what your down payment could earn invested).</p>
+    <p><strong>Lease:</strong> Total cost = Down payment + (Monthly payment × lease months × number of cycles) + Acquisition fee(s) + Disposition fee(s) + Excess mileage charges + Insurance × years. No residual value benefit since you return the car.</p>
+    <p><strong>Finance:</strong> Uses standard amortization: <em>Monthly payment = P × [r(1+r)^n] / [(1+r)^n−1]</em> where P = loan amount, r = monthly rate, n = months. Total cost = Down payment + Total payments + Fees + Insurance + Maintenance − Residual value after loan term.</p>
+
+    <h2>Tips & Common Mistakes</h2>
+    <ul>
+      <li><strong>Don't ignore residual value.</strong> The car you finance or buy cash still has real worth at the end — subtracting it gives you the true net cost.</li>
+      <li><strong>Lease mileage overage is expensive.</strong> At 25¢/mile, driving 3,000 extra miles per year adds $2,250 over a 3-year lease. Enter your real annual mileage.</li>
+      <li><strong>Opportunity cost matters for cash buyers.</strong> Paying $35,000 cash means forgoing ~5 years of investment returns — this tool shows you what that costs.</li>
+      <li><strong>Lease maintenance costs are often lower</strong> for the first 3 years (typically under factory warranty), but you'll start the cycle again at the end.</li>
+      <li><strong>Compare over the same time period.</strong> A 3-year lease vs. a 5-year loan aren't apples-to-apples — set your comparison period to match your actual plans.</li>
+    </ul>
+
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>Is it always cheaper to buy a car outright?</summary>
+      <p>Not necessarily — it depends on the opportunity cost of that capital, the car's depreciation rate, and the lease/loan terms available. A savvy lease deal on a slow-depreciating car can sometimes beat an outright purchase, especially if you invest the difference. However, buying cash typically wins over 7–10+ year timeframes.</p>
+    </details>
+    <details>
+      <summary>When does leasing make financial sense?</summary>
+      <p>Leasing makes sense when: you drive under the mileage limit, you prefer a new car every 2–3 years, the manufacturer subsidizes residual values heavily, or you use the car for business and can deduct lease payments. It rarely makes sense for high-mileage drivers or those who want to build equity.</p>
+    </details>
+    <details>
+      <summary>What's the difference between "total cost" and "net cost" in this calculator?</summary>
+      <p>"Total cost" is everything you pay out of pocket — payments, down payment, fees, insurance, maintenance. "Net cost" subtracts the car's estimated residual value (what it's worth if you sell it). Net cost is the most honest apples-to-apples comparison between buying/financing vs. leasing.</p>
+    </details>
+    <details>
+      <summary>How accurate is the depreciation estimate?</summary>
+      <p>The default 15%/year compound depreciation is a reasonable average for mainstream sedans and SUVs. Luxury cars often depreciate faster (20–25%/year), while trucks and some SUVs depreciate slower (10–12%). Adjust the slider to match your specific vehicle's historical depreciation for a more accurate result.</p>
+    </details>
+  </div>
+
+  <div class="card">
+    <div class="section-title">Related Tools</div>
+    <div class="related-grid">
+      <a href="/dividend-income-portfolio-calculator/" class="related-link">📈 Dividend Income Portfolio Calculator</a>
+      <a href="/mortgage-extra-payment-accelerator/" class="related-link">🏠 Mortgage Extra Payment Accelerator</a>
+      <a href="/investment-fee-impact-calculator/" class="related-link">💸 Net Investment Fee Impact Calculator</a>
+      <a href="/savings-rate-fire-timeline-calculator/" class="related-link">🔥 Savings Rate FIRE Timeline Calculator</a>
+      <a href="/lump-sum-vs-annuity-calculator/" class="related-link">💰 Lump Sum vs Annuity Calculator</a>
+      <a href="/paycheck-withholding-optimizer/" class="related-link">📋 Paycheck Withholding Optimizer</a>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-bottom"></div>
+</main>
+
+<footer>
+  <a href="/about/">About</a>
+  <a href="/privacy/">Privacy</a>
+  <a href="/contact/">Contact</a>
+  <br style="margin-bottom:.4rem">
+  © <span id="yr"></span> calcstack.dev
+</footer>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+// Tab switching (input tabs)
+function switchTab(name) {
+  ['buy','lease','finance'].forEach(t => {
+    document.getElementById('pane-'+t).classList.remove('active');
+    document.getElementById('tab-'+t).classList.remove('active');
+  });
+  document.getElementById('pane-'+name).classList.add('active');
+  document.getElementById('tab-'+name).classList.add('active');
+}
+
+// Detail tab switching
+function switchDetail(name) {
+  ['buy','lease','finance'].forEach(t => {
+    document.getElementById('dpane-'+t).classList.remove('active');
+    document.getElementById('dtab-'+t).classList.remove('active');
+  });
+  document.getElementById('dpane-'+name).classList.add('active');
+  document.getElementById('dtab-'+name).classList.add('active');
+}
+
+// Slider
+const deprSlider = document.getElementById('deprSlider');
+const deprVal = document.getElementById('deprVal');
+const deprRate = document.getElementById('deprRate');
+deprSlider.addEventListener('input', function() {
+  deprVal.textContent = this.value + '%';
+  deprRate.value = this.value;
+});
+
+// Formatting
+function fmt(n) {
+  if (isNaN(n)) return '$0';
+  return '$' + Math.round(n).toLocaleString('en-US');
+}
+function fmtD(n) {
+  return '$' + n.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+}
+function fmtN(n) {
+  return Math.round(n).toLocaleString('en-US');
+}
+
+// Enter key
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') calculate();
+});
+
+// Validation
+function getNum(id, label) {
+  const v = parseFloat(document.getElementById(id).value);
+  if (isNaN(v) || v < 0) throw new Error(label + ' must be a valid positive number.');
+  return v;
+}
+
+function calculate() {
+  const errorBox = document.getElementById('errorBox');
+  errorBox.style.display = 'none';
+
+  try {
+    const carPrice      = getNum('carPrice', 'Car Price');
+    const downPayment   = getNum('downPayment', 'Down Payment');
+    const salesTaxPct   = getNum('salesTax', 'Sales Tax') / 100;
+    const years         = Math.max(1, Math.round(getNum('yearsOwn', 'Comparison Period')));
+    const annualMiles   = getNum('annualMiles', 'Annual Miles');
+    const annualIns     = getNum('annualInsurance', 'Annual Insurance');
+    const annualMaint   = getNum('annualMaint', 'Annual Maintenance');
+    const deprPct       = parseFloat(document.getElementById('deprRate').value) / 100;
+
+    if (downPayment > carPrice) throw new Error('Down payment cannot exceed car price.');
+
+    // ---- BUY CASH ----
+    const buyFees       = getNum('buyFees', 'Dealer Fees');
+    const oppRate       = getNum('buyOpportunity', 'Opportunity Cost Rate') / 100;
+    const totalPurchase = carPrice + carPrice * salesTaxPct + buyFees;
+    const buyRows = [];
+    let buyRunningCost = totalPurchase;
+    for (let y = 1; y <= years; y++) {
+      const resVal = carPrice * Math.pow(1 - deprPct, y);
+      const yearIns = annualIns;
+      const yearMaint = annualMaint;
+      buyRunningCost += yearIns + yearMaint;
+      buyRows.push({ year: y, insurance: yearIns, maint: yearMaint, residual: resVal, cumCash: buyRunningCost });
+    }
+    const buyResidual = carPrice * Math.pow(1 - deprPct, years);
+    const buyTotalCash = totalPurchase + (annualIns + annualMaint) * years;
+    const buyNetCost = buyTotalCash - buyResidual;
+    // Opportunity cost on the initial outlay (what cash could have earned)
+    const buyOppCost = totalPurchase * (Math.pow(1 + oppRate, years) - 1);
+
+    // ---- LEASE ----
+    const leaseMonthly     = getNum('leaseMonthly', 'Lease Monthly Payment');
+    const leaseTerm        = Math.max(12, Math.round(getNum('leaseTerm', 'Lease Term')));
+    const leaseAcqFee      = getNum('leaseAcqFee', 'Acquisition Fee');
+    const leaseDispoFee    = getNum('leaseDispoFee', 'Disposition Fee');
+    const leaseMileFee     = getNum('leaseMileFee', 'Mileage Fee') / 100; // cents to dollars
+    const leaseAllowedMiles= getNum('leaseAllowedMiles', 'Allowed Miles');
+    const totalLeaseMonths = years * 12;
+    const leaseCycles      = Math.ceil(totalLeaseMonths / leaseTerm);
+    const excessMilesPerYear = Math.max(0, annualMiles - leaseAllowedMiles);
+    const leaseRows = [];
+    let leaseCumCost = downPayment;
+    for (let y = 1; y <= years; y++) {
+      const yearPayments = leaseMonthly * 12;
+      const yearAcqFee = (y === 1 || ((y-1)*12 % leaseTerm === 0 && y > 1)) ? leaseAcqFee : 0;
+      // simplified: spread fees
+      const acqPerYear = (leaseAcqFee * leaseCycles) / years;
+      const dispoPerYear = (leaseDispoFee * leaseCycles) / years;
+      const excessMileCost = excessMilesPerYear * leaseMileFee;
+      const yearTotal = yearPayments + acqPerYear + dispoPerYear + excessMileCost + annualIns;
+      leaseCumCost += yearTotal;
+      leaseRows.push({ year: y, payments: yearPayments, acq: acqPerYear, dispo: dispoPerYear, excessMile: excessMileCost, ins: annualIns, yearTotal, cumCost: leaseCumCost });
+    }
+    const leaseTotalPayments = leaseMonthly * leaseTerm * leaseCycles;
+    const leaseTotalFees     = leaseAcqFee * leaseCycles + leaseDispoFee * leaseCycles;
+    const leaseTotalExcess   = excessMilesPerYear * leaseMileFee * years;
+    const leaseTotalCash     = downPayment + leaseTotalPayments + leaseTotalFees + leaseTotalExcess + annualIns * years;
+    const leaseNetCost       = leaseTotalCash; // no residual
+
+    // ---- FINANCE ----
+    const loanTermM   = Math.max(12, Math.round(getNum('loanTerm', 'Loan Term')));
+    const loanAnnRate = getNum('loanRate', 'Loan Interest Rate') / 100;
+    const loanFees    = getNum('loanFees', 'Loan Fees');
+    const loanWarr    = getNum('loanWarranty', 'Warranty');
+    const loanAmt     = carPrice - downPayment;
+    const monthlyRate = loanAnnRate / 12;
+    let monthlyLoanPayment;
+    if (monthlyRate === 0) {
+      monthlyLoanPayment = loanAmt / loanTermM;
+    } else {
+      monthlyLoanPayment = loanAmt * (monthlyRate * Math.pow(1+monthlyRate, loanTermM)) / (Math.pow(1+monthlyRate, loanTermM) - 1);
+    }
+    // Build amortization
+    let loanBalance = loanAmt;
+    const loanYearRows = [];
+    let cumPrincipal = 0, cumInterest = 0;
+    const yearlyData = [];
+    for (let m = 1; m <= loanTermM; m++) {
+      const intPmt = loanBalance * monthlyRate;
+      const prinPmt = monthlyLoanPayment - intPmt;
+      loanBalance = Math.max(0, loanBalance - prinPmt);
+      cumPrincipal += prinPmt;
+      cumInterest += intPmt;
+      if (m % 12 === 0 || m === loanTermM) {
+        yearlyData.push({ month: m, year: Math.ceil(m/12), balance: loanBalance, cumPrincipal, cumInterest });
+      }
+    }
+    const financeRows = [];
+    let finCumCost = downPayment + carPrice * salesTaxPct + loanFees + loanWarr;
+    for (let y = 1; y <= years; y++) {
+      const yd = yearlyData.find(r => r.year === y) || yearlyData[yearlyData.length-1];
+      const prevYd = y > 1 ? (yearlyData.find(r => r.year === y-1) || yearlyData[0]) : null;
+      const prevPrin = prevYd ? prevYd.cumPrincipal : 0;
+      const prevInt  = prevYd ? prevYd.cumInterest : 0;
+      const yearPrin = yd.cumPrincipal - prevPrin;
+      const yearInt  = yd.cumInterest - prevInt;
+      const residual = carPrice * Math.pow(1 - deprPct, y);
+      finCumCost += (yearPrin + yearInt) + annualIns + annualMaint;
+      financeRows.push({ year: y, principal: yearPrin, interest: yearInt, balance: yd.balance, ins: annualIns, maint: annualMaint, residual, cumCost: finCumCost });
+    }
+    const finTotalPayments = monthlyLoanPayment * loanTermM;
+    const finTotalInterest = finTotalPayments - loanAmt;
+    const finResidual = carPrice * Math.pow(1 - deprPct, years);
+    const finTotalCash = downPayment + carPrice * salesTaxPct + loanFees + loanWarr + finTotalPayments + annualIns * years + annualMaint * years;
+    const finNetCost = finTotalCash - finResidual;
+
+    // --- Determine winner ---
+    const costs = { buy: buyNetCost, lease: leaseNetCost, finance: finNetCost };
+    const costTotals = { buy: buyTotalCash, lease: leaseTotalCash, finance: finTotalCash };
+    const names = { buy: 'Buy Cash', lease: 'Lease', finance: 'Finance' };
+    const winner = Object.keys(costs).reduce((a,b) => costs[a] < costs[b] ? a : b);
+    const maxCost = Math.max(buyNetCost, leaseNetCost, finNetCost);
+
+    requestAnimationFrame(() => {
+      // Winner banner
+      document.getElementById('winnerBanner').innerHTML =
+        `<div><div class="winner-label">🏆 Best Net Cost Option</div><div class="winner-name">${names[winner]}</div></div>
+         <div style="text-align:right"><div class="winner-label">Net cost over ${years} year${years!==1?'s':''}</div><div class="winner-amount">${fmt(costs[winner])}</div></div>`;
+
+      // Comparison grid
+      let gridHTML = '';
+      for (const k of ['buy','lease','finance']) {
+        const isBest = k === winner;
+        gridHTML += `<div class="cost-card ${isBest?'best':''}">
+          <div class="cost-card-label">${names[k]}</div>
+          <div class="cost-card-amount">${fmt(costs[k])}</div>
+          <div class="cost-card-sub">net cost</div>
+          <div class="cost-card-sub" style="color:#666">total out: ${fmt(costTotals[k])}</div>
+          ${isBest?'<div><span class="badge-best">✓ Lowest Cost</span></div>':''}
+        </div>`;
+      }
+      document.getElementById('compGrid').innerHTML = gridHTML;
+
+      // Bar charts
+      let barHTML = '<div class="bar-title">Net Cost Comparison (after residual value)</div>';
+      for (const k of ['buy','lease','finance']) {
+        const pct = maxCost > 0 ? Math.round((costs[k]/maxCost)*100) : 0;
+        const savings = costs[k] < maxCost ? ` (saves ${fmt(maxCost - costs[k])})` : '';
+        barHTML += `<div class="bar-group">
+          <div class="bar-label"><span>${names[k]}</span><span>${fmt(costs[k])}${savings}</span></div>
+          <div class="bar-track"><div class="bar-fill bar-${k}" style="width:${pct}%">${pct > 15 ? fmt(costs[k]) : ''}</div></div>
+        </div>`;
+      }
+      barHTML += '<div class="bar-title" style="margin-top:1rem">Total Out-of-Pocket (before residual)</div>';
+      const maxCash = Math.max(buyTotalCash, leaseTotalCash, finTotalCash);
+      for (const k of ['buy','lease','finance']) {
+        const pct = maxCash > 0 ? Math.round((costTotals[k]/maxCash)*100) : 0;
+        barHTML += `<div class="bar-group">
+          <div class="bar-label"><span>${names[k]}</span><span>${fmt(costTotals[k])}</span></div>
+          <div class="bar-track"><div class="bar-fill bar-${k}" style="width:${pct}%">${pct > 15 ? fmt(costTotals[k]) : ''}</div></div>
+        </div>`;
+      }
+      document.getElementById('barSection').innerHTML = barHTML;
+
+      // BUY SUMMARY TABLE
+      const buySummRows = [
+        ['Purchase Price', fmt(carPrice)],
+        ['+ Sales Tax', fmt(carPrice * salesTaxPct)],
+        ['+ Dealer Fees', fmt(buyFees)],
+        ['= Total Upfront', fmt(totalPurchase)],
+        ['+ Insurance (' + years + ' yrs)', fmt(annualIns * years)],
+        ['+ Maintenance (' + years + ' yrs)', fmt(annualMaint * years)],
+        ['= Total Out-of-Pocket', fmt(buyTotalCash)],
+        ['− Residual Value', fmt(buyResidual)],
+        ['= Net Cost', fmt(buyNetCost)],
+        ['Opportunity Cost (if invested)', fmt(buyOppCost)],
+      ];
+      let buySumHTML = `<table class="summary-table"><tr><th>Item</th><th class="num">Amount</th></tr>`;
+      for (const [label, val] of buySummRows) {
+        buySumHTML += `<tr><td>${label}</td><td class="num">${val}</td></tr>`;
+      }
+      buySumHTML += '</table><br>';
+      document.getElementById('buy-summary').innerHTML = buySumHTML;
+
+      // BUY YEAR TABLE
+      const BUY_PREVIEW = 5;
+      let buyTblHTML = `<table><tr><th>Year</th><th class="num">Insurance</th><th class="num">Maintenance</th><th class="num">Residual Value</th><th class="num">Cum. Cost</th><th class="num">Net (cum-resid)</th></tr>`;
+      for (let i = 0; i < buyRows.length; i++) {
+        const r = buyRows[i];
+        const net = r.cumCash - r.residual;
+        const vis = i < BUY_PREVIEW ? '' : 'class="buy-extra" style="display:none"';
+        buyTblHTML += `<tr ${vis}><td>${r.year}</td><td class="num">${fmt(r.insurance)}</td><td class="num">${fmt(r.maint)}</td><td class="num">${fmt(r.residual)}</td><td class="num">${fmt(r.cumCash)}</td><td class="num">${fmt(net)}</td></tr>`;
+      }
+      buyTblHTML += '</table>';
+      document.getElementById('buy-table').innerHTML = buyTblHTML;
+      document.getElementById('buy-show-wrap').innerHTML = buyRows.length > BUY_PREVIEW
+        ? `<button class="btn-secondary btn-sm" onclick="toggleRows('buy')">Show All ${buyRows.length} Years</button>` : '';
+
+      // LEASE SUMMARY
+      const leaseSummRows = [
+        ['Down Payment', fmt(downPayment)],
+        ['Monthly Payment', fmtD(leaseMonthly)],
+        ['Lease Term', leaseTerm + ' months'],
+        ['Lease Cycles (' + years + ' yrs)', leaseCycles + ' cycles'],
+        ['Total Payments', fmt(leaseTotalPayments)],
+        ['Acquisition Fees', fmt(leaseAcqFee * leaseCycles)],
+        ['Disposition Fees', fmt(leaseDispoFee * leaseCycles)],
+        ['Excess Mileage Costs', fmt(leaseTotalExcess)],
+        ['+ Insurance (' + years + ' yrs)', fmt(annualIns * years)],
+        ['= Total Out-of-Pocket', fmt(leaseTotalCash)],
+        ['Residual Value', '$0 (car returned)'],
+        ['= Net Cost', fmt(leaseNetCost)],
+      ];
+      let leaseSumHTML = `<table class="summary-table"><tr><th>Item</th><th class="num">Amount</th></tr>`;
+      for (const [label, val] of leaseSummRows) {
+        leaseSumHTML += `<tr><td>${label}</td><td class="num">${val}</td></tr>`;
+      }
+      leaseSumHTML += '</table><br>';
+      document.getElementById('lease-summary').innerHTML = leaseSumHTML;
+
+      // LEASE YEAR TABLE
+      const LEASE_PREVIEW = 5;
+      let leaseTblHTML = `<table><tr><th>Year</th><th class="num">Payments</th><th class="num">Fees</th><th class="num">Excess Miles</th><th class="num">Insurance</th><th class="num">Cum. Cost</th></tr>`;
+      for (let i = 0; i < leaseRows.length; i++) {
+        const r = leaseRows[i];
+        const vis = i < LEASE_PREVIEW ? '' : 'class="lease-extra" style="display:none"';
+        leaseTblHTML += `<tr ${vis}><td>${r.year}</td><td class="num">${fmt(r.payments)}</td><td class="num">${fmt(r.acq+r.dispo)}</td><td class="num">${fmt(r.excessMile)}</td><td class="num">${fmt(r.ins)}</td><td class="num">${fmt(r.cumCost)}</td></tr>`;
+      }
+      leaseTblHTML += '</table>';
+      document.getElementById('lease-table').innerHTML = leaseTblHTML;
+      document.getElementById('lease-show-wrap').innerHTML = leaseRows.length > LEASE_PREVIEW
+        ? `<button class="btn-secondary btn-sm" onclick="toggleRows('lease')">Show All ${leaseRows.length} Years</button>` : '';
+
+      // FINANCE SUMMARY
+      const finSummRows = [
+        ['Car Price', fmt(carPrice)],
+        ['− Down Payment', fmt(downPayment)],
+        ['= Loan Amount', fmt(loanAmt)],
+        ['Monthly Payment', fmtD(monthlyLoanPayment)],
+        ['Loan Term', loanTermM + ' months'],
+        ['Total Loan Payments', fmt(finTotalPayments)],
+        ['Total Interest Paid', fmt(finTotalInterest)],
+        ['+ Sales Tax', fmt(carPrice * salesTaxPct)],
+        ['+ Fees & Warranty', fmt(loanFees + loanWarr)],
+        ['+ Insurance (' + years + ' yrs)', fmt(annualIns * years)],
+        ['+ Maintenance (' + years + ' yrs)', fmt(annualMaint * years)],
+        ['= Total Out-of-Pocket', fmt(finTotalCash)],
+        ['− Residual Value', fmt(finResidual)],
+        ['= Net Cost', fmt(finNetCost)],
+      ];
+      let finSumHTML = `<table class="summary-table"><tr><th>Item</th><th class="num">Amount</th></tr>`;
+      for (const [label, val] of finSummRows) {
+        finSumHTML += `<tr><td>${label}</td><td class="num">${val}</td></tr>`;
+      }
+      finSumHTML += '</table><br>';
+      document.getElementById('finance-summary').innerHTML = finSumHTML;
+
+      // FINANCE YEAR TABLE
+      const FIN_PREVIEW = 5;
+      let finTblHTML = `<table><tr><th>Year</th><th class="num">Principal</th><th class="num">Interest</th><th class="num">Balance</th><th class="num">Residual</th><th class="num">Net Cost</th></tr>`;
+      for (let i = 0; i < financeRows.length; i++) {
+        const r = financeRows[i];
+        const net = r.cumCost - r.residual;
+        const vis = i < FIN_PREVIEW ? '' : 'class="finance-extra" style="display:none"';
+        finTblHTML += `<tr ${vis}><td>${r.year}</td><td class="num">${fmt(r.principal)}</td><td class="num">${fmt(r.interest)}</td><td class="num">${fmt(r.balance)}</td><td class="num">${fmt(r.residual)}</td><td class="num">${fmt(net)}</td></tr>`;
+      }
+      finTblHTML += '</table>';
+      document.getElementById('finance-table').innerHTML = finTblHTML;
+      document.getElementById('finance-show-wrap').innerHTML = financeRows.length > FIN_PREVIEW
+        ? `<button class="btn-secondary btn-sm" onclick="toggleRows('finance')">Show All ${financeRows.length} Years</button>` : '';
+
+      // Store for copy
+      window._lastResults = { names, costs, costTotals, winner, years, buyNetCost, leaseNetCost, finNetCost, buyTotalCash, leaseTotalCash, finTotalCash };
+
+      const results = document.getElementById('results');
+      results.classList.add('visible');
+      results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+  } catch(e) {
+    const errorBox = document.getElementById('errorBox');
+    errorBox.textContent = '⚠️ ' + e.message;
+    errorBox.style.display = 'block';
+  }
+}
+
+function toggleRows(type) {
+  const extras = document.querySelectorAll('.' + type + '-extra');
+  const btn = document.querySelector('#' + type + '-show-wrap button');
+  const hidden = extras.length > 0 && extras[0].style.display === 'none';
+  extras.forEach(el => el.style.display = hidden ? '' : 'none');
+  if (btn) btn.textContent = hidden ? 'Show Less' : ('Show All ' + extras.length + ' More Years');
+}
+
+function copyResults() {
+  const r = window._lastResults;
+  if (!r) return;
+  const lines = [
+    `Car Calculator Results — ${r.years} Year Comparison`,
+    `Winner: ${r.names[r.winner]} (Net: ${fmt(r.costs[r.winner])})`,
+    '',
+    'Net Cost (after residual value):',
+    `  Buy Cash:  ${fmt(r.buyNetCost)}`,
+    `  Lease:     ${fmt(r.leaseNetCost)}`,
+    `  Finance:   ${fmt(r.finNetCost)}`,
+    '',
+    'Total Out-of-Pocket:',
+    `  Buy Cash:  ${fmt(r.buyTotalCash)}`,
+    `  Lease:     ${fmt(r.leaseTotalCash)}`,
+    `  Finance:   ${fmt(r.finTotalCash)}`,
+    '',
+    'Generated at calcstack.dev'
+  ];
+  navigator.clipboard.writeText(lines.join('\n')).then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = '✓ Copied!';
+    setTimeout(() => { btn.textContent = '📋 Copy Summary'; }, 2000);
+  }).catch(() => {
+    alert('Copy not supported in this browser.');
+  });
+}
+
+function fmt(n) {
+  if (isNaN(n)) return '$0';
+  return '$' + Math.round(n).toLocaleString('en-US');
+}
+function fmtD(n) {
+  return '$' + n.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+}
+
+// Run on load
+calculate();
+</script>
+</body>
+</html>
