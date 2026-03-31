@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lump Sum vs Annuity Calculator — Free Online Tool | calcstack.dev</title>
+<meta name="description" content="Compare lump sum vs annuity to find which is better for you. Enter your payout details and see exactly which option wins based on your investment rate and lifespan.">
+<link rel="canonical" href="https://calcstack.dev/lump-sum-vs-annuity-calculator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Lump Sum vs Annuity Calculator",
+  "url": "https://calcstack.dev/lump-sum-vs-annuity-calculator/",
+  "description": "Compare lump sum vs annuity payouts to determine which is better for your financial situation.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f4f6f9;color:#1a1a2e;font-size:16px;line-height:1.6}
+a{color:#0077b6;text-decoration:none}
+a:hover{text-decoration:underline}
+nav{background:#fff;border-bottom:1px solid #e0e0e0;padding:0 1.5rem}
+nav .nav-inner{max-width:640px;margin:0 auto;display:flex;align-items:center;height:52px}
+nav .brand{font-weight:700;font-size:1.1rem;color:#1a1a2e}
+nav .brand span{color:#0077b6}
+main{max-width:640px;margin:0 auto;padding:1.5rem}
+h1{font-size:1.6rem;font-weight:800;color:#1a1a2e;margin-bottom:0.4rem}
+.subtitle{color:#555;font-size:0.95rem;margin-bottom:1.5rem}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;box-shadow:0 2px 8px rgba(0,0,0,0.05);margin-bottom:2rem}
+.section-title{font-size:1rem;font-weight:700;color:#0077b6;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:1rem;padding-bottom:0.4rem;border-bottom:2px solid #e8f4fb}
+.form-group{margin-bottom:1.25rem}
+label{display:block;font-size:0.85rem;font-weight:500;color:#444;margin-bottom:0.4rem}
+input[type=number],input[type=text],select{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:6px;font-size:1rem;color:#1a1a2e;background:#fff;transition:border-color 0.2s,box-shadow 0.2s;appearance:none;-webkit-appearance:none}
+input:focus,select:focus{outline:none;border-color:#0077b6;box-shadow:0 0 0 3px rgba(0,119,182,0.15)}
+input.error{border-color:#e74c3c}
+.error-msg{color:#e74c3c;font-size:0.8rem;margin-top:0.3rem;display:none}
+.error-msg.show{display:block}
+.input-prefix{position:relative}
+.input-prefix span{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#888;font-size:1rem;pointer-events:none}
+.input-prefix input{padding-left:28px}
+.input-suffix{position:relative}
+.input-suffix span{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:#888;font-size:0.85rem;pointer-events:none}
+.input-suffix input{padding-right:40px}
+.row-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.slider-group{margin-bottom:1.25rem}
+.slider-row{display:flex;align-items:center;gap:0.75rem}
+.slider-row input[type=range]{flex:1;height:6px;cursor:pointer;accent-color:#0077b6}
+.slider-val{font-size:0.95rem;font-weight:600;color:#0077b6;min-width:48px;text-align:right}
+.btn{display:inline-flex;align-items:center;justify-content:center;background:#0077b6;color:#fff;border:none;padding:14px 28px;border-radius:6px;font-size:1rem;font-weight:600;cursor:pointer;transition:background 0.2s;width:100%;min-height:44px}
+.btn:hover{background:#006299}
+.btn-sm{padding:6px 14px;font-size:0.82rem;font-weight:500;border-radius:4px;width:auto;min-height:36px}
+.btn-copy{background:#f0f7ff;color:#0077b6;border:1px solid #b3d9f0}
+.btn-copy:hover{background:#e0f0ff}
+.results{opacity:0;transition:opacity 0.3s ease;pointer-events:none}
+.results.visible{opacity:1;pointer-events:all}
+.winner-banner{border-radius:8px;padding:1.25rem 1.5rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem}
+.winner-banner.lump{background:#e8f4fb;border:1.5px solid #0077b6}
+.winner-banner.annuity{background:#eaf7ee;border:1.5px solid #27ae60}
+.winner-banner.tie{background:#fef9e7;border:1.5px solid #f39c12}
+.winner-icon{font-size:2.2rem;line-height:1}
+.winner-text h2{font-size:1.1rem;font-weight:700;margin-bottom:0.1rem}
+.winner-text p{font-size:0.9rem;color:#555}
+.big-num{font-size:2rem;font-weight:800;color:#0077b6;line-height:1.1}
+.big-num.green{color:#27ae60}
+.big-num.orange{color:#f39c12}
+.comparison-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+.comp-card{border-radius:8px;padding:1.25rem;text-align:center}
+.comp-card.lump{background:#e8f4fb;border:1px solid #b3d9f0}
+.comp-card.annuity{background:#eaf7ee;border:1px solid #a9ddb9}
+.comp-card h3{font-size:0.85rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:0.5rem;color:#555}
+.comp-card .val{font-size:1.5rem;font-weight:800;color:#1a1a2e;margin-bottom:0.2rem}
+.comp-card .val.lump-c{color:#0077b6}
+.comp-card .val.annuity-c{color:#27ae60}
+.comp-card .sub{font-size:0.8rem;color:#666}
+.bar-section{margin-bottom:1.5rem}
+.bar-label-row{display:flex;justify-content:space-between;font-size:0.8rem;color:#555;margin-bottom:0.3rem}
+.bar-track{background:#eee;border-radius:20px;height:14px;overflow:hidden;position:relative}
+.bar-fill{height:100%;border-radius:20px;transition:width 0.6s ease}
+.bar-fill.lump{background:#0077b6}
+.bar-fill.annuity{background:#27ae60}
+.bar-legend{display:flex;gap:1.25rem;margin-top:0.5rem;flex-wrap:wrap}
+.bar-legend-item{display:flex;align-items:center;gap:0.4rem;font-size:0.8rem;color:#555}
+.bar-legend-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+.bar-legend-dot.lump{background:#0077b6}
+.bar-legend-dot.annuity{background:#27ae60}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:0.75rem}
+table{width:100%;border-collapse:collapse;font-size:0.85rem;min-width:400px}
+th{background:#f0f0f0;padding:9px 10px;text-align:left;font-weight:600;color:#444;border-bottom:1px solid #ddd;white-space:nowrap}
+th.r,td.r{text-align:right}
+td{padding:8px 10px;border-bottom:1px solid #eee;color:#333}
+tr:nth-child(even) td{background:#fafafa}
+.toggle-btn{background:none;border:1px solid #ddd;color:#0077b6;padding:7px 16px;border-radius:4px;font-size:0.82rem;cursor:pointer;margin-top:0.5rem}
+.toggle-btn:hover{background:#f0f7ff}
+.hidden-rows{display:none}
+.hidden-rows.show{display:table-row-group}
+.ad-slot{min-height:0;margin:0}
+.content-section{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;margin-bottom:2rem}
+.content-section h2{font-size:1.1rem;font-weight:700;color:#1a1a2e;margin-bottom:0.75rem;margin-top:1.5rem}
+.content-section h2:first-child{margin-top:0}
+.content-section p{color:#444;font-size:0.95rem;margin-bottom:0.75rem}
+.content-section ul{padding-left:1.4rem;color:#444;font-size:0.95rem}
+.content-section ul li{margin-bottom:0.4rem}
+details{border:1px solid #e0e0e0;border-radius:6px;padding:0;margin-bottom:0.6rem;overflow:hidden}
+summary{padding:0.75rem 1rem;cursor:pointer;font-weight:600;font-size:0.93rem;color:#1a1a2e;list-style:none;display:flex;justify-content:space-between;align-items:center;background:#f8f9fa}
+summary::after{content:'▸';color:#0077b6;font-size:0.85rem;transition:transform 0.2s}
+details[open] summary::after{transform:rotate(90deg)}
+details p{padding:0.75rem 1rem;font-size:0.9rem;color:#444;border-top:1px solid #e0e0e0}
+.related-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem}
+.related-link{background:#f8f9fa;border:1px solid #e0e0e0;border-radius:6px;padding:0.75rem 1rem;font-size:0.88rem;color:#0077b6;display:block;transition:background 0.15s}
+.related-link:hover{background:#e8f4fb;text-decoration:none}
+footer{background:#fff;border-top:1px solid #e0e0e0;padding:1.25rem 1.5rem;text-align:center;font-size:0.82rem;color:#888;margin-top:1rem}
+footer a{color:#888;margin:0 0.5rem}
+footer a:hover{color:#0077b6}
+.copy-area{display:flex;justify-content:flex-end;margin-bottom:0.75rem}
+@media(max-width:640px){
+  .row-2{grid-template-columns:1fr}
+  .comparison-grid{grid-template-columns:1fr 1fr}
+  .related-grid{grid-template-columns:1fr}
+  h1{font-size:1.35rem}
+  .card{padding:1.25rem}
+  .content-section{padding:1.25rem}
+  .big-num{font-size:1.6rem}
+  .comp-card .val{font-size:1.25rem}
+}
+@media(max-width:400px){
+  .comparison-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="brand">calc<span>stack</span>.dev</a>
+  </div>
+</nav>
+
+<main>
+  <h1>Lump Sum vs Annuity Calculator</h1>
+  <p class="subtitle">Find out which payout option is better — take the cash now or receive guaranteed payments over time.</p>
+
+  <div class="card">
+    <div class="section-title">Lump Sum Option</div>
+    <div class="form-group">
+      <label for="lumpAmount">Lump Sum Amount (before tax)</label>
+      <div class="input-prefix">
+        <span>$</span>
+        <input type="number" id="lumpAmount" placeholder="e.g. 500000" min="0" value="500000">
+      </div>
+      <div class="error-msg" id="err-lump">Please enter a valid lump sum amount.</div>
+    </div>
+    <div class="row-2">
+      <div class="form-group">
+        <label for="lumpTaxRate">Tax Rate on Lump Sum (%)</label>
+        <div class="input-suffix">
+          <span>%</span>
+          <input type="number" id="lumpTaxRate" placeholder="e.g. 37" min="0" max="100" value="37">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="investRate">Annual Investment Return (%)</label>
+        <div class="input-suffix">
+          <span>%</span>
+          <input type="number" id="investRate" placeholder="e.g. 7" min="0" max="50" value="7">
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:1.25rem">Annuity Option</div>
+    <div class="row-2">
+      <div class="form-group">
+        <label for="annuityPayment">Annual Payment Amount</label>
+        <div class="input-prefix">
+          <span>$</span>
+          <input type="number" id="annuityPayment" placeholder="e.g. 35000" min="0" value="35000">
+        </div>
+        <div class="error-msg" id="err-annuity">Please enter a valid payment amount.</div>
+      </div>
+      <div class="form-group">
+        <label for="annuityYears">Payment Duration (years)</label>
+        <input type="number" id="annuityYears" placeholder="e.g. 25" min="1" max="100" value="25">
+        <div class="error-msg" id="err-years">Enter 1–100 years.</div>
+      </div>
+    </div>
+    <div class="row-2">
+      <div class="form-group">
+        <label for="annuityTaxRate">Tax Rate on Annuity Payments (%)</label>
+        <div class="input-suffix">
+          <span>%</span>
+          <input type="number" id="annuityTaxRate" placeholder="e.g. 22" min="0" max="100" value="22">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="inflationRate">Inflation Rate (%)</label>
+        <div class="input-suffix">
+          <span>%</span>
+          <input type="number" id="inflationRate" placeholder="e.g. 3" min="0" max="20" value="3">
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:1.25rem">Comparison Horizon</div>
+    <div class="slider-group">
+      <label for="horizonSlider">Years to Compare: <span id="horizonLabel">25</span></label>
+      <div class="slider-row">
+        <input type="range" id="horizonSlider" min="5" max="50" value="25" step="1">
+        <span class="slider-val" id="horizonVal">25 yrs</span>
+      </div>
+    </div>
+
+    <button class="btn" id="calcBtn">Calculate &amp; Compare</button>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="results" id="results">
+    <div class="card">
+      <div class="copy-area">
+        <button class="btn btn-sm btn-copy" id="copyBtn">Copy Summary</button>
+      </div>
+
+      <div id="winnerBanner"></div>
+
+      <div class="comparison-grid" id="compGrid"></div>
+
+      <div class="bar-section" id="barSection"></div>
+
+      <div class="section-title">Year-by-Year Breakdown</div>
+      <div class="table-wrap">
+        <table id="breakdownTable">
+          <thead>
+            <tr>
+              <th>Year</th>
+              <th class="r">Lump Sum Value</th>
+              <th class="r">Annuity Cumulative</th>
+              <th class="r">Lump Sum Lead</th>
+              <th class="r">Annuity Lead</th>
+            </tr>
+          </thead>
+          <tbody id="visibleRows"></tbody>
+          <tbody id="hiddenRows" class="hidden-rows"></tbody>
+        </table>
+      </div>
+      <button class="toggle-btn" id="toggleRows">Show All Years</button>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-mid"></div>
+
+  <!-- CONTENT SECTION -->
+  <div class="content-section">
+    <h2>How to Use This Lump Sum vs Annuity Calculator</h2>
+    <p>Enter your lump sum offer and the applicable tax rate, then provide your annuity's annual payment, duration, and its tax rate. Set your expected investment return and inflation rate, then drag the horizon slider to choose how many years to compare. Click <strong>Calculate &amp; Compare</strong> to see which option puts more money in your pocket.</p>
+
+    <h2>Why This Matters</h2>
+    <p>The lump sum vs annuity question comes up in several major life moments: lottery winnings, pension decisions, lawsuit settlements, and inherited accounts. The math isn't always obvious — and the wrong choice can cost you hundreds of thousands of dollars.</p>
+    <p>Consider a $500,000 lottery lump sum vs a $35,000-per-year annuity for 25 years. The annuity totals $875,000 on paper — but after tax and adjusted for what you could earn investing the lump sum at 7% annually, the lump sum can be worth nearly $1.2 million by year 25. Conversely, if you're a poor saver, the guaranteed income of an annuity might protect you from spending everything at once.</p>
+    <p>Retirees facing pension buyouts use this exact comparison every year. A 62-year-old offered a $300,000 lump sum vs $1,800/month for life needs to know their "break-even" age — typically around 13–15 years out. This calculator makes that visible with a full year-by-year table.</p>
+
+    <h2>How It's Calculated</h2>
+    <p><strong>Lump Sum After-Tax:</strong> <code>Net Lump Sum = Lump Sum × (1 − Tax Rate)</code></p>
+    <p><strong>Lump Sum Future Value each year:</strong> <code>FV = Net Lump Sum × (1 + Investment Return)^Year</code></p>
+    <p><strong>Annuity After-Tax each year:</strong> <code>Net Annual Payment = Payment × (1 − Annuity Tax Rate)</code></p>
+    <p><strong>Annuity Accumulated Value each year:</strong> The net payments are assumed to be invested at the same return rate as they're received. Cumulative value = sum of each year's net payment compounded forward.</p>
+    <p><strong>Inflation-Adjusted Present Value:</strong> All future values are divided by <code>(1 + Inflation Rate)^Year</code> to show real purchasing power. The winner is determined by comparing inflation-adjusted totals at your selected horizon.</p>
+
+    <h2>Tips &amp; Common Mistakes</h2>
+    <ul>
+      <li><strong>Don't ignore taxes.</strong> Lump sums are often taxed at the highest bracket all at once, while annuity payments may land in lower brackets spread over time — or vice versa for pension buyouts.</li>
+      <li><strong>Be honest about your investment return.</strong> Using 10% or 12% is unrealistic for most people. A conservative 5–7% for a diversified portfolio is more appropriate.</li>
+      <li><strong>Factor in your age and health.</strong> Annuities pay most if you live longer than expected. If longevity runs in your family, annuities become more valuable.</li>
+      <li><strong>Don't forget inflation.</strong> A fixed $30,000/year payment in 20 years has the purchasing power of roughly $16,600 today at 3% inflation.</li>
+      <li><strong>Check for cost-of-living adjustments (COLA).</strong> Some annuities have annual increases baked in — if yours does, it's more valuable than this calculator assumes with a fixed payment.</li>
+    </ul>
+
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>Is the lump sum always better if you invest it wisely?</summary>
+      <p>Not always. If your investment return is lower than the "implied return" embedded in the annuity (total payments ÷ lump sum, annualized), the annuity wins. The break-even return rate is often 4–6% — achievable but not guaranteed. A guaranteed annuity also eliminates sequence-of-returns risk.</p>
+    </details>
+    <details>
+      <summary>What discount rate should I use for comparison?</summary>
+      <p>Use a realistic after-inflation, after-fee return for your portfolio. For a conservative retiree, 4–5% is common. For someone comfortable with a balanced stock/bond mix, 6–7% is reasonable. Avoid using historical stock market peaks — your actual returns will vary.</p>
+    </details>
+    <details>
+      <summary>How do lottery lump sums typically work?</summary>
+      <p>Lottery "cash option" lump sums are usually 50–60% of the advertised jackpot, before federal tax of 37% plus state taxes. So a $1 million jackpot may net you $300,000–$350,000 after tax. The annuity option pays out the full amount over 20–30 years but is also taxed as received each year.</p>
+    </details>
+    <details>
+      <summary>Can I use this for pension buyout decisions?</summary>
+      <p>Yes — enter your pension buyout offer as the lump sum, and your monthly pension × 12 as the annual annuity payment. Set the payment duration to your expected years in retirement. The calculator will show you which option accumulates more value and your crossover point.</p>
+    </details>
+  </div>
+
+  <!-- RELATED TOOLS -->
+  <div class="content-section">
+    <h2 style="margin-top:0">Related Tools</h2>
+    <div class="related-grid">
+      <a href="/paycheck-withholding-optimizer/" class="related-link">Paycheck Withholding Optimizer</a>
+      <a href="/salary-raise-calculator/" class="related-link">Paycheck Raise Impact Calculator</a>
+      <a href="/loan-prepayment-savings-calculator/" class="related-link">Loan Prepayment Savings Calculator</a>
+      <a href="/inheritance-tax-calculator/" class="related-link">Inheritance Tax Calculator</a>
+      <a href="/freelancer-hourly-rate-calculator/" class="related-link">Freelancer Rate &amp; Profit Margin Calculator</a>
+      <a href="/severance-package-tax-calculator/" class="related-link">Severance Package Tax Calculator</a>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-bottom"></div>
+</main>
+
+<footer>
+  <a href="/about/">About</a>
+  <a href="/privacy/">Privacy</a>
+  <a href="/contact/">Contact</a>
+  <br style="margin-bottom:0.4rem">
+  <span>© 2025 calcstack.dev</span>
+</footer>
+
+<script>
+// ---- Slider sync ----
+const horizonSlider = document.getElementById('horizonSlider');
+const horizonLabel = document.getElementById('horizonLabel');
+const horizonVal = document.getElementById('horizonVal');
+horizonSlider.addEventListener('input', () => {
+  horizonLabel.textContent = horizonSlider.value;
+  horizonVal.textContent = horizonSlider.value + ' yrs';
+});
+
+// ---- Helpers ----
+function fmt(n) {
+  if (isNaN(n) || !isFinite(n)) return '$0';
+  return '$' + Math.round(n).toLocaleString('en-US');
+}
+function fmtDiff(n) {
+  return '$' + Math.abs(Math.round(n)).toLocaleString('en-US');
+}
+function pct(v) { return (v / 100); }
+function clearError(id) {
+  document.getElementById(id).classList.remove('show');
+}
+function showError(id) {
+  document.getElementById(id).classList.add('show');
+}
+function setInputError(inputId, errId) {
+  document.getElementById(inputId).classList.add('error');
+  document.getElementById(errId).classList.add('show');
+}
+function clearInputError(inputId, errId) {
+  document.getElementById(inputId).classList.remove('error');
+  document.getElementById(errId).classList.remove('show');
+}
+
+// ---- Calculate ----
+function calculate() {
+  // Read inputs
+  const lumpRaw = parseFloat(document.getElementById('lumpAmount').value);
+  const lumpTax = parseFloat(document.getElementById('lumpTaxRate').value) || 0;
+  const investR = parseFloat(document.getElementById('investRate').value) || 0;
+  const annPmt = parseFloat(document.getElementById('annuityPayment').value);
+  const annYears = parseInt(document.getElementById('annuityYears').value);
+  const annTax = parseFloat(document.getElementById('annuityTaxRate').value) || 0;
+  const inflR = parseFloat(document.getElementById('inflationRate').value) || 0;
+  const horizon = parseInt(horizonSlider.value);
+
+  // Validate
+  let valid = true;
+  clearInputError('lumpAmount','err-lump');
+  clearInputError('annuityPayment','err-annuity');
+  clearInputError('annuityYears','err-years');
+
+  if (!lumpRaw || lumpRaw <= 0) { setInputError('lumpAmount','err-lump'); valid = false; }
+  if (!annPmt || annPmt <= 0) { setInputError('annuityPayment','err-annuity'); valid = false; }
+  if (!annYears || annYears < 1 || annYears > 100) { setInputError('annuityYears','err-years'); valid = false; }
+  if (!valid) return;
+
+  // Core computations
+  const netLump = lumpRaw * (1 - pct(lumpTax));
+  const netAnnPmt = annPmt * (1 - pct(annTax));
+  const ri = pct(investR);
+  const rf = pct(inflR);
+  const maxYear = Math.max(horizon, annYears);
+
+  // Build year data
+  const rows = [];
+  let annCumulative = 0;
+  for (let y = 1; y <= maxYear; y++) {
+    const lumpFV = netLump * Math.pow(1 + ri, y);
+    // Annuity: each year's payment is invested at ri from receipt to end of year y
+    // Cumulative FV of annuity at year y = sum of netAnnPmt * (1+ri)^(y-k) for k=1..min(y,annYears)
+    // We compute incrementally:
+    annCumulative = annCumulative * (1 + ri) + (y <= annYears ? netAnnPmt : 0);
+    const inflFactor = Math.pow(1 + rf, y);
+    const lumpReal = lumpFV / inflFactor;
+    const annReal = annCumulative / inflFactor;
+    rows.push({
+      year: y,
+      lumpFV, annCumulative, lumpReal, annReal
+    });
+  }
+
+  // At horizon
+  const hRow = rows[horizon - 1] || rows[rows.length - 1];
+  const lumpAtH = hRow.lumpReal;
+  const annAtH = hRow.annReal;
+  const lumpWins = lumpAtH >= annAtH;
+  const diff = Math.abs(lumpAtH - annAtH);
+
+  // Find crossover year
+  let crossoverYear = null;
+  for (let i = 1; i < rows.length; i++) {
+    const prev = rows[i-1];
+    const cur = rows[i];
+    if ((prev.lumpReal >= prev.annReal) !== (cur.lumpReal >= cur.annReal)) {
+      crossoverYear = cur.year;
+      break;
+    }
+  }
+
+  // Total annuity nominal
+  const totalAnnNominal = annPmt * annYears;
+  const totalAnnAfterTax = netAnnPmt * annYears;
+
+  // Build HTML
+  const winnerClass = lumpAtH === annAtH ? 'tie' : (lumpWins ? 'lump' : 'annuity');
+  const winnerIcon = lumpAtH === annAtH ? '⚖️' : (lumpWins ? '💰' : '📅');
+  const winnerLabel = lumpAtH === annAtH ? 'It\'s a Tie!' : (lumpWins ? 'Lump Sum Wins' : 'Annuity Wins');
+  const winnerDesc = lumpAtH === annAtH
+    ? `Both options have equal inflation-adjusted value at year ${horizon}.`
+    : (lumpWins
+      ? `Lump sum is worth <strong>${fmtDiff(diff)}</strong> more in today's dollars at year ${horizon}.`
+      : `Annuity is worth <strong>${fmtDiff(diff)}</strong> more in today's dollars at year ${horizon}.`);
+  const crossText = crossoverYear
+    ? `Break-even point: <strong>Year ${crossoverYear}</strong>`
+    : (lumpWins ? 'Lump sum leads the entire period shown.' : 'Annuity leads the entire period shown.');
+
+  // Banner
+  const bannerHTML = `<div class="winner-banner ${winnerClass}">
+    <div class="winner-icon">${winnerIcon}</div>
+    <div class="winner-text">
+      <h2>${winnerLabel}</h2>
+      <p>${winnerDesc}</p>
+      <p>${crossText}</p>
+    </div>
+  </div>`;
+
+  // Comparison grid
+  const lumpPct = lumpAtH / (lumpAtH + annAtH) * 100;
+  const annPctV = 100 - lumpPct;
+  const compHTML = `
+    <div class="comp-card lump">
+      <h3>Lump Sum</h3>
+      <div class="val lump-c">${fmt(lumpAtH)}</div>
+      <div class="sub">Real value at year ${horizon}</div>
+      <div style="margin-top:0.5rem;font-size:0.78rem;color:#666">After-tax net: ${fmt(netLump)}</div>
+    </div>
+    <div class="comp-card annuity">
+      <h3>Annuity</h3>
+      <div class="val annuity-c">${fmt(annAtH)}</div>
+      <div class="sub">Real value at year ${horizon}</div>
+      <div style="margin-top:0.5rem;font-size:0.78rem;color:#666">Total payments: ${fmt(totalAnnAfterTax)}</div>
+    </div>`;
+
+  // Bar chart - lump vs annuity comparison bars
+  const maxVal = Math.max(lumpAtH, annAtH);
+  const lumpBarW = maxVal > 0 ? (lumpAtH / maxVal * 100) : 0;
+  const annBarW = maxVal > 0 ? (annAtH / maxVal * 100) : 0;
+  const barHTML = `
+    <div class="section-title">Visual Comparison (Inflation-Adjusted at Year ${horizon})</div>
+    <div style="margin-bottom:0.75rem">
+      <div class="bar-label-row"><span>Lump Sum</span><span>${fmt(lumpAtH)}</span></div>
+      <div class="bar-track"><div class="bar-fill lump" style="width:${lumpBarW.toFixed(1)}%"></div></div>
+    </div>
+    <div>
+      <div class="bar-label-row"><span>Annuity</span><span>${fmt(annAtH)}</span></div>
+      <div class="bar-track"><div class="bar-fill annuity" style="width:${annBarW.toFixed(1)}%"></div></div>
+    </div>
+    <div class="bar-legend">
+      <div class="bar-legend-item"><div class="bar-legend-dot lump"></div>Lump Sum</div>
+      <div class="bar-legend-item"><div class="bar-legend-dot annuity"></div>Annuity</div>
+    </div>`;
+
+  // Table rows (first 10 visible, rest hidden)
+  const VISIBLE_LIMIT = 10;
+  let visHTML = '';
+  let hidHTML = '';
+  for (let i = 0; i < rows.length; i++) {
+    const r = rows[i];
+    const lead = r.lumpReal - r.annReal;
+    const lumpLeadTxt = lead > 0 ? `<span style="color:#0077b6">${fmt(lead)}</span>` : '—';
+    const annLeadTxt = lead < 0 ? `<span style="color:#27ae60">${fmt(-lead)}</span>` : '—';
+    const rowHTML = `<tr>
+      <td>${r.year}</td>
+      <td class="r">${fmt(r.lumpReal)}</td>
+      <td class="r">${fmt(r.annReal)}</td>
+      <td class="r">${lumpLeadTxt}</td>
+      <td class="r">${annLeadTxt}</td>
+    </tr>`;
+    if (i < VISIBLE_LIMIT) visHTML += rowHTML;
+    else hidHTML += rowHTML;
+  }
+
+  // Summary text for copy
+  const summaryText = `Lump Sum vs Annuity Comparison\n` +
+    `Horizon: ${horizon} years\n` +
+    `Lump Sum (real value): ${fmt(lumpAtH)}\n` +
+    `Annuity (real value): ${fmt(annAtH)}\n` +
+    `Winner: ${winnerLabel}\n` +
+    (crossoverYear ? `Break-even year: ${crossoverYear}\n` : '') +
+    `Generated by calcstack.dev`;
+
+  requestAnimationFrame(() => {
+    document.getElementById('winnerBanner').innerHTML = bannerHTML;
+    document.getElementById('compGrid').innerHTML = compHTML;
+    document.getElementById('barSection').innerHTML = barHTML;
+    document.getElementById('visibleRows').innerHTML = visHTML;
+    const hidRowsEl = document.getElementById('hiddenRows');
+    hidRowsEl.innerHTML = hidHTML;
+    hidRowsEl.classList.remove('show');
+    const toggleBtn = document.getElementById('toggleRows');
+    toggleBtn.textContent = 'Show All Years';
+    toggleBtn.style.display = hidHTML.trim() ? '' : 'none';
+    document.getElementById('results').classList.add('visible');
+    document.getElementById('results').scrollIntoView({behavior:'smooth',block:'nearest'});
+    // Store summary for copy
+    document.getElementById('copyBtn')._summary = summaryText;
+  });
+}
+
+// ---- Toggle rows ----
+document.getElementById('toggleRows').addEventListener('click', function() {
+  const hid = document.getElementById('hiddenRows');
+  if (hid.classList.contains('show')) {
+    hid.classList.remove('show');
+    this.textContent = 'Show All Years';
+  } else {
+    hid.classList.add('show');
+    this.textContent = 'Show Less';
+  }
+});
+
+// ---- Copy button ----
+document.getElementById('copyBtn').addEventListener('click', function() {
+  const text = this._summary || '';
+  if (!text) return;
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = this.textContent;
+    this.textContent = 'Copied!';
+    setTimeout(() => { this.textContent = orig; }, 2000);
+  });
+});
+
+// ---- Calc button & Enter key ----
+document.getElementById('calcBtn').addEventListener('click', () => {
+  requestAnimationFrame(() => { calculate(); });
+});
+
+document.querySelectorAll('input').forEach(el => {
+  el.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      requestAnimationFrame(() => { calculate(); });
+    }
+  });
+});
+
+// Auto-calc on load
+window.addEventListener('DOMContentLoaded', () => {
+  requestAnimationFrame(() => { calculate(); });
+});
+</script>
+</body>
+</html>
