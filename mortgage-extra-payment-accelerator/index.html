@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mortgage Extra Payment Accelerator — Free Online Tool | calcstack.dev</title>
+<meta name="description" content="Calculate how extra mortgage payments save you thousands in interest and years off your loan. Free extra mortgage payment calculator with amortization breakdown.">
+<link rel="canonical" href="https://calcstack.dev/mortgage-extra-payment-accelerator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Mortgage Extra Payment Accelerator",
+  "url": "https://calcstack.dev/mortgage-extra-payment-accelerator/",
+  "description": "Calculate how extra mortgage payments reduce your loan term and total interest paid.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f0f4f8;color:#1a1a2e;font-size:16px;line-height:1.6}
+a{color:#0077b6;text-decoration:none}
+a:hover{text-decoration:underline}
+nav{background:#fff;border-bottom:1px solid #e0e0e0;padding:0 1.5rem;position:sticky;top:0;z-index:100}
+.nav-inner{max-width:640px;margin:0 auto;display:flex;align-items:center;height:52px}
+.nav-brand{font-weight:700;font-size:1.05rem;color:#1a1a2e}
+.nav-brand span{color:#0077b6}
+main{max-width:640px;margin:0 auto;padding:1.5rem 1rem 3rem}
+h1{font-size:1.6rem;font-weight:800;color:#1a1a2e;margin-bottom:.4rem;line-height:1.25}
+.subtitle{color:#555;font-size:.95rem;margin-bottom:1.5rem}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:1.75rem;box-shadow:0 2px 8px rgba(0,0,0,.04);margin-bottom:1.5rem}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+.form-group{margin-bottom:1rem}
+.form-group:last-child{margin-bottom:0}
+label{display:block;font-size:.85rem;font-weight:500;color:#444;margin-bottom:.4rem}
+input[type=number],input[type=text],select{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:6px;font-size:.95rem;color:#1a1a2e;background:#fff;transition:border-color .2s,box-shadow .2s;-moz-appearance:textfield}
+input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
+input:focus,select:focus{outline:none;border-color:#0077b6;box-shadow:0 0 0 3px rgba(0,119,182,.15)}
+input.error{border-color:#e74c3c}
+.error-msg{color:#e74c3c;font-size:.8rem;margin-top:.3rem;display:none}
+.error-msg.visible{display:block}
+.slider-row{display:flex;align-items:center;gap:.75rem}
+.slider-row input[type=range]{flex:1;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;background:#ddd;border:none;padding:0;box-shadow:none}
+.slider-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:#0077b6;cursor:pointer}
+.slider-row input[type=range]:focus{box-shadow:none}
+.slider-val{min-width:72px;padding:8px 10px;font-size:.85rem;text-align:center;border:1px solid #ddd;border-radius:6px;color:#1a1a2e}
+.btn{display:inline-flex;align-items:center;justify-content:center;background:#0077b6;color:#fff;border:none;padding:13px 24px;border-radius:6px;font-size:1rem;font-weight:600;cursor:pointer;transition:background .2s;width:100%;min-height:44px}
+.btn:hover{background:#006299}
+.btn-sm{font-size:.8rem;padding:6px 14px;width:auto;border-radius:5px;min-height:36px;background:#0077b6}
+.btn-ghost{background:#f0f4f8;color:#0077b6;border:1px solid #ddd}
+.btn-ghost:hover{background:#e2eaf0}
+.results{opacity:0;transition:opacity .3s ease;pointer-events:none}
+.results.visible{opacity:1;pointer-events:all}
+.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.25rem}
+.stat-box{background:#f8f9fa;border-radius:8px;padding:1rem;border:1px solid #e8e8e8;text-align:center}
+.stat-box.highlight{background:#e8f4fb;border-color:#b3d9f0}
+.stat-label{font-size:.75rem;color:#666;font-weight:500;text-transform:uppercase;letter-spacing:.03em;margin-bottom:.25rem}
+.stat-val{font-size:1.5rem;font-weight:800;color:#0077b6;line-height:1.1}
+.stat-val.green{color:#2ecc71}
+.stat-val.dark{color:#1a1a2e}
+.stat-sub{font-size:.75rem;color:#888;margin-top:.2rem}
+.section-label{font-size:.85rem;font-weight:600;color:#444;margin-bottom:.6rem;text-transform:uppercase;letter-spacing:.04em}
+.bar-group{margin-bottom:1.25rem}
+.bar-wrap{display:flex;height:28px;border-radius:6px;overflow:hidden;margin-bottom:.4rem}
+.bar-principal{background:#0077b6}
+.bar-interest{background:#f39c12}
+.bar-saved{background:#2ecc71}
+.bar-legend{display:flex;flex-wrap:wrap;gap:.6rem .9rem;font-size:.78rem}
+.legend-dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:.3rem;vertical-align:middle}
+.dot-p{background:#0077b6}.dot-i{background:#f39c12}.dot-s{background:#2ecc71}
+.comparison-bars{margin-bottom:1.25rem}
+.cbar-row{margin-bottom:.6rem}
+.cbar-label{font-size:.78rem;color:#555;margin-bottom:.2rem;display:flex;justify-content:space-between}
+.cbar-outer{height:20px;background:#f0f0f0;border-radius:4px;overflow:hidden}
+.cbar-fill{height:100%;border-radius:4px;transition:width .6s ease}
+.fill-base{background:#f39c12}
+.fill-extra{background:#0077b6}
+table{width:100%;border-collapse:collapse;font-size:.82rem}
+thead th{background:#f0f0f0;padding:8px 10px;text-align:left;font-weight:600;color:#333;border-bottom:2px solid #ddd;white-space:nowrap}
+thead th.right{text-align:right}
+tbody tr:nth-child(even){background:#fafafa}
+tbody td{padding:7px 10px;border-bottom:1px solid #eee;color:#333}
+tbody td.right{text-align:right;font-variant-numeric:tabular-nums}
+tbody td.green{color:#27ae60;font-weight:600}
+.table-wrap{overflow-x:auto}
+.show-all-wrap{text-align:center;margin-top:.75rem}
+.copy-row{display:flex;justify-content:flex-end;margin-bottom:.75rem}
+.ad-slot{min-height:0;margin:0}
+.content-section{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:1.75rem;margin-bottom:1.5rem}
+.content-section h2{font-size:1.1rem;font-weight:700;color:#1a1a2e;margin-bottom:.7rem;margin-top:1.2rem}
+.content-section h2:first-child{margin-top:0}
+.content-section p{color:#444;font-size:.92rem;margin-bottom:.7rem}
+.content-section ul{color:#444;font-size:.92rem;padding-left:1.3rem;margin-bottom:.7rem}
+.content-section ul li{margin-bottom:.4rem}
+details{border:1px solid #e0e0e0;border-radius:6px;margin-bottom:.6rem;overflow:hidden}
+summary{padding:.75rem 1rem;font-weight:600;font-size:.88rem;cursor:pointer;background:#f8f9fa;color:#1a1a2e;list-style:none;display:flex;justify-content:space-between;align-items:center}
+summary::after{content:"＋";font-size:.9rem;color:#0077b6}
+details[open] summary::after{content:"－"}
+details p{padding:.75rem 1rem;font-size:.88rem;color:#444;background:#fff}
+.related-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.related-link{display:block;padding:.7rem .9rem;background:#f8f9fa;border:1px solid #e0e0e0;border-radius:6px;font-size:.82rem;font-weight:500;color:#0077b6;transition:background .15s}
+.related-link:hover{background:#e8f4fb;text-decoration:none}
+footer{border-top:1px solid #e0e0e0;background:#fff;padding:1.25rem 1.5rem;text-align:center;font-size:.8rem;color:#888}
+footer a{color:#0077b6;margin:0 .4rem}
+@media(max-width:600px){
+  .form-row{grid-template-columns:1fr}
+  .summary-grid{grid-template-columns:1fr 1fr}
+  .related-grid{grid-template-columns:1fr}
+  h1{font-size:1.35rem}
+  .stat-val{font-size:1.25rem}
+}
+@media(max-width:400px){
+  .summary-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">calc<span>stack</span>.dev</a>
+  </div>
+</nav>
+
+<main>
+  <h1>Mortgage Extra Payment Accelerator</h1>
+  <p class="subtitle">See exactly how much interest you save and how many years you cut off your mortgage with extra payments.</p>
+
+  <div class="card">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="loanAmount">Home Loan Amount ($)</label>
+        <input type="number" id="loanAmount" placeholder="350000" min="1000" step="1000">
+        <div class="error-msg" id="err-loan">Please enter a valid loan amount.</div>
+      </div>
+      <div class="form-group">
+        <label for="interestRate">Annual Interest Rate (%)</label>
+        <input type="number" id="interestRate" placeholder="6.75" min="0.01" max="30" step="0.01">
+        <div class="error-msg" id="err-rate">Please enter a valid rate (0.01–30%).</div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="loanTerm">Loan Term (years)</label>
+        <select id="loanTerm">
+          <option value="30" selected>30 years</option>
+          <option value="25">25 years</option>
+          <option value="20">20 years</option>
+          <option value="15">15 years</option>
+          <option value="10">10 years</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="extraType">Extra Payment Type</label>
+        <select id="extraType" onchange="updateExtraLabel()">
+          <option value="monthly">Monthly extra</option>
+          <option value="annual">Annual lump sum</option>
+          <option value="onetime">One-time lump sum</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label id="extraLabel">Extra Monthly Payment ($)</label>
+      <div class="slider-row">
+        <input type="range" id="extraSlider" min="0" max="2000" step="25" value="200" oninput="syncSlider()">
+        <input type="number" id="extraAmt" class="slider-val" value="200" min="0" step="25" oninput="syncInput()">
+      </div>
+      <div class="error-msg" id="err-extra">Extra payment cannot be negative.</div>
+    </div>
+    <div class="form-group" id="oneTimeRow" style="display:none">
+      <label for="oneTimeMonth">Apply lump sum after month #</label>
+      <input type="number" id="oneTimeMonth" value="1" min="1" max="360" step="1" placeholder="1">
+    </div>
+    <button class="btn" onclick="requestAnimationFrame(calculate)">Calculate Savings</button>
+  </div>
+
+  <div class="results card" id="results">
+    <div class="copy-row">
+      <button class="btn btn-sm btn-ghost" id="copyBtn" onclick="copyResults()">📋 Copy Summary</button>
+    </div>
+
+    <div class="summary-grid" id="summaryGrid"></div>
+
+    <div class="section-label">Total Cost Breakdown — Without vs. With Extra Payments</div>
+    <div class="comparison-bars" id="compBars"></div>
+
+    <div class="section-label">Principal vs. Interest Paid</div>
+    <div class="bar-group" id="barViz"></div>
+
+    <div class="section-label" style="margin-top:1.25rem">Year-by-Year Breakdown</div>
+    <div class="table-wrap" id="tableWrap"></div>
+    <div class="show-all-wrap" id="showAllWrap"></div>
+  </div>
+
+  <div class="ad-slot" id="ad-mid"></div>
+
+  <div class="content-section">
+    <h2>How to Use This Extra Mortgage Payment Calculator</h2>
+    <p>Enter your loan amount, interest rate, and loan term. Then choose how you want to make extra payments — monthly, annually, or as a one-time lump sum — and adjust the slider to set the amount. Click <strong>Calculate Savings</strong> to see your full amortization breakdown and how much interest you'll avoid paying.</p>
+
+    <h2>Why This Matters</h2>
+    <p>On a $350,000 mortgage at 6.75% for 30 years, your standard monthly payment is about $2,270. Over the life of the loan you'll pay roughly <strong>$467,000 in interest alone</strong> — more than the home's purchase price. That's money going directly to the bank, not to building equity.</p>
+    <p>Adding just $300/month extra changes the picture dramatically. You'd pay off the loan roughly 7 years early and save over $120,000 in interest. That's a guaranteed, risk-free return that beats most savings accounts and matches or exceeds many bond yields — with zero market risk.</p>
+    <p>First-time homeowners often focus on the monthly payment and overlook the long-term cost. Homeowners approaching retirement frequently want to eliminate their mortgage before stopping work. High-earners with extra cash flow can use this calculator to find the optimal extra payment that eliminates the loan before a target year — like a child's college enrollment or a planned retirement date.</p>
+
+    <h2>How It's Calculated</h2>
+    <p>Your standard monthly payment uses the amortization formula:</p>
+    <p><strong>M = P × [r(1+r)ⁿ] / [(1+r)ⁿ−1]</strong></p>
+    <p>Where <em>P</em> = principal, <em>r</em> = monthly interest rate (annual rate ÷ 12), and <em>n</em> = total number of payments. Each month, interest accrues on the remaining balance, and any extra payment reduces that balance dollar-for-dollar — which reduces interest in every subsequent month. The calculator runs both scenarios (base and accelerated) month by month to give precise payoff dates and total interest figures.</p>
+
+    <h2>Tips & Common Mistakes</h2>
+    <ul>
+      <li><strong>Check for prepayment penalties</strong> — some mortgages (especially older ones) charge fees for paying ahead. Read your loan agreement or call your servicer.</li>
+      <li><strong>Specify "principal only" to your servicer</strong> — without this instruction, lenders may apply extra payments toward next month's payment instead of reducing the principal balance.</li>
+      <li><strong>Pay off high-interest debt first</strong> — if you carry credit card balances at 20%+, eliminating those before adding mortgage overpayments will save more overall.</li>
+      <li><strong>Even small amounts compound</strong> — rounding your payment up to the nearest $100 or $500 can save $10,000–$30,000 over 30 years.</li>
+      <li><strong>Tax implications</strong> — mortgage interest may be deductible depending on your situation. Consult a tax advisor before aggressively paying down a low-rate mortgage.</li>
+    </ul>
+
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>Does it matter when I start making extra payments?</summary>
+      <p>Yes — significantly. Extra payments made early in the loan have a larger impact because interest is calculated on the remaining balance. A $500 extra payment in month 1 eliminates that $500 from the balance, saving you interest on that amount for every remaining month. The same $500 in month 300 saves far less.</p>
+    </details>
+    <details>
+      <summary>Should I pay extra on my mortgage or invest the money instead?</summary>
+      <p>It depends on your rate and risk tolerance. If your mortgage rate is 7%, prepaying offers a guaranteed 7% return. If you expect stocks to return 9–10% long-term, investing might win — but with volatility. Most financial planners suggest a hybrid approach: invest enough to capture employer 401(k) matching, then split extra cash between prepayment and investments.</p>
+    </details>
+    <details>
+      <summary>Will my minimum monthly payment go down after extra payments?</summary>
+      <p>Generally no — with a standard fixed-rate mortgage, your required payment stays the same. The extra payments shorten the loan term rather than reducing the monthly obligation. Some lenders offer "recasting" (re-amortizing the loan) for a fee, which would lower your required payment.</p>
+    </details>
+    <details>
+      <summary>What if I can only afford extra payments some months?</summary>
+      <p>Any extra payment, whenever you can make it, reduces your balance and saves interest. This calculator lets you model monthly, annual, or one-time payments. Even sporadic overpayments add up — run different scenarios to see the impact of different amounts.</p>
+    </details>
+  </div>
+
+  <div class="card">
+    <div class="section-label" style="margin-bottom:.9rem">Related Tools</div>
+    <div class="related-grid">
+      <a class="related-link" href="/investment-fee-impact-calculator/">Net Investment Fee Impact Calculator</a>
+      <a class="related-link" href="/savings-rate-fire-timeline-calculator/">Savings Rate FIRE Timeline Calculator</a>
+      <a class="related-link" href="/lump-sum-vs-annuity-calculator/">Lump Sum vs Annuity Calculator</a>
+      <a class="related-link" href="/paycheck-withholding-optimizer/">Paycheck Withholding Optimizer</a>
+      <a class="related-link" href="/salary-raise-calculator/">Paycheck Raise Impact Calculator</a>
+      <a class="related-link" href="/loan-prepayment-savings-calculator/">Loan Prepayment Savings Calculator</a>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-bottom"></div>
+</main>
+
+<footer>
+  <a href="/about/">About</a>
+  <a href="/privacy/">Privacy</a>
+  <a href="/contact/">Contact</a>
+  <span style="margin-left:.5rem">© 2025 calcstack.dev</span>
+</footer>
+
+<script>
+  var showAll = false;
+  var fullTableHTML = '';
+  var previewTableHTML = '';
+  var summaryText = '';
+
+  function fmt(n) {
+    return '$' + Math.round(n).toLocaleString('en-US');
+  }
+  function fmtN(n, d) {
+    d = d === undefined ? 0 : d;
+    return n.toLocaleString('en-US', {minimumFractionDigits: d, maximumFractionDigits: d});
+  }
+
+  function updateExtraLabel() {
+    var type = document.getElementById('extraType').value;
+    var labels = {monthly: 'Extra Monthly Payment ($)', annual: 'Extra Annual Payment ($)', onetime: 'One-Time Lump Sum ($)'};
+    document.getElementById('extraLabel').textContent = labels[type];
+    document.getElementById('oneTimeRow').style.display = (type === 'onetime') ? 'block' : 'none';
+    var maxes = {monthly: 5000, annual: 50000, onetime: 500000};
+    document.getElementById('extraSlider').max = maxes[type];
+  }
+
+  function syncSlider() {
+    document.getElementById('extraAmt').value = document.getElementById('extraSlider').value;
+  }
+  function syncInput() {
+    var v = parseFloat(document.getElementById('extraAmt').value) || 0;
+    document.getElementById('extraSlider').value = v;
+  }
+
+  function clearErrors() {
+    ['err-loan','err-rate','err-extra'].forEach(function(id) {
+      document.getElementById(id).classList.remove('visible');
+    });
+    ['loanAmount','interestRate','extraAmt'].forEach(function(id) {
+      document.getElementById(id).classList.remove('error');
+    });
+  }
+
+  function calculate() {
+    clearErrors();
+    var loan = parseFloat(document.getElementById('loanAmount').value);
+    var rate = parseFloat(document.getElementById('interestRate').value);
+    var term = parseInt(document.getElementById('loanTerm').value);
+    var extraType = document.getElementById('extraType').value;
+    var extraAmt = parseFloat(document.getElementById('extraAmt').value) || 0;
+    var oneTimeMonth = parseInt(document.getElementById('oneTimeMonth').value) || 1;
+
+    var valid = true;
+    if (!loan || loan < 1000) { document.getElementById('err-loan').classList.add('visible'); document.getElementById('loanAmount').classList.add('error'); valid = false; }
+    if (!rate || rate < 0.01 || rate > 30) { document.getElementById('err-rate').classList.add('visible'); document.getElementById('interestRate').classList.add('error'); valid = false; }
+    if (extraAmt < 0) { document.getElementById('err-extra').classList.add('visible'); document.getElementById('extraAmt').classList.add('error'); valid = false; }
+    if (!valid) return;
+
+    var r = rate / 100 / 12;
+    var n = term * 12;
+    var basePayment = loan * r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1);
+
+    // Amortize base
+    var base = amortize(loan, r, n, basePayment, 'monthly', 0, 0);
+    // Amortize with extra
+    var accel = amortize(loan, r, n, basePayment, extraType, extraAmt, oneTimeMonth);
+
+    var interestSaved = base.totalInterest - accel.totalInterest;
+    var monthsSaved = base.months - accel.months;
+    var yearsSaved = Math.floor(monthsSaved / 12);
+    var moSaved = monthsSaved % 12;
+
+    var newTermLabel = formatTerm(accel.months);
+    var oldTermLabel = formatTerm(base.months);
+
+    summaryText = [
+      'Mortgage Extra Payment Summary',
+      'Loan: ' + fmt(loan) + ' @ ' + rate + '% for ' + term + ' years',
+      'Base monthly payment: ' + fmt(basePayment),
+      'Extra payment (' + extraType + '): ' + fmt(extraAmt),
+      'Original payoff: ' + oldTermLabel,
+      'New payoff: ' + newTermLabel,
+      'Time saved: ' + (yearsSaved > 0 ? yearsSaved + 'y ' : '') + moSaved + 'm',
+      'Total interest (original): ' + fmt(base.totalInterest),
+      'Total interest (with extra): ' + fmt(accel.totalInterest),
+      'Interest saved: ' + fmt(interestSaved),
+    ].join('\n');
+
+    // Build summary grid
+    var sg = '<div class="stat-box highlight"><div class="stat-label">Interest Saved</div><div class="stat-val green">' + fmt(interestSaved) + '</div><div class="stat-sub">vs. original schedule</div></div>';
+    sg += '<div class="stat-box highlight"><div class="stat-label">Time Saved</div><div class="stat-val">' + (yearsSaved > 0 ? yearsSaved + 'y ' : '') + moSaved + 'm</div><div class="stat-sub">payoff ' + newTermLabel + '</div></div>';
+    sg += '<div class="stat-box"><div class="stat-label">Original Interest</div><div class="stat-val dark">' + fmt(base.totalInterest) + '</div><div class="stat-sub">over ' + oldTermLabel + '</div></div>';
+    sg += '<div class="stat-box"><div class="stat-label">New Total Interest</div><div class="stat-val dark">' + fmt(accel.totalInterest) + '</div><div class="stat-sub">over ' + newTermLabel + '</div></div>';
+
+    // Comparison bars
+    var maxTotal = base.totalPaid;
+    var cb = '';
+    var baseW = 100;
+    var accelW = Math.round(accel.totalPaid / maxTotal * 100);
+    cb += '<div class="cbar-row"><div class="cbar-label"><span>Without extra payments</span><span>' + fmt(base.totalPaid) + '</span></div><div class="cbar-outer"><div class="cbar-fill fill-base" style="width:' + baseW + '%"></div></div></div>';
+    cb += '<div class="cbar-row"><div class="cbar-label"><span>With extra payments</span><span>' + fmt(accel.totalPaid) + '</span></div><div class="cbar-outer"><div class="cbar-fill fill-extra" style="width:' + accelW + '%"></div></div></div>';
+
+    // Bar viz – principal vs interest
+    var basePrinPct = Math.round(loan / base.totalPaid * 100);
+    var baseIntPct = 100 - basePrinPct;
+    var accelPrinPct = Math.round(loan / accel.totalPaid * 100);
+    var accelIntPct = 100 - accelPrinPct;
+    var bv = '';
+    bv += '<div style="font-size:.78rem;color:#555;margin-bottom:.3rem">Without extra payments — ' + fmt(base.totalPaid) + ' total</div>';
+    bv += '<div class="bar-wrap" style="margin-bottom:.6rem"><div class="bar-principal" style="width:' + basePrinPct + '%"></div><div class="bar-interest" style="width:' + baseIntPct + '%"></div></div>';
+    bv += '<div style="font-size:.78rem;color:#555;margin-bottom:.3rem">With extra payments — ' + fmt(accel.totalPaid) + ' total</div>';
+    bv += '<div class="bar-wrap" style="margin-bottom:.6rem"><div class="bar-principal" style="width:' + accelPrinPct + '%"></div><div class="bar-interest" style="width:' + accelIntPct + '%"></div><div class="bar-saved" style="width:' + Math.max(0, 100 - accelPrinPct - accelIntPct) + '%"></div></div>';
+    bv += '<div class="bar-legend"><span><span class="legend-dot dot-p"></span>Principal (' + fmt(loan) + ')</span><span><span class="legend-dot dot-i"></span>Interest paid</span></div>';
+
+    // Build tables
+    var headers = '<thead><tr><th>Year</th><th class="right">Base Balance</th><th class="right">Accel Balance</th><th class="right">Base Interest</th><th class="right">Accel Interest</th><th class="right">Saved This Year</th></tr></thead>';
+    var allRows = '';
+    var prevRows = '';
+    var maxYears = Math.ceil(base.months / 12);
+    var previewCount = 10;
+
+    for (var y = 1; y <= maxYears; y++) {
+      var bY = base.yearData[y] || {balance: 0, interestPaid: 0, cumInterest: base.totalInterest};
+      var aY = accel.yearData[y] || null;
+
+      var bBal = bY.balance;
+      var aBal = aY ? aY.balance : 0;
+      var bInt = bY.interestPaid;
+      var aInt = aY ? aY.interestPaid : 0;
+      var savedYr = bInt - aInt;
+
+      var row = '<tr>' +
+        '<td>' + y + '</td>' +
+        '<td class="right">' + fmt(bBal) + '</td>' +
+        '<td class="right">' + (aY ? fmt(aBal) : '—') + '</td>' +
+        '<td class="right">' + fmt(bInt) + '</td>' +
+        '<td class="right">' + (aY ? fmt(aInt) : '—') + '</td>' +
+        '<td class="right green">+' + fmt(savedYr) + '</td>' +
+        '</tr>';
+      allRows += row;
+      if (y <= previewCount) prevRows += row;
+    }
+
+    var tbl = '<table>' + headers + '<tbody>' + allRows + '</tbody></table>';
+    var tblPrev = '<table>' + headers + '<tbody>' + prevRows + '</tbody></table>';
+    fullTableHTML = tbl;
+    previewTableHTML = tblPrev;
+    showAll = false;
+
+    requestAnimationFrame(function() {
+      document.getElementById('summaryGrid').innerHTML = sg;
+      document.getElementById('compBars').innerHTML = cb;
+      document.getElementById('barViz').innerHTML = bv;
+      document.getElementById('tableWrap').innerHTML = previewTableHTML;
+      if (maxYears > previewCount) {
+        document.getElementById('showAllWrap').innerHTML = '<button class="btn btn-ghost btn-sm" onclick="toggleAll()">Show All ' + maxYears + ' Years</button>';
+      } else {
+        document.getElementById('showAllWrap').innerHTML = '';
+      }
+      var res = document.getElementById('results');
+      res.classList.add('visible');
+      res.scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  }
+
+  function amortize(principal, r, n, payment, extraType, extraAmt, oneTimeMonth) {
+    var balance = principal;
+    var totalInterest = 0;
+    var totalPaid = 0;
+    var months = 0;
+    var yearData = {};
+    var yearInterest = 0;
+
+    for (var m = 1; m <= n * 3 && balance > 0.01; m++) {
+      var intCharge = balance * r;
+      var prinCharge = Math.min(payment - intCharge, balance);
+      if (prinCharge < 0) prinCharge = 0;
+
+      var extra = 0;
+      if (extraType === 'monthly') extra = extraAmt;
+      else if (extraType === 'annual' && m % 12 === 0) extra = extraAmt;
+      else if (extraType === 'onetime' && m === oneTimeMonth) extra = extraAmt;
+
+      var extraApplied = Math.min(extra, balance - prinCharge);
+      if (extraApplied < 0) extraApplied = 0;
+
+      balance -= (prinCharge + extraApplied);
+      if (balance < 0) balance = 0;
+
+      totalInterest += intCharge;
+      totalPaid += intCharge + prinCharge + extraApplied;
+      yearInterest += intCharge;
+      months = m;
+
+      var yr = Math.ceil(m / 12);
+      if (m % 12 === 0 || balance <= 0.01) {
+        yearData[yr] = {balance: Math.max(0, balance), interestPaid: yearInterest, cumInterest: totalInterest};
+        yearInterest = 0;
+      }
+    }
+
+    return {months: months, totalInterest: totalInterest, totalPaid: totalPaid, yearData: yearData};
+  }
+
+  function formatTerm(months) {
+    var y = Math.floor(months / 12);
+    var m = months % 12;
+    if (m === 0) return y + ' yrs';
+    return y + 'y ' + m + 'm';
+  }
+
+  function toggleAll() {
+    showAll = !showAll;
+    document.getElementById('tableWrap').innerHTML = showAll ? fullTableHTML : previewTableHTML;
+    document.getElementById('showAllWrap').querySelector('button').textContent = showAll ? 'Show Less' : 'Show All Years';
+  }
+
+  function copyResults() {
+    if (!summaryText) return;
+    navigator.clipboard.writeText(summaryText).then(function() {
+      var btn = document.getElementById('copyBtn');
+      btn.textContent = '✅ Copied!';
+      setTimeout(function() { btn.textContent = '📋 Copy Summary'; }, 2000);
+    }).catch(function() {
+      var btn = document.getElementById('copyBtn');
+      btn.textContent = '❌ Failed';
+      setTimeout(function() { btn.textContent = '📋 Copy Summary'; }, 2000);
+    });
+  }
+
+  // Enter key support
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') requestAnimationFrame(calculate);
+  });
+
+  // Init slider display
+  syncSlider();
+</script>
+</body>
+</html>
