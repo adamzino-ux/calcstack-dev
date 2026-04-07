@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vacation Budget & Cost Estimator — Free Online Tool | calcstack.dev</title>
+<meta name="description" content="Plan your dream vacation with our free vacation cost calculator. Estimate flights, hotels, food, activities, and more. Get a complete budget breakdown instantly.">
+<link rel="canonical" href="https://calcstack.dev/vacation-budget-cost-estimator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Vacation Budget & Cost Estimator",
+  "url": "https://calcstack.dev/vacation-budget-cost-estimator/",
+  "description": "Estimate the total cost of your vacation including flights, accommodation, food, activities, and miscellaneous expenses.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #fff; color: #1a1a2e; font-size: 16px; line-height: 1.6; }
+a { color: #0077b6; text-decoration: none; }
+a:hover { text-decoration: underline; }
+nav { border-bottom: 1px solid #e0e0e0; padding: 0 1.5rem; }
+nav .nav-inner { max-width: 640px; margin: 0 auto; display: flex; align-items: center; height: 52px; }
+nav .site-name { font-weight: 700; font-size: 1.1rem; color: #1a1a2e; }
+nav .site-name:hover { text-decoration: none; color: #0077b6; }
+.container { max-width: 640px; margin: 0 auto; padding: 2rem 1.5rem; }
+h1 { font-size: 1.75rem; font-weight: 800; color: #1a1a2e; margin-bottom: 0.5rem; line-height: 1.2; }
+.subtitle { color: #555; font-size: 0.95rem; margin-bottom: 2rem; }
+.card { background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 2rem; }
+.card-title { font-size: 1.05rem; font-weight: 700; color: #1a1a2e; margin-bottom: 1.25rem; padding-bottom: 0.5rem; border-bottom: 2px solid #0077b6; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+.form-group { margin-bottom: 1rem; }
+.form-group:last-child { margin-bottom: 0; }
+label { display: block; font-size: 0.85rem; font-weight: 500; color: #444; margin-bottom: 0.4rem; }
+input[type="number"], input[type="text"], select {
+  width: 100%; padding: 12px 16px; border: 1px solid #ddd; border-radius: 6px;
+  font-size: 1rem; font-family: inherit; color: #1a1a2e; background: #fff;
+  transition: border-color 0.2s, box-shadow 0.2s; -webkit-appearance: none; appearance: none;
+  min-height: 44px;
+}
+input:focus, select:focus { outline: none; border-color: #0077b6; box-shadow: 0 0 0 3px rgba(0,119,182,0.15); }
+input.error { border-color: #e74c3c; }
+.error-msg { color: #e74c3c; font-size: 0.8rem; margin-top: 0.3rem; display: none; }
+.error-msg.visible { display: block; }
+.input-prefix { position: relative; }
+.input-prefix span { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #777; font-size: 1rem; pointer-events: none; }
+.input-prefix input { padding-left: 26px; }
+.slider-group { margin-bottom: 1rem; }
+.slider-row { display: flex; align-items: center; gap: 0.75rem; }
+.slider-row input[type="range"] { flex: 1; height: 6px; -webkit-appearance: none; appearance: none; background: #ddd; border-radius: 3px; cursor: pointer; min-height: 0; }
+.slider-row input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: #0077b6; cursor: pointer; }
+.slider-row input[type="range"]::-moz-range-thumb { width: 18px; height: 18px; border-radius: 50%; background: #0077b6; cursor: pointer; border: none; }
+.slider-val { min-width: 52px; text-align: right; font-size: 0.9rem; font-weight: 600; color: #0077b6; }
+.btn { display: inline-block; background: #0077b6; color: #fff; border: none; border-radius: 6px; padding: 12px 24px; font-size: 1rem; font-weight: 600; cursor: pointer; font-family: inherit; transition: background 0.2s; min-height: 44px; }
+.btn:hover { background: #006299; }
+.btn-full { width: 100%; }
+.btn-secondary { background: #f0f0f0; color: #1a1a2e; border: 1px solid #ddd; }
+.btn-secondary:hover { background: #e0e0e0; }
+.btn-sm { padding: 6px 14px; font-size: 0.82rem; min-height: 36px; }
+#results { opacity: 0; transition: opacity 0.3s ease; }
+#results.visible { opacity: 1; }
+.result-hero { text-align: center; padding: 1.5rem; background: linear-gradient(135deg, #0077b6 0%, #005f8e 100%); border-radius: 8px; color: #fff; margin-bottom: 1.5rem; }
+.result-hero .label { font-size: 0.9rem; opacity: 0.85; margin-bottom: 0.25rem; }
+.result-hero .big-num { font-size: 2.8rem; font-weight: 800; line-height: 1.1; }
+.result-hero .sub { font-size: 0.9rem; opacity: 0.8; margin-top: 0.25rem; }
+.per-person { font-size: 1.15rem; font-weight: 600; margin-top: 0.5rem; opacity: 0.9; }
+.breakdown-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1.5rem; }
+.breakdown-item { background: #f8f9fa; border-radius: 6px; padding: 0.85rem 1rem; border: 1px solid #e8e8e8; }
+.breakdown-item .cat { font-size: 0.78rem; color: #666; font-weight: 500; }
+.breakdown-item .amt { font-size: 1.15rem; font-weight: 700; color: #1a1a2e; }
+.breakdown-item .pct { font-size: 0.78rem; color: #0077b6; }
+.section-title { font-size: 0.95rem; font-weight: 700; color: #1a1a2e; margin-bottom: 0.75rem; }
+.bar-chart { margin-bottom: 1.5rem; }
+.bar-row { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.55rem; }
+.bar-label { font-size: 0.8rem; color: #555; min-width: 100px; text-align: right; }
+.bar-track { flex: 1; background: #f0f0f0; border-radius: 4px; height: 22px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 4px; transition: width 0.4s ease; display: flex; align-items: center; justify-content: flex-end; padding-right: 6px; }
+.bar-fill span { font-size: 0.72rem; font-weight: 700; color: #fff; white-space: nowrap; }
+.bar-pct { font-size: 0.78rem; color: #888; min-width: 36px; }
+.table-wrap { overflow-x: auto; border-radius: 6px; border: 1px solid #e0e0e0; margin-bottom: 1rem; }
+table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+thead th { background: #f0f0f0; padding: 10px 12px; text-align: left; font-weight: 600; color: #333; white-space: nowrap; }
+thead th:last-child { text-align: right; }
+tbody td { padding: 9px 12px; border-bottom: 1px solid #f0f0f0; color: #444; }
+tbody td:last-child { text-align: right; font-weight: 600; color: #1a1a2e; }
+tbody tr:nth-child(even) { background: #fafafa; }
+tbody tr:last-child td { border-bottom: none; }
+.copy-row { display: flex; justify-content: flex-end; gap: 0.5rem; align-items: center; margin-top: 0.75rem; }
+.copy-note { font-size: 0.8rem; color: #888; }
+.tips-note { background: #f0f8ff; border-left: 4px solid #0077b6; padding: 0.85rem 1rem; border-radius: 0 6px 6px 0; font-size: 0.88rem; color: #1a1a2e; margin-top: 1rem; }
+.ad-slot { min-height: 0; margin: 0; }
+section.content { margin-bottom: 2rem; }
+section.content h2 { font-size: 1.2rem; font-weight: 700; color: #1a1a2e; margin-bottom: 0.75rem; margin-top: 2rem; }
+section.content h2:first-child { margin-top: 0; }
+section.content p { color: #444; font-size: 0.95rem; margin-bottom: 0.85rem; }
+section.content ul { padding-left: 1.25rem; color: #444; font-size: 0.95rem; }
+section.content ul li { margin-bottom: 0.4rem; }
+details { border: 1px solid #e0e0e0; border-radius: 6px; margin-bottom: 0.5rem; }
+summary { padding: 0.75rem 1rem; font-weight: 600; font-size: 0.92rem; cursor: pointer; color: #1a1a2e; }
+summary::-webkit-details-marker { color: #0077b6; }
+details p { padding: 0 1rem 0.75rem; color: #555; font-size: 0.9rem; }
+.related-tools { margin-bottom: 2rem; }
+.related-tools h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.75rem; }
+.related-list { display: flex; flex-direction: column; gap: 0.4rem; }
+.related-list a { font-size: 0.9rem; padding: 0.35rem 0; border-bottom: 1px solid #f0f0f0; }
+footer { border-top: 1px solid #e0e0e0; padding: 1.25rem 1.5rem; text-align: center; font-size: 0.82rem; color: #888; }
+footer a { color: #888; margin: 0 0.5rem; }
+footer a:hover { color: #0077b6; }
+.tab-row { display: flex; gap: 0.5rem; margin-bottom: 1.25rem; flex-wrap: wrap; }
+.tab-btn { padding: 7px 16px; border-radius: 20px; border: 1px solid #ddd; background: #fff; font-size: 0.85rem; cursor: pointer; font-family: inherit; color: #555; transition: all 0.15s; min-height: 36px; }
+.tab-btn.active { background: #0077b6; border-color: #0077b6; color: #fff; font-weight: 600; }
+@media (max-width: 540px) {
+  h1 { font-size: 1.4rem; }
+  .form-row { grid-template-columns: 1fr; }
+  .breakdown-grid { grid-template-columns: 1fr 1fr; }
+  .card { padding: 1.25rem; }
+  .result-hero .big-num { font-size: 2.2rem; }
+  .bar-label { min-width: 80px; font-size: 0.75rem; }
+}
+@media (max-width: 400px) {
+  .breakdown-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="site-name">calcstack.dev</a>
+  </div>
+</nav>
+
+<div class="container">
+
+  <h1>Vacation Budget & Cost Estimator</h1>
+  <p class="subtitle">Plan your trip budget with a complete cost breakdown — flights, hotels, food, activities, and more.</p>
+
+  <!-- TRIP OVERVIEW -->
+  <div class="card">
+    <div class="card-title">✈️ Trip Overview</div>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="numTravelers">Number of Travelers</label>
+        <input type="number" id="numTravelers" value="2" min="1" max="20" placeholder="2">
+        <div class="error-msg" id="err-travelers">Enter a valid number (1–20).</div>
+      </div>
+      <div class="form-group">
+        <label for="numDays">Trip Duration (Days)</label>
+        <input type="number" id="numDays" value="7" min="1" max="365" placeholder="7">
+        <div class="error-msg" id="err-days">Enter a valid duration (1–365 days).</div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="tripStyle">Travel Style</label>
+        <select id="tripStyle">
+          <option value="budget">Budget / Backpacker</option>
+          <option value="midrange" selected>Mid-Range</option>
+          <option value="luxury">Luxury</option>
+          <option value="custom">Custom (enter my own)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="destination">Destination Type</label>
+        <select id="destination">
+          <option value="domestic">Domestic</option>
+          <option value="international" selected>International</option>
+          <option value="caribbean">Caribbean / Beach Resort</option>
+          <option value="europe">Europe</option>
+          <option value="asia">Asia / SE Asia</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- COST INPUTS -->
+  <div class="card">
+    <div class="card-title">💰 Cost Inputs</div>
+    <div class="tab-row" id="inputTabs">
+      <button class="tab-btn active" onclick="switchTab('tab-preset')">Use Presets</button>
+      <button class="tab-btn" onclick="switchTab('tab-custom')">Enter My Own</button>
+    </div>
+
+    <!-- PRESET TAB -->
+    <div id="tab-preset">
+      <p style="font-size:0.85rem;color:#666;margin-bottom:1rem;">Adjust sliders to fine-tune estimates. Costs shown per person.</p>
+
+      <div class="slider-group">
+        <label>✈️ Flights (per person, round-trip)</label>
+        <div class="slider-row">
+          <input type="range" id="sl-flight" min="0" max="5000" step="25" value="600" oninput="updateSlider('sl-flight','sv-flight','$')">
+          <span class="slider-val" id="sv-flight">$600</span>
+        </div>
+      </div>
+      <div class="slider-group">
+        <label>🏨 Hotel / Accommodation (per night, total)</label>
+        <div class="slider-row">
+          <input type="range" id="sl-hotel" min="0" max="1000" step="10" value="150" oninput="updateSlider('sl-hotel','sv-hotel','$')">
+          <span class="slider-val" id="sv-hotel">$150</span>
+        </div>
+      </div>
+      <div class="slider-group">
+        <label>🍽️ Food & Drinks (per person, per day)</label>
+        <div class="slider-row">
+          <input type="range" id="sl-food" min="0" max="500" step="5" value="60" oninput="updateSlider('sl-food','sv-food','$')">
+          <span class="slider-val" id="sv-food">$60</span>
+        </div>
+      </div>
+      <div class="slider-group">
+        <label>🚗 Local Transport (per person, per day)</label>
+        <div class="slider-row">
+          <input type="range" id="sl-transport" min="0" max="200" step="5" value="25" oninput="updateSlider('sl-transport','sv-transport','$')">
+          <span class="slider-val" id="sv-transport">$25</span>
+        </div>
+      </div>
+      <div class="slider-group">
+        <label>🎡 Activities & Sightseeing (per person, per day)</label>
+        <div class="slider-row">
+          <input type="range" id="sl-activities" min="0" max="500" step="5" value="40" oninput="updateSlider('sl-activities','sv-activities','$')">
+          <span class="slider-val" id="sv-activities">$40</span>
+        </div>
+      </div>
+      <div class="slider-group">
+        <label>🛍️ Shopping & Souvenirs (per person, total)</label>
+        <div class="slider-row">
+          <input type="range" id="sl-shopping" min="0" max="2000" step="25" value="200" oninput="updateSlider('sl-shopping','sv-shopping','$')">
+          <span class="slider-val" id="sv-shopping">$200</span>
+        </div>
+      </div>
+      <div class="slider-group">
+        <label>🏥 Travel Insurance (per person)</label>
+        <div class="slider-row">
+          <input type="range" id="sl-insurance" min="0" max="500" step="5" value="75" oninput="updateSlider('sl-insurance','sv-insurance','$')">
+          <span class="slider-val" id="sv-insurance">$75</span>
+        </div>
+      </div>
+      <div class="slider-group">
+        <label>📦 Misc / Buffer (% of subtotal)</label>
+        <div class="slider-row">
+          <input type="range" id="sl-misc" min="0" max="30" step="1" value="10" oninput="updateSlider('sl-misc','sv-misc','','%')">
+          <span class="slider-val" id="sv-misc">10%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CUSTOM TAB -->
+    <div id="tab-custom" style="display:none;">
+      <p style="font-size:0.85rem;color:#666;margin-bottom:1rem;">Enter exact amounts for each category.</p>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="c-flight">Flights (per person, total)</label>
+          <div class="input-prefix"><span>$</span><input type="number" id="c-flight" value="600" min="0"></div>
+        </div>
+        <div class="form-group">
+          <label for="c-hotel">Hotel (per night, total room)</label>
+          <div class="input-prefix"><span>$</span><input type="number" id="c-hotel" value="150" min="0"></div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="c-food">Food/Drinks (per person/day)</label>
+          <div class="input-prefix"><span>$</span><input type="number" id="c-food" value="60" min="0"></div>
+        </div>
+        <div class="form-group">
+          <label for="c-transport">Transport (per person/day)</label>
+          <div class="input-prefix"><span>$</span><input type="number" id="c-transport" value="25" min="0"></div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="c-activities">Activities (per person/day)</label>
+          <div class="input-prefix"><span>$</span><input type="number" id="c-activities" value="40" min="0"></div>
+        </div>
+        <div class="form-group">
+          <label for="c-shopping">Shopping (per person, total)</label>
+          <div class="input-prefix"><span>$</span><input type="number" id="c-shopping" value="200" min="0"></div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="c-insurance">Insurance (per person, total)</label>
+          <div class="input-prefix"><span>$</span><input type="number" id="c-insurance" value="75" min="0"></div>
+        </div>
+        <div class="form-group">
+          <label for="c-misc">Misc Buffer (%)</label>
+          <input type="number" id="c-misc" value="10" min="0" max="50">
+        </div>
+      </div>
+    </div>
+
+    <button class="btn btn-full" onclick="calculate()">Calculate Vacation Cost</button>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="results">
+    <div class="card">
+      <div id="results-inner"></div>
+    </div>
+    <div class="ad-slot" id="ad-mid"></div>
+    <div class="card">
+      <div class="card-title">📅 Daily Spending Breakdown</div>
+      <div class="table-wrap">
+        <table id="daily-table">
+          <thead><tr><th>Day</th><th>Food</th><th>Transport</th><th>Activities</th><th>Daily Total</th></tr></thead>
+          <tbody id="daily-tbody"></tbody>
+        </table>
+      </div>
+      <button class="btn btn-secondary btn-sm" id="show-all-btn" onclick="toggleDays()" style="margin-top:0.5rem;">Show All Days</button>
+      <div class="copy-row">
+        <span class="copy-note" id="copy-note"></span>
+        <button class="btn btn-secondary btn-sm" onclick="copyResults()">📋 Copy Summary</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <section class="content">
+    <h2>How to Use This Vacation Cost Calculator</h2>
+    <p>Enter the number of travelers and trip duration, then choose your travel style or switch to "Enter My Own" to input exact amounts. Adjust the sliders for flights, accommodation, food, transport, activities, shopping, insurance, and a miscellaneous buffer. Hit <strong>Calculate Vacation Cost</strong> to see your full budget breakdown, a visual chart, and a day-by-day spending table.</p>
+
+    <h2>Why This Matters</h2>
+    <p>Vacation overspending is one of the most common financial stressors people face after returning home. A 2023 Bankrate survey found that <strong>45% of Americans go over their vacation budget</strong> — often because they planned for the big items (flights and hotels) but forgot the daily costs that add up fast.</p>
+    <p>Consider a family of four heading to Europe for 10 days. Flights alone might run $4,000 round-trip, but food at $80/person/day adds another $3,200, local transport $1,000, and activities another $1,600. Without a full picture, that "affordable" $5,000 trip becomes a $12,000 surprise. This tool forces you to see every line item before you book.</p>
+    <p>Whether you're a solo backpacker budgeting $50/day in Southeast Asia or a couple splurging on a luxury Caribbean resort at $500/night, knowing your all-in number lets you save the right amount, choose the right credit card, and avoid coming home to a pile of debt.</p>
+
+    <h2>How It's Calculated</h2>
+    <p>The estimator breaks costs into three types:</p>
+    <ul>
+      <li><strong>Per-person fixed costs:</strong> Flights × travelers + Insurance × travelers + Shopping × travelers</li>
+      <li><strong>Per-night costs:</strong> Hotel rate × number of nights (room rate, shared across party)</li>
+      <li><strong>Per-person daily costs:</strong> (Food + Transport + Activities) × travelers × days</li>
+    </ul>
+    <p><strong>Formula:</strong> Total = (Flights × N) + (Hotel × Days) + (Food × N × Days) + (Transport × N × Days) + (Activities × N × Days) + (Shopping × N) + (Insurance × N) + (Subtotal × Misc%)</p>
+    <p>Where <em>N</em> = number of travelers and <em>Days</em> = trip duration. The miscellaneous buffer is applied to the subtotal to cover tips, airport meals, unexpected fees, and other surprises.</p>
+
+    <h2>Tips & Common Mistakes</h2>
+    <ul>
+      <li><strong>Don't forget airport costs.</strong> Parking, airport meals, baggage fees, and ground transportation to/from airports can easily add $100–$300 per person.</li>
+      <li><strong>Underestimating food is the #1 mistake.</strong> At tourist destinations, even "cheap" lunches run $20–$30/person. Budget generously and you'll be pleasantly surprised.</li>
+      <li><strong>Use a 10–15% miscellaneous buffer.</strong> Currency conversion fees, ATM charges, a spontaneous tour, a rainy-day activity — they all add up. Never budget at 0% buffer.</li>
+      <li><strong>Factor in pre-trip costs.</strong> Visas, travel vaccines, new luggage, and trip-specific gear are often $200–$500/person that people forget entirely.</li>
+      <li><strong>Compare by "cost per day per person."</strong> It's the most useful single metric. Budget travel might be $80/day; mid-range $150–$250/day; luxury $400+/day.</li>
+    </ul>
+
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>How much should I budget for a 7-day international vacation?</summary>
+      <p>A mid-range couple traveling internationally for 7 days typically spends $3,000–$6,000 total, or roughly $1,500–$3,000 per person. This includes flights around $600–$1,200, hotel at $100–$200/night, and $100–$150/day for food and activities. Budget travelers can do the same trip for $1,500–$2,500/couple; luxury travelers often spend $8,000–$15,000+.</p>
+    </details>
+    <details>
+      <summary>Is travel insurance worth including in my vacation budget?</summary>
+      <p>Absolutely. Travel insurance typically costs 4–8% of your total trip cost and covers medical emergencies abroad, trip cancellations, lost baggage, and flight delays. A single medical evacuation without insurance can cost $50,000+. For international trips especially, it's one of the best values in any vacation budget.</p>
+    </details>
+    <details>
+      <summary>How does the miscellaneous buffer work?</summary>
+      <p>The buffer is calculated as a percentage of your subtotal (everything except the buffer itself). A 10% buffer on a $4,000 trip adds $400 for unexpected costs. We recommend at least 10% for domestic trips and 15% for international travel where currency conversion, tipping customs, and surprise entry fees are more common.</p>
+    </details>
+    <details>
+      <summary>Can I use this for group trips?</summary>
+      <p>Yes — enter the total number of travelers. The calculator allocates flights, food, transport, and activities per person, while hotel costs are treated as a shared nightly room rate (enter the total nightly cost for your accommodations, not per-person). The total and per-person breakdown are both shown in the results.</p>
+    </details>
+  </section>
+
+  <div class="related-tools">
+    <h2>Related Tools</h2>
+    <div class="related-list">
+      <a href="/business-valuation-multiples-calculator/">Business Valuation Multiples Calculator</a>
+      <a href="/credit-card-minimum-payment-interest-calculator/">Credit Card Minimum Payment Interest Calculator</a>
+      <a href="/mortgage-down-payment-vs-investment-opportunity-cost-calculator/">Mortgage Down Payment vs Investment Opportunity Cost Calculator</a>
+      <a href="/taxable-vs-tax-advantaged-investment-growth-calculator/">Taxable vs Tax-Advantaged Investment Growth Calculator</a>
+      <a href="/buy-vs-lease-vs-finance-car-calculator/">Buy vs Lease vs Finance Car Calculator</a>
+      <a href="/dividend-income-portfolio-calculator/">Dividend Income Portfolio Calculator</a>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-bottom"></div>
+</div>
+
+<footer>
+  <a href="/about/">About</a>
+  <a href="/privacy/">Privacy</a>
+  <a href="/contact/">Contact</a>
+  <span style="display:block;margin-top:0.4rem;">© 2025 calcstack.dev</span>
+</footer>
+
+<script>
+let activeTab = 'tab-preset';
+let showAllDays = false;
+let lastResult = null;
+
+const BAR_COLORS = ['#0077b6','#00b4d8','#48cae4','#90e0ef','#f4a261','#e76f51','#2a9d8f','#e9c46a'];
+
+function switchTab(tab) {
+  activeTab = tab;
+  document.getElementById('tab-preset').style.display = tab === 'tab-preset' ? '' : 'none';
+  document.getElementById('tab-custom').style.display = tab === 'tab-custom' ? '' : 'none';
+  document.querySelectorAll('.tab-btn').forEach((b, i) => {
+    b.classList.toggle('active', (i === 0 && tab === 'tab-preset') || (i === 1 && tab === 'tab-custom'));
+  });
+  // sync slider values to custom inputs and vice versa
+  if (tab === 'tab-custom') syncToCustom();
+}
+
+function syncToCustom() {
+  document.getElementById('c-flight').value = document.getElementById('sl-flight').value;
+  document.getElementById('c-hotel').value = document.getElementById('sl-hotel').value;
+  document.getElementById('c-food').value = document.getElementById('sl-food').value;
+  document.getElementById('c-transport').value = document.getElementById('sl-transport').value;
+  document.getElementById('c-activities').value = document.getElementById('sl-activities').value;
+  document.getElementById('c-shopping').value = document.getElementById('sl-shopping').value;
+  document.getElementById('c-insurance').value = document.getElementById('sl-insurance').value;
+  document.getElementById('c-misc').value = document.getElementById('sl-misc').value;
+}
+
+function updateSlider(sliderId, labelId, prefix, suffix) {
+  const val = parseFloat(document.getElementById(sliderId).value);
+  document.getElementById(labelId).textContent = (prefix || '') + fmt(val, 0) + (suffix || '');
+}
+
+// Apply presets on style/destination change
+document.getElementById('tripStyle').addEventListener('change', applyPreset);
+document.getElementById('destination').addEventListener('change', applyPreset);
+
+function applyPreset() {
+  const style = document.getElementById('tripStyle').value;
+  const dest = document.getElementById('destination').value;
+  if (style === 'custom') return;
+
+  const presets = {
+    budget: { flight: 350, hotel: 50, food: 25, transport: 10, activities: 15, shopping: 75, insurance: 40, misc: 10 },
+    midrange: { flight: 600, hotel: 150, food: 60, transport: 25, activities: 40, shopping: 200, insurance: 75, misc: 10 },
+    luxury: { flight: 1800, hotel: 450, food: 150, transport: 60, activities: 120, shopping: 600, insurance: 180, misc: 15 }
+  };
+  const destMult = {
+    domestic: { flight: 0.4, hotel: 1.1, food: 1.0 },
+    international: { flight: 1.0, hotel: 1.0, food: 1.0 },
+    caribbean: { flight: 0.85, hotel: 1.6, food: 1.2 },
+    europe: { flight: 1.2, hotel: 1.3, food: 1.1 },
+    asia: { flight: 1.1, hotel: 0.5, food: 0.5 }
+  };
+  const p = presets[style];
+  const m = destMult[dest];
+  setSlider('sl-flight', 'sv-flight', Math.round(p.flight * m.flight / 25) * 25, '$');
+  setSlider('sl-hotel', 'sv-hotel', Math.round(p.hotel * m.hotel / 10) * 10, '$');
+  setSlider('sl-food', 'sv-food', Math.round(p.food * m.food / 5) * 5, '$');
+  setSlider('sl-transport', 'sv-transport', p.transport, '$');
+  setSlider('sl-activities', 'sv-activities', p.activities, '$');
+  setSlider('sl-shopping', 'sv-shopping', p.shopping, '$');
+  setSlider('sl-insurance', 'sv-insurance', p.insurance, '$');
+  setSlider('sl-misc', 'sv-misc', p.misc, '', '%');
+}
+
+function setSlider(id, labelId, val, prefix, suffix) {
+  const el = document.getElementById(id);
+  el.value = Math.min(Math.max(val, parseFloat(el.min)), parseFloat(el.max));
+  document.getElementById(labelId).textContent = (prefix || '') + fmt(el.value, 0) + (suffix || '');
+}
+
+function getValues() {
+  if (activeTab === 'tab-preset') {
+    return {
+      flight: parseFloat(document.getElementById('sl-flight').value) || 0,
+      hotel: parseFloat(document.getElementById('sl-hotel').value) || 0,
+      food: parseFloat(document.getElementById('sl-food').value) || 0,
+      transport: parseFloat(document.getElementById('sl-transport').value) || 0,
+      activities: parseFloat(document.getElementById('sl-activities').value) || 0,
+      shopping: parseFloat(document.getElementById('sl-shopping').value) || 0,
+      insurance: parseFloat(document.getElementById('sl-insurance').value) || 0,
+      misc: parseFloat(document.getElementById('sl-misc').value) || 0
+    };
+  } else {
+    return {
+      flight: parseFloat(document.getElementById('c-flight').value) || 0,
+      hotel: parseFloat(document.getElementById('c-hotel').value) || 0,
+      food: parseFloat(document.getElementById('c-food').value) || 0,
+      transport: parseFloat(document.getElementById('c-transport').value) || 0,
+      activities: parseFloat(document.getElementById('c-activities').value) || 0,
+      shopping: parseFloat(document.getElementById('c-shopping').value) || 0,
+      insurance: parseFloat(document.getElementById('c-insurance').value) || 0,
+      misc: parseFloat(document.getElementById('c-misc').value) || 0
+    };
+  }
+}
+
+function validate() {
+  let ok = true;
+  const n = parseFloat(document.getElementById('numTravelers').value);
+  const d = parseFloat(document.getElementById('numDays').value);
+  const nt = document.getElementById('err-travelers');
+  const nd = document.getElementById('err-days');
+  const it = document.getElementById('numTravelers');
+  const id = document.getElementById('numDays');
+
+  if (!n || n < 1 || n > 20 || !Number.isInteger(n)) {
+    it.classList.add('error'); nt.classList.add('visible'); ok = false;
+  } else { it.classList.remove('error'); nt.classList.remove('visible'); }
+
+  if (!d || d < 1 || d > 365 || !Number.isInteger(d)) {
+    id.classList.add('error'); nd.classList.add('visible'); ok = false;
+  } else { id.classList.remove('error'); nd.classList.remove('visible'); }
+
+  return ok;
+}
+
+function fmt(n, dec) {
+  if (dec === undefined) dec = 2;
+  return Number(n).toLocaleString('en-US', { minimumFractionDigits: dec, maximumFractionDigits: dec });
+}
+function fmtC(n) { return '$' + fmt(n, 0); }
+
+function calculate() {
+  if (!validate()) return;
+  const travelers = parseInt(document.getElementById('numTravelers').value);
+  const days = parseInt(document.getElementById('numDays').value);
+  const v = getValues();
+
+  const flightTotal = v.flight * travelers;
+  const hotelTotal = v.hotel * days;
+  const foodTotal = v.food * travelers * days;
+  const transportTotal = v.transport * travelers * days;
+  const activitiesTotal = v.activities * travelers * days;
+  const shoppingTotal = v.shopping * travelers;
+  const insuranceTotal = v.insurance * travelers;
+
+  const subtotal = flightTotal + hotelTotal + foodTotal + transportTotal + activitiesTotal + shoppingTotal + insuranceTotal;
+  const miscAmt = subtotal * (v.misc / 100);
+  const total = subtotal + miscAmt;
+  const perPerson = total / travelers;
+  const perDay = total / days;
+  const perPersonPerDay = perPerson / days;
+
+  const cats = [
+    { name: 'Flights', amt: flightTotal },
+    { name: 'Hotel', amt: hotelTotal },
+    { name: 'Food & Drinks', amt: foodTotal },
+    { name: 'Local Transport', amt: transportTotal },
+    { name: 'Activities', amt: activitiesTotal },
+    { name: 'Shopping', amt: shoppingTotal },
+    { name: 'Travel Insurance', amt: insuranceTotal },
+    { name: 'Misc / Buffer', amt: miscAmt }
+  ].filter(c => c.amt > 0);
+
+  lastResult = { travelers, days, v, flightTotal, hotelTotal, foodTotal, transportTotal, activitiesTotal, shoppingTotal, insuranceTotal, subtotal, miscAmt, total, perPerson, perDay, perPersonPerDay, cats };
+
+  requestAnimationFrame(() => {
+    renderResults(lastResult);
+    renderDailyTable(lastResult, 5);
+    showAllDays = false;
+    document.getElementById('show-all-btn').textContent = days <= 5 ? '' : 'Show All ' + days + ' Days';
+    document.getElementById('show-all-btn').style.display = days <= 5 ? 'none' : '';
+    const resultsEl = document.getElementById('results');
+    resultsEl.classList.add('visible');
+    resultsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+}
+
+function renderResults(r) {
+  const maxAmt = Math.max(...r.cats.map(c => c.amt));
+
+  let breakdownGrid = '';
+  r.cats.forEach(c => {
+    const pct = r.total > 0 ? (c.amt / r.total * 100).toFixed(1) : '0.0';
+    breakdownGrid += `<div class="breakdown-item"><div class="cat">${c.name}</div><div class="amt">${fmtC(c.amt)}</div><div class="pct">${pct}% of total</div></div>`;
+  });
+
+  let barRows = '';
+  r.cats.forEach((c, i) => {
+    const pct = r.total > 0 ? (c.amt / r.total * 100) : 0;
+    const barW = maxAmt > 0 ? (c.amt / maxAmt * 100) : 0;
+    const color = BAR_COLORS[i % BAR_COLORS.length];
+    barRows += `<div class="bar-row">
+      <div class="bar-label">${c.name}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${barW.toFixed(1)}%;background:${color}"><span>${fmtC(c.amt)}</span></div></div>
+      <div class="bar-pct">${pct.toFixed(0)}%</div>
+    </div>`;
+  });
+
+  const html = `
+    <div class="result-hero">
+      <div class="label">Total Estimated Vacation Cost</div>
+      <div class="big-num">${fmtC(r.total)}</div>
+      <div class="per-person">${fmtC(r.perPerson)} per person &nbsp;·&nbsp; ${fmtC(r.perPersonPerDay)}/person/day</div>
+      <div class="sub">${r.travelers} traveler${r.travelers > 1 ? 's' : ''} · ${r.days} day${r.days > 1 ? 's' : ''} · ${fmtC(r.perDay)}/day total</div>
+    </div>
+    <div class="section-title">Cost Breakdown</div>
+    <div class="breakdown-grid">${breakdownGrid}</div>
+    <div class="section-title">Visual Breakdown</div>
+    <div class="bar-chart">${barRows}</div>
+    <div class="tips-note">💡 Tip: Your biggest cost is <strong>${r.cats.sort((a,b)=>b.amt-a.amt)[0].name}</strong> at ${fmtC(r.cats[0].amt)} (${(r.cats[0].amt/r.total*100).toFixed(0)}% of budget). Look here first to trim costs.</div>
+  `;
+  document.getElementById('results-inner').innerHTML = html;
+}
+
+function renderDailyTable(r, limit) {
+  const rows = [];
+  const dailyFood = r.v.food * r.travelers;
+  const dailyTransport = r.v.transport * r.travelers;
+  const dailyActs = r.v.activities * r.travelers;
+  const dailyTotal = dailyFood + dailyTransport + dailyActs;
+
+  const cap = limit < r.days ? limit : r.days;
+  let html = '';
+  for (let i = 1; i <= cap; i++) {
+    const bg = i % 2 === 0 ? 'background:#fafafa' : '';
+    html += `<tr style="${bg}"><td>Day ${i}</td><td>${fmtC(dailyFood)}</td><td>${fmtC(dailyTransport)}</td><td>${fmtC(dailyActs)}</td><td>${fmtC(dailyTotal)}</td></tr>`;
+  }
+  if (limit < r.days) {
+    html += `<tr style="background:#f0f8ff"><td colspan="4" style="color:#0077b6;font-style:italic;">… ${r.days - limit} more days (same daily rate)</td><td style="text-align:right;color:#0077b6">${fmtC(dailyTotal * (r.days - limit))}</td></tr>`;
+  }
+  // totals row
+  html += `<tr style="background:#f0f0f0;font-weight:700"><td>Total</td><td>${fmtC(r.v.food*r.travelers*r.days)}</td><td>${fmtC(r.v.transport*r.travelers*r.days)}</td><td>${fmtC(r.v.activities*r.travelers*r.days)}</td><td>${fmtC(dailyTotal*r.days)}</td></tr>`;
+  document.getElementById('daily-tbody').innerHTML = html;
+}
+
+function toggleDays() {
+  if (!lastResult) return;
+  showAllDays = !showAllDays;
+  renderDailyTable(lastResult, showAllDays ? lastResult.days : 5);
+  document.getElementById('show-all-btn').textContent = showAllDays ? 'Show Less' : 'Show All ' + lastResult.days + ' Days';
+}
+
+function copyResults() {
+  if (!lastResult) return;
+  const r = lastResult;
+  let txt = `VACATION BUDGET ESTIMATE\n`;
+  txt += `================================\n`;
+  txt += `Travelers: ${r.travelers}  |  Days: ${r.days}\n`;
+  txt += `================================\n`;
+  txt += `Flights:         ${fmtC(r.flightTotal)}\n`;
+  txt += `Hotel:           ${fmtC(r.hotelTotal)}\n`;
+  txt += `Food & Drinks:   ${fmtC(r.foodTotal)}\n`;
+  txt += `Local Transport: ${fmtC(r.transportTotal)}\n`;
+  txt += `Activities:      ${fmtC(r.activitiesTotal)}\n`;
+  txt += `Shopping:        ${fmtC(r.shoppingTotal)}\n`;
+  txt += `Travel Insurance:${fmtC(r.insuranceTotal)}\n`;
+  txt += `Misc Buffer:     ${fmtC(r.miscAmt)}\n`;
+  txt += `================================\n`;
+  txt += `TOTAL:           ${fmtC(r.total)}\n`;
+  txt += `Per Person:      ${fmtC(r.perPerson)}\n`;
+  txt += `Per Person/Day:  ${fmtC(r.perPersonPerDay)}\n`;
+  txt += `Generated by calcstack.dev`;
+
+  navigator.clipboard.writeText(txt).then(() => {
+    const note = document.getElementById('copy-note');
+    note.textContent = 'Copied!';
+    setTimeout(() => { note.textContent = ''; }, 2000);
+  }).catch(() => {
+    const note = document.getElementById('copy-note');
+    note.textContent = 'Copy failed — try manually.';
+    setTimeout(() => { note.textContent = ''; }, 2000);
+  });
+}
+
+// Enter key support
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    const tag = document.activeElement.tagName;
+    if (tag === 'INPUT' || tag === 'SELECT') calculate();
+  }
+});
+
+// Init preset on load
+applyPreset();
+</script>
+</body>
+</html>
