@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Business Valuation Multiples Calculator — Free Online Tool | calcstack.dev</title>
+<meta name="description" content="Calculate your business valuation using revenue, EBITDA, and earnings multiples. Free business valuation calculator with industry benchmarks and visual breakdown.">
+<link rel="canonical" href="https://calcstack.dev/business-valuation-multiples-calculator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Business Valuation Multiples Calculator",
+  "url": "https://calcstack.dev/business-valuation-multiples-calculator/",
+  "description": "Calculate your business valuation using revenue, EBITDA, and earnings multiples with industry benchmarks.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f4f6f9;color:#1a1a2e;line-height:1.6;font-size:16px}
+a{color:#0077b6;text-decoration:none}
+a:hover{text-decoration:underline;color:#006299}
+.site-nav{background:#fff;border-bottom:1px solid #e0e0e0;padding:0 1.5rem}
+.nav-inner{max-width:640px;margin:0 auto;display:flex;align-items:center;height:52px}
+.nav-brand{font-weight:700;font-size:1.1rem;color:#1a1a2e}
+.nav-brand:hover{text-decoration:none;color:#0077b6}
+.page-wrap{max-width:640px;margin:0 auto;padding:1.5rem}
+h1{font-size:1.6rem;font-weight:800;color:#1a1a2e;margin-bottom:0.4rem;line-height:1.25}
+.subtitle{color:#555;font-size:0.95rem;margin-bottom:1.5rem}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;box-shadow:0 1px 4px rgba(0,0,0,0.06);margin-bottom:2rem}
+.section-title{font-size:1rem;font-weight:700;color:#1a1a2e;margin-bottom:1.2rem;padding-bottom:0.5rem;border-bottom:2px solid #0077b6;display:inline-block}
+.form-group{margin-bottom:1.2rem}
+label{display:block;font-size:0.85rem;font-weight:500;color:#444;margin-bottom:5px}
+input[type=number],input[type=text],select{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:6px;font-size:1rem;color:#1a1a2e;background:#fff;transition:border-color 0.2s,box-shadow 0.2s;-moz-appearance:textfield}
+input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none}
+input:focus,select:focus{outline:none;border-color:#0077b6;box-shadow:0 0 0 3px rgba(0,119,182,0.15)}
+input.error{border-color:#e74c3c;box-shadow:0 0 0 3px rgba(231,76,60,0.1)}
+.error-msg{color:#e74c3c;font-size:0.8rem;margin-top:4px;display:none}
+.error-msg.show{display:block}
+.row-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.btn{background:#0077b6;color:#fff;border:none;padding:13px 24px;border-radius:6px;font-size:1rem;font-weight:600;cursor:pointer;width:100%;min-height:44px;transition:background 0.2s}
+.btn:hover{background:#006299}
+.btn-secondary{background:#f0f4f8;color:#1a1a2e;border:1px solid #ddd;margin-top:0.7rem;font-weight:500}
+.btn-secondary:hover{background:#e2e8f0}
+.results{opacity:0;transition:opacity 0.3s ease;pointer-events:none}
+.results.show{opacity:1;pointer-events:auto}
+.big-number{font-size:2.2rem;font-weight:800;color:#0077b6;line-height:1}
+.big-label{font-size:0.85rem;color:#666;margin-top:4px}
+.valuation-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+.val-card{background:#f8f9fa;border:1px solid #e0e0e0;border-radius:6px;padding:1rem;text-align:center}
+.val-card.highlight{background:#e8f4fd;border-color:#0077b6}
+.val-card .val-num{font-size:1.4rem;font-weight:800;color:#0077b6}
+.val-card .val-label{font-size:0.75rem;color:#666;margin-top:3px}
+.val-card .val-method{font-size:0.7rem;font-weight:600;color:#888;text-transform:uppercase;margin-bottom:4px}
+.bar-section{margin-bottom:1.5rem}
+.bar-label-row{display:flex;justify-content:space-between;font-size:0.82rem;margin-bottom:4px;color:#444}
+.bar-track{background:#e9ecef;border-radius:4px;height:22px;overflow:hidden;margin-bottom:10px}
+.bar-fill{height:100%;border-radius:4px;transition:width 0.5s ease}
+.bar-revenue{background:#0077b6}
+.bar-ebitda{background:#00b4d8}
+.bar-earnings{background:#48cae4}
+.bar-sde{background:#90e0ef}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:0.875rem}
+th{background:#f0f0f0;padding:9px 12px;text-align:left;font-weight:600;border-bottom:2px solid #ddd;white-space:nowrap}
+th.num,td.num{text-align:right}
+td{padding:8px 12px;border-bottom:1px solid #eee;white-space:nowrap}
+tr:nth-child(even) td{background:#fafafa}
+tr:hover td{background:#f0f8ff}
+.copy-btn{background:#f0f4f8;border:1px solid #ddd;color:#444;padding:6px 14px;border-radius:4px;font-size:0.8rem;cursor:pointer;float:right;transition:background 0.2s}
+.copy-btn:hover{background:#e2e8f0}
+.range-row{display:flex;align-items:center;gap:0.75rem}
+.range-row input[type=range]{flex:1;height:6px;accent-color:#0077b6;cursor:pointer}
+.range-val{min-width:52px;text-align:right;font-weight:600;font-size:0.95rem;color:#0077b6}
+.tabs{display:flex;gap:0;margin-bottom:1.2rem;border:1px solid #ddd;border-radius:6px;overflow:hidden}
+.tab-btn{flex:1;padding:10px 8px;border:none;background:#f8f9fa;color:#555;font-size:0.85rem;font-weight:500;cursor:pointer;transition:background 0.15s,color 0.15s;min-height:44px}
+.tab-btn.active{background:#0077b6;color:#fff;font-weight:600}
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+.show-all-btn{background:none;border:1px solid #ddd;color:#0077b6;padding:7px 18px;border-radius:4px;cursor:pointer;font-size:0.85rem;margin-top:0.7rem;display:block;width:100%}
+.show-all-btn:hover{background:#f0f8ff}
+.industry-badge{display:inline-block;background:#e8f4fd;color:#0077b6;font-size:0.72rem;font-weight:600;padding:2px 7px;border-radius:3px;margin-left:6px}
+.content-section{margin-bottom:2rem}
+.content-section h2{font-size:1.15rem;font-weight:700;color:#1a1a2e;margin-bottom:0.6rem;margin-top:1.5rem}
+.content-section p{margin-bottom:0.8rem;color:#333;font-size:0.95rem}
+.content-section ul{padding-left:1.3rem;margin-bottom:0.8rem}
+.content-section ul li{margin-bottom:0.4rem;color:#333;font-size:0.95rem}
+details{border:1px solid #e0e0e0;border-radius:6px;padding:0;margin-bottom:0.6rem;background:#fff}
+summary{padding:12px 16px;font-weight:600;font-size:0.9rem;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;color:#1a1a2e}
+summary::after{content:"＋";font-size:1rem;color:#0077b6;flex-shrink:0}
+details[open] summary::after{content:"－"}
+details p{padding:0 16px 14px;color:#444;font-size:0.9rem;line-height:1.6}
+.related-tools{background:#f8f9fa;border:1px solid #e0e0e0;border-radius:8px;padding:1.5rem;margin-bottom:2rem}
+.related-tools h2{font-size:1rem;font-weight:700;margin-bottom:0.9rem;color:#1a1a2e}
+.related-tools a{display:block;padding:7px 0;font-size:0.9rem;border-bottom:1px solid #eee;color:#0077b6}
+.related-tools a:last-child{border-bottom:none}
+.related-tools a:hover{color:#006299}
+.ad-slot{min-height:0;margin:0}
+footer{background:#fff;border-top:1px solid #e0e0e0;padding:1.2rem 1.5rem;text-align:center;font-size:0.82rem;color:#777;margin-top:1rem}
+footer a{color:#0077b6;margin:0 8px}
+.formula-box{background:#f8f9fa;border-left:3px solid #0077b6;padding:10px 14px;border-radius:0 6px 6px 0;font-family:monospace;font-size:0.88rem;color:#1a1a2e;margin:0.6rem 0 1rem}
+@media(max-width:640px){
+  .valuation-grid{grid-template-columns:1fr;gap:0.7rem}
+  .row-2{grid-template-columns:1fr}
+  h1{font-size:1.3rem}
+  .big-number{font-size:1.8rem}
+  .card{padding:1.3rem}
+  .tab-btn{font-size:0.78rem;padding:9px 4px}
+}
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">calcstack.dev</a>
+  </div>
+</nav>
+
+<div class="page-wrap">
+  <h1>Business Valuation Multiples Calculator</h1>
+  <p class="subtitle">Estimate your business value using Revenue, EBITDA, SDE, and Earnings multiples — with industry benchmarks.</p>
+
+  <div class="card">
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('basics')">Business Financials</button>
+      <button class="tab-btn" onclick="switchTab('multiples')">Adjust Multiples</button>
+      <button class="tab-btn" onclick="switchTab('adjustments')">Adjustments</button>
+    </div>
+
+    <!-- Tab 1: Basics -->
+    <div class="tab-pane active" id="tab-basics">
+      <div class="form-group">
+        <label for="industry">Industry Sector</label>
+        <select id="industry" onchange="applyIndustryDefaults()">
+          <option value="saas">SaaS / Software</option>
+          <option value="ecommerce">E-commerce / Retail</option>
+          <option value="manufacturing">Manufacturing</option>
+          <option value="services">Professional Services</option>
+          <option value="healthcare">Healthcare</option>
+          <option value="restaurant">Restaurant / Hospitality</option>
+          <option value="construction">Construction / Trades</option>
+          <option value="custom">Custom / Other</option>
+        </select>
+      </div>
+      <div class="row-2">
+        <div class="form-group">
+          <label for="revenue">Annual Revenue ($)</label>
+          <input type="number" id="revenue" placeholder="e.g. 2000000" min="0">
+          <div class="error-msg" id="err-revenue">Please enter a valid revenue amount.</div>
+        </div>
+        <div class="form-group">
+          <label for="ebitda">EBITDA ($)</label>
+          <input type="number" id="ebitda" placeholder="e.g. 500000" min="0">
+          <div class="error-msg" id="err-ebitda">Please enter a valid EBITDA.</div>
+        </div>
+      </div>
+      <div class="row-2">
+        <div class="form-group">
+          <label for="sde">Seller's Discretionary Earnings ($)</label>
+          <input type="number" id="sde" placeholder="e.g. 350000" min="0">
+          <div class="error-msg" id="err-sde">Please enter a valid SDE amount.</div>
+        </div>
+        <div class="form-group">
+          <label for="netincome">Net Income ($)</label>
+          <input type="number" id="netincome" placeholder="e.g. 300000" min="0">
+          <div class="error-msg" id="err-netincome">Please enter a valid net income.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 2: Multiples -->
+    <div class="tab-pane" id="tab-multiples">
+      <p style="font-size:0.85rem;color:#666;margin-bottom:1rem;">Slide to set valuation multiples. Industry defaults auto-fill when you select a sector.</p>
+      <div class="form-group">
+        <label>Revenue Multiple <span class="industry-badge" id="rev-badge">SaaS</span></label>
+        <div class="range-row">
+          <input type="range" id="rev-multiple" min="0.5" max="20" step="0.1" value="8">
+          <span class="range-val" id="rev-multiple-val">8.0×</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>EBITDA Multiple <span class="industry-badge" id="ebitda-badge">SaaS</span></label>
+        <div class="range-row">
+          <input type="range" id="ebitda-multiple" min="1" max="30" step="0.5" value="15">
+          <span class="range-val" id="ebitda-multiple-val">15.0×</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>SDE Multiple <span class="industry-badge" id="sde-badge">SaaS</span></label>
+        <div class="range-row">
+          <input type="range" id="sde-multiple" min="1" max="10" step="0.1" value="4">
+          <span class="range-val" id="sde-multiple-val">4.0×</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>P/E Earnings Multiple <span class="industry-badge" id="pe-badge">SaaS</span></label>
+        <div class="range-row">
+          <input type="range" id="pe-multiple" min="5" max="50" step="0.5" value="20">
+          <span class="range-val" id="pe-multiple-val">20.0×</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 3: Adjustments -->
+    <div class="tab-pane" id="tab-adjustments">
+      <p style="font-size:0.85rem;color:#666;margin-bottom:1rem;">Apply discounts or premiums to refine your estimate.</p>
+      <div class="form-group">
+        <label for="debt">Total Business Debt ($)</label>
+        <input type="number" id="debt" placeholder="e.g. 200000" min="0">
+      </div>
+      <div class="form-group">
+        <label for="cash">Cash & Equivalents ($)</label>
+        <input type="number" id="cash" placeholder="e.g. 50000" min="0">
+      </div>
+      <div class="form-group">
+        <label>Growth Premium / Discount (%)</label>
+        <div class="range-row">
+          <input type="range" id="growth-adj" min="-40" max="40" step="1" value="0">
+          <span class="range-val" id="growth-adj-val">0%</span>
+        </div>
+        <div style="font-size:0.78rem;color:#888;margin-top:4px">Negative = slower growth or risk discount; Positive = high-growth premium</div>
+      </div>
+      <div class="form-group">
+        <label>Customer Concentration Risk</label>
+        <select id="concentration">
+          <option value="0">Low (no single client &gt;10%) — no discount</option>
+          <option value="-10">Medium (one client 10–30%) — -10%</option>
+          <option value="-20">High (one client &gt;30%) — -20%</option>
+          <option value="-30">Critical (one client &gt;50%) — -30%</option>
+        </select>
+      </div>
+    </div>
+
+    <button class="btn" id="calcBtn">Calculate Business Valuation</button>
+    <button class="btn btn-secondary" onclick="resetForm()">Reset</button>
+  </div>
+
+  <!-- Results -->
+  <div class="results card" id="results-section">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:0.5rem;margin-bottom:1.2rem">
+      <div>
+        <div class="big-number" id="res-blended">—</div>
+        <div class="big-label">Estimated Blended Valuation</div>
+      </div>
+      <button class="copy-btn" id="copy-btn" onclick="copyResults()">Copy Results</button>
+    </div>
+
+    <div class="valuation-grid" id="val-grid"></div>
+
+    <div class="section-title">Valuation by Method</div>
+    <div class="bar-section" id="bar-section"></div>
+
+    <div class="section-title">Adjusted Enterprise Value Breakdown</div>
+    <div class="table-wrap" id="ev-table-wrap"></div>
+
+    <div class="section-title" style="margin-top:1.5rem">Multiple Sensitivity Table</div>
+    <div style="font-size:0.82rem;color:#666;margin-bottom:0.7rem">Shows EBITDA valuation across different multiple ranges</div>
+    <div class="table-wrap" id="sensitivity-wrap">
+      <div id="sensitivity-rows-short"></div>
+      <div id="sensitivity-rows-all" style="display:none"></div>
+      <button class="show-all-btn" id="show-all-btn" onclick="toggleSensitivity()">Show All Multiples</button>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-mid"></div>
+
+  <!-- Content Section -->
+  <div class="content-section card">
+    <h2>How to Use This Business Valuation Calculator</h2>
+    <p>Enter your business's annual revenue, EBITDA, seller's discretionary earnings (SDE), and net income. Select your industry to auto-fill typical valuation multiples, then adjust them using the sliders in the "Adjust Multiples" tab. Add any debt, cash balances, or risk adjustments in the third tab, then click <strong>Calculate Business Valuation</strong>.</p>
+    <p>The tool outputs four separate valuations plus a blended estimate, a visual bar chart comparison, and an adjusted enterprise value breakdown.</p>
+
+    <h2>Why This Matters</h2>
+    <p>Whether you're preparing to sell your business, raise capital, negotiate a partnership buyout, or simply want to understand what you've built — knowing your business valuation is critical. Yet most small business owners have no idea what their company is actually worth.</p>
+    <p>The most common methods buyers and investors use are <strong>revenue multiples</strong> (popular for SaaS and fast-growing companies), <strong>EBITDA multiples</strong> (standard for mid-market deals), <strong>SDE multiples</strong> (most common for businesses under $5M in value), and <strong>P/E multiples</strong> (used for stable, mature businesses).</p>
+    <p>As a concrete example: a software company with $2M revenue and $500K EBITDA might be worth $16M on a revenue basis (8× revenue) but only $7.5M on an EBITDA basis (15× EBITDA). Understanding the spread between methods — and which one a buyer is likely to use — is the difference between leaving money on the table and getting full value.</p>
+    <p>Industry context matters enormously. A restaurant valued at 2–3× SDE would look very different from a SaaS company at 8–15× revenue. This tool incorporates industry-specific benchmarks so your estimate is grounded in real market data.</p>
+
+    <h2>How It's Calculated</h2>
+    <p>Each valuation method applies a multiple to a specific financial metric:</p>
+    <div class="formula-box">Revenue Valuation = Annual Revenue × Revenue Multiple</div>
+    <div class="formula-box">EBITDA Valuation = EBITDA × EBITDA Multiple</div>
+    <div class="formula-box">SDE Valuation = SDE × SDE Multiple</div>
+    <div class="formula-box">Earnings Valuation = Net Income × P/E Multiple</div>
+    <p>The <strong>Blended Valuation</strong> is a weighted average of available methods (EBITDA-weighted most heavily for larger businesses, SDE for smaller ones). Adjustments are then applied:</p>
+    <div class="formula-box">Enterprise Value = Blended Valuation × (1 + Growth Adj%) × (1 + Concentration Adj%)</div>
+    <div class="formula-box">Equity Value = Enterprise Value − Debt + Cash</div>
+
+    <h2>Tips & Common Mistakes</h2>
+    <ul>
+      <li><strong>Use normalized earnings.</strong> Add back one-time expenses (e.g., legal fees, owner perks) to EBITDA and SDE before calculating. Buyers will — so you should too.</li>
+      <li><strong>Don't anchor on one method.</strong> Different buyers use different metrics. A strategic acquirer may pay a revenue multiple; a private equity firm almost always uses EBITDA.</li>
+      <li><strong>Customer concentration crushes value.</strong> If one client is 40%+ of revenue, expect a significant discount — even great financials don't protect against that risk.</li>
+      <li><strong>Recurring revenue commands a premium.</strong> A business with 70%+ recurring revenue (subscriptions, contracts) often trades at 1.5–2× more than a comparable transactional business.</li>
+      <li><strong>Timing matters.</strong> Valuations peak mid-cycle. Selling right after a record year on an upward trend — not during a dip — maximizes your outcome.</li>
+    </ul>
+
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>What's the difference between EBITDA and SDE?</summary>
+      <p>EBITDA (Earnings Before Interest, Taxes, Depreciation, and Amortization) is used for larger businesses and doesn't include the owner's salary. SDE (Seller's Discretionary Earnings) adds back the owner's salary and personal perks, making it more relevant for small businesses where the owner is the primary operator. SDE multiples are typically used for businesses under $2–3M in enterprise value.</p>
+    </details>
+    <details>
+      <summary>Are these valuations what I'll actually sell for?</summary>
+      <p>These are market-based estimates using industry multiples — a strong starting point, but your actual sale price depends on deal structure, buyer motivation, market conditions, and due diligence findings. This tool gives you the range and methodology professional buyers will use to frame their offers. Think of it as an educated benchmark, not a guarantee.</p>
+    </details>
+    <details>
+      <summary>What revenue multiples are realistic for SaaS businesses?</summary>
+      <p>As of recent market data, SaaS companies with strong growth (30%+ ARR growth) and good retention (90%+ NRR) can achieve 8–15× revenue. Slower-growing or churn-heavy SaaS companies trade at 2–5× revenue. The market has cooled significantly from the 2021 peak of 30–40×, and profitability is now weighted more heavily alongside growth.</p>
+    </details>
+    <details>
+      <summary>How do I value a business with negative EBITDA?</summary>
+      <p>For unprofitable businesses, revenue multiples become the primary methodology. Investors will look at growth rate, gross margin, and the path to profitability. Alternatively, a discounted cash flow (DCF) model projecting future profitability may be used. This calculator will automatically skip negative-metric methods and show you only the applicable ones.</p>
+    </details>
+  </div>
+
+  <div class="related-tools">
+    <h2>Related Financial Tools</h2>
+    <a href="/credit-card-minimum-payment-interest-calculator/">Credit Card Minimum Payment Interest Calculator</a>
+    <a href="/mortgage-down-payment-vs-investment-opportunity-cost-calculator/">Mortgage Down Payment vs Investment Opportunity Cost Calculator</a>
+    <a href="/taxable-vs-tax-advantaged-investment-growth-calculator/">Taxable vs Tax-Advantaged Investment Growth Calculator</a>
+    <a href="/buy-vs-lease-vs-finance-car-calculator/">Buy vs Lease vs Finance Car Calculator</a>
+    <a href="/dividend-income-portfolio-calculator/">Dividend Income Portfolio Calculator</a>
+    <a href="/mortgage-extra-payment-accelerator/">Mortgage Extra Payment Accelerator</a>
+  </div>
+
+  <div class="ad-slot" id="ad-bottom"></div>
+</div>
+
+<footer>
+  <div>
+    <a href="/about/">About</a>
+    <a href="/privacy/">Privacy</a>
+    <a href="/contact/">Contact</a>
+  </div>
+  <div style="margin-top:6px">© 2025 calcstack.dev — Free Online Calculators</div>
+</footer>
+
+<script>
+// Industry presets: [revMultiple, ebitdaMultiple, sdeMultiple, peMultiple]
+const INDUSTRY_DATA = {
+  saas:          {rev:8,   ebitda:15,  sde:4,   pe:25,  label:"SaaS"},
+  ecommerce:     {rev:1.2, ebitda:8,   sde:2.5, pe:15,  label:"E-comm"},
+  manufacturing: {rev:0.8, ebitda:6,   sde:3,   pe:12,  label:"Mfg"},
+  services:      {rev:1.0, ebitda:7,   sde:2.5, pe:14,  label:"Services"},
+  healthcare:    {rev:1.5, ebitda:9,   sde:3.5, pe:18,  label:"Health"},
+  restaurant:    {rev:0.5, ebitda:4,   sde:2,   pe:10,  label:"Restaurant"},
+  construction:  {rev:0.6, ebitda:5,   sde:2.5, pe:10,  label:"Construct"},
+  custom:        {rev:2,   ebitda:7,   sde:3,   pe:15,  label:"Custom"}
+};
+
+let sensitivityExpanded = false;
+let lastResults = null;
+
+function fmt(n){return n<0?'-$'+Math.abs(n).toLocaleString('en-US',{maximumFractionDigits:0}):'$'+n.toLocaleString('en-US',{maximumFractionDigits:0});}
+function fmtM(n){if(Math.abs(n)>=1e9)return '$'+(n/1e9).toFixed(2)+'B';if(Math.abs(n)>=1e6)return '$'+(n/1e6).toFixed(2)+'M';return fmt(n);}
+function fmtX(n){return n.toFixed(1)+'×';}
+
+// Slider display updates
+['rev-multiple','ebitda-multiple','sde-multiple','pe-multiple'].forEach(id=>{
+  const el=document.getElementById(id);
+  el.addEventListener('input',function(){
+    document.getElementById(id+'-val').textContent=parseFloat(this.value).toFixed(1)+'×';
+  });
+});
+document.getElementById('growth-adj').addEventListener('input',function(){
+  document.getElementById('growth-adj-val').textContent=(this.value>0?'+':'')+this.value+'%';
+});
+
+function switchTab(name){
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>{
+    b.classList.toggle('active',['basics','multiples','adjustments'][i]===name);
+  });
+  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+}
+
+function applyIndustryDefaults(){
+  const ind=document.getElementById('industry').value;
+  const d=INDUSTRY_DATA[ind];
+  document.getElementById('rev-multiple').value=d.rev;
+  document.getElementById('rev-multiple-val').textContent=d.rev.toFixed(1)+'×';
+  document.getElementById('ebitda-multiple').value=d.ebitda;
+  document.getElementById('ebitda-multiple-val').textContent=d.ebitda.toFixed(1)+'×';
+  document.getElementById('sde-multiple').value=d.sde;
+  document.getElementById('sde-multiple-val').textContent=d.sde.toFixed(1)+'×';
+  document.getElementById('pe-multiple').value=d.pe;
+  document.getElementById('pe-multiple-val').textContent=d.pe.toFixed(1)+'×';
+  ['rev-badge','ebitda-badge','sde-badge','pe-badge'].forEach(id=>{
+    document.getElementById(id).textContent=d.label;
+  });
+}
+
+function getVal(id){
+  const v=parseFloat(document.getElementById(id).value);
+  return isNaN(v)?null:v;
+}
+
+function setError(id,show){
+  document.getElementById(id).classList.toggle('error',show);
+  document.getElementById('err-'+id).classList.toggle('show',show);
+}
+
+function clearErrors(){
+  ['revenue','ebitda','sde','netincome'].forEach(id=>{
+    document.getElementById(id).classList.remove('error');
+    document.getElementById('err-'+id).classList.remove('show');
+  });
+}
+
+function calculate(){
+  clearErrors();
+  const revenue=getVal('revenue');
+  const ebitda=getVal('ebitda');
+  const sde=getVal('sde');
+  const netincome=getVal('netincome');
+
+  // At least one metric required
+  if(revenue===null && ebitda===null && sde===null && netincome===null){
+    ['revenue','ebitda','sde','netincome'].forEach(id=>setError(id,true));
+    return;
+  }
+
+  const revMult=parseFloat(document.getElementById('rev-multiple').value);
+  const ebitdaMult=parseFloat(document.getElementById('ebitda-multiple').value);
+  const sdeMult=parseFloat(document.getElementById('sde-multiple').value);
+  const peMult=parseFloat(document.getElementById('pe-multiple').value);
+
+  const debt=parseFloat(document.getElementById('debt').value)||0;
+  const cash=parseFloat(document.getElementById('cash').value)||0;
+  const growthAdj=parseFloat(document.getElementById('growth-adj').value)/100;
+  const concAdj=parseFloat(document.getElementById('concentration').value)/100;
+
+  // Calculate individual valuations
+  const vals=[];
+  if(revenue!==null && revenue>0) vals.push({method:'Revenue',value:revenue*revMult,metric:revenue,mult:revMult,color:'#0077b6',cls:'bar-revenue'});
+  if(ebitda!==null && ebitda>0) vals.push({method:'EBITDA',value:ebitda*ebitdaMult,metric:ebitda,mult:ebitdaMult,color:'#00b4d8',cls:'bar-ebitda'});
+  if(sde!==null && sde>0) vals.push({method:'SDE',value:sde*sdeMult,metric:sde,mult:sdeMult,color:'#48cae4',cls:'bar-sde'});
+  if(netincome!==null && netincome>0) vals.push({method:'Net Income (P/E)',value:netincome*peMult,metric:netincome,mult:peMult,color:'#90e0ef',cls:'bar-earnings'});
+
+  if(vals.length===0){
+    ['revenue','ebitda','sde','netincome'].forEach(id=>setError(id,true));
+    return;
+  }
+
+  // Blended: weight EBITDA 40%, SDE 30%, Revenue 20%, P/E 10% if available
+  const weights={EBITDA:0.4,SDE:0.3,Revenue:0.2,'Net Income (P/E)':0.1};
+  let totalW=0, weightedSum=0;
+  vals.forEach(v=>{
+    const w=weights[v.method]||0.25;
+    weightedSum+=v.value*w;
+    totalW+=w;
+  });
+  const blended=totalW>0?weightedSum/totalW:vals[0].value;
+
+  // Apply adjustments
+  const adjBlended=blended*(1+growthAdj)*(1+concAdj);
+  const equityValue=adjBlended-debt+cash;
+
+  const maxVal=Math.max(...vals.map(v=>v.value));
+
+  lastResults={vals,blended,adjBlended,equityValue,debt,cash,growthAdj,concAdj,ebitda,ebitdaMult};
+
+  requestAnimationFrame(()=>{
+    // Grid cards
+    let gridHTML='';
+    vals.forEach((v,i)=>{
+      const isHighlight=v.method==='EBITDA'||vals.length===1;
+      gridHTML+=`<div class="val-card${isHighlight?' highlight':''}">
+        <div class="val-method">${v.method}</div>
+        <div class="val-num">${fmtM(v.value)}</div>
+        <div class="val-label">${fmtX(v.mult)} × ${fmt(v.metric)}</div>
+      </div>`;
+    });
+    document.getElementById('val-grid').innerHTML=gridHTML;
+
+    // Big number
+    document.getElementById('res-blended').textContent=fmtM(equityValue);
+
+    // Bars
+    let barHTML='';
+    vals.forEach(v=>{
+      const pct=maxVal>0?Math.round((v.value/maxVal)*100):0;
+      barHTML+=`<div class="bar-label-row"><span>${v.method} Multiple</span><span>${fmtM(v.value)} (${fmtX(v.mult)})</span></div>
+        <div class="bar-track"><div class="bar-fill ${v.cls}" style="width:${pct}%"></div></div>`;
+    });
+    // Equity bar
+    const eqPct=maxVal>0?Math.min(100,Math.round((equityValue/maxVal)*100)):0;
+    barHTML+=`<div class="bar-label-row" style="font-weight:600"><span>Adjusted Equity Value</span><span>${fmtM(equityValue)}</span></div>
+      <div class="bar-track"><div class="bar-fill" style="width:${Math.max(2,eqPct)}%;background:#0077b6;opacity:0.85"></div></div>`;
+    document.getElementById('bar-section').innerHTML=barHTML;
+
+    // EV breakdown table
+    const rows=[
+      ['Blended Enterprise Value (pre-adj)',fmt(blended),''],
+      ['Growth/Risk Adjustment',(growthAdj>=0?'+':'')+((growthAdj*100).toFixed(0))+'%',fmt(blended*growthAdj)],
+      ['Concentration Discount',(concAdj>=0?'+':'')+((concAdj*100).toFixed(0))+'%',fmt(blended*(1+growthAdj)*concAdj)],
+      ['Adjusted Enterprise Value','',fmt(adjBlended)],
+      ['Less: Total Debt','',fmt(-debt)],
+      ['Plus: Cash & Equivalents','',fmt(cash)],
+      ['<strong>Estimated Equity Value</strong>','','<strong>'+fmt(equityValue)+'</strong>'],
+    ];
+    let tableHTML=`<table><thead><tr><th>Item</th><th>Factor</th><th class="num">Amount</th></tr></thead><tbody>`;
+    rows.forEach(r=>{
+      tableHTML+=`<tr><td>${r[0]}</td><td>${r[1]}</td><td class="num">${r[2]}</td></tr>`;
+    });
+    tableHTML+='</tbody></table>';
+    document.getElementById('ev-table-wrap').innerHTML=tableHTML;
+
+    // Sensitivity table: EBITDA across multiples 2x–20x
+    if(ebitda!==null && ebitda>0){
+      const multiples=[2,3,4,5,6,7,8,9,10,12,14,16,18,20];
+      const shortRows=5;
+      let sensShort='',sensAll='';
+      let hdr=`<table><thead><tr><th>EBITDA Multiple</th><th class="num">Gross Value</th><th class="num">Equity Value (adj)</th><th>vs Blended</th></tr></thead><tbody>`;
+      multiples.forEach((m,i)=>{
+        const gv=ebitda*m;
+        const adjFactor=(1+growthAdj)*(1+concAdj);
+        const ev=gv*adjFactor-debt+cash;
+        const diff=ev-equityValue;
+        const diffStr=(diff>=0?'▲ +':'▼ ')+fmtM(Math.abs(diff));
+        const diffColor=diff>=0?'color:#27ae60':'color:#e74c3c';
+        const isActive=Math.abs(m-ebitdaMult)<0.01;
+        const rowHTML=`<tr${isActive?' style="background:#e8f4fd;font-weight:600"':''}><td>${m}× EBITDA</td><td class="num">${fmtM(gv)}</td><td class="num">${fmtM(ev)}</td><td style="${diffColor};font-size:0.8rem">${diffStr}</td></tr>`;
+        if(i<shortRows) sensShort+=rowHTML; else sensAll+=rowHTML;
+      });
+      const footer='</tbody></table>';
+      document.getElementById('sensitivity-rows-short').innerHTML=hdr+sensShort+footer;
+      document.getElementById('sensitivity-rows-all').innerHTML=sensAll.length>0?hdr.replace('<thead>','<thead style="display:none">')+sensAll+footer:'';
+      document.getElementById('show-all-btn').style.display=sensAll.length>0?'block':'none';
+    } else {
+      document.getElementById('sensitivity-rows-short').innerHTML='<p style="color:#888;font-size:0.88rem;padding:0.5rem 0">Enter a positive EBITDA value to see the sensitivity table.</p>';
+      document.getElementById('sensitivity-rows-all').innerHTML='';
+      document.getElementById('show-all-btn').style.display='none';
+    }
+
+    const sec=document.getElementById('results-section');
+    sec.classList.add('show');
+    sec.scrollIntoView({behavior:'smooth',block:'nearest'});
+  });
+}
+
+function toggleSensitivity(){
+  sensitivityExpanded=!sensitivityExpanded;
+  document.getElementById('sensitivity-rows-all').style.display=sensitivityExpanded?'block':'none';
+  document.getElementById('show-all-btn').textContent=sensitivityExpanded?'Show Less':'Show All Multiples';
+}
+
+function copyResults(){
+  if(!lastResults) return;
+  const {vals,blended,adjBlended,equityValue,debt,cash}=lastResults;
+  let txt='Business Valuation Results\n';
+  txt+='===========================\n';
+  vals.forEach(v=>{txt+=`${v.method} Valuation: ${fmtM(v.value)} (${fmtX(v.mult)})\n`;});
+  txt+=`\nBlended Enterprise Value: ${fmtM(blended)}\n`;
+  txt+=`Adjusted Enterprise Value: ${fmtM(adjBlended)}\n`;
+  txt+=`Less Debt: ${fmt(debt)}\nPlus Cash: ${fmt(cash)}\n`;
+  txt+=`Estimated Equity Value: ${fmtM(equityValue)}\n`;
+  txt+='\nCalculated at calcstack.dev/business-valuation-multiples-calculator/';
+  navigator.clipboard.writeText(txt).then(()=>{
+    const btn=document.getElementById('copy-btn');
+    btn.textContent='Copied!';
+    setTimeout(()=>{btn.textContent='Copy Results';},2000);
+  }).catch(()=>{});
+}
+
+function resetForm(){
+  ['revenue','ebitda','sde','netincome','debt','cash'].forEach(id=>{document.getElementById(id).value='';});
+  document.getElementById('growth-adj').value=0;
+  document.getElementById('growth-adj-val').textContent='0%';
+  document.getElementById('concentration').value=0;
+  document.getElementById('industry').value='saas';
+  applyIndustryDefaults();
+  clearErrors();
+  document.getElementById('results-section').classList.remove('show');
+  lastResults=null;
+}
+
+// Enter key triggers calculate
+document.addEventListener('keydown',function(e){
+  if(e.key==='Enter'){
+    const tag=document.activeElement.tagName;
+    if(tag==='INPUT'||tag==='SELECT') calculate();
+  }
+});
+
+document.getElementById('calcBtn').addEventListener('click',function(){
+  requestAnimationFrame(()=>calculate());
+});
+
+// Init
+applyIndustryDefaults();
+</script>
+</body>
+</html>
