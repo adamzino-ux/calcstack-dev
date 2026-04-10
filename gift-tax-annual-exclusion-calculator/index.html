@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gift Tax Annual Exclusion Calculator — Free Online Tool | calcstack.dev</title>
+<meta name="description" content="Calculate your 2024 gift tax annual exclusion, track gifts to multiple recipients, and see how much of your lifetime exemption you've used. Free gift tax calculator.">
+<link rel="canonical" href="https://calcstack.dev/gift-tax-annual-exclusion-calculator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Gift Tax Annual Exclusion Calculator",
+  "url": "https://calcstack.dev/gift-tax-annual-exclusion-calculator/",
+  "description": "Calculate your 2024 gift tax annual exclusion, track gifts to multiple recipients, and see how much of your lifetime exemption you've used.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "browserRequirements": "Requires JavaScript",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#fff;color:#1a1a2e;font-size:16px;line-height:1.6}
+a{color:#0077b6;text-decoration:none}
+a:hover{text-decoration:underline;color:#006299}
+nav{border-bottom:1px solid #e0e0e0;padding:14px 1.5rem;background:#fff}
+nav .nav-inner{max-width:640px;margin:0 auto;display:flex;align-items:center;gap:1rem}
+nav .site-name{font-weight:700;font-size:1.05rem;color:#1a1a2e}
+nav .site-name:hover{color:#0077b6;text-decoration:none}
+main{max-width:640px;margin:0 auto;padding:1.5rem}
+h1{font-size:1.6rem;font-weight:700;color:#1a1a2e;margin-bottom:0.4rem}
+.subtitle{color:#555;font-size:0.95rem;margin-bottom:2rem}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;box-shadow:0 2px 8px rgba(0,0,0,0.06);margin-bottom:2rem}
+.section-title{font-size:1.05rem;font-weight:600;color:#1a1a2e;margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:2px solid #0077b6}
+label{display:block;font-size:0.85rem;font-weight:500;color:#444;margin-bottom:5px}
+input,select{width:100%;border:1px solid #ddd;border-radius:6px;padding:12px 16px;font-size:1rem;color:#1a1a2e;background:#fff;transition:border-color 0.2s,box-shadow 0.2s;outline:none}
+input:focus,select:focus{border-color:#0077b6;box-shadow:0 0 0 3px rgba(0,119,182,0.15)}
+input.error{border-color:#e74c3c;box-shadow:0 0 0 3px rgba(231,76,60,0.12)}
+.error-msg{color:#e74c3c;font-size:0.8rem;margin-top:4px;display:none}
+.error-msg.show{display:block}
+.form-group{margin-bottom:1.2rem}
+.row-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.btn{background:#0077b6;color:#fff;border:none;border-radius:6px;padding:12px 24px;font-size:1rem;font-weight:600;cursor:pointer;transition:background 0.2s;min-height:44px}
+.btn:hover{background:#006299}
+.btn-full{width:100%}
+.btn-sm{padding:6px 14px;font-size:0.82rem;font-weight:500;min-height:36px}
+.btn-outline{background:#fff;color:#0077b6;border:1px solid #0077b6}
+.btn-outline:hover{background:#f0f7fc}
+.btn-danger{background:#e74c3c;font-size:0.8rem;padding:5px 10px;min-height:32px}
+.btn-danger:hover{background:#c0392b}
+.results-section{opacity:0;transition:opacity 0.3s ease;display:none}
+.results-section.visible{opacity:1;display:block}
+.big-number{font-size:2.4rem;font-weight:700;color:#0077b6;line-height:1.1}
+.big-label{font-size:0.85rem;color:#666;margin-bottom:0.3rem}
+.summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.5rem}
+.summary-card{background:#f8f9fa;border-radius:8px;padding:1rem;text-align:center;border:1px solid #e8e8e8}
+.summary-card .val{font-size:1.4rem;font-weight:700;color:#0077b6}
+.summary-card .lbl{font-size:0.78rem;color:#666;margin-top:3px}
+.summary-card.warn .val{color:#e67e22}
+.summary-card.bad .val{color:#e74c3c}
+.summary-card.good .val{color:#27ae60}
+table{width:100%;border-collapse:collapse;font-size:0.9rem}
+th{background:#f0f0f0;padding:10px 12px;text-align:left;font-weight:600;font-size:0.82rem;color:#444;border-bottom:2px solid #ddd}
+th.num,td.num{text-align:right}
+td{padding:9px 12px;border-bottom:1px solid #efefef;color:#1a1a2e}
+tr:nth-child(even) td{background:#fafafa}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.bar-wrap{margin:1.2rem 0}
+.bar-label{font-size:0.82rem;color:#555;margin-bottom:4px;display:flex;justify-content:space-between}
+.bar-track{background:#e8e8e8;border-radius:4px;height:20px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;transition:width 0.4s ease;display:flex;align-items:center;padding-left:8px}
+.bar-fill span{font-size:0.75rem;font-weight:600;color:#fff;white-space:nowrap}
+.bar-blue{background:#0077b6}
+.bar-green{background:#27ae60}
+.bar-orange{background:#e67e22}
+.bar-red{background:#e74c3c}
+.recipient-row{background:#f8f9fa;border:1px solid #e0e0e0;border-radius:8px;padding:1rem;margin-bottom:0.8rem}
+.recipient-row .row-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.8rem}
+.recipient-row .row-header span{font-weight:600;font-size:0.9rem;color:#1a1a2e}
+.add-recipient-btn{display:flex;align-items:center;gap:8px;background:#f0f7fc;border:1px dashed #0077b6;border-radius:6px;padding:10px 16px;cursor:pointer;font-size:0.9rem;color:#0077b6;font-weight:500;width:100%;justify-content:center;min-height:44px;transition:background 0.2s}
+.add-recipient-btn:hover{background:#e3f0f8}
+.copy-btn{background:#f0f0f0;color:#444;border:1px solid #ddd;border-radius:4px;padding:4px 10px;font-size:0.78rem;cursor:pointer;min-height:32px;transition:all 0.2s}
+.copy-btn:hover{background:#e0e0e0}
+.copy-btn.copied{background:#27ae60;color:#fff;border-color:#27ae60}
+.info-box{background:#f0f7fc;border-left:4px solid #0077b6;border-radius:0 6px 6px 0;padding:0.9rem 1rem;font-size:0.88rem;color:#1a1a2e;margin-bottom:1rem}
+.info-box strong{color:#0077b6}
+.show-all-btn{margin-top:0.8rem}
+.hidden-rows{display:none}
+.hidden-rows.show{display:table-row-group}
+h2{font-size:1.2rem;font-weight:700;color:#1a1a2e;margin-bottom:0.7rem;margin-top:2rem}
+.content-section p{margin-bottom:0.9rem;color:#333;font-size:0.95rem}
+.content-section ul{margin:0 0 0.9rem 1.4rem;color:#333;font-size:0.95rem}
+.content-section ul li{margin-bottom:0.4rem}
+details{border:1px solid #e0e0e0;border-radius:6px;padding:0.8rem 1rem;margin-bottom:0.6rem}
+details summary{font-weight:600;cursor:pointer;font-size:0.95rem;color:#1a1a2e;list-style:none;padding-left:0}
+details summary::before{content:"▶ ";color:#0077b6;font-size:0.8rem}
+details[open] summary::before{content:"▼ "}
+details p{margin-top:0.6rem;font-size:0.9rem;color:#444;line-height:1.6}
+.related-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.7rem;margin-top:0.5rem}
+.related-link{background:#f8f9fa;border:1px solid #e0e0e0;border-radius:6px;padding:0.7rem 1rem;font-size:0.88rem;color:#0077b6;display:block;transition:background 0.2s}
+.related-link:hover{background:#f0f7fc;text-decoration:none}
+footer{border-top:1px solid #e0e0e0;padding:1.5rem;text-align:center;font-size:0.85rem;color:#666;margin-top:2rem}
+footer a{color:#0077b6;margin:0 0.5rem}
+.ad-slot{min-height:0;margin:0}
+.tag{display:inline-block;font-size:0.75rem;padding:2px 8px;border-radius:10px;font-weight:600;margin-left:6px}
+.tag-taxable{background:#fde8e8;color:#c0392b}
+.tag-exempt{background:#e8f8ee;color:#1a7a40}
+.tag-partial{background:#fef3e2;color:#b7660a}
+@media(max-width:640px){
+  .row-2{grid-template-columns:1fr}
+  .summary-grid{grid-template-columns:1fr 1fr}
+  h1{font-size:1.3rem}
+  .big-number{font-size:1.9rem}
+  .related-grid{grid-template-columns:1fr}
+  .card{padding:1.2rem}
+  main{padding:1rem}
+}
+@media(max-width:400px){
+  .summary-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="site-name">📊 CalcStack</a>
+  </div>
+</nav>
+
+<main>
+  <h1>Gift Tax Annual Exclusion Calculator</h1>
+  <p class="subtitle">Track gifts to multiple recipients, calculate your 2024 exclusion, and see your lifetime exemption usage.</p>
+
+  <div class="card">
+    <div class="section-title">Tax Year & Settings</div>
+    <div class="row-2">
+      <div class="form-group">
+        <label for="taxYear">Tax Year</label>
+        <select id="taxYear" onchange="updateExclusion()">
+          <option value="2024">2024</option>
+          <option value="2023">2023</option>
+          <option value="2022">2022</option>
+          <option value="2021">2021</option>
+          <option value="2020">2020</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="filingStatus">You are filing as</label>
+        <select id="filingStatus" onchange="updateExclusion()">
+          <option value="single">Single / Individual</option>
+          <option value="married">Married (Gift-Splitting)</option>
+        </select>
+      </div>
+    </div>
+    <div class="info-box" id="exclusionInfo">
+      <strong>2024 Annual Exclusion:</strong> $18,000 per recipient. Married couples can split gifts for a combined $36,000 per recipient.
+    </div>
+    <div class="form-group">
+      <label for="priorLifetime">Prior Taxable Gifts (lifetime, from previous years) <small style="font-weight:400;color:#888">— taxable gifts already reported</small></label>
+      <input type="text" id="priorLifetime" placeholder="e.g. 0" value="0" oninput="formatInputComma(this)">
+      <div class="error-msg" id="err-prior">Please enter a valid number (0 or more).</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-title">Recipients & Gifts This Year</div>
+    <div id="recipientList"></div>
+    <button class="add-recipient-btn" onclick="addRecipient()">＋ Add Another Recipient</button>
+  </div>
+
+  <button class="btn btn-full" onclick="requestAnimationFrame(calculate)">Calculate Gift Tax</button>
+
+  <!-- RESULTS -->
+  <div class="results-section" id="resultsSection">
+
+    <div class="card" style="margin-top:1.5rem">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem">
+        <div>
+          <div class="big-label">Taxable Gifts This Year</div>
+          <div class="big-number" id="resTaxableGifts">$0</div>
+        </div>
+        <button class="copy-btn" id="copyBtn" onclick="copyResults()">Copy Summary</button>
+      </div>
+      <div class="summary-grid" id="summaryGrid" style="margin-top:1.2rem"></div>
+      <div id="statusBadge" style="margin-bottom:0.8rem"></div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">Visual Breakdown</div>
+      <div id="visualBreakdown"></div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">Per-Recipient Detail</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Recipient</th>
+              <th class="num">Gift Amount</th>
+              <th class="num">Annual Exclusion</th>
+              <th class="num">Taxable Portion</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="recipientTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">Lifetime Exemption Tracker</div>
+      <div id="lifetimeSection"></div>
+    </div>
+
+    <div class="ad-slot" id="ad-mid"></div>
+
+    <div class="card">
+      <div class="section-title">Estimated Tax Owed (if no exemption used)</div>
+      <div id="taxEstimate"></div>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content-section">
+
+    <h2>How to Use This Gift Tax Calculator 2024</h2>
+    <p>Enter your tax year, filing status, and any prior taxable gifts from previous years. Then add each recipient you've given gifts to this year along with the total gift amount. Click <strong>Calculate Gift Tax</strong> to see which gifts are fully excluded, partially excluded, or taxable — plus your remaining lifetime exemption.</p>
+
+    <h2>Why This Matters</h2>
+    <p>The IRS gift tax annual exclusion lets you give up to <strong>$18,000 per person in 2024</strong> without filing a gift tax return (Form 709) or using any of your lifetime exemption. This is one of the most powerful — and most misunderstood — tools in estate planning.</p>
+    <p>Consider a parent with three adult children. If they give each child $18,000 this year, that's $54,000 in tax-free transfers. Over 10 years, that's $540,000 removed from their taxable estate — potentially saving hundreds of thousands in estate taxes for high-net-worth families.</p>
+    <p>For married couples using gift-splitting, the numbers are even more dramatic: $36,000 per recipient in 2024. A couple with five grandchildren can move $180,000 per year completely tax-free.</p>
+    <p>Going over the annual exclusion doesn't mean you immediately owe taxes — it just eats into your <strong>$13,610,000 lifetime exemption</strong> (2024). But tracking this is critical because the exemption is scheduled to drop significantly after 2025 under current law.</p>
+
+    <h2>How It's Calculated</h2>
+    <p>The formula for each recipient:</p>
+    <p><strong>Taxable Gift = Gift Amount − Annual Exclusion per Recipient</strong></p>
+    <p>Where Annual Exclusion = $18,000 (single) or $36,000 (married, gift-splitting) in 2024.</p>
+    <p>If the result is negative, taxable gift = $0 (fully excluded).</p>
+    <p>Total taxable gifts = sum of all per-recipient taxable amounts + prior lifetime gifts.</p>
+    <p>Remaining lifetime exemption = $13,610,000 − total cumulative taxable gifts.</p>
+    <p>If remaining exemption > 0, no gift tax is owed (taxable gifts reduce the exemption but don't trigger tax). Gift tax only applies after the full lifetime exemption is consumed.</p>
+
+    <h2>Tips & Common Mistakes</h2>
+    <ul>
+      <li><strong>Direct tuition and medical payments are unlimited.</strong> Payments made directly to educational institutions or medical providers don't count against the annual exclusion at all — they're completely separate.</li>
+      <li><strong>Gift-splitting requires both spouses to consent.</strong> Married couples must file Form 709 to elect gift-splitting, even if the total is under the combined exclusion limit.</li>
+      <li><strong>The exclusion is per recipient, not total.</strong> You can give $18,000 to 100 different people ($1.8M total) with zero gift tax consequences.</li>
+      <li><strong>529 front-loading is a special strategy.</strong> You can "superfund" a 529 plan with 5 years' worth of exclusions ($90,000 in 2024) in a single year using a special election on Form 709.</li>
+      <li><strong>Don't forget state gift taxes.</strong> A handful of states (Connecticut is notable) have their own gift tax rules separate from federal — check your state law.</li>
+    </ul>
+
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>Do I need to file Form 709 if all my gifts are under the annual exclusion?</summary>
+      <p>No. If every gift is at or below the annual exclusion ($18,000 per recipient in 2024), you generally don't need to file Form 709. You only need to file when gifts to any single recipient exceed the exclusion, or when married couples want to elect gift-splitting.</p>
+    </details>
+    <details>
+      <summary>What happens if I exceed the annual exclusion?</summary>
+      <p>Exceeding the annual exclusion means the excess reduces your lifetime exemption ($13,610,000 in 2024). You'd need to report it on Form 709, but you typically won't owe any actual gift tax until you've exhausted your entire lifetime exemption. Most people never pay out-of-pocket gift tax.</p>
+    </details>
+    <details>
+      <summary>Does the recipient pay gift tax?</summary>
+      <p>No. In the U.S., the gift tax is paid by the donor (the person giving), not the recipient. The recipient generally receives the gift tax-free and doesn't need to report it as income. There may be carryover basis implications for appreciated property.</p>
+    </details>
+    <details>
+      <summary>Will the lifetime exemption change after 2025?</summary>
+      <p>Yes. Under current law (the Tax Cuts and Jobs Act), the elevated lifetime exemption (~$13.6M in 2024) is scheduled to revert to approximately $7M (adjusted for inflation) on January 1, 2026. This "sunset" provision makes planning before 2026 especially important for high-net-worth individuals.</p>
+    </details>
+
+  </div>
+
+  <div style="margin-top:2rem">
+    <h2 style="margin-top:0">Related Tools</h2>
+    <div class="related-grid">
+      <a href="/vacation-budget-cost-estimator/" class="related-link">✈️ Vacation Budget & Cost Estimator</a>
+      <a href="/business-valuation-multiples-calculator/" class="related-link">💼 Business Valuation Multiples Calculator</a>
+      <a href="/credit-card-minimum-payment-interest-calculator/" class="related-link">💳 Credit Card Minimum Payment Calculator</a>
+      <a href="/mortgage-down-payment-vs-investment-opportunity-cost-calculator/" class="related-link">🏠 Mortgage Down Payment vs Investment</a>
+      <a href="/taxable-vs-tax-advantaged-investment-growth-calculator/" class="related-link">📈 Taxable vs Tax-Advantaged Growth</a>
+      <a href="/buy-vs-lease-vs-finance-car-calculator/" class="related-link">🚗 Buy vs Lease vs Finance Car Calculator</a>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-bottom"></div>
+</main>
+
+<footer>
+  <div>
+    <a href="/about/">About</a>
+    <a href="/privacy/">Privacy</a>
+    <a href="/contact/">Contact</a>
+  </div>
+  <div style="margin-top:0.5rem">© <span id="yr"></span> calcstack.dev</div>
+</footer>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+// ── Exclusion data ──────────────────────────────────────────
+const EXCLUSION_DATA = {
+  2024: { single: 18000, lifetime: 13610000 },
+  2023: { single: 17000, lifetime: 12920000 },
+  2022: { single: 16000, lifetime: 12060000 },
+  2021: { single: 15000, lifetime: 11700000 },
+  2020: { single: 15000, lifetime: 11580000 }
+};
+
+// ── Recipients ──────────────────────────────────────────────
+let recipients = [];
+let recipientCounter = 0;
+
+function addRecipient(name = '', amount = '') {
+  recipientCounter++;
+  const id = recipientCounter;
+  recipients.push({ id });
+  const list = document.getElementById('recipientList');
+  const div = document.createElement('div');
+  div.className = 'recipient-row';
+  div.id = 'recipient-' + id;
+  div.innerHTML = `
+    <div class="row-header">
+      <span>Recipient #${id}</span>
+      <button class="btn btn-danger" onclick="removeRecipient(${id})">Remove</button>
+    </div>
+    <div class="row-2">
+      <div class="form-group" style="margin-bottom:0">
+        <label>Recipient Name (optional)</label>
+        <input type="text" id="rname-${id}" placeholder="e.g. John Smith" value="${name}">
+      </div>
+      <div class="form-group" style="margin-bottom:0">
+        <label>Total Gift Amount</label>
+        <input type="text" id="ramt-${id}" placeholder="e.g. 20,000" value="${amount}" oninput="formatInputComma(this)">
+        <div class="error-msg" id="err-ramt-${id}">Please enter a valid gift amount.</div>
+      </div>
+    </div>`;
+  list.appendChild(div);
+}
+
+function removeRecipient(id) {
+  const el = document.getElementById('recipient-' + id);
+  if (el) el.remove();
+  recipients = recipients.filter(r => r.id !== id);
+}
+
+// ── Format helpers ──────────────────────────────────────────
+function formatComma(n) {
+  if (isNaN(n) || n === null) return '0';
+  return Math.round(n).toLocaleString('en-US');
+}
+function formatCurrency(n) {
+  return '$' + formatComma(n);
+}
+function formatInputComma(input) {
+  let v = input.value.replace(/[^0-9.]/g, '');
+  const parts = v.split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  input.value = parts.length > 1 ? parts[0] + '.' + parts[1] : parts[0];
+}
+function parseVal(str) {
+  return parseFloat((str || '').replace(/,/g, '')) || 0;
+}
+
+// ── Exclusion info updater ──────────────────────────────────
+function updateExclusion() {
+  const year = parseInt(document.getElementById('taxYear').value);
+  const married = document.getElementById('filingStatus').value === 'married';
+  const data = EXCLUSION_DATA[year];
+  const single = data.single;
+  const combined = married ? single * 2 : single;
+  const info = document.getElementById('exclusionInfo');
+  if (married) {
+    info.innerHTML = `<strong>${year} Annual Exclusion (Gift-Splitting):</strong> ${formatCurrency(combined)} per recipient for married couples. Each spouse's exclusion is ${formatCurrency(single)}. Lifetime exemption: ${formatCurrency(data.lifetime)}.`;
+  } else {
+    info.innerHTML = `<strong>${year} Annual Exclusion:</strong> ${formatCurrency(single)} per recipient. Lifetime exemption: ${formatCurrency(data.lifetime)}.`;
+  }
+}
+
+// ── Validate ────────────────────────────────────────────────
+function validateAll() {
+  let ok = true;
+  const priorRaw = document.getElementById('priorLifetime').value;
+  const prior = parseVal(priorRaw);
+  const priorErr = document.getElementById('err-prior');
+  if (priorRaw.trim() !== '' && (isNaN(prior) || prior < 0)) {
+    document.getElementById('priorLifetime').classList.add('error');
+    priorErr.classList.add('show');
+    ok = false;
+  } else {
+    document.getElementById('priorLifetime').classList.remove('error');
+    priorErr.classList.remove('show');
+  }
+  // validate recipients
+  const rows = document.querySelectorAll('.recipient-row');
+  rows.forEach(row => {
+    const idStr = row.id.replace('recipient-', '');
+    const amtInput = document.getElementById('ramt-' + idStr);
+    const errEl = document.getElementById('err-ramt-' + idStr);
+    if (!amtInput) return;
+    const val = parseVal(amtInput.value);
+    if (amtInput.value.trim() === '' || isNaN(val) || val < 0) {
+      amtInput.classList.add('error');
+      if (errEl) errEl.classList.add('show');
+      ok = false;
+    } else {
+      amtInput.classList.remove('error');
+      if (errEl) errEl.classList.remove('show');
+    }
+  });
+  return ok;
+}
+
+// ── Main calculate ──────────────────────────────────────────
+function calculate() {
+  if (!validateAll()) return;
+
+  const year = parseInt(document.getElementById('taxYear').value);
+  const married = document.getElementById('filingStatus').value === 'married';
+  const data = EXCLUSION_DATA[year];
+  const exclusionPerRecipient = married ? data.single * 2 : data.single;
+  const lifetimeLimit = data.lifetime;
+  const prior = parseVal(document.getElementById('priorLifetime').value);
+
+  // gather recipients
+  const rows = document.querySelectorAll('.recipient-row');
+  const recipData = [];
+  rows.forEach(row => {
+    const idStr = row.id.replace('recipient-', '');
+    const nameEl = document.getElementById('rname-' + idStr);
+    const amtEl = document.getElementById('ramt-' + idStr);
+    if (!amtEl) return;
+    const amt = parseVal(amtEl.value);
+    const name = (nameEl && nameEl.value.trim()) ? nameEl.value.trim() : 'Recipient #' + idStr;
+    const excluded = Math.min(amt, exclusionPerRecipient);
+    const taxable = Math.max(0, amt - exclusionPerRecipient);
+    recipData.push({ name, amt, excluded, taxable });
+  });
+
+  const totalGifts = recipData.reduce((s, r) => s + r.amt, 0);
+  const totalExcluded = recipData.reduce((s, r) => s + r.excluded, 0);
+  const totalTaxableThisYear = recipData.reduce((s, r) => s + r.taxable, 0);
+  const totalCumulativeTaxable = prior + totalTaxableThisYear;
+  const remainingExemption = Math.max(0, lifetimeLimit - totalCumulativeTaxable);
+  const exemptionUsedPct = Math.min(100, (totalCumulativeTaxable / lifetimeLimit) * 100);
+  const thisYearExemptionUsedPct = Math.min(100, (totalTaxableThisYear / lifetimeLimit) * 100);
+  const giftsTaxable = totalCumulativeTaxable > lifetimeLimit;
+  const actualTaxOwed = giftsTaxable ? estimateGiftTax(totalCumulativeTaxable - lifetimeLimit) : 0;
+
+  // ── build summary grid
+  let statusColor = 'good';
+  let statusText = '✅ Fully Excluded';
+  if (totalTaxableThisYear > 0 && remainingExemption > 0) { statusColor = 'warn'; statusText = '⚠️ Uses Lifetime Exemption'; }
+  if (giftsTaxable) { statusColor = 'bad'; statusText = '🚨 Gift Tax Owed'; }
+
+  const summaryHTML = `
+    <div class="summary-card">
+      <div class="val">${formatCurrency(totalGifts)}</div>
+      <div class="lbl">Total Gifts Given</div>
+    </div>
+    <div class="summary-card good">
+      <div class="val">${formatCurrency(totalExcluded)}</div>
+      <div class="lbl">Excluded This Year</div>
+    </div>
+    <div class="summary-card ${statusColor}">
+      <div class="val">${formatCurrency(totalTaxableThisYear)}</div>
+      <div class="lbl">Taxable This Year</div>
+    </div>
+    <div class="summary-card">
+      <div class="val">${formatCurrency(prior)}</div>
+      <div class="lbl">Prior Taxable Gifts</div>
+    </div>
+    <div class="summary-card ${totalCumulativeTaxable > lifetimeLimit * 0.8 ? 'bad' : totalCumulativeTaxable > 0 ? 'warn' : 'good'}">
+      <div class="val">${formatCurrency(totalCumulativeTaxable)}</div>
+      <div class="lbl">Cumulative Taxable</div>
+    </div>
+    <div class="summary-card ${remainingExemption < lifetimeLimit * 0.2 ? 'bad' : 'good'}">
+      <div class="val">${formatCurrency(remainingExemption)}</div>
+      <div class="lbl">Exemption Remaining</div>
+    </div>`;
+
+  // ── recipient table
+  let tableRows = '';
+  recipData.forEach(r => {
+    const pct = r.amt > 0 ? ((r.excluded / r.amt) * 100).toFixed(0) : 100;
+    let tag = '';
+    if (r.taxable === 0) tag = '<span class="tag tag-exempt">Fully Exempt</span>';
+    else if (r.excluded > 0) tag = '<span class="tag tag-partial">Partially Taxable</span>';
+    else tag = '<span class="tag tag-taxable">Fully Taxable</span>';
+    tableRows += `<tr>
+      <td>${escHtml(r.name)}</td>
+      <td class="num">${formatCurrency(r.amt)}</td>
+      <td class="num">${formatCurrency(r.excluded)}</td>
+      <td class="num">${formatCurrency(r.taxable)}</td>
+      <td>${tag}</td>
+    </tr>`;
+  });
+  if (recipData.length === 0) {
+    tableRows = '<tr><td colspan="5" style="text-align:center;color:#888;padding:1rem">No recipients added.</td></tr>';
+  }
+
+  // ── visual breakdown
+  const totalForPct = Math.max(totalGifts, 1);
+  const excludedPct = Math.min(100, (totalExcluded / totalForPct) * 100).toFixed(1);
+  const taxablePct = Math.min(100, (totalTaxableThisYear / totalForPct) * 100).toFixed(1);
+  const exemptionPct = Math.min(100, (totalCumulativeTaxable / lifetimeLimit) * 100).toFixed(1);
+  const exemptionRemPct = (100 - parseFloat(exemptionPct)).toFixed(1);
+
+  let visualHTML = `
+    <div class="bar-wrap">
+      <div class="bar-label"><span>Gift Breakdown: Excluded vs Taxable</span><span>${formatCurrency(totalGifts)} total</span></div>
+      <div style="display:flex;height:28px;border-radius:4px;overflow:hidden;background:#e8e8e8">
+        <div style="width:${excludedPct}%;background:#27ae60;display:flex;align-items:center;justify-content:center;min-width:0;transition:width 0.4s">
+          ${parseFloat(excludedPct) > 15 ? `<span style="font-size:0.75rem;color:#fff;font-weight:600">${excludedPct}% excluded</span>` : ''}
+        </div>
+        <div style="width:${taxablePct}%;background:#e74c3c;display:flex;align-items:center;justify-content:center;min-width:0;transition:width 0.4s">
+          ${parseFloat(taxablePct) > 15 ? `<span style="font-size:0.75rem;color:#fff;font-weight:600">${taxablePct}% taxable</span>` : ''}
+        </div>
+      </div>
+      <div style="display:flex;gap:1.2rem;margin-top:6px;font-size:0.8rem;flex-wrap:wrap">
+        <span><span style="display:inline-block;width:12px;height:12px;background:#27ae60;border-radius:2px;margin-right:4px;vertical-align:middle"></span>Excluded: ${formatCurrency(totalExcluded)}</span>
+        <span><span style="display:inline-block;width:12px;height:12px;background:#e74c3c;border-radius:2px;margin-right:4px;vertical-align:middle"></span>Taxable: ${formatCurrency(totalTaxableThisYear)}</span>
+      </div>
+    </div>
+    <div class="bar-wrap">
+      <div class="bar-label"><span>Lifetime Exemption Usage</span><span>${formatCurrency(totalCumulativeTaxable)} / ${formatCurrency(lifetimeLimit)}</span></div>
+      <div style="display:flex;height:28px;border-radius:4px;overflow:hidden;background:#e8e8e8">
+        <div style="width:${Math.min(100,parseFloat(exemptionPct))}%;background:#e67e22;display:flex;align-items:center;justify-content:center;min-width:0;transition:width 0.4s">
+          ${parseFloat(exemptionPct) > 10 ? `<span style="font-size:0.75rem;color:#fff;font-weight:600">${exemptionPct}% used</span>` : ''}
+        </div>
+        <div style="width:${Math.max(0,parseFloat(exemptionRemPct))}%;background:#0077b6;display:flex;align-items:center;justify-content:center;min-width:0;transition:width 0.4s">
+          ${parseFloat(exemptionRemPct) > 15 ? `<span style="font-size:0.75rem;color:#fff;font-weight:600">${exemptionRemPct}% remaining</span>` : ''}
+        </div>
+      </div>
+      <div style="display:flex;gap:1.2rem;margin-top:6px;font-size:0.8rem;flex-wrap:wrap">
+        <span><span style="display:inline-block;width:12px;height:12px;background:#e67e22;border-radius:2px;margin-right:4px;vertical-align:middle"></span>Used: ${formatCurrency(totalCumulativeTaxable)}</span>
+        <span><span style="display:inline-block;width:12px;height:12px;background:#0077b6;border-radius:2px;margin-right:4px;vertical-align:middle"></span>Remaining: ${formatCurrency(remainingExemption)}</span>
+      </div>
+    </div>`;
+  // Per-recipient bars
+  if (recipData.length > 0) {
+    visualHTML += `<div style="margin-top:0.8rem;font-size:0.85rem;font-weight:600;color:#444;margin-bottom:0.5rem">Per-Recipient Gift vs Exclusion</div>`;
+    recipData.forEach(r => {
+      const recPct = r.amt > 0 ? Math.min(100, (r.excluded / r.amt) * 100).toFixed(0) : 100;
+      const taxPct = (100 - parseFloat(recPct)).toFixed(0);
+      visualHTML += `<div style="margin-bottom:0.7rem">
+        <div class="bar-label"><span>${escHtml(r.name)}</span><span>${formatCurrency(r.excluded)} excluded / ${formatCurrency(r.taxable)} taxable</span></div>
+        <div style="display:flex;height:18px;border-radius:3px;overflow:hidden;background:#e8e8e8">
+          <div style="width:${recPct}%;background:#27ae60;transition:width 0.4s"></div>
+          <div style="width:${taxPct}%;background:#e74c3c;transition:width 0.4s"></div>
+        </div>
+      </div>`;
+    });
+  }
+
+  // ── lifetime section
+  const lifetimeHTML = `
+    <div class="row-2" style="margin-bottom:1rem">
+      <div style="background:#f8f9fa;border-radius:8px;padding:1rem;border:1px solid #e0e0e0">
+        <div style="font-size:0.8rem;color:#666;margin-bottom:3px">${year} Lifetime Exemption</div>
+        <div style="font-size:1.3rem;font-weight:700;color:#0077b6">${formatCurrency(lifetimeLimit)}</div>
+      </div>
+      <div style="background:#f8f9fa;border-radius:8px;padding:1rem;border:1px solid #e0e0e0">
+        <div style="font-size:0.8rem;color:#666;margin-bottom:3px">Remaining After This Year</div>
+        <div style="font-size:1.3rem;font-weight:700;color:${remainingExemption < 1000000 ? '#e74c3c' : '#27ae60'}">${formatCurrency(remainingExemption)}</div>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Item</th><th class="num">Amount</th><th class="num">% of Exemption</th></tr></thead>
+        <tbody>
+          <tr><td>Prior Taxable Gifts</td><td class="num">${formatCurrency(prior)}</td><td class="num">${((prior/lifetimeLimit)*100).toFixed(2)}%</td></tr>
+          <tr><td>Taxable Gifts This Year</td><td class="num">${formatCurrency(totalTaxableThisYear)}</td><td class="num">${((totalTaxableThisYear/lifetimeLimit)*100).toFixed(2)}%</td></tr>
+          <tr style="font-weight:700;background:#f0f0f0"><td>Total Cumulative Taxable</td><td class="num">${formatCurrency(totalCumulativeTaxable)}</td><td class="num">${((totalCumulativeTaxable/lifetimeLimit)*100).toFixed(2)}%</td></tr>
+          <tr style="font-weight:700"><td>Remaining Exemption</td><td class="num" style="color:${remainingExemption < 1000000 ? '#e74c3c' : '#27ae60'}">${formatCurrency(remainingExemption)}</td><td class="num">${(100-(totalCumulativeTaxable/lifetimeLimit)*100).toFixed(2).replace('-','0.')}%</td></tr>
+        </tbody>
+      </table>
+    </div>`;
+
+  // ── tax estimate
+  let taxHTML = '';
+  if (!giftsTaxable) {
+    taxHTML = `<div class="info-box"><strong>No gift tax owed.</strong> Your cumulative taxable gifts (${formatCurrency(totalCumulativeTaxable)}) are below the ${year} lifetime exemption of ${formatCurrency(lifetimeLimit)}. You still need to report taxable gifts on Form 709, but you won't owe any tax.</div>`;
+  } else {
+    taxHTML = `<div class="info-box" style="border-color:#e74c3c;background:#fdf0f0"><strong>⚠️ Estimated Gift Tax: ${formatCurrency(actualTaxOwed)}</strong><br>Your taxable gifts exceed the lifetime exemption by ${formatCurrency(totalCumulativeTaxable - lifetimeLimit)}. Consult a CPA or estate attorney — gift tax rates range from 18% to 40%.</div>
+    <div class="table-wrap"><table><thead><tr><th>Taxable Amount Over Exemption</th><th class="num">Rate</th><th class="num">Tax</th></tr></thead>
+    <tbody>${buildGiftTaxTable(totalCumulativeTaxable - lifetimeLimit)}</tbody></table></div>`;
+  }
+
+  // ── DOM update (all at once)
+  document.getElementById('resTaxableGifts').textContent = formatCurrency(totalTaxableThisYear);
+  document.getElementById('summaryGrid').innerHTML = summaryHTML;
+  document.getElementById('statusBadge').innerHTML = `<span style="font-size:0.9rem;font-weight:600;color:${statusColor === 'good' ? '#27ae60' : statusColor === 'warn' ? '#e67e22' : '#e74c3c'}">${statusText}</span>`;
+  document.getElementById('recipientTableBody').innerHTML = tableRows;
+  document.getElementById('visualBreakdown').innerHTML = visualHTML;
+  document.getElementById('lifetimeSection').innerHTML = lifetimeHTML;
+  document.getElementById('taxEstimate').innerHTML = taxHTML;
+
+  const sec = document.getElementById('resultsSection');
+  sec.style.display = 'block';
+  requestAnimationFrame(() => { sec.classList.add('visible'); });
+  sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  // store for copy
+  window._resultSummary = buildCopyText({ totalGifts, totalExcluded, totalTaxableThisYear, prior, totalCumulativeTaxable, remainingExemption, lifetimeLimit, year, married, exclusionPerRecipient, recipData, giftsTaxable, actualTaxOwed });
+}
+
+function buildCopyText(d) {
+  let lines = [
+    `Gift Tax Summary — ${d.year}`,
+    '─'.repeat(35),
+    `Annual Exclusion per Recipient: ${formatCurrency(d.exclusionPerRecipient)}`,
+    `Married (Gift-Splitting): ${d.married ? 'Yes' : 'No'}`,
+    '',
+    `Total Gifts Given:        ${formatCurrency(d.totalGifts)}`,
+    `Total Excluded:           ${formatCurrency(d.totalExcluded)}`,
+    `Taxable This Year:        ${formatCurrency(d.totalTaxableThisYear)}`,
+    `Prior Taxable Gifts:      ${formatCurrency(d.prior)}`,
+    `Cumulative Taxable:       ${formatCurrency(d.totalCumulativeTaxable)}`,
+    `Lifetime Exemption:       ${formatCurrency(d.lifetimeLimit)}`,
+    `Remaining Exemption:      ${formatCurrency(d.remainingExemption)}`,
+    '',
+    'Per Recipient:',
+    ...d.recipData.map(r => `  ${r.name}: ${formatCurrency(r.amt)} → ${formatCurrency(r.taxable)} taxable`),
+    '',
+    d.giftsTaxable ? `EST. GIFT TAX OWED: ${formatCurrency(d.actualTaxOwed)}` : 'No gift tax owed.',
+    '',
+    'calcstack.dev/gift-tax-annual-exclusion-calculator/'
+  ];
+  return lines.join('\n');
+}
+
+function copyResults() {
+  const text = window._resultSummary || '';
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy Summary'; btn.classList.remove('copied'); }, 2000);
+  }).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy Summary'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+// ── Gift tax brackets (federal) ─────────────────────────────
+const GIFT_TAX_BRACKETS = [
+  { min: 0, max: 10000, rate: 0.18 },
+  { min: 10000, max: 20000, rate: 0.20 },
+  { min: 20000, max: 40000, rate: 0.22 },
+  { min: 40000, max: 60000, rate: 0.24 },
+  { min: 60000, max: 80000, rate: 0.26 },
+  { min: 80000, max: 100000, rate: 0.28 },
+  { min: 100000, max: 150000, rate: 0.30 },
+  { min: 150000, max: 250000, rate: 0.32 },
+  { min: 250000, max: 500000, rate: 0.34 },
+  { min: 500000, max: 750000, rate: 0.37 },
+  { min: 750000, max: 1000000, rate: 0.39 },
+  { min: 1000000, max: Infinity, rate: 0.40 }
+];
+function estimateGiftTax(amount) {
+  let tax = 0;
+  for (const b of GIFT_TAX_BRACKETS) {
+    if (amount <= b.min) break;
+    const taxable = Math.min(amount, b.max) - b.min;
+    tax += taxable * b.rate;
+  }
+  return tax;
+}
+function buildGiftTaxTable(amount) {
+  let rows = '';
+  for (const b of GIFT_TAX_BRACKETS) {
+    if (amount <= b.min) break;
+    const taxable = Math.min(amount, b.max) - b.min;
+    const tax = taxable * b.rate;
+    rows += `<tr><td>${formatCurrency(b.min)} – ${b.max === Infinity ? '∞' : formatCurrency(b.max)}</td><td class="num">${(b.rate*100).toFixed(0)}%</td><td class="num">${formatCurrency(tax)}</td></tr>`;
+  }
+  return rows;
+}
+
+function escHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── Enter key support ───────────────────────────────────────
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter') { requestAnimationFrame(calculate); }
+});
+
+// ── Init ────────────────────────────────────────────────────
+addRecipient();
+updateExclusion();
+</script>
+</body>
+</html>
