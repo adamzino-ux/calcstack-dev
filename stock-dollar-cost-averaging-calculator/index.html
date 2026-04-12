@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stock Dollar-Cost Averaging Calculator — Free Online Tool | calcstack.dev</title>
+<meta name="description" content="Calculate your dollar-cost averaging returns, average share price, and total portfolio value. Free DCA calculator with month-by-month breakdown table.">
+<link rel="canonical" href="https://calcstack.dev/stock-dollar-cost-averaging-calculator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Stock Dollar-Cost Averaging Calculator",
+  "description": "Calculate your dollar-cost averaging returns, average share price, and total portfolio value with a month-by-month breakdown.",
+  "url": "https://calcstack.dev/stock-dollar-cost-averaging-calculator/",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "calcstack.dev",
+    "url": "https://calcstack.dev"
+  }
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f4f6f9;color:#1a1a2e;font-size:16px;line-height:1.6}
+a{color:#0077b6;text-decoration:none}
+a:hover{text-decoration:underline}
+nav{background:#fff;border-bottom:1px solid #e0e0e0;padding:0 1.5rem}
+.nav-inner{max-width:640px;margin:0 auto;display:flex;align-items:center;height:52px}
+.nav-brand{font-weight:700;font-size:1.05rem;color:#1a1a2e}
+.nav-brand:hover{text-decoration:none;color:#0077b6}
+.page-wrap{max-width:640px;margin:0 auto;padding:1.5rem 1rem 2rem}
+h1{font-size:1.55rem;font-weight:700;color:#1a1a2e;margin-bottom:0.4rem}
+.subtitle{color:#555;font-size:0.95rem;margin-bottom:1.5rem}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;box-shadow:0 1px 4px rgba(0,0,0,0.06);margin-bottom:2rem}
+.form-group{margin-bottom:1.25rem}
+label{display:block;font-size:0.85rem;font-weight:500;color:#444;margin-bottom:6px}
+input[type="number"],input[type="text"],select{width:100%;border:1px solid #ddd;border-radius:5px;padding:12px 16px;font-size:1rem;color:#1a1a2e;background:#fff;transition:border-color 0.2s,box-shadow 0.2s;outline:none;-moz-appearance:textfield}
+input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appearance:none}
+input:focus,select:focus{border-color:#0077b6;box-shadow:0 0 0 3px rgba(0,119,182,0.15)}
+input.error-input{border-color:#e74c3c;box-shadow:0 0 0 3px rgba(231,76,60,0.12)}
+.error-msg{color:#e74c3c;font-size:0.8rem;margin-top:4px;display:none}
+.error-msg.show{display:block}
+.row-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.slider-row{display:flex;align-items:center;gap:10px;margin-top:6px}
+input[type="range"]{flex:1;accent-color:#0077b6;height:6px;cursor:pointer;min-height:auto}
+.slider-val{font-size:0.9rem;font-weight:600;color:#0077b6;min-width:56px;text-align:right}
+.hint{font-size:0.78rem;color:#888;margin-top:4px}
+.btn{background:#0077b6;color:#fff;border:none;border-radius:6px;padding:13px 24px;font-size:1rem;font-weight:600;cursor:pointer;width:100%;min-height:44px;transition:background 0.2s}
+.btn:hover{background:#006299}
+.btn-secondary{background:#f0f0f0;color:#333;font-size:0.82rem;font-weight:500;padding:7px 14px;border-radius:5px;border:none;cursor:pointer;min-height:36px;transition:background 0.2s}
+.btn-secondary:hover{background:#e0e0e0}
+.results{opacity:0;transition:opacity 0.3s ease;display:none}
+.results.visible{opacity:1;display:block}
+.key-metrics{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+.metric-box{background:#f8f9fa;border:1px solid #e8e9ea;border-radius:7px;padding:1rem 1.2rem;text-align:center}
+.metric-label{font-size:0.78rem;color:#666;font-weight:500;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.03em}
+.metric-val{font-size:1.5rem;font-weight:700;color:#0077b6}
+.metric-sub{font-size:0.78rem;color:#888;margin-top:2px}
+.metric-box.highlight{background:#e8f4fd;border-color:#b3d9f0}
+.metric-box.positive .metric-val{color:#1a7a4a}
+.metric-box.negative .metric-val{color:#c0392b}
+.section-title{font-size:1rem;font-weight:700;color:#1a1a2e;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between}
+.bar-section{margin-bottom:1.5rem}
+.bar-label{font-size:0.82rem;color:#555;margin-bottom:5px;display:flex;justify-content:space-between}
+.bar-track{background:#f0f0f0;border-radius:20px;height:22px;overflow:hidden;position:relative}
+.bar-fill{height:100%;border-radius:20px;transition:width 0.5s ease;display:flex;align-items:center;padding-left:10px;font-size:0.78rem;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden}
+.bar-principal{background:#0077b6}
+.bar-growth{background:#1a7a4a}
+.bar-stack{display:flex;height:22px;border-radius:20px;overflow:hidden}
+.bar-stack .bar-fill{border-radius:0}
+.bar-stack .bar-fill:first-child{border-radius:20px 0 0 20px}
+.bar-stack .bar-fill:last-child{border-radius:0 20px 20px 0}
+.legend{display:flex;gap:1rem;flex-wrap:wrap;margin-top:8px}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:0.8rem;color:#555}
+.legend-dot{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:0.85rem;min-width:480px}
+thead tr{background:#f0f0f0}
+th{padding:9px 10px;text-align:left;font-weight:600;color:#444;border-bottom:2px solid #ddd;white-space:nowrap}
+th.num{text-align:right}
+td{padding:8px 10px;border-bottom:1px solid #eee;color:#333}
+td.num{text-align:right;font-variant-numeric:tabular-nums}
+tr:nth-child(even) td{background:#fafafa}
+tr:last-child td{border-bottom:none;font-weight:600;background:#f0f8ff}
+.copy-row{display:flex;justify-content:flex-end;margin-bottom:0.75rem}
+.show-all-row{text-align:center;margin-top:0.75rem}
+.ad-slot{min-height:0;margin:0}
+.content-section{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;box-shadow:0 1px 4px rgba(0,0,0,0.04);margin-bottom:2rem}
+.content-section h2{font-size:1.1rem;font-weight:700;color:#1a1a2e;margin:1.5rem 0 0.5rem}
+.content-section h2:first-child{margin-top:0}
+.content-section p{font-size:0.93rem;color:#444;margin-bottom:0.75rem}
+.content-section ul{padding-left:1.2rem;margin-bottom:0.75rem}
+.content-section li{font-size:0.93rem;color:#444;margin-bottom:0.4rem}
+details{border:1px solid #e8e9ea;border-radius:6px;margin-bottom:0.6rem;overflow:hidden}
+summary{padding:0.75rem 1rem;cursor:pointer;font-weight:600;font-size:0.9rem;background:#f8f9fa;list-style:none;display:flex;justify-content:space-between;align-items:center}
+summary::-webkit-details-marker{display:none}
+summary::after{content:'＋';font-size:1rem;color:#0077b6}
+details[open] summary::after{content:'－'}
+details p{padding:0.75rem 1rem;font-size:0.88rem;color:#555;background:#fff;margin:0}
+.related-tools{display:flex;flex-direction:column;gap:0.5rem;margin-top:0.5rem}
+.related-link{display:flex;align-items:center;gap:8px;font-size:0.9rem;color:#0077b6;padding:8px 0;border-bottom:1px solid #f0f0f0}
+.related-link:last-child{border-bottom:none}
+.related-link::before{content:'→';font-size:0.85rem}
+.related-link:hover{color:#006299}
+footer{background:#fff;border-top:1px solid #e0e0e0;padding:1.5rem 1rem;margin-top:1rem}
+.footer-inner{max-width:640px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:0.75rem}
+.footer-links{display:flex;gap:1rem;flex-wrap:wrap}
+.footer-links a{font-size:0.85rem;color:#666}
+.footer-copy{font-size:0.82rem;color:#999}
+@media(max-width:480px){
+  .row-2{grid-template-columns:1fr}
+  .key-metrics{grid-template-columns:1fr 1fr}
+  .metric-val{font-size:1.25rem}
+  .card{padding:1.25rem}
+  .content-section{padding:1.25rem}
+  h1{font-size:1.3rem}
+}
+@media(max-width:360px){
+  .key-metrics{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">calcstack.dev</a>
+  </div>
+</nav>
+
+<div class="page-wrap">
+  <h1>Stock Dollar-Cost Averaging Calculator</h1>
+  <p class="subtitle">Calculate your DCA returns, average share price, and total portfolio growth over time.</p>
+
+  <div class="card">
+    <div class="row-2">
+      <div class="form-group">
+        <label for="initialInvestment">Initial Investment ($)</label>
+        <input type="number" id="initialInvestment" placeholder="1000" min="0" value="1000">
+        <div class="error-msg" id="err-initial">Enter a valid amount (≥ 0).</div>
+      </div>
+      <div class="form-group">
+        <label for="recurringAmount">Recurring Investment ($)</label>
+        <input type="number" id="recurringAmount" placeholder="200" min="1" value="200">
+        <div class="error-msg" id="err-recurring">Enter a valid recurring amount (> 0).</div>
+      </div>
+    </div>
+
+    <div class="row-2">
+      <div class="form-group">
+        <label for="frequency">Investment Frequency</label>
+        <select id="frequency">
+          <option value="12">Monthly</option>
+          <option value="4">Quarterly</option>
+          <option value="26">Bi-Weekly</option>
+          <option value="52">Weekly</option>
+          <option value="1">Annually</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="years">Investment Period (Years)</label>
+        <input type="number" id="years" placeholder="10" min="1" max="50" value="10">
+        <div class="error-msg" id="err-years">Enter a period between 1 and 50 years.</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="startPrice">Starting Share Price ($)</label>
+      <input type="number" id="startPrice" placeholder="50" min="0.01" value="50">
+      <div class="error-msg" id="err-price">Enter a valid share price (> 0).</div>
+    </div>
+
+    <div class="form-group">
+      <label for="annualReturn">Expected Annual Return (%)</label>
+      <div class="slider-row">
+        <input type="range" id="returnSlider" min="1" max="30" step="0.5" value="8">
+        <span class="slider-val" id="returnDisplay">8.0%</span>
+      </div>
+      <input type="number" id="annualReturn" placeholder="8" min="0.1" max="100" step="0.1" value="8">
+      <div class="error-msg" id="err-return">Enter a return between 0.1% and 100%.</div>
+      <div class="hint">S&amp;P 500 historical average ~10% nominal, ~7% inflation-adjusted.</div>
+    </div>
+
+    <div class="form-group">
+      <label for="annualVolatility">Price Volatility / Annual Variation (%)</label>
+      <div class="slider-row">
+        <input type="range" id="volatilitySlider" min="0" max="50" step="1" value="15">
+        <span class="slider-val" id="volatilityDisplay">15%</span>
+      </div>
+      <input type="number" id="annualVolatility" placeholder="15" min="0" max="100" step="1" value="15">
+      <div class="hint">Simulates realistic price swings. 15–20% is typical for broad index funds.</div>
+    </div>
+
+    <button class="btn" id="calcBtn">Calculate DCA Results</button>
+  </div>
+
+  <div class="results" id="results">
+
+    <div class="card">
+      <div class="section-title">Portfolio Summary</div>
+      <div class="key-metrics" id="keyMetrics"></div>
+
+      <div class="bar-section">
+        <div class="bar-label">
+          <span>Total Invested vs. Total Gain</span>
+          <span id="barLegendRight"></span>
+        </div>
+        <div class="bar-track">
+          <div class="bar-stack" id="mainBar"></div>
+        </div>
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#0077b6"></div>Total Invested</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#1a7a4a"></div>Investment Gain</div>
+        </div>
+      </div>
+
+      <div class="bar-section">
+        <div class="bar-label"><span>Shares Purchased by Year</span></div>
+        <div id="yearBars"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">
+        <span>Month-by-Month Breakdown</span>
+        <div class="copy-row" style="margin:0">
+          <button class="btn-secondary" id="copyBtn">Copy Results</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table id="breakdownTable">
+          <thead>
+            <tr>
+              <th>Month</th>
+              <th>Date</th>
+              <th class="num">Share Price</th>
+              <th class="num">Invested</th>
+              <th class="num">Shares Bought</th>
+              <th class="num">Total Shares</th>
+              <th class="num">Portfolio Value</th>
+              <th class="num">Total Return</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+      <div class="show-all-row">
+        <button class="btn-secondary" id="showAllBtn" style="display:none">Show All Rows</button>
+      </div>
+    </div>
+
+    <div class="ad-slot" id="ad-mid"></div>
+  </div>
+
+  <div class="content-section">
+    <h2>How to Use This Dollar-Cost Averaging Calculator</h2>
+    <p>Enter your initial lump-sum investment, recurring contribution amount, and how often you plan to invest. Set your investment period in years, the starting share price, and your expected annual return. The calculator simulates realistic price fluctuations using your volatility setting, then shows your total portfolio value, average cost per share, and a full month-by-month breakdown.</p>
+
+    <h2>Why This Matters</h2>
+    <p>Dollar-cost averaging (DCA) is one of the most effective strategies for long-term investors, yet most people don't realize how dramatically it outperforms trying to time the market. Consider this: if you invested $200 per month into an S&P 500 index fund starting in January 2010, you would have turned roughly $36,000 in contributions into over $120,000 by 2023 — a gain of $84,000.</p>
+    <p>The real power of DCA is that it removes emotion from investing. When prices drop, your fixed $200 buys more shares. When prices rise, you buy fewer shares but your existing holdings are worth more. Over time, this automatic "buy more when cheap, buy less when expensive" behavior lowers your average cost per share compared to a single lump-sum purchase at the wrong moment.</p>
+    <p>DCA is ideal for salaried workers contributing to 401(k) or IRA accounts, investors starting with limited capital, and anyone who wants to build wealth without watching the market obsessively. It works especially well in volatile markets — the kind that make lump-sum investors nervous.</p>
+
+    <h2>How It's Calculated</h2>
+    <p>Each period, the simulated share price grows by the monthly equivalent of your annual return, with a random variation applied to simulate real-world volatility. The number of shares purchased each period equals:</p>
+    <p><strong>Shares Purchased = Investment Amount ÷ Share Price That Period</strong></p>
+    <p>Your average cost per share is then:</p>
+    <p><strong>Average Cost Per Share = Total Amount Invested ÷ Total Shares Owned</strong></p>
+    <p>The portfolio value at any point equals <strong>Total Shares × Current Share Price</strong>. The total return percentage is <strong>(Portfolio Value − Total Invested) ÷ Total Invested × 100</strong>. Volatility is applied using a seeded random walk so results are reproducible for the same inputs.</p>
+
+    <h2>Tips &amp; Common Mistakes</h2>
+    <ul>
+      <li><strong>Don't stop during downturns.</strong> Market dips are when DCA works hardest for you — your fixed contribution buys more shares at bargain prices.</li>
+      <li><strong>Be realistic with return assumptions.</strong> The S&P 500 has returned ~10% nominally, but individual stocks can vary wildly. Use 6–8% for a conservative long-term projection after inflation.</li>
+      <li><strong>Reinvest dividends.</strong> This calculator models price appreciation; adding dividend reinvestment (typically 1.5–2% annually for index funds) would increase your final value by 20–30% over a decade.</li>
+      <li><strong>Automate your contributions.</strong> The entire benefit of DCA breaks down if you skip months or second-guess yourself. Set up automatic transfers on payday.</li>
+      <li><strong>Watch fees.</strong> A 1% annual expense ratio on $100,000 costs you $1,000/year — and compounds over time. Low-cost index funds (0.03–0.1%) preserve far more of your gains.</li>
+    </ul>
+
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>Is dollar-cost averaging better than lump-sum investing?</summary>
+      <p>Research (including studies by Vanguard) shows lump-sum investing outperforms DCA about 67% of the time in rising markets, because money invested earlier has more time to compound. However, DCA is superior for people who don't have a large lump sum available, and it significantly reduces the risk of investing everything right before a market crash. Most individual investors benefit more from the discipline and risk reduction DCA provides.</p>
+    </details>
+    <details>
+      <summary>What assets work best with DCA?</summary>
+      <p>Broadly diversified, volatile assets benefit the most from DCA — particularly broad market index funds (S&P 500, total market), ETFs, and growth-oriented stocks. DCA works less well with assets that trend steadily upward without dips, since you'd prefer to buy as early as possible. It's less suitable for stable assets like CDs or money market funds, where price doesn't fluctuate.</p>
+    </details>
+    <details>
+      <summary>Does DCA work in a bear market?</summary>
+      <p>DCA actually shines in bear markets. When prices fall 30–50%, your fixed contributions buy significantly more shares. When the market inevitably recovers, those cheap shares generate outsized gains. Historically, investors who maintained DCA through the 2008–2009 financial crisis and the 2020 COVID crash recovered faster and ended up with larger portfolios than those who paused contributions or sold.</p>
+    </details>
+    <details>
+      <summary>How does volatility affect my DCA returns?</summary>
+      <p>Higher volatility (more dramatic price swings) generally benefits DCA investors compared to lump-sum investors. When prices swing wildly, your fixed contributions buy more shares during dips, lowering your average cost. This is called "volatility pumping" — a real mathematical phenomenon where DCA extracts extra return from volatile assets. Steady, low-volatility appreciation is the one scenario where DCA underperforms a single early lump sum.</p>
+    </details>
+  </div>
+
+  <div class="content-section">
+    <h2>Related Tools</h2>
+    <div class="related-tools">
+      <a href="/treasury-bond-ladder-calculator/" class="related-link">Treasury Bond Ladder Calculator</a>
+      <a href="/gift-tax-annual-exclusion-calculator/" class="related-link">Gift Tax Annual Exclusion Calculator</a>
+      <a href="/vacation-budget-cost-estimator/" class="related-link">Vacation Budget &amp; Cost Estimator</a>
+      <a href="/business-valuation-multiples-calculator/" class="related-link">Business Valuation Multiples Calculator</a>
+      <a href="/credit-card-minimum-payment-interest-calculator/" class="related-link">Credit Card Minimum Payment Interest Calculator</a>
+      <a href="/mortgage-down-payment-vs-investment-opportunity-cost-calculator/" class="related-link">Mortgage Down Payment vs Investment Opportunity Cost Calculator</a>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-bottom"></div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-links">
+      <a href="/about/">About</a>
+      <a href="/privacy/">Privacy</a>
+      <a href="/contact/">Contact</a>
+    </div>
+    <div class="footer-copy">© 2025 calcstack.dev</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  // Slider sync
+  function syncSlider(sliderId, inputId, displayId, suffix){
+    var slider = document.getElementById(sliderId);
+    var input = document.getElementById(inputId);
+    var display = document.getElementById(displayId);
+    slider.addEventListener('input', function(){
+      input.value = slider.value;
+      display.textContent = slider.value + suffix;
+    });
+    input.addEventListener('input', function(){
+      var v = parseFloat(input.value);
+      if(!isNaN(v) && v >= parseFloat(slider.min) && v <= parseFloat(slider.max)){
+        slider.value = v;
+        display.textContent = v + suffix;
+      }
+    });
+  }
+  syncSlider('returnSlider','annualReturn','returnDisplay','%');
+  syncSlider('volatilitySlider','annualVolatility','volatilityDisplay','%');
+
+  function fmt(n, decimals){
+    decimals = (decimals === undefined) ? 2 : decimals;
+    return '$' + n.toLocaleString('en-US', {minimumFractionDigits:decimals, maximumFractionDigits:decimals});
+  }
+  function fmtN(n, decimals){
+    decimals = (decimals === undefined) ? 2 : decimals;
+    return n.toLocaleString('en-US', {minimumFractionDigits:decimals, maximumFractionDigits:decimals});
+  }
+  function pct(n){ return (n >= 0 ? '+' : '') + n.toFixed(2) + '%'; }
+
+  function clearErrors(){
+    document.querySelectorAll('.error-msg').forEach(function(e){ e.classList.remove('show'); });
+    document.querySelectorAll('.error-input').forEach(function(e){ e.classList.remove('error-input'); });
+  }
+  function showError(msgId, inputEl){
+    document.getElementById(msgId).classList.add('show');
+    if(inputEl) inputEl.classList.add('error-input');
+  }
+
+  // Seeded pseudo-random (mulberry32)
+  function mulberry32(seed){
+    return function(){
+      seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+      var t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+      t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+      return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+  }
+
+  var allRows = [];
+  var showingAll = false;
+  var PREVIEW_ROWS = 24;
+
+  function calculate(){
+    clearErrors();
+    var initialInv = parseFloat(document.getElementById('initialInvestment').value) || 0;
+    var recurring = parseFloat(document.getElementById('recurringAmount').value);
+    var freqPerYear = parseInt(document.getElementById('frequency').value);
+    var years = parseInt(document.getElementById('years').value);
+    var startPrice = parseFloat(document.getElementById('startPrice').value);
+    var annReturn = parseFloat(document.getElementById('annualReturn').value);
+    var volatility = parseFloat(document.getElementById('annualVolatility').value) || 0;
+
+    var valid = true;
+    if(isNaN(initialInv) || initialInv < 0){ showError('err-initial', document.getElementById('initialInvestment')); valid=false; }
+    if(isNaN(recurring) || recurring <= 0){ showError('err-recurring', document.getElementById('recurringAmount')); valid=false; }
+    if(isNaN(years) || years < 1 || years > 50){ showError('err-years', document.getElementById('years')); valid=false; }
+    if(isNaN(startPrice) || startPrice <= 0){ showError('err-price', document.getElementById('startPrice')); valid=false; }
+    if(isNaN(annReturn) || annReturn < 0.1 || annReturn > 100){ showError('err-return', document.getElementById('annualReturn')); valid=false; }
+    if(!valid) return;
+
+    // Number of periods per year = freqPerYear; total periods
+    var totalPeriods = years * freqPerYear;
+    // Monthly conversion: treat each period as 1/freqPerYear of a year
+    var periodReturn = annReturn / 100 / freqPerYear;
+    var periodVol = (volatility / 100) / Math.sqrt(freqPerYear);
+
+    var rand = mulberry32(Math.round(startPrice * 100 + annReturn * 7 + years * 13 + recurring));
+
+    var sharePrice = startPrice;
+    var totalShares = 0;
+    var totalInvested = 0;
+    var rows = [];
+
+    // Initial investment
+    var now = new Date();
+    now.setDate(1);
+
+    // Period label names
+    var freqLabel = {12:'Month',4:'Quarter',26:'Period',52:'Week',1:'Year'};
+    var pLabel = freqLabel[freqPerYear] || 'Period';
+
+    if(initialInv > 0){
+      var sharesFromInitial = initialInv / sharePrice;
+      totalShares += sharesFromInitial;
+      totalInvested += initialInv;
+      rows.push({
+        period: 0,
+        date: formatDate(now, freqPerYear),
+        price: sharePrice,
+        invested: initialInv,
+        sharesBought: sharesFromInitial,
+        totalShares: totalShares,
+        portfolioValue: totalShares * sharePrice,
+        totalInvested: totalInvested,
+        returnPct: 0
+      });
+    }
+
+    for(var i = 1; i <= totalPeriods; i++){
+      // Advance date
+      var d = advanceDate(new Date(now), i, freqPerYear);
+      // Price evolution: geometric brownian motion approximation
+      var noise = (rand() - 0.5) * 2; // [-1,1]
+      var drift = periodReturn - 0.5 * periodVol * periodVol;
+      sharePrice = sharePrice * Math.exp(drift + periodVol * noise * 1.414);
+      if(sharePrice < 0.01) sharePrice = 0.01;
+
+      var inv = recurring;
+      var sharesBought = inv / sharePrice;
+      totalShares += sharesBought;
+      totalInvested += inv;
+      var portVal = totalShares * sharePrice;
+      var retPct = ((portVal - totalInvested) / totalInvested) * 100;
+
+      rows.push({
+        period: i,
+        date: formatDate(d, freqPerYear),
+        price: sharePrice,
+        invested: inv,
+        sharesBought: sharesBought,
+        totalShares: totalShares,
+        portfolioValue: portVal,
+        totalInvested: totalInvested,
+        returnPct: retPct
+      });
+    }
+
+    allRows = rows;
+    showingAll = false;
+
+    var lastRow = rows[rows.length - 1];
+    var finalValue = lastRow.portfolioValue;
+    var finalInvested = lastRow.totalInvested;
+    var totalGain = finalValue - finalInvested;
+    var totalReturnPct = ((finalValue - finalInvested) / finalInvested) * 100;
+    var avgCostPerShare = finalInvested / lastRow.totalShares;
+    var finalSharePrice = lastRow.price;
+
+    // Year-by-year data for bar chart
+    var yearData = [];
+    for(var yr = 1; yr <= years; yr++){
+      var periodIdx = Math.round(yr * freqPerYear);
+      if(periodIdx >= rows.length) periodIdx = rows.length - 1;
+      yearData.push({year: yr, shares: rows[periodIdx].totalShares, portVal: rows[periodIdx].portfolioValue, invested: rows[periodIdx].totalInvested});
+    }
+    var maxPortVal = Math.max.apply(null, yearData.map(function(d){ return d.portVal; }));
+
+    requestAnimationFrame(function(){
+      // Key metrics
+      var gainClass = totalGain >= 0 ? 'positive' : 'negative';
+      var metricsHTML =
+        '<div class="metric-box highlight">' +
+          '<div class="metric-label">Final Portfolio Value</div>' +
+          '<div class="metric-val">' + fmt(finalValue) + '</div>' +
+          '<div class="metric-sub">After ' + years + ' years</div>' +
+        '</div>' +
+        '<div class="metric-box">' +
+          '<div class="metric-label">Total Invested</div>' +
+          '<div class="metric-val" style="color:#1a1a2e">' + fmt(finalInvested) + '</div>' +
+          '<div class="metric-sub">' + (totalPeriods + (initialInv > 0 ? 1 : 0)) + ' contributions</div>' +
+        '</div>' +
+        '<div class="metric-box ' + gainClass + '">' +
+          '<div class="metric-label">Total Gain</div>' +
+          '<div class="metric-val">' + fmt(totalGain) + '</div>' +
+          '<div class="metric-sub">' + pct(totalReturnPct) + ' return</div>' +
+        '</div>' +
+        '<div class="metric-box">' +
+          '<div class="metric-label">Avg. Cost Per Share</div>' +
+          '<div class="metric-val" style="color:#7b2d8b">' + fmt(avgCostPerShare) + '</div>' +
+          '<div class="metric-sub">vs ' + fmt(finalSharePrice) + ' final price</div>' +
+        '</div>';
+      document.getElementById('keyMetrics').innerHTML = metricsHTML;
+
+      // Main bar
+      var investedPct = Math.max(0, Math.min(100, (finalInvested / finalValue) * 100));
+      var gainPct = 100 - investedPct;
+      document.getElementById('mainBar').innerHTML =
+        '<div class="bar-fill bar-principal" style="width:' + investedPct.toFixed(1) + '%">' +
+          (investedPct > 12 ? investedPct.toFixed(0) + '%' : '') +
+        '</div>' +
+        '<div class="bar-fill bar-growth" style="width:' + gainPct.toFixed(1) + '%">' +
+          (gainPct > 12 ? gainPct.toFixed(0) + '%' : '') +
+        '</div>';
+      document.getElementById('barLegendRight').textContent = fmt(finalInvested) + ' + ' + fmt(totalGain);
+
+      // Year bars
+      var yearBarsHTML = '';
+      yearData.forEach(function(d){
+        var barW = maxPortVal > 0 ? (d.portVal / maxPortVal * 100) : 0;
+        var invW = maxPortVal > 0 ? (d.invested / maxPortVal * 100) : 0;
+        var gainW = Math.max(0, barW - invW);
+        yearBarsHTML +=
+          '<div style="margin-bottom:6px">' +
+          '<div style="display:flex;justify-content:space-between;font-size:0.75rem;color:#666;margin-bottom:2px"><span>Year ' + d.year + '</span><span>' + fmt(d.portVal) + '</span></div>' +
+          '<div class="bar-track" style="height:14px">' +
+            '<div class="bar-stack" style="height:14px">' +
+              '<div class="bar-fill bar-principal" style="width:' + invW.toFixed(1) + '%;font-size:0"></div>' +
+              '<div class="bar-fill bar-growth" style="width:' + gainW.toFixed(1) + '%;font-size:0"></div>' +
+            '</div>' +
+          '</div>' +
+          '</div>';
+      });
+      document.getElementById('yearBars').innerHTML = yearBarsHTML;
+
+      // Table
+      renderTable(false);
+
+      // Show all button
+      var showAllBtn = document.getElementById('showAllBtn');
+      if(rows.length > PREVIEW_ROWS){
+        showAllBtn.style.display = 'inline-block';
+        showAllBtn.textContent = 'Show All ' + rows.length + ' Rows';
+      } else {
+        showAllBtn.style.display = 'none';
+      }
+
+      var resultsEl = document.getElementById('results');
+      resultsEl.style.display = 'block';
+      requestAnimationFrame(function(){ resultsEl.classList.add('visible'); });
+
+      // Scroll
+      setTimeout(function(){ resultsEl.scrollIntoView({behavior:'smooth',block:'start'}); }, 100);
+    });
+  }
+
+  function renderTable(showAll){
+    var rows = allRows;
+    var displayRows = showAll ? rows : rows.slice(0, PREVIEW_ROWS);
+    var rowsHTML = '';
+    displayRows.forEach(function(r, idx){
+      var isLast = (idx === rows.length - 1 && showAll) || (idx === displayRows.length - 1 && !showAll && idx === rows.length - 1);
+      var retColor = r.returnPct >= 0 ? 'color:#1a7a4a' : 'color:#c0392b';
+      rowsHTML +=
+        '<tr' + (isLast ? ' class="last-row"' : '') + '>' +
+          '<td>' + (r.period === 0 ? 'Initial' : r.period) + '</td>' +
+          '<td>' + r.date + '</td>' +
+          '<td class="num">' + fmt(r.price) + '</td>' +
+          '<td class="num">' + fmt(r.invested) + '</td>' +
+          '<td class="num">' + fmtN(r.sharesBought, 4) + '</td>' +
+          '<td class="num">' + fmtN(r.totalShares, 4) + '</td>' +
+          '<td class="num">' + fmt(r.portfolioValue) + '</td>' +
+          '<td class="num" style="' + retColor + '">' + (r.period === 0 ? '—' : pct(r.returnPct)) + '</td>' +
+        '</tr>';
+    });
+    document.getElementById('tableBody').innerHTML = rowsHTML;
+  }
+
+  function advanceDate(d, periods, freqPerYear){
+    if(freqPerYear === 12){ d.setMonth(d.getMonth() + periods); }
+    else if(freqPerYear === 4){ d.setMonth(d.getMonth() + periods * 3); }
+    else if(freqPerYear === 1){ d.setFullYear(d.getFullYear() + periods); }
+    else if(freqPerYear === 26){ d.setDate(d.getDate() + periods * 14); }
+    else if(freqPerYear === 52){ d.setDate(d.getDate() + periods * 7); }
+    return d;
+  }
+
+  function formatDate(d, freqPerYear){
+    if(freqPerYear === 12 || freqPerYear === 4 || freqPerYear === 1){
+      return d.toLocaleDateString('en-US', {month:'short', year:'numeric'});
+    }
+    return d.toLocaleDateString('en-US', {month:'short', day:'numeric', year:'2-digit'});
+  }
+
+  document.getElementById('calcBtn').addEventListener('click', function(){
+    requestAnimationFrame(function(){ calculate(); });
+  });
+
+  document.querySelectorAll('input').forEach(function(inp){
+    inp.addEventListener('keydown', function(e){
+      if(e.key === 'Enter'){ requestAnimationFrame(function(){ calculate(); }); }
+    });
+  });
+
+  document.getElementById('showAllBtn').addEventListener('click', function(){
+    showingAll = !showingAll;
+    renderTable(showingAll);
+    if(showingAll){
+      this.textContent = 'Show Fewer Rows';
+    } else {
+      this.textContent = 'Show All ' + allRows.length + ' Rows';
+    }
+  });
+
+  document.getElementById('copyBtn').addEventListener('click', function(){
+    var btn = this;
+    var rows = allRows;
+    var header = 'Period\tDate\tShare Price\tInvested\tShares Bought\tTotal Shares\tPortfolio Value\tReturn %\n';
+    var lines = rows.map(function(r){
+      return (r.period === 0 ? 'Initial' : r.period) + '\t' +
+        r.date + '\t' +
+        r.price.toFixed(2) + '\t' +
+        r.invested.toFixed(2) + '\t' +
+        r.sharesBought.toFixed(4) + '\t' +
+        r.totalShares.toFixed(4) + '\t' +
+        r.portfolioValue.toFixed(2) + '\t' +
+        (r.period === 0 ? '0.00' : r.returnPct.toFixed(2)) + '%';
+    }).join('\n');
+    var text = header + lines;
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(function(){
+        btn.textContent = 'Copied!';
+        setTimeout(function(){ btn.textContent = 'Copy Results'; }, 2000);
+      });
+    } else {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try{ document.execCommand('copy'); btn.textContent = 'Copied!'; setTimeout(function(){ btn.textContent = 'Copy Results'; }, 2000); } catch(e){}
+      document.body.removeChild(ta);
+    }
+  });
+
+  // Run on load with defaults
+  requestAnimationFrame(function(){ calculate(); });
+})();
+</script>
+</body>
+</html>
