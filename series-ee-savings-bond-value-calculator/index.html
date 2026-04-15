@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Series EE Savings Bond Value Calculator — Free Online Tool | calcstack.dev</title>
+<meta name="description" content="Calculate the current and future value of your Series EE Savings Bonds. See year-by-year growth, interest earned, and when your bond doubles in value.">
+<link rel="canonical" href="https://calcstack.dev/series-ee-savings-bond-value-calculator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Series EE Savings Bond Value Calculator",
+  "url": "https://calcstack.dev/series-ee-savings-bond-value-calculator/",
+  "description": "Calculate the current and future value of your Series EE Savings Bonds including year-by-year growth and interest earned.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#fff;color:#1a1a2e;font-size:16px;line-height:1.6}
+a{color:#0077b6;text-decoration:none}
+a:hover{text-decoration:underline}
+nav{border-bottom:1px solid #e0e0e0;padding:0.75rem 1rem}
+nav .nav-inner{max-width:640px;margin:0 auto;display:flex;align-items:center}
+nav .site-name{font-weight:700;font-size:1.1rem;color:#1a1a2e}
+nav .site-name:hover{text-decoration:none;color:#0077b6}
+main{max-width:640px;margin:0 auto;padding:1.5rem 1rem 2rem}
+h1{font-size:1.6rem;font-weight:700;margin-bottom:0.4rem;line-height:1.3}
+.subtitle{color:#555;font-size:0.95rem;margin-bottom:1.5rem}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;box-shadow:0 2px 8px rgba(0,0,0,0.05);margin-bottom:2rem}
+.form-group{margin-bottom:1.2rem}
+label{display:block;font-size:0.85rem;font-weight:500;color:#444;margin-bottom:0.4rem}
+input[type=number],input[type=date],select{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:6px;font-size:1rem;font-family:inherit;transition:border-color 0.2s,box-shadow 0.2s;background:#fff;color:#1a1a2e;min-height:44px}
+input[type=number]:focus,input[type=date]:focus,select:focus{outline:none;border-color:#0077b6;box-shadow:0 0 0 3px rgba(0,119,182,0.15)}
+input.error{border-color:#e74c3c}
+.error-msg{color:#e74c3c;font-size:0.8rem;margin-top:0.3rem;display:none}
+.error-msg.show{display:block}
+.row-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.hint{font-size:0.78rem;color:#777;margin-top:0.3rem}
+btn,button{cursor:pointer;font-family:inherit}
+.btn-primary{background:#0077b6;color:#fff;border:none;padding:12px 24px;border-radius:6px;font-size:1rem;font-weight:600;width:100%;min-height:44px;transition:background 0.2s}
+.btn-primary:hover{background:#006299}
+.btn-secondary{background:#f0f0f0;color:#1a1a2e;border:1px solid #ddd;padding:8px 16px;border-radius:6px;font-size:0.85rem;min-height:36px;transition:background 0.2s}
+.btn-secondary:hover{background:#e0e0e0}
+.results{opacity:0;transition:opacity 0.3s ease;display:none}
+.results.show{display:block;opacity:1}
+.key-metrics{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+.metric-box{background:#f8f9fa;border:1px solid #e0e0e0;border-radius:8px;padding:1rem;text-align:center}
+.metric-box .label{font-size:0.78rem;color:#666;font-weight:500;text-transform:uppercase;letter-spacing:0.03em;margin-bottom:0.3rem}
+.metric-box .value{font-size:1.5rem;font-weight:700;color:#0077b6;line-height:1.2}
+.metric-box .value.green{color:#2ecc71}
+.metric-box .value.orange{color:#e67e22}
+.metric-box.full{grid-column:1/-1}
+.section-title{font-size:1rem;font-weight:600;color:#1a1a2e;margin-bottom:1rem;margin-top:1.5rem}
+.bar-chart{margin-bottom:1.5rem}
+.bar-row{display:flex;align-items:center;margin-bottom:0.5rem;gap:0.75rem}
+.bar-label{font-size:0.82rem;color:#555;width:90px;flex-shrink:0;text-align:right}
+.bar-track{flex:1;background:#f0f0f0;border-radius:4px;height:22px;overflow:hidden;position:relative}
+.bar-fill{height:100%;border-radius:4px;transition:width 0.6s ease;display:flex;align-items:center;justify-content:flex-end;padding-right:6px}
+.bar-fill.principal{background:#0077b6}
+.bar-fill.interest{background:#2ecc71}
+.bar-fill.combined{background:linear-gradient(90deg,#0077b6,#2ecc71)}
+.bar-value{font-size:0.78rem;font-weight:600;color:#fff;white-space:nowrap}
+.stacked-bar-track{flex:1;background:#f0f0f0;border-radius:4px;height:22px;overflow:hidden;display:flex}
+.stacked-principal{background:#0077b6;height:100%;display:flex;align-items:center;justify-content:center}
+.stacked-interest{background:#2ecc71;height:100%;flex:1;display:flex;align-items:center;justify-content:center}
+.legend{display:flex;gap:1.2rem;margin-bottom:1rem;flex-wrap:wrap}
+.legend-item{display:flex;align-items:center;gap:0.4rem;font-size:0.82rem;color:#555}
+.legend-dot{width:12px;height:12px;border-radius:2px;flex-shrink:0}
+.legend-dot.principal{background:#0077b6}
+.legend-dot.interest{background:#2ecc71}
+.note-box{background:#f0f7ff;border-left:4px solid #0077b6;border-radius:0 6px 6px 0;padding:0.8rem 1rem;font-size:0.85rem;color:#1a1a2e;margin-bottom:1.2rem}
+.note-box strong{color:#0077b6}
+.table-wrapper{overflow-x:auto;margin-top:0.5rem}
+table{width:100%;border-collapse:collapse;font-size:0.875rem;min-width:420px}
+thead th{background:#f0f0f0;padding:10px 12px;text-align:left;font-weight:600;color:#1a1a2e;border-bottom:2px solid #ddd;white-space:nowrap}
+thead th.num{text-align:right}
+tbody tr:nth-child(even){background:#fafafa}
+tbody tr:hover{background:#f0f7ff}
+tbody td{padding:9px 12px;border-bottom:1px solid #f0f0f0;color:#1a1a2e}
+tbody td.num{text-align:right;font-variant-numeric:tabular-nums}
+tbody tr.highlight-row td{background:#fff8e1;font-weight:600}
+.show-all-btn{text-align:center;margin-top:0.75rem}
+.copy-area{display:flex;justify-content:flex-end;margin-bottom:0.5rem}
+.copy-btn{background:#f8f9fa;border:1px solid #ddd;color:#555;padding:6px 14px;border-radius:6px;font-size:0.8rem;cursor:pointer;transition:background 0.2s;min-height:32px}
+.copy-btn:hover{background:#e0e0e0}
+.ad-slot{min-height:0;margin:0}
+.content-section{margin-top:2.5rem}
+.content-section h2{font-size:1.2rem;font-weight:700;color:#1a1a2e;margin-bottom:0.6rem;margin-top:2rem}
+.content-section p{color:#333;margin-bottom:0.8rem;font-size:0.95rem}
+.content-section ul{padding-left:1.4rem;margin-bottom:0.8rem}
+.content-section ul li{color:#333;margin-bottom:0.4rem;font-size:0.95rem}
+details{border:1px solid #e0e0e0;border-radius:6px;margin-bottom:0.6rem;overflow:hidden}
+details summary{padding:0.75rem 1rem;font-weight:600;cursor:pointer;background:#f8f9fa;font-size:0.9rem;list-style:none;display:flex;justify-content:space-between;align-items:center;min-height:44px}
+details summary::-webkit-details-marker{display:none}
+details summary::after{content:'＋';font-size:1rem;color:#0077b6;flex-shrink:0}
+details[open] summary::after{content:'－'}
+details p{padding:0.75rem 1rem;font-size:0.9rem;color:#333;border-top:1px solid #e0e0e0;background:#fff}
+.related-tools{display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;margin-top:0.75rem}
+.related-tools a{display:block;background:#f8f9fa;border:1px solid #e0e0e0;border-radius:6px;padding:0.7rem 1rem;font-size:0.85rem;color:#0077b6;transition:background 0.2s}
+.related-tools a:hover{background:#e8f4fb;text-decoration:none}
+footer{border-top:1px solid #e0e0e0;padding:1.5rem 1rem;margin-top:2rem}
+footer .footer-inner{max-width:640px;margin:0 auto;display:flex;flex-direction:column;gap:0.5rem;align-items:center;text-align:center}
+footer .footer-links{display:flex;gap:1.5rem;flex-wrap:wrap;justify-content:center}
+footer .footer-links a{font-size:0.85rem;color:#555}
+footer .footer-copy{font-size:0.8rem;color:#999}
+.slider-group{margin-bottom:1.2rem}
+input[type=range]{width:100%;accent-color:#0077b6;height:6px;cursor:pointer}
+.slider-val{font-size:0.85rem;font-weight:600;color:#0077b6;margin-top:0.2rem}
+.tabs{display:flex;gap:0;border-bottom:2px solid #e0e0e0;margin-bottom:1.5rem}
+.tab-btn{padding:10px 18px;font-size:0.88rem;font-weight:600;border:none;background:none;color:#666;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;min-height:44px;transition:color 0.2s}
+.tab-btn.active{color:#0077b6;border-bottom-color:#0077b6}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+@media(max-width:600px){
+  .row-2{grid-template-columns:1fr}
+  .key-metrics{grid-template-columns:1fr 1fr}
+  .metric-box .value{font-size:1.2rem}
+  .related-tools{grid-template-columns:1fr}
+  h1{font-size:1.3rem}
+  .card{padding:1.25rem}
+  .tabs{overflow-x:auto}
+  .tab-btn{white-space:nowrap;padding:10px 14px}
+}
+@media(max-width:380px){
+  .key-metrics{grid-template-columns:1fr}
+  .metric-box.full{grid-column:auto}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="site-name">calcstack.dev</a>
+  </div>
+</nav>
+
+<main>
+  <h1>Series EE Savings Bond Value Calculator</h1>
+  <p class="subtitle">Find out exactly what your Series EE Savings Bond is worth today — and how it grows over time.</p>
+
+  <div class="card">
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('current')">Current Value</button>
+      <button class="tab-btn" onclick="switchTab('purchase')">Plan a Purchase</button>
+    </div>
+
+    <!-- TAB: Current Value -->
+    <div class="tab-panel active" id="tab-current">
+      <div class="row-2">
+        <div class="form-group">
+          <label for="faceValue">Bond Face Value ($)</label>
+          <input type="number" id="faceValue" value="100" min="25" max="10000" step="25" placeholder="e.g. 100">
+          <div class="hint">Min $25. You paid 50% of face value (e.g., $50 for a $100 bond).</div>
+          <div class="error-msg" id="faceValueErr">Please enter a valid face value (min $25).</div>
+        </div>
+        <div class="form-group">
+          <label for="issueDate">Issue Date</label>
+          <input type="date" id="issueDate" value="">
+          <div class="hint">Found printed on the bond or TreasuryDirect.</div>
+          <div class="error-msg" id="issueDateErr">Please enter a valid issue date.</div>
+        </div>
+      </div>
+      <div class="row-2">
+        <div class="form-group">
+          <label for="bondSeries">Bond Series</label>
+          <select id="bondSeries">
+            <option value="EE_2005">EE Bond (May 2005–present)</option>
+            <option value="EE_1997">EE Bond (May 1997–Apr 2005)</option>
+            <option value="EE_pre1997">EE Bond (Before May 1997)</option>
+          </select>
+          <div class="hint">Issued after May 2005 earn a fixed rate set at purchase.</div>
+        </div>
+        <div class="form-group" id="rateGroup">
+          <label for="fixedRate">Annual Interest Rate (%)</label>
+          <input type="number" id="fixedRate" value="2.70" min="0" max="20" step="0.01" placeholder="e.g. 2.70">
+          <div class="hint">Check TreasuryDirect for your bond's exact rate.</div>
+          <div class="error-msg" id="fixedRateErr">Please enter a valid interest rate.</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="calcDate">Calculate Value As Of</label>
+        <input type="date" id="calcDate" value="">
+        <div class="hint">Defaults to today. Interest compounds semiannually.</div>
+        <div class="error-msg" id="calcDateErr">Please enter a valid calculation date.</div>
+      </div>
+      <button class="btn-primary" onclick="requestAnimationFrame(()=>calculate())">Calculate Bond Value</button>
+    </div>
+
+    <!-- TAB: Plan a Purchase -->
+    <div class="tab-panel" id="tab-purchase">
+      <div class="row-2">
+        <div class="form-group">
+          <label for="planFace">Face Value ($)</label>
+          <input type="number" id="planFace" value="500" min="25" max="10000" step="25">
+          <div class="hint">You pay 50% of this amount upfront.</div>
+        </div>
+        <div class="form-group">
+          <label for="planRate">Expected Rate (%)</label>
+          <input type="number" id="planRate" value="2.70" min="0" max="20" step="0.01">
+          <div class="hint">Current EE rate shown on TreasuryDirect.</div>
+        </div>
+      </div>
+      <div class="slider-group">
+        <label for="planYears">Hold Period: <span class="slider-val" id="planYearsVal">20</span> years</label>
+        <input type="range" id="planYears" min="1" max="30" value="20" oninput="document.getElementById('planYearsVal').textContent=this.value">
+      </div>
+      <button class="btn-primary" onclick="requestAnimationFrame(()=>calculatePlan())">Project Bond Value</button>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="results" id="results">
+    <div class="card">
+      <div class="copy-area">
+        <button class="copy-btn" onclick="copyResults()">📋 Copy Summary</button>
+      </div>
+      <div id="resultsContent"></div>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-mid"></div>
+
+  <div class="content-section">
+    <h2>How to Use This Series EE Savings Bond Calculator</h2>
+    <p>Enter your bond's face value (found printed on the front), its issue date, and the fixed interest rate assigned when the bond was purchased. Select the bond series that matches your issue date, then click "Calculate Bond Value." The tool shows your bond's current worth, total interest earned, and a year-by-year breakdown of growth.</p>
+    <p>Use the "Plan a Purchase" tab to project how a new bond purchase would grow over time — useful for deciding whether to buy today or compare to other investments.</p>
+
+    <h2>Why This Matters</h2>
+    <p>Series EE Savings Bonds are one of the safest investments available — backed by the U.S. government — but their value isn't always obvious. Many bondholders don't realize the bonds accrue interest without any action on their part, or that bonds stop earning interest after 30 years.</p>
+    <p>The most powerful feature of EE bonds issued since May 2005 is the <strong>doubling guarantee</strong>: the Treasury guarantees the bond will be worth double its purchase price after 20 years, even if the stated rate wouldn't produce that return. For example, a $10,000 face value bond (purchased for $5,000) is guaranteed to reach $10,000 by year 20 — effectively a 3.5% annual return regardless of the stated rate.</p>
+    <p>This makes EE bonds particularly useful for long-term goals like college savings, a 20-year retirement supplement, or estate planning gifts. Knowing the exact value helps you decide when to redeem — for instance, redeeming at year 19 would forfeit a massive one-time credit applied in year 20. Understanding your bond's value is essential before making any redemption decision.</p>
+
+    <h2>How It's Calculated</h2>
+    <p>For EE bonds issued <strong>May 2005 or later</strong>, a fixed rate is set at purchase and compounds semiannually:</p>
+    <p style="background:#f8f9fa;padding:0.75rem 1rem;border-radius:6px;font-family:monospace;font-size:0.88rem;border:1px solid #e0e0e0">
+      Value = Purchase Price × (1 + rate/2)^(2 × years)<br>
+      Purchase Price = Face Value ÷ 2<br>
+      <br>
+      At 20 years: Value = MAX(calculated value, Face Value)
+    </p>
+    <p>Interest accrues monthly but is credited every 6 months (so you lose up to 5 months of interest if you redeem early). Bonds held less than 5 years incur a 3-month interest penalty.</p>
+    <p>For <strong>pre-May 2005 EE bonds</strong>, the rate was 90% of 5-year Treasury yields, updated every 6 months. These bonds use a more complex variable rate calculation.</p>
+
+    <h2>Tips &amp; Common Mistakes</h2>
+    <ul>
+      <li><strong>Don't redeem just before year 20.</strong> EE bonds get a one-time adjustment at exactly 20 years to ensure doubling. Redeeming at year 19 forfeits this often-significant bonus.</li>
+      <li><strong>Check your rate on TreasuryDirect.</strong> The rate printed on the bond is the initial rate — bonds issued before 2005 earned variable rates that changed over time. Log into TreasuryDirect for your exact current rate.</li>
+      <li><strong>Bonds stop earning after 30 years.</strong> If you inherited old bonds or forgot about them, check issue dates immediately — bonds past 30 years earn nothing further and should be redeemed.</li>
+      <li><strong>The 3-month penalty applies under 5 years.</strong> Redeeming before 5 years costs you the last 3 months of interest. Hold at least 5 years to avoid this penalty.</li>
+      <li><strong>Federal tax is deferred, not eliminated.</strong> Interest is subject to federal income tax (but not state/local) when you redeem. Timing redemption for a low-income year can reduce your tax bill.</li>
+    </ul>
+
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>When do Series EE bonds double in value?</summary>
+      <p>EE bonds issued after May 2005 are guaranteed to double in value exactly at the 20-year mark. This means a bond with a $100 face value (purchased for $50) will be worth at least $100 at year 20, regardless of the stated interest rate. This built-in guarantee effectively provides a minimum 3.53% annual return over 20 years.</p>
+    </details>
+    <details>
+      <summary>What is the current Series EE bond interest rate?</summary>
+      <p>The Treasury sets a new fixed rate for EE bonds every May 1 and November 1. The rate applies to bonds purchased during that 6-month period and remains fixed for the life of the bond. As of recent periods, rates have been in the 2.60–2.70% range. Check TreasuryDirect.gov for the current rate before purchasing.</p>
+    </details>
+    <details>
+      <summary>Can I cash in a Series EE bond before 1 year?</summary>
+      <p>No. EE bonds must be held for at least 12 months before they can be redeemed. After 12 months, you can cash them in at any time, but if you redeem before 5 years, you forfeit the last 3 months of interest as a penalty. After 5 years, there is no penalty.</p>
+    </details>
+    <details>
+      <summary>How much in EE bonds can I buy per year?</summary>
+      <p>The annual purchase limit is $10,000 in electronic EE bonds per Social Security number through TreasuryDirect. You can also receive up to $5,000 in paper EE bonds via your federal tax refund, for a total potential purchase of $15,000 per year. This limit applies separately for each individual, so couples can purchase up to $20,000 annually in electronic bonds combined.</p>
+    </details>
+
+    <h2>Related Tools</h2>
+    <div class="related-tools">
+      <a href="/required-minimum-distribution-calculator/">Required Minimum Distribution (RMD) Calculator</a>
+      <a href="/stock-dollar-cost-averaging-calculator/">Stock Dollar-Cost Averaging Calculator</a>
+      <a href="/treasury-bond-ladder-calculator/">Treasury Bond Ladder Calculator</a>
+      <a href="/gift-tax-annual-exclusion-calculator/">Gift Tax Annual Exclusion Calculator</a>
+      <a href="/vacation-budget-cost-estimator/">Vacation Budget &amp; Cost Estimator</a>
+      <a href="/business-valuation-multiples-calculator/">Business Valuation Multiples Calculator</a>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-bottom"></div>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-links">
+      <a href="/about/">About</a>
+      <a href="/privacy/">Privacy</a>
+      <a href="/contact/">Contact</a>
+    </div>
+    <p class="footer-copy">© <span id="yr"></span> calcstack.dev — Free Online Calculators</p>
+  </div>
+</footer>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+// Set default dates
+(function(){
+  var today = new Date();
+  var dd = today.toISOString().slice(0,10);
+  document.getElementById('calcDate').value = dd;
+  var issueDefault = new Date(today);
+  issueDefault.setFullYear(issueDefault.getFullYear() - 5);
+  document.getElementById('issueDate').value = issueDefault.toISOString().slice(0,10);
+})();
+
+function switchTab(name){
+  document.querySelectorAll('.tab-btn').forEach(function(b,i){
+    b.classList.toggle('active', (i===0&&name==='current')||(i===1&&name==='purchase'));
+  });
+  document.getElementById('tab-current').classList.toggle('active', name==='current');
+  document.getElementById('tab-purchase').classList.toggle('active', name==='purchase');
+  document.getElementById('results').classList.remove('show');
+}
+
+function fmt(n){
+  return '$'+n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,',');
+}
+function fmtN(n){
+  return n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,',');
+}
+
+function clearErrors(){
+  document.querySelectorAll('.error-msg').forEach(function(e){e.classList.remove('show');});
+  document.querySelectorAll('input').forEach(function(i){i.classList.remove('error');});
+}
+function showError(inputId, msgId){
+  document.getElementById(inputId).classList.add('error');
+  document.getElementById(msgId).classList.add('show');
+}
+
+// Bond value calculation core
+function eeValue(purchasePrice, annualRate, yearsHeld, isMay2005){
+  // Compounds semiannually
+  var periods = yearsHeld * 2;
+  var periodicRate = annualRate / 2 / 100;
+  var val = purchasePrice * Math.pow(1 + periodicRate, periods);
+  // 20-year doubling guarantee for May 2005+
+  if(isMay2005 && yearsHeld >= 20){
+    var faceValue = purchasePrice * 2;
+    val = Math.max(val, faceValue);
+  }
+  return val;
+}
+
+// 3-month penalty for < 5 years
+function applyPenalty(purchasePrice, annualRate, yearsHeld, value){
+  if(yearsHeld < 1) return purchasePrice;
+  if(yearsHeld >= 5) return value;
+  // Lose last 3 months of interest
+  var periodicRate = annualRate / 2 / 100;
+  var periods = yearsHeld * 2;
+  var valueMinus3m = purchasePrice * Math.pow(1 + periodicRate, Math.max(0, periods - 1.5));
+  // Use 3-period penalty approach: subtract ~3 months growth
+  var penaltyMonths = 3;
+  var penaltyPeriods = penaltyMonths / 6;
+  var penalized = value / Math.pow(1 + periodicRate, penaltyPeriods);
+  return penalized;
+}
+
+function yearsMonthsBetween(d1, d2){
+  var ms = d2 - d1;
+  var totalDays = ms / (1000*60*60*24);
+  var years = totalDays / 365.25;
+  return years;
+}
+
+function calculate(){
+  clearErrors();
+  var faceVal = parseFloat(document.getElementById('faceValue').value);
+  var issueDateStr = document.getElementById('issueDate').value;
+  var calcDateStr = document.getElementById('calcDate').value;
+  var rate = parseFloat(document.getElementById('fixedRate').value);
+  var series = document.getElementById('bondSeries').value;
+
+  var valid = true;
+  if(!faceVal || faceVal < 25){showError('faceValue','faceValueErr');valid=false;}
+  if(!issueDateStr){showError('issueDate','issueDateErr');valid=false;}
+  if(!calcDateStr){showError('calcDate','calcDateErr');valid=false;}
+  if(isNaN(rate) || rate < 0){showError('fixedRate','fixedRateErr');valid=false;}
+  if(!valid) return;
+
+  var issueDate = new Date(issueDateStr+'T12:00:00');
+  var calcDate = new Date(calcDateStr+'T12:00:00');
+  if(calcDate <= issueDate){showError('calcDate','calcDateErr');document.getElementById('calcDateErr').textContent='Calculation date must be after issue date.';valid=false;}
+  if(!valid) return;
+
+  var isMay2005 = series === 'EE_2005';
+  var purchasePrice = faceVal / 2;
+  var totalYears = yearsMonthsBetween(issueDate, calcDate);
+  var yearsHeld = Math.floor(totalYears * 12) / 12; // floor to whole months
+
+  var rawValue = eeValue(purchasePrice, rate, yearsHeld, isMay2005);
+  var currentValue = applyPenalty(purchasePrice, rate, yearsHeld, rawValue);
+  var interestEarned = currentValue - purchasePrice;
+  var pctGain = (interestEarned / purchasePrice) * 100;
+
+  var yrs = Math.floor(yearsHeld);
+  var mos = Math.round((yearsHeld - yrs) * 12);
+
+  // Maturity info
+  var maturityDate20 = new Date(issueDate);
+  maturityDate20.setFullYear(maturityDate20.getFullYear() + 20);
+  var maturityDate30 = new Date(issueDate);
+  maturityDate30.setFullYear(maturityDate30.getFullYear() + 30);
+  var doubleValue = faceVal; // purchase price * 2 = face value
+  var reachedDouble = isMay2005 && yearsHeld >= 20;
+
+  // Visual bars
+  var principalPct = (purchasePrice / currentValue * 100).toFixed(1);
+  var interestPct = (interestEarned / currentValue * 100).toFixed(1);
+
+  // Year-by-year table (up to 30 years)
+  var maxYears = Math.min(30, Math.ceil(totalYears) + 5);
+  var tableRows = [];
+  for(var y = 0; y <= maxYears; y++){
+    var v = eeValue(purchasePrice, rate, y, isMay2005);
+    var vFinal = y >= 5 ? v : (y < 1 ? purchasePrice : applyPenalty(purchasePrice, rate, y, v));
+    var intY = vFinal - purchasePrice;
+    var isDouble = isMay2005 && y === 20;
+    var isNow = (y === yrs);
+    var isFinal = (y === 30);
+    tableRows.push({
+      year: y, value: vFinal, interest: intY,
+      isDouble: isDouble, isNow: isNow, isFinal: isFinal
+    });
+  }
+
+  var rowsHTML = '';
+  var showCount = 10;
+  for(var i=0;i<tableRows.length;i++){
+    var r = tableRows[i];
+    var cls = r.isDouble ? ' class="highlight-row"' : (r.isNow ? ' class="highlight-row"' : '');
+    var tag = r.isDouble ? ' 🎯 Doubles!' : (r.isNow ? ' ← Today' : (r.isFinal ? ' ⚠ Stops Earning' : ''));
+    var hidden = i >= showCount ? ' style="display:none" data-extra="1"' : '';
+    rowsHTML += '<tr'+cls+hidden+'>'
+      +'<td>Year '+r.year+tag+'</td>'
+      +'<td class="num">'+fmt(r.value)+'</td>'
+      +'<td class="num">'+fmt(r.interest)+'</td>'
+      +'<td class="num">'+(r.value/purchasePrice*100-100).toFixed(1)+'%</td>'
+      +'</tr>';
+  }
+
+  var html = '';
+
+  // Key metrics
+  html += '<div class="key-metrics">';
+  html += '<div class="metric-box"><div class="label">Current Value</div><div class="value">'+fmt(currentValue)+'</div></div>';
+  html += '<div class="metric-box"><div class="label">Interest Earned</div><div class="value green">'+fmt(interestEarned)+'</div></div>';
+  html += '<div class="metric-box"><div class="label">Purchase Price</div><div class="value">'+fmt(purchasePrice)+'</div></div>';
+  html += '<div class="metric-box"><div class="label">Total Return</div><div class="value orange">+'+fmtN(pctGain)+'%</div></div>';
+  html += '<div class="metric-box full"><div class="label">Time Held</div><div class="value" style="font-size:1.1rem;color:#1a1a2e">'+yrs+' yr'+( yrs!==1?'s':'')+' '+mos+' mo'+( mos!==1?'s':'')+' &nbsp;|&nbsp; Face Value: '+fmt(faceVal)+'</div></div>';
+  html += '</div>';
+
+  // Doubling note
+  if(isMay2005){
+    if(reachedDouble){
+      html += '<div class="note-box"><strong>🎯 Doubled!</strong> This bond has reached its 20-year guarantee. It is worth at least '+fmt(doubleValue)+'. It continues to earn interest at '+rate+'% until year 30.</div>';
+    } else {
+      var yearsToDouble = 20 - yearsHeld;
+      var mToDouble = Math.ceil(yearsToDouble * 12);
+      html += '<div class="note-box"><strong>ℹ Doubling Guarantee:</strong> This EE bond is guaranteed to reach '+fmt(doubleValue)+' at the 20-year mark ('+maturityDate20.toLocaleDateString('en-US',{month:'short',year:'numeric'})+'), about '+Math.floor(mToDouble/12)+' yr '+( mToDouble%12)+' mo away.</div>';
+    }
+  }
+
+  if(yearsHeld < 5){
+    html += '<div class="note-box" style="border-color:#e67e22;background:#fffaf0"><strong>⚠ Early Redemption Penalty:</strong> Since this bond has been held less than 5 years, the value shown includes the 3-month interest penalty that applies if redeemed now.</div>';
+  }
+  if(yearsHeld >= 30){
+    html += '<div class="note-box" style="border-color:#e74c3c;background:#fff5f5"><strong>⚠ Bond Has Matured:</strong> This bond has passed 30 years and is no longer earning interest. You should redeem it.</div>';
+  }
+
+  // Visual composition bar
+  html += '<div class="section-title">Value Composition</div>';
+  html += '<div class="legend"><span class="legend-item"><span class="legend-dot principal"></span>Purchase Price</span><span class="legend-item"><span class="legend-dot interest"></span>Interest Earned</span></div>';
+  html += '<div class="bar-chart">';
+  html += '<div class="bar-row"><span class="bar-label">Breakdown</span><div class="stacked-bar-track">';
+  html += '<div class="stacked-principal" style="width:'+principalPct+'%"><span style="font-size:0.72rem;color:#fff;white-space:nowrap;padding:0 4px">'+principalPct+'%</span></div>';
+  html += '<div class="stacked-interest"><span style="font-size:0.72rem;color:#fff;white-space:nowrap;padding:0 4px">'+interestPct+'%</span></div>';
+  html += '</div></div>';
+  html += '</div>';
+
+  // Mini milestone bars
+  var milestones = [1,5,10,15,20,25,30].filter(function(m){ return m <= maxYears; });
+  html += '<div class="bar-chart">';
+  var maxMilestoneVal = eeValue(purchasePrice, rate, 30, isMay2005);
+  if(isMay2005) maxMilestoneVal = Math.max(maxMilestoneVal, faceVal);
+  milestones.forEach(function(m){
+    var mv = eeValue(purchasePrice, rate, m, isMay2005);
+    if(isMay2005 && m >= 20) mv = Math.max(mv, faceVal);
+    var pct = Math.min(100, (mv/maxMilestoneVal)*100).toFixed(1);
+    html += '<div class="bar-row"><span class="bar-label">Year '+m+'</span><div class="bar-track"><div class="bar-fill combined" style="width:'+pct+'%"><span class="bar-value">'+fmt(mv)+'</span></div></div></div>';
+  });
+  html += '</div>';
+
+  // Table
+  html += '<div class="section-title">Year-by-Year Growth</div>';
+  html += '<div class="table-wrapper"><table><thead><tr><th>Year</th><th class="num">Bond Value</th><th class="num">Interest</th><th class="num">Return</th></tr></thead><tbody id="growthBody">'+rowsHTML+'</tbody></table></div>';
+  if(tableRows.length > showCount){
+    html += '<div class="show-all-btn"><button class="btn-secondary" onclick="toggleAllRows(this)">Show All '+tableRows.length+' Years</button></div>';
+  }
+
+  document.getElementById('resultsContent').innerHTML = html;
+  var r = document.getElementById('results');
+  r.style.display = 'block';
+  setTimeout(function(){r.classList.add('show');},10);
+
+  // Store for copy
+  window._resultSummary = 'Series EE Savings Bond Summary\n'
+    +'Face Value: '+fmt(faceVal)+'\n'
+    +'Purchase Price: '+fmt(purchasePrice)+'\n'
+    +'Current Value: '+fmt(currentValue)+'\n'
+    +'Interest Earned: '+fmt(interestEarned)+'\n'
+    +'Total Return: +'+fmtN(pctGain)+'%\n'
+    +'Time Held: '+yrs+' yrs '+mos+' mos\n'
+    +'Rate: '+rate+'%\n'
+    +(isMay2005?'Doubling Guarantee at 20 years: '+fmt(doubleValue)+'\n':'');
+}
+
+function calculatePlan(){
+  var faceVal = parseFloat(document.getElementById('planFace').value);
+  var rate = parseFloat(document.getElementById('planRate').value);
+  var years = parseInt(document.getElementById('planYears').value);
+
+  if(!faceVal||faceVal<25||isNaN(rate)||rate<0||!years) return;
+
+  var purchasePrice = faceVal / 2;
+  var finalValue = eeValue(purchasePrice, rate, years, true);
+  var interestEarned = finalValue - purchasePrice;
+  var pctGain = (interestEarned/purchasePrice*100);
+  var doubleVal = faceVal;
+  var reachesDouble = years >= 20;
+
+  var tableRows = [];
+  for(var y=0;y<=years;y++){
+    var v = eeValue(purchasePrice, rate, y, true);
+    tableRows.push({year:y,value:v,interest:v-purchasePrice});
+  }
+
+  var rowsHTML = '';
+  var showCount = 10;
+  for(var i=0;i<tableRows.length;i++){
+    var r2 = tableRows[i];
+    var cls2 = (r2.year===20&&years>=20)?' class="highlight-row"':'';
+    var tag2 = (r2.year===20&&years>=20)?' 🎯 Doubles!':'';
+    var hidden2 = i>=showCount?' style="display:none" data-extra="1"':'';
+    rowsHTML += '<tr'+cls2+hidden2+'>'
+      +'<td>Year '+r2.year+tag2+'</td>'
+      +'<td class="num">'+fmt(r2.value)+'</td>'
+      +'<td class="num">'+fmt(r2.interest)+'</td>'
+      +'<td class="num">'+(r2.value/purchasePrice*100-100).toFixed(1)+'%</td>'
+      +'</tr>';
+  }
+
+  var principalPct = (purchasePrice/finalValue*100).toFixed(1);
+  var interestPct = (interestEarned/finalValue*100).toFixed(1);
+  var maxV = Math.max(finalValue, doubleVal);
+
+  var html = '';
+  html += '<div class="key-metrics">';
+  html += '<div class="metric-box"><div class="label">You Invest</div><div class="value">'+fmt(purchasePrice)+'</div></div>';
+  html += '<div class="metric-box"><div class="label">Value at Year '+years+'</div><div class="value">'+fmt(finalValue)+'</div></div>';
+  html += '<div class="metric-box"><div class="label">Interest Earned</div><div class="value green">'+fmt(interestEarned)+'</div></div>';
+  html += '<div class="metric-box"><div class="label">Total Return</div><div class="value orange">+'+fmtN(pctGain)+'%</div></div>';
+  html += '</div>';
+
+  if(reachesDouble){
+    html += '<div class="note-box"><strong>🎯 Doubling Guarantee Applies!</strong> Holding for '+years+' years means your bond is guaranteed to at least double to '+fmt(doubleVal)+' at year 20, then continue earning interest at '+rate+'%.</div>';
+  } else {
+    html += '<div class="note-box"><strong>ℹ Hold to Year 20</strong> for the doubling guarantee ('+fmt(doubleVal)+'). You plan to redeem at year '+years+'. Consider holding the extra '+(20-years)+' year(s) for the guarantee.</div>';
+  }
+
+  html += '<div class="section-title">Projected Value Composition</div>';
+  html += '<div class="legend"><span class="legend-item"><span class="legend-dot principal"></span>Purchase Price</span><span class="legend-item"><span class="legend-dot interest"></span>Interest Earned</span></div>';
+  html += '<div class="bar-chart">';
+  html += '<div class="bar-row"><span class="bar-label">Year '+years+'</span><div class="stacked-bar-track">';
+  html += '<div class="stacked-principal" style="width:'+principalPct+'%"><span style="font-size:0.72rem;color:#fff;padding:0 4px">'+principalPct+'%</span></div>';
+  html += '<div class="stacked-interest"><span style="font-size:0.72rem;color:#fff;padding:0 4px">'+interestPct+'%</span></div>';
+  html += '</div></div></div>';
+
+  var milestones2 = [1,5,10,15,20,25,30].filter(function(m){return m<=years;});
+  if(milestones2[milestones2.length-1]!==years) milestones2.push(years);
+  html += '<div class="bar-chart">';
+  milestones2.forEach(function(m){
+    var mv = eeValue(purchasePrice, rate, m, true);
+    var pct = Math.min(100,(mv/maxV)*100).toFixed(1);
+    html += '<div class="bar-row"><span class="bar-label">Year '+m+'</span><div class="bar-track"><div class="bar-fill combined" style="width:'+pct+'%"><span class="bar-value">'+fmt(mv)+'</span></div></div></div>';
+  });
+  html += '</div>';
+
+  html += '<div class="section-title">Year-by-Year Projection</div>';
+  html += '<div class="table-wrapper"><table><thead><tr><th>Year</th><th class="num">Bond Value</th><th class="num">Interest</th><th class="num">Return</th></tr></thead><tbody id="growthBody">'+rowsHTML+'</tbody></table></div>';
+  if(tableRows.length > showCount){
+    html += '<div class="show-all-btn"><button class="btn-secondary" onclick="toggleAllRows(this)">Show All '+tableRows.length+' Years</button></div>';
+  }
+
+  document.getElementById('resultsContent').innerHTML = html;
+  var res = document.getElementById('results');
+  res.style.display = 'block';
+  setTimeout(function(){res.classList.add('show');},10);
+
+  window._resultSummary = 'Series EE Bond Projection\n'
+    +'Investment (Purchase Price): '+fmt(purchasePrice)+'\n'
+    +'Face Value: '+fmt(faceVal)+'\n'
+    +'Rate: '+rate+'%\n'
+    +'Hold Period: '+years+' years\n'
+    +'Projected Value: '+fmt(finalValue)+'\n'
+    +'Interest Earned: '+fmt(interestEarned)+'\n'
+    +'Total Return: +'+fmtN(pctGain)+'%\n';
+}
+
+function toggleAllRows(btn){
+  var extras = document.querySelectorAll('tr[data-extra="1"]');
+  if(extras.length === 0) return;
+  var showing = extras[0].style.display !== 'none';
+  extras.forEach(function(r){ r.style.display = showing ? 'none' : ''; });
+  btn.textContent = showing ? 'Show All '+( extras.length + 10)+' Years' : 'Show Less';
+}
+
+function copyResults(){
+  if(!window._resultSummary) return;
+  var btn = document.querySelector('.copy-btn');
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(window._resultSummary).then(function(){
+      btn.textContent = '✅ Copied!';
+      setTimeout(function(){btn.textContent='📋 Copy Summary';},2000);
+    });
+  } else {
+    var ta = document.createElement('textarea');
+    ta.value = window._resultSummary;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    btn.textContent = '✅ Copied!';
+    setTimeout(function(){btn.textContent='📋 Copy Summary';},2000);
+  }
+}
+
+// Enter key support
+document.addEventListener('keydown',function(e){
+  if(e.key==='Enter'){
+    var active = document.querySelector('.tab-panel.active');
+    if(!active) return;
+    if(active.id==='tab-current') requestAnimationFrame(function(){calculate();});
+    else requestAnimationFrame(function(){calculatePlan();});
+  }
+});
+</script>
+</body>
+</html>
