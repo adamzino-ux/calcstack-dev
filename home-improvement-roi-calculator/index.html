@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home Improvement ROI Calculator — Free Online Tool | calcstack.dev</title>
+<meta name="description" content="Calculate your home improvement return on investment. See which renovations add the most value, compare projects, and maximize your resale profit.">
+<link rel="canonical" href="https://calcstack.dev/home-improvement-roi-calculator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Home Improvement ROI Calculator",
+  "url": "https://calcstack.dev/home-improvement-roi-calculator/",
+  "description": "Calculate your home improvement return on investment. See which renovations add the most value, compare projects, and maximize your resale profit.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#fff;color:#1a1a2e;font-size:16px;line-height:1.6}
+a{color:#0077b6;text-decoration:none}
+a:hover{text-decoration:underline}
+nav{border-bottom:1px solid #e0e0e0;padding:12px 20px;background:#fff}
+nav .nav-inner{max-width:640px;margin:0 auto;display:flex;align-items:center}
+nav .site-name{font-weight:700;font-size:1.1rem;color:#0077b6}
+main{max-width:640px;margin:0 auto;padding:24px 16px 40px}
+h1{font-size:1.6rem;font-weight:800;color:#1a1a2e;margin-bottom:6px}
+.subtitle{color:#555;font-size:0.95rem;margin-bottom:24px}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;box-shadow:0 2px 8px rgba(0,0,0,0.06);margin-bottom:2rem}
+.section-title{font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#0077b6;margin-bottom:14px}
+.form-group{margin-bottom:16px}
+label{display:block;font-size:0.85rem;font-weight:500;color:#444;margin-bottom:6px}
+input,select{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:6px;font-size:1rem;color:#1a1a2e;background:#fff;transition:border-color 0.2s,box-shadow 0.2s;min-height:44px}
+input:focus,select:focus{outline:none;border-color:#0077b6;box-shadow:0 0 0 3px rgba(0,119,182,0.15)}
+input.error{border-color:#e74c3c}
+.error-msg{color:#e74c3c;font-size:0.8rem;margin-top:4px;display:none}
+.error-msg.visible{display:block}
+.input-prefix{position:relative}
+.input-prefix span{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#888;font-size:1rem;pointer-events:none}
+.input-prefix input{padding-left:28px}
+.input-suffix{position:relative}
+.input-suffix span{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:#888;font-size:0.9rem;pointer-events:none}
+.input-suffix input{padding-right:36px}
+.row-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.btn{display:inline-flex;align-items:center;justify-content:center;background:#0077b6;color:#fff;border:none;padding:12px 24px;border-radius:6px;font-size:1rem;font-weight:600;cursor:pointer;transition:background 0.2s;min-height:44px;width:100%}
+.btn:hover{background:#006299}
+.btn-sm{padding:7px 14px;font-size:0.82rem;border-radius:5px;min-height:36px;width:auto}
+.btn-outline{background:#fff;color:#0077b6;border:1px solid #0077b6}
+.btn-outline:hover{background:#e8f4fc}
+.results{opacity:0;transition:opacity 0.3s ease;pointer-events:none}
+.results.visible{opacity:1;pointer-events:all}
+.roi-hero{background:linear-gradient(135deg,#0077b6 0%,#0096c7 100%);border-radius:8px;padding:24px;text-align:center;margin-bottom:20px;color:#fff}
+.roi-hero .big-number{font-size:3rem;font-weight:800;line-height:1}
+.roi-hero .big-label{font-size:0.9rem;opacity:0.85;margin-top:6px}
+.roi-hero .sub-stats{display:flex;justify-content:center;gap:28px;margin-top:16px;flex-wrap:wrap}
+.roi-hero .stat{text-align:center}
+.roi-hero .stat-val{font-size:1.3rem;font-weight:700}
+.roi-hero .stat-lbl{font-size:0.78rem;opacity:0.8}
+.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+.summary-box{background:#f8f9fa;border-radius:6px;padding:14px 16px;border:1px solid #e8e8e8}
+.summary-box .val{font-size:1.3rem;font-weight:700;color:#0077b6}
+.summary-box .lbl{font-size:0.8rem;color:#666;margin-top:2px}
+.bar-section{margin-bottom:20px}
+.bar-section h3{font-size:0.85rem;font-weight:600;color:#444;margin-bottom:10px}
+.bar-wrap{margin-bottom:10px}
+.bar-label{display:flex;justify-content:space-between;font-size:0.82rem;color:#555;margin-bottom:4px}
+.bar-track{background:#eee;border-radius:4px;height:18px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;transition:width 0.6s ease}
+.bar-green{background:linear-gradient(90deg,#27ae60,#2ecc71)}
+.bar-blue{background:linear-gradient(90deg,#0077b6,#0096c7)}
+.bar-orange{background:linear-gradient(90deg,#e67e22,#f39c12)}
+.bar-red{background:linear-gradient(90deg,#c0392b,#e74c3c)}
+.tabs{display:flex;border-bottom:2px solid #e0e0e0;margin-bottom:16px;gap:0}
+.tab{padding:10px 18px;font-size:0.88rem;font-weight:600;cursor:pointer;color:#666;border-bottom:2px solid transparent;margin-bottom:-2px;transition:color 0.2s,border-color 0.2s;white-space:nowrap;min-height:44px;display:flex;align-items:center}
+.tab.active{color:#0077b6;border-bottom-color:#0077b6}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:0.88rem}
+thead th{background:#f0f0f0;padding:10px 12px;text-align:left;font-weight:600;white-space:nowrap}
+thead th.num{text-align:right}
+tbody tr:nth-child(even){background:#fafafa}
+tbody td{padding:9px 12px;border-bottom:1px solid #eee;vertical-align:middle}
+tbody td.num{text-align:right;font-variant-numeric:tabular-nums}
+tbody tr:last-child td{border-bottom:none}
+.tag{display:inline-block;font-size:0.72rem;font-weight:700;padding:2px 7px;border-radius:3px;text-transform:uppercase;letter-spacing:0.04em}
+.tag-green{background:#d4edda;color:#155724}
+.tag-orange{background:#fff3cd;color:#856404}
+.tag-red{background:#f8d7da;color:#721c24}
+.show-all-wrap{text-align:center;margin-top:12px}
+.preset-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
+.preset-btn{background:#f8f9fa;border:1px solid #e0e0e0;border-radius:6px;padding:10px 12px;cursor:pointer;font-size:0.82rem;font-weight:500;text-align:left;transition:background 0.15s,border-color 0.15s;min-height:44px}
+.preset-btn:hover{background:#e8f4fc;border-color:#0077b6}
+.preset-btn .p-name{display:block;color:#1a1a2e;font-weight:600;margin-bottom:2px}
+.preset-btn .p-roi{color:#0077b6;font-size:0.78rem}
+.hint{font-size:0.8rem;color:#777;margin-top:4px}
+.copy-row{display:flex;justify-content:flex-end;margin-bottom:12px}
+.copy-btn{background:#f8f9fa;border:1px solid #ddd;color:#555;border-radius:5px;padding:7px 14px;font-size:0.8rem;cursor:pointer;transition:background 0.2s}
+.copy-btn:hover{background:#e8f4fc}
+.content-section{margin-top:2rem}
+.content-section h2{font-size:1.2rem;font-weight:700;color:#1a1a2e;margin:2rem 0 10px}
+.content-section p{color:#444;font-size:0.95rem;line-height:1.7;margin-bottom:12px}
+.content-section ul{padding-left:20px;color:#444;font-size:0.95rem;line-height:1.8}
+.content-section ul li{margin-bottom:6px}
+details{border:1px solid #e0e0e0;border-radius:6px;padding:0;margin-bottom:8px}
+summary{padding:14px 16px;font-weight:600;font-size:0.95rem;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+summary::-webkit-details-marker{display:none}
+summary::after{content:'＋';color:#0077b6;font-size:1rem}
+details[open] summary::after{content:'－'}
+details .answer{padding:0 16px 14px;font-size:0.92rem;color:#444;line-height:1.7}
+.related-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.related-link{background:#f8f9fa;border:1px solid #e0e0e0;border-radius:6px;padding:12px 14px;font-size:0.88rem;font-weight:500;color:#0077b6;display:block;transition:background 0.15s,border-color 0.15s}
+.related-link:hover{background:#e8f4fc;border-color:#0077b6;text-decoration:none}
+.ad-slot{min-height:0;margin:0}
+footer{border-top:1px solid #e0e0e0;padding:20px 16px;text-align:center;font-size:0.85rem;color:#888;max-width:640px;margin:0 auto}
+footer a{color:#888;margin:0 10px}
+footer a:hover{color:#0077b6}
+.formula-box{background:#f8f9fa;border-left:3px solid #0077b6;border-radius:0 6px 6px 0;padding:12px 16px;font-family:monospace;font-size:0.9rem;color:#1a1a2e;margin:12px 0}
+@media(max-width:640px){
+  .row-2{grid-template-columns:1fr}
+  .summary-grid{grid-template-columns:1fr 1fr}
+  .preset-grid{grid-template-columns:1fr 1fr}
+  .related-grid{grid-template-columns:1fr}
+  .roi-hero .big-number{font-size:2.4rem}
+  .roi-hero .sub-stats{gap:16px}
+  main{padding:16px 12px 32px}
+  .card{padding:1.25rem}
+  .tab{padding:10px 12px;font-size:0.82rem}
+}
+@media(max-width:380px){
+  .preset-grid{grid-template-columns:1fr}
+  .summary-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<nav><div class="nav-inner"><a href="/" class="site-name">calcstack.dev</a></div></nav>
+<main>
+<h1>Home Improvement ROI Calculator</h1>
+<p class="subtitle">Find out how much value your renovation adds — and whether it's worth the investment.</p>
+
+<div class="card">
+  <div class="section-title">Quick Presets — Common Renovations</div>
+  <div class="preset-grid" id="presetGrid">
+    <button class="preset-btn" onclick="loadPreset('kitchen')"><span class="p-name">🍳 Kitchen Remodel</span><span class="p-roi">Avg. 62–80% ROI</span></button>
+    <button class="preset-btn" onclick="loadPreset('bathroom')"><span class="p-name">🛁 Bathroom Remodel</span><span class="p-roi">Avg. 60–70% ROI</span></button>
+    <button class="preset-btn" onclick="loadPreset('deck')"><span class="p-name">🌿 Deck Addition</span><span class="p-roi">Avg. 65–75% ROI</span></button>
+    <button class="preset-btn" onclick="loadPreset('roof')"><span class="p-name">🏠 Roof Replacement</span><span class="p-roi">Avg. 60–68% ROI</span></button>
+    <button class="preset-btn" onclick="loadPreset('siding')"><span class="p-name">🧱 New Siding</span><span class="p-roi">Avg. 68–78% ROI</span></button>
+    <button class="preset-btn" onclick="loadPreset('windows')"><span class="p-name">🪟 Window Replacement</span><span class="p-roi">Avg. 67–74% ROI</span></button>
+  </div>
+
+  <div class="section-title">Your Home Details</div>
+  <div class="row-2">
+    <div class="form-group">
+      <label for="currentValue">Current Home Value</label>
+      <div class="input-prefix"><span>$</span>
+        <input type="number" id="currentValue" placeholder="350,000" min="0" step="1000">
+      </div>
+      <div class="error-msg" id="err-currentValue">Please enter a valid home value.</div>
+    </div>
+    <div class="form-group">
+      <label for="projectCost">Total Project Cost</label>
+      <div class="input-prefix"><span>$</span>
+        <input type="number" id="projectCost" placeholder="25,000" min="0" step="100">
+      </div>
+      <div class="error-msg" id="err-projectCost">Please enter a valid project cost.</div>
+    </div>
+  </div>
+  <div class="row-2">
+    <div class="form-group">
+      <label for="valueAdded">Estimated Value Added</label>
+      <div class="input-prefix"><span>$</span>
+        <input type="number" id="valueAdded" placeholder="18,000" min="0" step="100">
+      </div>
+      <p class="hint">How much more your home will sell for after the renovation.</p>
+      <div class="error-msg" id="err-valueAdded">Please enter a valid value added amount.</div>
+    </div>
+    <div class="form-group">
+      <label for="yearsUntilSale">Years Until Sale</label>
+      <div class="input-suffix"><span>yrs</span>
+        <input type="number" id="yearsUntilSale" placeholder="5" min="0" max="50" step="1" value="5">
+      </div>
+      <div class="error-msg" id="err-yearsUntilSale">Please enter 0–50 years.</div>
+    </div>
+  </div>
+  <div class="row-2">
+    <div class="form-group">
+      <label for="appreciationRate">Annual Home Appreciation (%)</label>
+      <div class="input-suffix"><span>%</span>
+        <input type="number" id="appreciationRate" placeholder="3.5" min="0" max="20" step="0.1" value="3.5">
+      </div>
+      <div class="error-msg" id="err-appreciationRate">Enter 0–20%.</div>
+    </div>
+    <div class="form-group">
+      <label for="maintenanceCost">Annual Maintenance Cost</label>
+      <div class="input-prefix"><span>$</span>
+        <input type="number" id="maintenanceCost" placeholder="200" min="0" step="50" value="0">
+      </div>
+      <p class="hint">Ongoing upkeep cost per year (optional).</p>
+    </div>
+  </div>
+
+  <div class="section-title" style="margin-top:8px">Optional: Financing</div>
+  <div class="row-2">
+    <div class="form-group">
+      <label for="loanAmount">Loan Amount (if financed)</label>
+      <div class="input-prefix"><span>$</span>
+        <input type="number" id="loanAmount" placeholder="0" min="0" step="100" value="0">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="loanRate">Loan Interest Rate (%)</label>
+      <div class="input-suffix"><span>%</span>
+        <input type="number" id="loanRate" placeholder="7.5" min="0" max="30" step="0.1" value="7.5">
+      </div>
+    </div>
+  </div>
+
+  <button class="btn" id="calcBtn">Calculate ROI</button>
+</div>
+
+<!-- RESULTS -->
+<div class="results" id="results">
+  <div class="copy-row">
+    <button class="copy-btn" id="copyBtn" onclick="copyResults()">📋 Copy Results</button>
+  </div>
+
+  <div id="heroSection"></div>
+  <div class="card" style="margin-bottom:1.5rem">
+    <div class="summary-grid" id="summaryGrid"></div>
+  </div>
+
+  <div class="card" style="margin-bottom:1.5rem">
+    <div class="section-title">Visual Breakdown</div>
+    <div id="barCharts"></div>
+  </div>
+
+  <div class="card" style="margin-bottom:1.5rem">
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab(this,'tabProjection')">📈 Projection</div>
+      <div class="tab" onclick="switchTab(this,'tabComparison')">🔍 Compare Projects</div>
+    </div>
+    <div id="tabProjection" class="tab-panel active">
+      <div class="table-wrap" id="projectionTable"></div>
+      <div class="show-all-wrap" id="showAllWrap" style="display:none">
+        <button class="btn btn-outline btn-sm" id="showAllBtn" onclick="toggleShowAll()">Show All Years</button>
+      </div>
+    </div>
+    <div id="tabComparison" class="tab-panel">
+      <div class="table-wrap" id="comparisonTable"></div>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-mid"></div>
+</div>
+
+<!-- CONTENT -->
+<div class="content-section">
+  <h2>How to Use This Home Improvement ROI Calculator</h2>
+  <p>Enter your current home value, the total cost of your renovation project, and your estimate of how much value the project will add to your home. Optionally add your expected years until sale, annual appreciation rate, maintenance costs, and any financing details. Click <strong>Calculate ROI</strong> to instantly see your return on investment, net profit, projected home value, and a full year-by-year breakdown.</p>
+  <p>Use the presets to quickly populate typical renovation scenarios, then adjust the numbers to match your specific project.</p>
+
+  <h2>Why This Matters</h2>
+  <p>Not all renovations are created equal. A $75,000 addition might only recoup $45,000 at resale — a 60% ROI — while a $2,000 front door replacement can return over 90% of its cost. Understanding the numbers before you swing a hammer can save tens of thousands of dollars.</p>
+  <p>Consider a homeowner in Denver planning a mid-range kitchen remodel costing $28,000. If that remodel adds $21,000 in home value and they sell in 5 years with 4% annual appreciation, the total projected value increase is substantially larger. But if they financed at 8%, the interest alone over 5 years could eat $5,000+ of that gain. This calculator shows you the complete picture.</p>
+  <p>Real estate investors, homeowners preparing to sell, and buyers evaluating fixer-uppers all use ROI analysis to make smarter decisions. Even if you're staying put, knowing the ROI helps you prioritize: tackle the roof before the hot tub.</p>
+
+  <h2>How It's Calculated</h2>
+  <p>The core ROI formula is straightforward:</p>
+  <div class="formula-box">ROI (%) = (Value Added − Total Cost) ÷ Total Cost × 100</div>
+  <p>Where <strong>Total Cost</strong> = Project Cost + Total Interest Paid (if financed) + (Annual Maintenance × Years Until Sale).</p>
+  <p>The projected home value accounts for annual appreciation compounded over your holding period:</p>
+  <div class="formula-box">Future Home Value = (Current Value + Value Added) × (1 + Appreciation Rate)^Years</div>
+  <p><strong>Net Gain</strong> = Future Home Value − (Current Home Value + All Costs)</p>
+  <p>For financed projects, total interest is estimated as a simple approximation: Loan Amount × Rate × Years (conservative estimate for a home equity line or personal loan).</p>
+
+  <h2>Tips & Common Mistakes</h2>
+  <ul>
+    <li><strong>Don't confuse cost recoup with ROI.</strong> A 70% cost recoup means you get back 70 cents on the dollar — not a 70% return. True ROI compares net gain to your out-of-pocket cost.</li>
+    <li><strong>Overestimating value added is the #1 mistake.</strong> Use recent comparable sales in your neighborhood, not national averages. Markets vary wildly.</li>
+    <li><strong>Factor in disruption costs.</strong> Temporary housing, eating out during a kitchen reno, and storage fees add up. Include these in your project cost.</li>
+    <li><strong>Longer time horizons favor appreciation.</strong> If you're 10+ years from selling, market appreciation often eclipses the renovation's direct impact.</li>
+    <li><strong>Curb appeal has outsized ROI.</strong> Projects like garage door replacement, landscaping, and fresh exterior paint consistently deliver the highest percentages.</li>
+  </ul>
+
+  <h2>Frequently Asked Questions</h2>
+  <details>
+    <summary>What renovation has the best ROI?</summary>
+    <div class="answer">According to Remodeling Magazine's annual Cost vs. Value report, garage door replacements, manufactured stone veneer, and minor kitchen remodels consistently top the list at 85–93% cost recoup. These projects improve curb appeal and functionality at a relatively low cost. Luxury projects like home offices and upscale master suites typically recoup 50–60%.</div>
+  </details>
+  <details>
+    <summary>Should I renovate before selling?</summary>
+    <div class="answer">It depends on the project and your market. In a hot seller's market, buyers often pay premium prices regardless of condition, making renovations less valuable. In a buyer's market, updated homes sell faster and closer to asking price. Pre-sale renovations under $10,000 with quick turnarounds (paint, landscaping, fixtures) are usually the safest bets.</div>
+  </details>
+  <details>
+    <summary>Does home appreciation affect my ROI calculation?</summary>
+    <div class="answer">Yes — especially over longer time horizons. If your home appreciates at 4% annually, your $350,000 home becomes ~$426,000 in 5 years before any renovation effect. The renovation's value added also appreciates, so the total impact compounds over time. This calculator includes appreciation in the future value projection.</div>
+  </details>
+  <details>
+    <summary>How do I estimate the value a renovation adds?</summary>
+    <div class="answer">The best approach is to look at comparable recently-sold homes (comps) in your neighborhood — some with the feature you're adding, some without. The price difference gives you a realistic estimate. You can also consult a local realtor or appraiser. National averages from reports like Remodeling Magazine's Cost vs. Value are useful baselines but vary significantly by region.</div>
+  </details>
+
+  <h2>Related Tools</h2>
+  <div class="related-grid">
+    <a href="/401k-early-withdrawal-penalty-calculator/" class="related-link">401k Early Withdrawal Penalty Calculator</a>
+    <a href="/series-ee-savings-bond-value-calculator/" class="related-link">Series EE Savings Bond Value Calculator</a>
+    <a href="/required-minimum-distribution-calculator/" class="related-link">Required Minimum Distribution (RMD) Calculator</a>
+    <a href="/stock-dollar-cost-averaging-calculator/" class="related-link">Stock Dollar-Cost Averaging Calculator</a>
+    <a href="/treasury-bond-ladder-calculator/" class="related-link">Treasury Bond Ladder Calculator</a>
+    <a href="/gift-tax-annual-exclusion-calculator/" class="related-link">Gift Tax Annual Exclusion Calculator</a>
+  </div>
+</div>
+
+<div class="ad-slot" id="ad-bottom"></div>
+</main>
+
+<footer>
+  <div>
+    <a href="/about/">About</a>
+    <a href="/privacy/">Privacy</a>
+    <a href="/contact/">Contact</a>
+  </div>
+  <div style="margin-top:8px">© 2024 calcstack.dev</div>
+</footer>
+
+<script>
+const presets={
+  kitchen:{cost:28000,value:20000,maintenance:300},
+  bathroom:{cost:12000,value:8000,maintenance:150},
+  deck:{cost:17000,value:12000,maintenance:400},
+  roof:{cost:22000,value:14000,maintenance:100},
+  siding:{cost:16000,value:12500,maintenance:100},
+  windows:{cost:18000,value:13000,maintenance:150}
+};
+
+function loadPreset(key){
+  const p=presets[key];
+  document.getElementById('projectCost').value=p.cost;
+  document.getElementById('valueAdded').value=p.value;
+  document.getElementById('maintenanceCost').value=p.maintenance;
+}
+
+function fmt(n){return '$'+Math.round(n).toLocaleString('en-US')}
+function fmtPct(n){return n.toFixed(1)+'%'}
+function fmtNum(n){return Math.round(n).toLocaleString('en-US')}
+
+let showAllYears=false;
+let allRowsHTML='';
+let totalYears=0;
+
+function toggleShowAll(){
+  showAllYears=!showAllYears;
+  const btn=document.getElementById('showAllBtn');
+  const wrap=document.getElementById('projectionTable');
+  if(showAllYears){
+    wrap.innerHTML=allRowsHTML;
+    btn.textContent='Show Less';
+  } else {
+    wrap.innerHTML=limitedRowsHTML;
+    btn.textContent='Show All Years';
+  }
+}
+let limitedRowsHTML='';
+
+function switchTab(el,panelId){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById(panelId).classList.add('active');
+}
+
+function validate(){
+  let ok=true;
+  const fields=[
+    {id:'currentValue',min:0,msg:'Please enter a valid home value.'},
+    {id:'projectCost',min:0,msg:'Please enter a valid project cost.'},
+    {id:'valueAdded',min:0,msg:'Please enter a valid value added amount.'},
+    {id:'yearsUntilSale',min:0,max:50,msg:'Please enter 0–50 years.'},
+    {id:'appreciationRate',min:0,max:20,msg:'Enter 0–20%.'}
+  ];
+  fields.forEach(f=>{
+    const el=document.getElementById(f.id);
+    const err=document.getElementById('err-'+f.id);
+    const v=parseFloat(el.value);
+    let bad=isNaN(v)||v<(f.min||0);
+    if(f.max!==undefined&&v>f.max)bad=true;
+    el.classList.toggle('error',bad);
+    if(err){err.classList.toggle('visible',bad);}
+    if(bad)ok=false;
+  });
+  return ok;
+}
+
+function calculate(){
+  if(!validate())return;
+  const currentValue=parseFloat(document.getElementById('currentValue').value)||0;
+  const projectCost=parseFloat(document.getElementById('projectCost').value)||0;
+  const valueAdded=parseFloat(document.getElementById('valueAdded').value)||0;
+  const years=parseInt(document.getElementById('yearsUntilSale').value)||0;
+  const appreciationRate=parseFloat(document.getElementById('appreciationRate').value)||0;
+  const maintenanceCost=parseFloat(document.getElementById('maintenanceCost').value)||0;
+  const loanAmount=parseFloat(document.getElementById('loanAmount').value)||0;
+  const loanRate=parseFloat(document.getElementById('loanRate').value)||0;
+
+  const totalInterest=loanAmount*(loanRate/100)*years;
+  const totalMaintenance=maintenanceCost*years;
+  const outOfPocket=projectCost-loanAmount;
+  const totalCost=projectCost+totalInterest+totalMaintenance;
+
+  const simpleROI=(valueAdded-totalCost)/totalCost*100;
+  const netGainSimple=valueAdded-totalCost;
+
+  const baseWithProject=(currentValue+valueAdded);
+  const baseWithoutProject=currentValue;
+  const futureWithProject=years>0?baseWithProject*Math.pow(1+appreciationRate/100,years):baseWithProject;
+  const futureWithoutProject=years>0?baseWithoutProject*Math.pow(1+appreciationRate/100,years):baseWithoutProject;
+  const futureValueGain=futureWithProject-futureWithoutProject;
+  const netGainFuture=futureWithProject-(currentValue+totalCost);
+  const fullROI=(futureValueGain-totalCost)/totalCost*100;
+
+  const roiLabel=years>0?'ROI incl. Appreciation':'Simple ROI';
+  const displayROI=years>0?fullROI:simpleROI;
+  const displayNet=years>0?netGainFuture:netGainSimple;
+
+  // ROI rating
+  let rating='',ratingClass='';
+  if(displayROI>=80){rating='Excellent';ratingClass='tag-green';}
+  else if(displayROI>=50){rating='Good';ratingClass='tag-green';}
+  else if(displayROI>=20){rating='Average';ratingClass='tag-orange';}
+  else if(displayROI>=0){rating='Below Average';ratingClass='tag-orange';}
+  else{rating='Negative ROI';ratingClass='tag-red';}
+
+  // Build year-by-year projection
+  const rowCount=Math.max(years,1);
+  let tableHeaderHTML=`<table><thead><tr>
+    <th>Year</th>
+    <th class="num">Home Value</th>
+    <th class="num">Cumulative Cost</th>
+    <th class="num">Net Gain</th>
+    <th class="num">ROI</th>
+  </tr></thead><tbody>`;
+  let tableRowsHTML='';
+  for(let y=1;y<=rowCount;y++){
+    const hv=baseWithProject*Math.pow(1+appreciationRate/100,y);
+    const hvBase=baseWithoutProject*Math.pow(1+appreciationRate/100,y);
+    const cumCost=projectCost+totalInterest*(y/Math.max(years,1))+maintenanceCost*y;
+    const gain=hv-(currentValue+cumCost);
+    const roi=(hv-hvBase-cumCost)/cumCost*100;
+    const roiStr=roi>=0?'+'+roi.toFixed(1)+'%':roi.toFixed(1)+'%';
+    const gainStr=gain>=0?fmt(gain):'-'+fmt(Math.abs(gain));
+    tableRowsHTML+=`<tr>
+      <td>Year ${y}</td>
+      <td class="num">${fmt(hv)}</td>
+      <td class="num">${fmt(cumCost)}</td>
+      <td class="num">${gain>=0?'<span style="color:#27ae60">'+gainStr+'</span>':'<span style="color:#e74c3c">'+gainStr+'</span>'}</td>
+      <td class="num">${roi>=0?'<span style="color:#27ae60">'+roiStr+'</span>':'<span style="color:#e74c3c">'+roiStr+'</span>'}</td>
+    </tr>`;
+  }
+  allRowsHTML=tableHeaderHTML+tableRowsHTML+'</tbody></table>';
+  const limitRows=Math.min(rowCount,5);
+  let limitedRows='';
+  for(let y=1;y<=limitRows;y++){
+    const hv=baseWithProject*Math.pow(1+appreciationRate/100,y);
+    const hvBase=baseWithoutProject*Math.pow(1+appreciationRate/100,y);
+    const cumCost=projectCost+totalInterest*(y/Math.max(years,1))+maintenanceCost*y;
+    const gain=hv-(currentValue+cumCost);
+    const roi=(hv-hvBase-cumCost)/cumCost*100;
+    const roiStr=roi>=0?'+'+roi.toFixed(1)+'%':roi.toFixed(1)+'%';
+    const gainStr=gain>=0?fmt(gain):'-'+fmt(Math.abs(gain));
+    limitedRows+=`<tr>
+      <td>Year ${y}</td>
+      <td class="num">${fmt(hv)}</td>
+      <td class="num">${fmt(cumCost)}</td>
+      <td class="num">${gain>=0?'<span style="color:#27ae60">'+gainStr+'</span>':'<span style="color:#e74c3c">'+gainStr+'</span>'}</td>
+      <td class="num">${roi>=0?'<span style="color:#27ae60">'+roiStr+'</span>':'<span style="color:#e74c3c">'+roiStr+'</span>'}</td>
+    </tr>`;
+  }
+  limitedRowsHTML=tableHeaderHTML+limitedRows+'</tbody></table>';
+
+  // Comparison table
+  const comparisons=[
+    {name:'Kitchen Remodel',cost:28000,value:20000},
+    {name:'Bathroom Remodel',cost:12000,value:8000},
+    {name:'Deck Addition',cost:17000,value:12000},
+    {name:'Roof Replacement',cost:22000,value:14000},
+    {name:'New Siding',cost:16000,value:12500},
+    {name:'Window Replacement',cost:18000,value:13000},
+    {name:'Garage Door',cost:3000,value:2800},
+    {name:'Your Project',cost:projectCost,value:valueAdded,highlight:true}
+  ];
+  let compHTML=`<table><thead><tr>
+    <th>Project</th><th class="num">Cost</th><th class="num">Value Added</th><th class="num">ROI</th><th>Rating</th>
+  </tr></thead><tbody>`;
+  comparisons.forEach(c=>{
+    const r=((c.value-c.cost)/c.cost*100);
+    let rc='',rl='';
+    if(r>=80){rc='tag-green';rl='Excellent';}
+    else if(r>=50){rc='tag-green';rl='Good';}
+    else if(r>=20){rc='tag-orange';rl='Average';}
+    else if(r>=0){rc='tag-orange';rl='Below Avg';}
+    else{rc='tag-red';rl='Negative';}
+    const style=c.highlight?'background:#e8f4fc;font-weight:700':'';
+    compHTML+=`<tr style="${style}">
+      <td>${c.highlight?'⭐ ':''} ${c.name}</td>
+      <td class="num">${fmt(c.cost)}</td>
+      <td class="num">${fmt(c.value)}</td>
+      <td class="num" style="color:${r>=0?'#27ae60':'#e74c3c'}">${r>=0?'+':'' }${r.toFixed(1)}%</td>
+      <td><span class="tag ${rc}">${rl}</span></td>
+    </tr>`;
+  });
+  compHTML+='</tbody></table>';
+
+  // Bar chart data
+  const maxBarVal=Math.max(projectCost,valueAdded,futureValueGain,totalCost)*1.05||1;
+  function barWidth(v){return Math.min(100,Math.max(0,(v/maxBarVal)*100)).toFixed(1)+'%';}
+
+  const barHTML=`
+    <div class="bar-wrap">
+      <div class="bar-label"><span>Project Cost</span><span>${fmt(projectCost)}</span></div>
+      <div class="bar-track"><div class="bar-fill bar-blue" style="width:${barWidth(projectCost)}"></div></div>
+    </div>
+    <div class="bar-wrap">
+      <div class="bar-label"><span>Value Added to Home</span><span>${fmt(valueAdded)}</span></div>
+      <div class="bar-track"><div class="bar-fill bar-green" style="width:${barWidth(valueAdded)}"></div></div>
+    </div>
+    ${totalMaintenance>0?`<div class="bar-wrap">
+      <div class="bar-label"><span>Total Maintenance Cost</span><span>${fmt(totalMaintenance)}</span></div>
+      <div class="bar-track"><div class="bar-fill bar-orange" style="width:${barWidth(totalMaintenance)}"></div></div>
+    </div>`:''}
+    ${totalInterest>0?`<div class="bar-wrap">
+      <div class="bar-label"><span>Total Interest Paid</span><span>${fmt(totalInterest)}</span></div>
+      <div class="bar-track"><div class="bar-fill bar-red" style="width:${barWidth(totalInterest)}"></div></div>
+    </div>`:''}
+    ${years>0?`<div class="bar-wrap">
+      <div class="bar-label"><span>Future Value Gain (w/ appreciation)</span><span>${fmt(futureValueGain)}</span></div>
+      <div class="bar-track"><div class="bar-fill bar-green" style="width:${barWidth(futureValueGain)}"></div></div>
+    </div>`:''}
+  `;
+
+  // Hero
+  const heroHTML=`<div class="roi-hero" style="margin-bottom:20px">
+    <div class="big-number">${displayROI.toFixed(1)}%</div>
+    <div class="big-label">${roiLabel} &nbsp; <span class="tag ${ratingClass}" style="vertical-align:middle">${rating}</span></div>
+    <div class="sub-stats">
+      <div class="stat"><div class="stat-val">${fmt(displayNet)}</div><div class="stat-lbl">Net Gain</div></div>
+      <div class="stat"><div class="stat-val">${fmt(totalCost)}</div><div class="stat-lbl">Total Cost</div></div>
+      ${years>0?`<div class="stat"><div class="stat-val">${fmt(futureWithProject)}</div><div class="stat-lbl">Future Home Value</div></div>`:''}
+    </div>
+  </div>`;
+
+  // Summary grid
+  const pct=(valueAdded/projectCost*100);
+  const summHTML=`
+    <div class="summary-box"><div class="val">${fmt(projectCost)}</div><div class="lbl">Project Cost</div></div>
+    <div class="summary-box"><div class="val">${fmt(valueAdded)}</div><div class="lbl">Value Added</div></div>
+    <div class="summary-box"><div class="val">${pct.toFixed(1)}%</div><div class="lbl">Cost Recoup Rate</div></div>
+    <div class="summary-box"><div class="val">${fmt(outOfPocket)}</div><div class="lbl">Out-of-Pocket Cost</div></div>
+    ${totalInterest>0?`<div class="summary-box"><div class="val">${fmt(totalInterest)}</div><div class="lbl">Total Interest Paid</div></div>`:''}
+    ${totalMaintenance>0?`<div class="summary-box"><div class="val">${fmt(totalMaintenance)}</div><div class="lbl">Total Maintenance</div></div>`:''}
+    <div class="summary-box"><div class="val" style="color:${displayNet>=0?'#27ae60':'#e74c3c'}">${displayNet>=0?fmt(displayNet):'-'+fmt(Math.abs(displayNet))}</div><div class="lbl">Net ${displayNet>=0?'Gain':'Loss'}</div></div>
+    ${years>0?`<div class="summary-box"><div class="val">${fmt(futureWithProject)}</div><div class="lbl">Future Home Value</div></div>`:''}
+  `;
+
+  requestAnimationFrame(()=>{
+    document.getElementById('heroSection').innerHTML=heroHTML;
+    document.getElementById('summaryGrid').innerHTML=summHTML;
+    document.getElementById('barCharts').innerHTML=barHTML;
+    document.getElementById('comparisonTable').innerHTML=compHTML;
+
+    const showAll=rowCount>5;
+    if(showAll){
+      document.getElementById('projectionTable').innerHTML=limitedRowsHTML;
+      document.getElementById('showAllWrap').style.display='block';
+      document.getElementById('showAllBtn').textContent='Show All Years';
+      showAllYears=false;
+    } else {
+      document.getElementById('projectionTable').innerHTML=allRowsHTML;
+      document.getElementById('showAllWrap').style.display='none';
+    }
+
+    document.getElementById('results').classList.add('visible');
+    document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'});
+  });
+}
+
+document.getElementById('calcBtn').addEventListener('click',()=>{
+  requestAnimationFrame(()=>calculate());
+});
+document.querySelectorAll('input').forEach(inp=>{
+  inp.addEventListener('keydown',e=>{if(e.key==='Enter')calculate();});
+});
+
+function copyResults(){
+  const cv=parseFloat(document.getElementById('currentValue').value)||0;
+  const pc=parseFloat(document.getElementById('projectCost').value)||0;
+  const va=parseFloat(document.getElementById('valueAdded').value)||0;
+  const y=parseInt(document.getElementById('yearsUntilSale').value)||0;
+  const roi=(va-pc)/pc*100;
+  const text=`Home Improvement ROI Summary\nHome Value: $${cv.toLocaleString()}\nProject Cost: $${pc.toLocaleString()}\nValue Added: $${va.toLocaleString()}\nSimple ROI: ${roi.toFixed(1)}%\nYears Until Sale: ${y}\ncalcstack.dev/home-improvement-roi-calculator/`;
+  navigator.clipboard.writeText(text).then(()=>{
+    const btn=document.getElementById('copyBtn');
+    btn.textContent='✅ Copied!';
+    setTimeout(()=>{btn.textContent='📋 Copy Results';},2000);
+  }).catch(()=>{});
+}
+</script>
+</body>
+</html>
