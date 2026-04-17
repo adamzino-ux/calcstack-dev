@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Employee Stock Options (ESO) Value Calculator — Free Online Tool | calcstack.dev</title>
+<meta name="description" content="Calculate the potential value of your employee stock options (ESOs). Enter grant price, current price, shares, and vesting schedule to see your true option value.">
+<link rel="canonical" href="https://calcstack.dev/employee-stock-options-value-calculator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Employee Stock Options (ESO) Value Calculator",
+  "url": "https://calcstack.dev/employee-stock-options-value-calculator/",
+  "description": "Calculate the potential value of your employee stock options including intrinsic value, time value, and vesting schedule projections.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f8f9fa;color:#1a1a2e;font-size:16px;line-height:1.6}
+a{color:#0077b6;text-decoration:none}
+a:hover{text-decoration:underline;color:#006299}
+nav{background:#fff;border-bottom:1px solid #e0e0e0;padding:0 1.5rem}
+.nav-inner{max-width:640px;margin:0 auto;display:flex;align-items:center;height:52px}
+.nav-logo{font-weight:700;font-size:1.1rem;color:#1a1a2e}
+.nav-logo span{color:#0077b6}
+.page-wrap{max-width:640px;margin:0 auto;padding:2rem 1.5rem 3rem}
+h1{font-size:1.55rem;font-weight:800;color:#1a1a2e;margin-bottom:0.4rem;line-height:1.25}
+.subtitle{color:#555;font-size:0.95rem;margin-bottom:2rem}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;box-shadow:0 1px 4px rgba(0,0,0,0.06);margin-bottom:2rem}
+.card h2{font-size:1.1rem;font-weight:700;margin-bottom:1.25rem;color:#1a1a2e;border-bottom:2px solid #e8f4fd;padding-bottom:0.5rem}
+.section-title{font-size:1rem;font-weight:700;color:#0077b6;margin:1.25rem 0 0.75rem;text-transform:uppercase;letter-spacing:0.04em;font-size:0.8rem}
+label{display:block;font-size:0.85rem;font-weight:500;color:#444;margin-bottom:0.35rem}
+label span{color:#888;font-weight:400}
+input[type=number],input[type=text],select{width:100%;border:1px solid #ddd;border-radius:6px;padding:12px 16px;font-size:0.95rem;font-family:inherit;color:#1a1a2e;background:#fff;transition:border-color .2s,box-shadow .2s;-moz-appearance:textfield}
+input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appearance:none}
+input:focus,select:focus{outline:none;border-color:#0077b6;box-shadow:0 0 0 3px rgba(0,119,182,0.15)}
+input.error{border-color:#e74c3c;box-shadow:0 0 0 3px rgba(231,76,60,0.12)}
+.error-msg{color:#e74c3c;font-size:0.78rem;margin-top:4px;display:none}
+.error-msg.show{display:block}
+.field{margin-bottom:1.1rem}
+.row-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.range-row{display:flex;align-items:center;gap:0.75rem}
+.range-row input[type=range]{flex:1;height:6px;accent-color:#0077b6}
+.range-val{min-width:52px;font-size:0.88rem;font-weight:600;color:#0077b6;text-align:right}
+button.calc-btn{width:100%;background:#0077b6;color:#fff;border:none;border-radius:6px;padding:14px 24px;font-size:1rem;font-weight:600;cursor:pointer;transition:background .2s;min-height:48px;margin-top:0.5rem}
+button.calc-btn:hover{background:#006299}
+button.calc-btn:active{background:#005580}
+.results{opacity:0;transition:opacity 0.3s ease;pointer-events:none}
+.results.visible{opacity:1;pointer-events:auto}
+.key-metrics{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+.metric-box{background:#f0f8ff;border:1px solid #cce4f6;border-radius:8px;padding:1rem 1.1rem}
+.metric-box.accent{background:#e8f4fd;border-color:#0077b6}
+.metric-box .val{font-size:1.55rem;font-weight:800;color:#0077b6;line-height:1.1}
+.metric-box .lbl{font-size:0.75rem;color:#555;margin-top:4px;font-weight:500}
+.metric-box.accent .val{font-size:1.8rem}
+.bar-section{margin-bottom:1.5rem}
+.bar-label-row{display:flex;justify-content:space-between;font-size:0.8rem;color:#555;margin-bottom:4px}
+.bar-track{background:#eee;border-radius:4px;height:22px;width:100%;overflow:hidden;margin-bottom:8px}
+.bar-fill{height:100%;border-radius:4px;transition:width 0.5s ease;display:flex;align-items:center;padding-left:8px;font-size:0.75rem;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden}
+.bar-fill.blue{background:#0077b6}
+.bar-fill.green{background:#2ecc71}
+.bar-fill.orange{background:#e67e22}
+.bar-fill.red{background:#e74c3c}
+.bar-fill.purple{background:#8e44ad}
+.stacked-bar{height:28px;border-radius:6px;overflow:hidden;display:flex;margin-bottom:0.5rem}
+.stacked-seg{height:100%;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;color:#fff;transition:width 0.5s ease;overflow:hidden;white-space:nowrap}
+.legend{display:flex;flex-wrap:wrap;gap:0.5rem 1rem;margin-bottom:1.25rem}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:0.78rem;color:#444}
+.legend-dot{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+table{width:100%;border-collapse:collapse;font-size:0.85rem}
+th{background:#f0f0f0;padding:9px 10px;text-align:left;font-weight:600;color:#333;font-size:0.8rem;border-bottom:2px solid #ddd}
+th.num,td.num{text-align:right}
+td{padding:8px 10px;border-bottom:1px solid #f0f0f0;color:#333}
+tr:nth-child(even) td{background:#fafafa}
+tr:hover td{background:#f0f8ff}
+.table-wrap{overflow-x:auto}
+.show-all-btn{display:block;width:100%;margin-top:0.75rem;padding:9px;background:#f8f9fa;border:1px solid #ddd;border-radius:6px;font-size:0.83rem;font-weight:500;color:#0077b6;cursor:pointer;text-align:center;transition:background .2s}
+.show-all-btn:hover{background:#e8f4fd}
+.copy-btn{background:none;border:1px solid #0077b6;color:#0077b6;border-radius:5px;padding:5px 12px;font-size:0.78rem;cursor:pointer;transition:all .2s;float:right;margin-top:-2px}
+.copy-btn:hover{background:#0077b6;color:#fff}
+.copy-btn.copied{background:#2ecc71;border-color:#2ecc71;color:#fff}
+.tag{display:inline-block;background:#e8f4fd;color:#0077b6;border-radius:4px;padding:2px 8px;font-size:0.75rem;font-weight:600;margin-left:6px}
+.tag.green{background:#e8f8ef;color:#219a52}
+.tag.orange{background:#fef3e2;color:#c0772a}
+.tag.red{background:#fde8e8;color:#c0392b}
+.info-box{background:#f0f8ff;border-left:3px solid #0077b6;padding:0.75rem 1rem;border-radius:0 6px 6px 0;font-size:0.83rem;color:#333;margin-bottom:1rem}
+.content-section h2{font-size:1.15rem;font-weight:700;margin:2rem 0 0.6rem;color:#1a1a2e}
+.content-section p{font-size:0.92rem;color:#444;margin-bottom:0.75rem;line-height:1.7}
+.content-section ul{margin:0.4rem 0 0.75rem 1.25rem}
+.content-section ul li{font-size:0.92rem;color:#444;margin-bottom:0.35rem;line-height:1.6}
+details{border:1px solid #e0e0e0;border-radius:6px;margin-bottom:0.6rem;background:#fff}
+summary{padding:0.75rem 1rem;font-weight:600;cursor:pointer;font-size:0.9rem;color:#1a1a2e;list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"▶ ";font-size:0.7rem;color:#0077b6;margin-right:4px}
+details[open] summary::before{content:"▼ "}
+details p{padding:0 1rem 0.75rem;font-size:0.87rem;color:#444;line-height:1.65}
+.related-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.6rem}
+.related-link{background:#fff;border:1px solid #e0e0e0;border-radius:6px;padding:0.75rem 1rem;font-size:0.85rem;color:#0077b6;transition:background .2s,border-color .2s;display:block}
+.related-link:hover{background:#f0f8ff;border-color:#0077b6;text-decoration:none}
+.ad-slot{min-height:0;margin:0}
+footer{background:#fff;border-top:1px solid #e0e0e0;padding:1.25rem 1.5rem;text-align:center;font-size:0.82rem;color:#666}
+footer a{color:#0077b6;margin:0 0.5rem}
+.formula-box{background:#f8f9fa;border:1px solid #e0e0e0;border-radius:6px;padding:0.9rem 1rem;font-family:monospace;font-size:0.85rem;color:#1a1a2e;margin:0.5rem 0 0.75rem;line-height:1.8}
+@media(max-width:600px){
+  .row-2{grid-template-columns:1fr}
+  .key-metrics{grid-template-columns:1fr 1fr}
+  .metric-box .val{font-size:1.2rem}
+  .metric-box.accent .val{font-size:1.4rem}
+  .related-grid{grid-template-columns:1fr}
+  h1{font-size:1.3rem}
+}
+@media(max-width:400px){
+  .key-metrics{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">calc<span>stack</span>.dev</a>
+  </div>
+</nav>
+
+<div class="page-wrap">
+  <h1>Employee Stock Options (ESO) Value Calculator</h1>
+  <p class="subtitle">Calculate the intrinsic value, potential gains, and vesting schedule value of your employee stock options.</p>
+
+  <div class="card">
+    <h2>Option Grant Details</h2>
+
+    <div class="section-title">Grant Information</div>
+    <div class="row-2">
+      <div class="field">
+        <label>Grant Price (Strike Price) <span>per share</span></label>
+        <input type="number" id="strikePrice" value="25.00" min="0" step="0.01" placeholder="e.g. 25.00">
+        <div class="error-msg" id="err-strike">Please enter a valid grant price.</div>
+      </div>
+      <div class="field">
+        <label>Total Shares Granted</label>
+        <input type="number" id="totalShares" value="10000" min="1" step="1" placeholder="e.g. 10000">
+        <div class="error-msg" id="err-shares">Please enter a valid share count.</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Grant Date <span>(approximate)</span></label>
+      <select id="grantAge">
+        <option value="0">Just granted (Year 0)</option>
+        <option value="1">1 year ago</option>
+        <option value="2">2 years ago</option>
+        <option value="3">3 years ago</option>
+        <option value="4">4 years ago</option>
+      </select>
+    </div>
+
+    <div class="section-title">Current Stock Price</div>
+    <div class="field">
+      <label>Current Stock Price <span>per share</span></label>
+      <div class="range-row">
+        <input type="range" id="currentPriceSlider" min="0" max="500" step="0.5" value="40">
+        <span class="range-val" id="currentPriceDisplay">$40.00</span>
+      </div>
+      <input type="number" id="currentPrice" value="40.00" min="0" step="0.01" placeholder="e.g. 40.00" style="margin-top:8px">
+      <div class="error-msg" id="err-price">Please enter a valid current price.</div>
+    </div>
+
+    <div class="section-title">Vesting Schedule</div>
+    <div class="row-2">
+      <div class="field">
+        <label>Vesting Schedule</label>
+        <select id="vestingType">
+          <option value="cliff4">4-Year with 1-Year Cliff</option>
+          <option value="cliff3">3-Year with 1-Year Cliff</option>
+          <option value="straight4">4-Year Straight-Line</option>
+          <option value="straight3">3-Year Straight-Line</option>
+          <option value="custom">Custom</option>
+        </select>
+      </div>
+      <div class="field" id="customVestField" style="display:none">
+        <label>Vested % (custom)</label>
+        <input type="number" id="customVestPct" value="25" min="0" max="100" step="1" placeholder="e.g. 25">
+        <div class="error-msg" id="err-vest">Enter 0–100.</div>
+      </div>
+    </div>
+
+    <div class="section-title">Growth & Tax Assumptions</div>
+    <div class="field">
+      <label>Expected Annual Stock Growth Rate</label>
+      <div class="range-row">
+        <input type="range" id="growthSlider" min="-20" max="50" step="0.5" value="10">
+        <span class="range-val" id="growthDisplay">10.0%</span>
+      </div>
+      <input type="number" id="growthRate" value="10" min="-20" max="50" step="0.5" placeholder="e.g. 10" style="margin-top:8px">
+    </div>
+
+    <div class="row-2">
+      <div class="field">
+        <label>Ordinary Income Tax Rate <span>%</span></label>
+        <input type="number" id="taxRate" value="32" min="0" max="60" step="0.5" placeholder="e.g. 32">
+        <div class="error-msg" id="err-tax">Enter 0–60.</div>
+      </div>
+      <div class="field">
+        <label>Long-Term Capital Gains Rate <span>%</span></label>
+        <input type="number" id="ltcgRate" value="15" min="0" max="40" step="0.5" placeholder="e.g. 15">
+        <div class="error-msg" id="err-ltcg">Enter 0–40.</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Option Type</label>
+      <select id="optionType">
+        <option value="iso">ISO — Incentive Stock Options (AMT applies)</option>
+        <option value="nso">NSO — Non-Qualified Stock Options (taxed as income at exercise)</option>
+      </select>
+    </div>
+
+    <button class="calc-btn" id="calcBtn">Calculate ESO Value →</button>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="card results" id="resultsSection">
+    <h2>
+      Results Summary
+      <button class="copy-btn" id="copyBtn">Copy Results</button>
+    </h2>
+
+    <div id="resultsContent"></div>
+  </div>
+
+  <div class="ad-slot" id="ad-mid"></div>
+
+  <!-- CONTENT SECTION -->
+  <div class="content-section">
+    <h2>How to Use This Employee Stock Options Calculator</h2>
+    <p>Enter your grant price (also called the strike or exercise price), the total number of shares granted, and today's stock price. Select your vesting schedule, input your expected stock growth rate, and provide your tax rates. Click "Calculate ESO Value" to see your intrinsic value, projected future value, after-tax gains, and a year-by-year vesting breakdown.</p>
+
+    <h2>Why This Matters</h2>
+    <p>Employee stock options can represent a substantial portion of your total compensation — often worth more than your base salary over a multi-year career. Yet many employees have no idea what their options are actually worth. Consider this: if you were granted 10,000 options at a $25 strike price and the stock is now at $40, you're sitting on $150,000 in intrinsic value that you may not even be thinking about at year-end reviews.</p>
+    <p>ESOs are especially common in tech, biotech, and high-growth startups. A software engineer at a Series B company earning $130k in base salary might have option grants worth $200k–$500k over 4 years — if the company performs. Understanding your vesting cliff (typically the first year when nothing vests), your exercise window (often just 90 days after leaving), and the tax treatment difference between ISOs and NSOs can save you tens of thousands of dollars in taxes and prevent costly mistakes like losing unvested shares when you resign.</p>
+    <p>This calculator helps you model multiple scenarios so you can make informed decisions about when to exercise, whether to stay through your cliff, and how much of your compensation your ESOs actually represent.</p>
+
+    <h2>How It's Calculated</h2>
+    <p>The core calculations use standard finance formulas:</p>
+    <div class="formula-box">
+Intrinsic Value = (Current Price − Strike Price) × Vested Shares
+
+Spread at Exercise = Current Price − Strike Price
+NSO Tax = Spread × Ordinary Income Tax Rate
+ISO Tax (if held >1yr after exercise, >2yr after grant) = Spread × LTCG Rate
+
+Projected Value (Year N) = Strike Price + (Current Price − Strike Price) × (1 + Growth Rate)^N
+After-Tax Gain (NSO) = (Exercise Price − Strike Price) × Shares × (1 − Tax Rate)
+After-Tax Gain (ISO hold) = Gain × (1 − LTCG Rate)
+    </div>
+    <p>Vesting schedules use standard Silicon Valley conventions: a 4-year grant with a 1-year cliff means 25% vests at 12 months, then 1/48th per month thereafter. Straight-line vesting spreads shares equally across the vesting period without a cliff.</p>
+
+    <h2>Tips & Common Mistakes</h2>
+    <ul>
+      <li><strong>Don't ignore the 90-day exercise window.</strong> When you leave a company, most option agreements give you only 90 days to exercise or forfeit unvested shares. Plan accordingly.</li>
+      <li><strong>ISOs vs. NSOs have very different tax treatments.</strong> ISOs may trigger Alternative Minimum Tax (AMT) upon exercise even if you don't sell. NSOs are taxed as ordinary income at exercise.</li>
+      <li><strong>Negotiate for a longer exercise window.</strong> Some employee-friendly companies offer 5-year or even 10-year post-termination exercise windows — this is worth asking about.</li>
+      <li><strong>Early exercise (83(b) election) can reset your capital gains clock.</strong> For early-stage startups, exercising immediately after grant and filing an 83(b) election can convert future gains to long-term capital gains.</li>
+      <li><strong>Always check your preference stack for private company options.</strong> Liquidation preferences can mean employees get little even when a company sells for a healthy sum.</li>
+    </ul>
+
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>What is the difference between an ISO and an NSO?</summary>
+      <p>ISOs (Incentive Stock Options) receive favorable tax treatment — if you hold the shares for at least 1 year after exercise and 2 years after the grant date, gains are taxed at long-term capital gains rates. However, the spread at exercise may trigger AMT. NSOs (Non-Qualified Stock Options) are taxed as ordinary income at the moment you exercise, regardless of when you sell.</p>
+    </details>
+    <details>
+      <summary>What does "in the money" mean for stock options?</summary>
+      <p>Options are "in the money" when the current stock price exceeds the strike (grant) price, meaning they have positive intrinsic value. "At the money" means the prices are equal. "Out of the money" means the stock has declined below the strike price, making the options effectively worthless until the stock recovers.</p>
+    </details>
+    <details>
+      <summary>When should I exercise my stock options?</summary>
+      <p>The ideal time depends on your option type, tax situation, risk tolerance, and the company's stage. For ISOs, early exercise can minimize taxes if the stock is low. For NSOs, many employees wait until just before an IPO or acquisition. Always consult a financial advisor before exercising, as the tax implications can be significant.</p>
+    </details>
+    <details>
+      <summary>What happens to my unvested options if the company is acquired?</summary>
+      <p>It depends on your option agreement and the deal structure. In an "acceleration" clause, all unvested options may immediately vest (single-trigger) or vest only if you're also terminated (double-trigger). Many acquirers convert your options into equivalent options in the new company. Always read your option agreement carefully.</p>
+    </details>
+  </div>
+
+  <div class="card" style="margin-top:2rem">
+    <h2>Related Tools</h2>
+    <div class="related-grid">
+      <a href="/home-improvement-roi-calculator/" class="related-link">🏠 Home Improvement ROI Calculator</a>
+      <a href="/401k-early-withdrawal-penalty-calculator/" class="related-link">📉 401k Early Withdrawal Penalty Calculator</a>
+      <a href="/series-ee-savings-bond-value-calculator/" class="related-link">💰 Series EE Savings Bond Value Calculator</a>
+      <a href="/required-minimum-distribution-calculator/" class="related-link">📊 RMD Calculator</a>
+      <a href="/stock-dollar-cost-averaging-calculator/" class="related-link">📈 Stock Dollar-Cost Averaging Calculator</a>
+      <a href="/treasury-bond-ladder-calculator/" class="related-link">🏦 Treasury Bond Ladder Calculator</a>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-bottom"></div>
+</div>
+
+<footer>
+  <div>
+    <a href="/about/">About</a>
+    <a href="/privacy/">Privacy</a>
+    <a href="/contact/">Contact</a>
+  </div>
+  <div style="margin-top:6px">© 2025 calcstack.dev</div>
+</footer>
+
+<script>
+// Sync sliders
+const cpSlider = document.getElementById('currentPriceSlider');
+const cpInput = document.getElementById('currentPrice');
+const cpDisplay = document.getElementById('currentPriceDisplay');
+const gSlider = document.getElementById('growthSlider');
+const gInput = document.getElementById('growthRate');
+const gDisplay = document.getElementById('growthDisplay');
+const vestSelect = document.getElementById('vestingType');
+const customVestField = document.getElementById('customVestField');
+
+cpSlider.addEventListener('input', () => {
+  cpInput.value = parseFloat(cpSlider.value).toFixed(2);
+  cpDisplay.textContent = '$' + fmt2(parseFloat(cpSlider.value));
+});
+cpInput.addEventListener('input', () => {
+  let v = parseFloat(cpInput.value);
+  if (!isNaN(v) && v >= 0 && v <= 500) { cpSlider.value = v; cpDisplay.textContent = '$' + fmt2(v); }
+});
+gSlider.addEventListener('input', () => {
+  gInput.value = parseFloat(gSlider.value).toFixed(1);
+  gDisplay.textContent = parseFloat(gSlider.value).toFixed(1) + '%';
+});
+gInput.addEventListener('input', () => {
+  let v = parseFloat(gInput.value);
+  if (!isNaN(v) && v >= -20 && v <= 50) { gSlider.value = v; gDisplay.textContent = v.toFixed(1) + '%'; }
+});
+vestSelect.addEventListener('change', () => {
+  customVestField.style.display = vestSelect.value === 'custom' ? '' : 'none';
+});
+
+function fmt(n) { return Math.round(n).toLocaleString('en-US'); }
+function fmt2(n) { return n.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2}); }
+function fmtd(n) { return '$' + fmt2(n); }
+
+function getVestingSchedule(type, grantAge, totalShares) {
+  // Returns array of {year, vestedPct, newVestedPct, shares, newShares}
+  const schedule = [];
+  let vestedPct = 0;
+  for (let y = 1; y <= 4; y++) {
+    let newVestedPct = 0;
+    if (type === 'cliff4') {
+      if (y === 1) newVestedPct = 25;
+      else newVestedPct = 25;
+    } else if (type === 'cliff3') {
+      if (y === 1) newVestedPct = 33.33;
+      else if (y === 2) newVestedPct = 33.33;
+      else if (y === 3) newVestedPct = 33.34;
+      else newVestedPct = 0;
+    } else if (type === 'straight4') {
+      newVestedPct = 25;
+    } else if (type === 'straight3') {
+      if (y <= 3) newVestedPct = 33.33;
+      if (y === 3) newVestedPct = 33.34;
+      if (y > 3) newVestedPct = 0;
+    }
+    vestedPct = Math.min(100, vestedPct + newVestedPct);
+    schedule.push({
+      year: y,
+      vestedPct: vestedPct,
+      newVestedPct: newVestedPct,
+      shares: Math.round(totalShares * vestedPct / 100),
+      newShares: Math.round(totalShares * newVestedPct / 100)
+    });
+  }
+  return schedule;
+}
+
+function getCurrentVestedPct(type, grantAge, customPct) {
+  if (type === 'custom') return Math.max(0, Math.min(100, customPct));
+  const sched = getVestingSchedule(type, grantAge, 100);
+  if (grantAge <= 0) return 0;
+  if (grantAge >= sched.length) return 100;
+  return sched[grantAge - 1]?.vestedPct || 0;
+}
+
+function clearErrors() {
+  ['err-strike','err-shares','err-price','err-tax','err-ltcg','err-vest'].forEach(id => {
+    document.getElementById(id).classList.remove('show');
+  });
+  ['strikePrice','totalShares','currentPrice','taxRate','ltcgRate','customVestPct'].forEach(id => {
+    document.getElementById(id).classList.remove('error');
+  });
+}
+
+function showError(inputId, msgId) {
+  document.getElementById(inputId).classList.add('error');
+  document.getElementById(msgId).classList.add('show');
+}
+
+function validate(vals) {
+  let ok = true;
+  if (isNaN(vals.strike) || vals.strike < 0) { showError('strikePrice','err-strike'); ok=false; }
+  if (isNaN(vals.shares) || vals.shares < 1) { showError('totalShares','err-shares'); ok=false; }
+  if (isNaN(vals.current) || vals.current < 0) { showError('currentPrice','err-price'); ok=false; }
+  if (isNaN(vals.tax) || vals.tax < 0 || vals.tax > 60) { showError('taxRate','err-tax'); ok=false; }
+  if (isNaN(vals.ltcg) || vals.ltcg < 0 || vals.ltcg > 40) { showError('ltcgRate','err-ltcg'); ok=false; }
+  if (vals.vestType === 'custom' && (isNaN(vals.customPct) || vals.customPct < 0 || vals.customPct > 100)) {
+    showError('customVestPct','err-vest'); ok=false;
+  }
+  return ok;
+}
+
+let showAll = false;
+
+function calculate() {
+  clearErrors();
+  const strike = parseFloat(document.getElementById('strikePrice').value);
+  const shares = parseInt(document.getElementById('totalShares').value);
+  const current = parseFloat(document.getElementById('currentPrice').value);
+  const growth = parseFloat(document.getElementById('growthRate').value) / 100;
+  const tax = parseFloat(document.getElementById('taxRate').value) / 100;
+  const ltcg = parseFloat(document.getElementById('ltcgRate').value) / 100;
+  const vestType = vestSelect.value;
+  const grantAge = parseInt(document.getElementById('grantAge').value);
+  const customPct = parseFloat(document.getElementById('customVestPct').value);
+  const optType = document.getElementById('optionType').value;
+
+  const vals = {strike, shares, current, tax, ltcg, vestType, customPct};
+  if (!validate(vals)) return;
+
+  const vestedPct = getCurrentVestedPct(vestType, grantAge, customPct);
+  const vestedShares = Math.round(shares * vestedPct / 100);
+  const unvestedShares = shares - vestedShares;
+
+  const spread = Math.max(0, current - strike);
+  const intrinsicTotal = spread * shares;
+  const intrinsicVested = spread * vestedShares;
+
+  // Tax on exercise of vested shares
+  let taxOnExercise, afterTaxVested;
+  if (optType === 'iso') {
+    taxOnExercise = intrinsicVested * ltcg; // simplified: hold scenario
+    afterTaxVested = intrinsicVested * (1 - ltcg);
+  } else {
+    taxOnExercise = intrinsicVested * tax;
+    afterTaxVested = intrinsicVested * (1 - tax);
+  }
+
+  // Cost to exercise all vested shares
+  const exerciseCost = strike * vestedShares;
+
+  // Build year projections (7 years)
+  const projRows = [];
+  for (let y = 1; y <= 7; y++) {
+    const projPrice = current * Math.pow(1 + growth, y);
+    const projSpread = Math.max(0, projPrice - strike);
+
+    let vestPct;
+    if (vestType === 'custom') {
+      vestPct = Math.min(100, customPct + (100 - customPct) * y / 4); // linear completion
+      if (y >= 4) vestPct = 100;
+    } else {
+      const futureSched = getVestingSchedule(vestType, grantAge, shares);
+      const targetYear = grantAge + y;
+      vestPct = targetYear >= 4 ? 100 : (futureSched[Math.min(targetYear, futureSched.length) - 1]?.vestedPct || 100);
+      if (targetYear >= 4) vestPct = 100;
+    }
+
+    const projVested = Math.round(shares * Math.min(100, vestPct) / 100);
+    const projIntrinsic = projSpread * projVested;
+    let projTax, projAfterTax;
+    if (optType === 'iso') {
+      projTax = projIntrinsic * ltcg;
+      projAfterTax = projIntrinsic * (1 - ltcg);
+    } else {
+      projTax = projIntrinsic * tax;
+      projAfterTax = projIntrinsic * (1 - tax);
+    }
+
+    projRows.push({
+      year: y,
+      price: projPrice,
+      spread: projSpread,
+      vestedPct: Math.min(100, vestPct),
+      vestedShares: projVested,
+      intrinsic: projIntrinsic,
+      tax: projTax,
+      afterTax: projAfterTax
+    });
+  }
+
+  // Status tag
+  let statusTag, statusClass;
+  if (spread > 0) { statusTag = 'In the Money'; statusClass = 'green'; }
+  else if (spread === 0) { statusTag = 'At the Money'; statusClass = 'orange'; }
+  else { statusTag = 'Out of the Money'; statusClass = 'red'; }
+
+  const pctGain = strike > 0 ? ((current - strike) / strike * 100) : 0;
+
+  // Build bar data
+  const maxBar = Math.max(intrinsicVested + taxOnExercise + exerciseCost, 1);
+  const costBarW = Math.min(100, exerciseCost / maxBar * 100);
+  const taxBarW = Math.min(100, taxOnExercise / maxBar * 100);
+  const gainBarW = Math.min(100, afterTaxVested / maxBar * 100);
+
+  // Stacked bar: total value breakdown
+  const totalPotential = exerciseCost + taxOnExercise + afterTaxVested;
+  const p1 = totalPotential > 0 ? (exerciseCost / totalPotential * 100).toFixed(1) : 0;
+  const p2 = totalPotential > 0 ? (taxOnExercise / totalPotential * 100).toFixed(1) : 0;
+  const p3 = totalPotential > 0 ? (afterTaxVested / totalPotential * 100).toFixed(1) : 0;
+
+  const visibleRows = showAll ? projRows : projRows.slice(0, 4);
+
+  let tableRows = '';
+  visibleRows.forEach(r => {
+    tableRows += `<tr>
+      <td>Year ${r.year}</td>
+      <td class="num">${fmtd(r.price)}</td>
+      <td class="num">${fmt(r.vestedShares)}</td>
+      <td class="num">${fmtd(r.spread)}</td>
+      <td class="num">${fmtd(r.intrinsic)}</td>
+      <td class="num">${fmtd(r.tax)}</td>
+      <td class="num" style="color:#219a52;font-weight:600">${fmtd(r.afterTax)}</td>
+    </tr>`;
+  });
+
+  const showAllBtnHtml = projRows.length > 4
+    ? `<button class="show-all-btn" id="showAllBtn">${showAll ? '▲ Show Less' : '▼ Show All ' + projRows.length + ' Years'}</button>`
+    : '';
+
+  const inMoneyNote = spread <= 0
+    ? `<div class="info-box">⚠️ Your options are currently <strong>out of the money</strong>. The stock price (${fmtd(current)}) is below your strike price (${fmtd(strike)}). They still have potential future value if the stock rises above ${fmtd(strike)}.</div>`
+    : `<div class="info-box">✅ Your options are <strong>in the money</strong> by ${fmtd(spread)} per share — a ${pctGain.toFixed(1)}% gain over your strike price. Vested option value: ${fmtd(intrinsicVested)}.</div>`;
+
+  const optNote = optType === 'iso'
+    ? '<span class="tag">ISO</span> Assuming qualified disposition (hold &gt;1yr after exercise). AMT may apply — consult a tax advisor.'
+    : '<span class="tag orange">NSO</span> Spread taxed as ordinary income at exercise.';
+
+  let html = `
+    ${inMoneyNote}
+    <div class="key-metrics">
+      <div class="metric-box accent">
+        <div class="val">${fmtd(intrinsicVested)}</div>
+        <div class="lbl">Vested Intrinsic Value</div>
+      </div>
+      <div class="metric-box">
+        <div class="val">${fmtd(afterTaxVested)}</div>
+        <div class="lbl">After-Tax Gain (Vested)</div>
+      </div>
+      <div class="metric-box">
+        <div class="val">${fmtd(intrinsicTotal)}</div>
+        <div class="lbl">Total Intrinsic Value (All)</div>
+      </div>
+      <div class="metric-box">
+        <div class="val">${vestedPct.toFixed(1)}%</div>
+        <div class="lbl">${fmt(vestedShares)} / ${fmt(shares)} shares vested</div>
+      </div>
+    </div>
+
+    <div style="margin-bottom:1.25rem">
+      <div style="font-size:0.8rem;font-weight:600;color:#444;margin-bottom:6px">
+        Option Status: <span class="tag ${statusClass}">${statusTag}</span> &nbsp; ${optNote}
+      </div>
+    </div>
+
+    <div class="bar-section">
+      <div style="font-weight:700;font-size:0.88rem;margin-bottom:0.75rem;color:#1a1a2e">Value Breakdown — Vested Shares</div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#0077b6"></div>Exercise Cost (${fmtd(exerciseCost)})</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#e74c3c"></div>Estimated Tax (${fmtd(taxOnExercise)})</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#2ecc71"></div>After-Tax Gain (${fmtd(afterTaxVested)})</div>
+      </div>
+      <div class="stacked-bar">
+        <div class="stacked-seg" style="width:${p1}%;background:#0077b6">${p1 > 8 ? p1+'%' : ''}</div>
+        <div class="stacked-seg" style="width:${p2}%;background:#e74c3c">${p2 > 8 ? p2+'%' : ''}</div>
+        <div class="stacked-seg" style="width:${p3}%;background:#2ecc71">${p3 > 8 ? p3+'%' : ''}</div>
+      </div>
+      <div style="font-size:0.78rem;color:#666">Total value of exercised vested position: ${fmtd(totalPotential)}</div>
+    </div>
+
+    <div class="bar-section">
+      <div style="font-weight:700;font-size:0.88rem;margin-bottom:0.75rem;color:#1a1a2e">Key Figures</div>
+      <div class="bar-label-row"><span>Spread per share</span><span>${fmtd(Math.max(0,spread))}</span></div>
+      <div class="bar-track"><div class="bar-fill blue" style="width:${Math.min(100, spread>0?(spread/(strike+spread)*100):0)}%">${spread>0?fmtd(spread):''}</div></div>
+      <div class="bar-label-row"><span>Exercise cost (vested)</span><span>${fmtd(exerciseCost)}</span></div>
+      <div class="bar-track"><div class="bar-fill orange" style="width:${Math.min(100, totalPotential>0?(exerciseCost/totalPotential*100):0)}%"></div></div>
+      <div class="bar-label-row"><span>Tax burden (vested)</span><span>${fmtd(taxOnExercise)}</span></div>
+      <div class="bar-track"><div class="bar-fill red" style="width:${Math.min(100, totalPotential>0?(taxOnExercise/totalPotential*100):0)}%"></div></div>
+      <div class="bar-label-row"><span>After-tax gain (vested)</span><span>${fmtd(afterTaxVested)}</span></div>
+      <div class="bar-track"><div class="bar-fill green" style="width:${Math.min(100, totalPotential>0?(afterTaxVested/totalPotential*100):0)}%"></div></div>
+    </div>
+
+    <div style="font-weight:700;font-size:0.95rem;margin-bottom:0.75rem;color:#1a1a2e">Year-by-Year Projection (${growth>=0?'+':''}${(growth*100).toFixed(1)}% growth/yr)</div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Year</th>
+            <th class="num">Proj. Price</th>
+            <th class="num">Vested Shares</th>
+            <th class="num">Spread</th>
+            <th class="num">Intrinsic</th>
+            <th class="num">Est. Tax</th>
+            <th class="num">After-Tax Gain</th>
+          </tr>
+        </thead>
+        <tbody>${tableRows}</tbody>
+      </table>
+    </div>
+    ${showAllBtnHtml}
+
+    <div style="margin-top:1.5rem;padding:1rem;background:#f8f9fa;border-radius:6px;font-size:0.8rem;color:#666;line-height:1.6">
+      ⚠️ <strong>Disclaimer:</strong> These calculations are estimates for educational purposes only. Stock prices are unpredictable, tax rules vary, and this is not financial or tax advice. Consult a licensed financial advisor and CPA before making exercise decisions.
+    </div>
+  `;
+
+  requestAnimationFrame(() => {
+    document.getElementById('resultsContent').innerHTML = html;
+    const rs = document.getElementById('resultsSection');
+    rs.classList.add('visible');
+    rs.scrollIntoView({behavior:'smooth', block:'start'});
+
+    const saBtn = document.getElementById('showAllBtn');
+    if (saBtn) {
+      saBtn.addEventListener('click', () => {
+        showAll = !showAll;
+        calculate();
+      });
+    }
+  });
+}
+
+// Copy button
+document.getElementById('copyBtn').addEventListener('click', function() {
+  const strike = parseFloat(document.getElementById('strikePrice').value)||0;
+  const shares = parseInt(document.getElementById('totalShares').value)||0;
+  const current = parseFloat(document.getElementById('currentPrice').value)||0;
+  const spread = Math.max(0, current - strike);
+  const vestedPct = getCurrentVestedPct(
+    vestSelect.value,
+    parseInt(document.getElementById('grantAge').value),
+    parseFloat(document.getElementById('customVestPct').value)
+  );
+  const vestedShares = Math.round(shares * vestedPct / 100);
+  const text = `ESO Value Summary\nStrike Price: $${fmt2(strike)}\nCurrent Price: $${fmt2(current)}\nSpread: $${fmt2(spread)}\nTotal Shares: ${fmt(shares)}\nVested: ${fmt(vestedShares)} (${vestedPct.toFixed(1)}%)\nVested Intrinsic Value: $${fmt2(spread * vestedShares)}\nCalculated at calcstack.dev`;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy Results'; btn.classList.remove('copied'); }, 2000);
+  });
+});
+
+// Calculate button
+document.getElementById('calcBtn').addEventListener('click', () => {
+  requestAnimationFrame(() => { calculate(); });
+});
+
+// Enter key
+document.querySelectorAll('input[type=number]').forEach(inp => {
+  inp.addEventListener('keydown', e => { if (e.key === 'Enter') { requestAnimationFrame(() => { calculate(); }); } });
+});
+
+// Auto-calculate on load
+window.addEventListener('load', () => { calculate(); });
+</script>
+</body>
+</html>
