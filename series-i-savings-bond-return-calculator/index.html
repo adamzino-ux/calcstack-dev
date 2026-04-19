@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Series I Savings Bond Return Calculator — Free Online Tool | calcstack.dev</title>
+<meta name="description" content="Calculate your Series I Savings Bond returns with our free I bond return calculator. See projected value, interest earned, and year-by-year growth.">
+<link rel="canonical" href="https://calcstack.dev/series-i-savings-bond-return-calculator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Series I Savings Bond Return Calculator",
+  "url": "https://calcstack.dev/series-i-savings-bond-return-calculator/",
+  "description": "Calculate your Series I Savings Bond returns with projected value, interest earned, and year-by-year growth breakdown.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#fff;color:#1a1a2e;font-size:16px;line-height:1.6}
+a{color:#0077b6;text-decoration:none}
+a:hover{text-decoration:underline;color:#006299}
+nav{border-bottom:1px solid #e0e0e0;padding:0.75rem 1.5rem;background:#fff}
+nav .nav-inner{max-width:640px;margin:0 auto;display:flex;align-items:center}
+nav .site-name{font-weight:700;font-size:1.1rem;color:#0077b6}
+main{max-width:640px;margin:0 auto;padding:1.5rem}
+h1{font-size:1.6rem;font-weight:700;margin-bottom:0.4rem;color:#1a1a2e;line-height:1.3}
+.subtitle{color:#555;font-size:0.95rem;margin-bottom:1.5rem}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;box-shadow:0 2px 8px rgba(0,0,0,0.05);margin-bottom:2rem}
+.form-group{margin-bottom:1.2rem}
+label{display:block;font-size:0.85rem;font-weight:500;color:#444;margin-bottom:0.4rem}
+input[type="number"],input[type="text"],select{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:6px;font-size:1rem;color:#1a1a2e;background:#fff;transition:border-color 0.2s,box-shadow 0.2s;min-height:44px}
+input:focus,select:focus{outline:none;border-color:#0077b6;box-shadow:0 0 0 3px rgba(0,119,182,0.15)}
+input.error{border-color:#e74c3c}
+.error-msg{color:#e74c3c;font-size:0.8rem;margin-top:0.3rem;display:none}
+.error-msg.show{display:block}
+.row-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.hint{font-size:0.78rem;color:#888;margin-top:0.3rem}
+.range-group{display:flex;align-items:center;gap:0.75rem}
+.range-group input[type="range"]{flex:1;min-height:24px;accent-color:#0077b6}
+.range-val{font-weight:600;color:#0077b6;min-width:52px;text-align:right;font-size:0.95rem}
+btn,.btn{display:inline-block;background:#0077b6;color:#fff;padding:12px 24px;border:none;border-radius:6px;font-size:1rem;font-weight:600;cursor:pointer;transition:background 0.2s;min-height:44px;width:100%}
+.btn:hover{background:#006299}
+.results{opacity:0;transition:opacity 0.3s ease;display:none}
+.results.show{opacity:1;display:block}
+.key-number{text-align:center;margin-bottom:1.5rem}
+.key-number .big{font-size:2.8rem;font-weight:800;color:#0077b6;line-height:1}
+.key-number .label{font-size:0.9rem;color:#666;margin-top:0.3rem}
+.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:1.5rem}
+.summary-item{background:#f8f9fa;border-radius:6px;padding:0.9rem 1rem;border:1px solid #e8e8e8}
+.summary-item .s-val{font-size:1.2rem;font-weight:700;color:#0077b6}
+.summary-item .s-lbl{font-size:0.78rem;color:#666;margin-top:0.15rem}
+.section-title{font-size:1rem;font-weight:700;color:#1a1a2e;margin-bottom:0.75rem}
+.bar-chart{margin-bottom:1.5rem}
+.bar-row{display:flex;align-items:center;gap:0.75rem;margin-bottom:0.5rem}
+.bar-label{font-size:0.82rem;color:#444;width:90px;flex-shrink:0;text-align:right}
+.bar-track{flex:1;background:#f0f0f0;border-radius:4px;height:22px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;transition:width 0.5s ease}
+.bar-fill.principal{background:#0077b6}
+.bar-fill.interest{background:#00b4d8}
+.bar-fill.penalty{background:#e74c3c}
+.bar-val{font-size:0.82rem;font-weight:600;color:#1a1a2e;width:90px;flex-shrink:0}
+.bar-legend{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1rem;font-size:0.82rem}
+.legend-item{display:flex;align-items:center;gap:0.4rem}
+.legend-dot{width:12px;height:12px;border-radius:2px;flex-shrink:0}
+.stacked-bar-outer{background:#f0f0f0;border-radius:6px;height:32px;overflow:hidden;display:flex;margin-bottom:0.5rem}
+.stacked-seg{height:100%;transition:width 0.5s ease}
+.stacked-seg.principal{background:#0077b6}
+.stacked-seg.interest{background:#00b4d8}
+.stacked-seg.penalty{background:#e74c3c}
+.stacked-labels{display:flex;justify-content:space-between;font-size:0.78rem;color:#666;margin-bottom:1.2rem}
+.table-wrap{overflow-x:auto;margin-bottom:1rem}
+table{width:100%;border-collapse:collapse;font-size:0.88rem}
+th{background:#f0f0f0;padding:8px 10px;text-align:left;font-weight:600;color:#333;border-bottom:2px solid #ddd;white-space:nowrap}
+th.num,td.num{text-align:right}
+tr:nth-child(even) td{background:#fafafa}
+td{padding:7px 10px;border-bottom:1px solid #eee;color:#1a1a2e}
+.show-all-btn{background:none;border:1px solid #0077b6;color:#0077b6;padding:7px 16px;border-radius:6px;cursor:pointer;font-size:0.85rem;width:100%;min-height:40px;transition:all 0.2s;margin-top:0.5rem}
+.show-all-btn:hover{background:#0077b6;color:#fff}
+.copy-btn{background:none;border:1px solid #ddd;color:#555;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:0.82rem;min-height:36px;transition:all 0.2s;display:inline-flex;align-items:center;gap:0.4rem}
+.copy-btn:hover{border-color:#0077b6;color:#0077b6}
+.copy-btn.copied{border-color:#27ae60;color:#27ae60}
+.copy-row{display:flex;justify-content:flex-end;margin-bottom:1rem}
+.note-box{background:#fffbe6;border:1px solid #f0d060;border-radius:6px;padding:0.9rem 1rem;font-size:0.83rem;color:#7a6000;margin-bottom:1rem}
+.ad-slot{min-height:0;margin:0}
+.content-section h2{font-size:1.15rem;font-weight:700;color:#1a1a2e;margin:1.5rem 0 0.5rem}
+.content-section p{color:#444;font-size:0.93rem;margin-bottom:0.75rem}
+.content-section ul{color:#444;font-size:0.93rem;padding-left:1.4rem;margin-bottom:0.75rem}
+.content-section ul li{margin-bottom:0.4rem}
+details{border:1px solid #e0e0e0;border-radius:6px;margin-bottom:0.6rem}
+details summary{padding:0.75rem 1rem;font-weight:600;font-size:0.9rem;cursor:pointer;color:#1a1a2e;list-style:none;display:flex;justify-content:space-between;align-items:center}
+details summary::after{content:'﹢';font-size:1.1rem;color:#0077b6}
+details[open] summary::after{content:'﹣'}
+details .answer{padding:0 1rem 0.75rem;font-size:0.88rem;color:#444;line-height:1.6}
+.related-tools{margin-bottom:2rem}
+.related-tools h2{font-size:1.15rem;font-weight:700;margin-bottom:0.75rem}
+.related-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.6rem}
+.related-link{display:block;background:#f8f9fa;border:1px solid #e0e0e0;border-radius:6px;padding:0.65rem 0.9rem;font-size:0.85rem;color:#0077b6;transition:background 0.2s}
+.related-link:hover{background:#e8f4fd;text-decoration:none}
+footer{border-top:1px solid #e0e0e0;padding:1.2rem 1.5rem;text-align:center;font-size:0.82rem;color:#888}
+footer a{color:#888;margin:0 0.5rem}
+footer a:hover{color:#0077b6}
+@media(max-width:640px){
+  .row-2{grid-template-columns:1fr}
+  .summary-grid{grid-template-columns:1fr 1fr}
+  .related-grid{grid-template-columns:1fr}
+  .key-number .big{font-size:2.2rem}
+  .bar-label{width:70px;font-size:0.78rem}
+  .bar-val{width:75px;font-size:0.78rem}
+  main{padding:1rem}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="site-name">calcstack.dev</a>
+  </div>
+</nav>
+
+<main>
+  <h1>Series I Savings Bond Return Calculator</h1>
+  <p class="subtitle">Project your I Bond growth, interest earned, and total value at maturity — with year-by-year breakdown.</p>
+
+  <div class="card">
+    <div class="form-group">
+      <label for="principal">Initial Investment ($)</label>
+      <input type="number" id="principal" value="10000" min="25" max="10000" step="25" placeholder="e.g. 10000">
+      <div class="hint">Per person: $10,000/year in electronic bonds via TreasuryDirect. Min $25.</div>
+      <div class="error-msg" id="principal-err">Please enter an amount between $25 and $10,000.</div>
+    </div>
+
+    <div class="row-2">
+      <div class="form-group">
+        <label for="fixed-rate">Fixed Rate (%)</label>
+        <div class="range-group">
+          <input type="range" id="fixed-rate-slider" min="0" max="3" step="0.1" value="1.3" oninput="syncSlider('fixed-rate','fixed-rate-slider',this.value)">
+          <span class="range-val" id="fixed-rate-val">1.30%</span>
+        </div>
+        <input type="number" id="fixed-rate" value="1.30" min="0" max="3" step="0.05" style="margin-top:0.5rem">
+        <div class="hint">Current fixed rate: ~1.30% (set at purchase, holds for life).</div>
+        <div class="error-msg" id="fixed-err">Enter a rate between 0% and 3%.</div>
+      </div>
+      <div class="form-group">
+        <label for="inflation-rate">Average Inflation Rate (%)</label>
+        <div class="range-group">
+          <input type="range" id="inflation-rate-slider" min="0" max="15" step="0.1" value="3.5" oninput="syncSlider('inflation-rate','inflation-rate-slider',this.value)">
+          <span class="range-val" id="inflation-rate-val">3.50%</span>
+        </div>
+        <input type="number" id="inflation-rate" value="3.50" min="0" max="15" step="0.1" style="margin-top:0.5rem">
+        <div class="hint">Annualized CPI semi-annual rate estimate. Historical avg ~3–4%.</div>
+        <div class="error-msg" id="inflation-err">Enter a rate between 0% and 15%.</div>
+      </div>
+    </div>
+
+    <div class="row-2">
+      <div class="form-group">
+        <label for="hold-years">Holding Period (Years)</label>
+        <div class="range-group">
+          <input type="range" id="hold-years-slider" min="1" max="30" step="1" value="10" oninput="syncSlider('hold-years','hold-years-slider',this.value)">
+          <span class="range-val" id="hold-years-val">10 yrs</span>
+        </div>
+        <input type="number" id="hold-years" value="10" min="1" max="30" step="1" style="margin-top:0.5rem">
+        <div class="hint">Min 1 year. Max 30 years (maturity).</div>
+        <div class="error-msg" id="years-err">Enter between 1 and 30 years.</div>
+      </div>
+      <div class="form-group">
+        <label for="tax-rate">Federal Tax Rate (%)</label>
+        <div class="range-group">
+          <input type="range" id="tax-rate-slider" min="0" max="37" step="1" value="22" oninput="syncSlider('tax-rate','tax-rate-slider',this.value)">
+          <span class="range-val" id="tax-rate-val">22%</span>
+        </div>
+        <input type="number" id="tax-rate" value="22" min="0" max="37" step="1" style="margin-top:0.5rem">
+        <div class="hint">Interest is federal taxable; exempt from state/local tax.</div>
+        <div class="error-msg" id="tax-err">Enter a rate between 0% and 37%.</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="redeem-year">Redeem Early? (Before 5 Years = 3-Month Interest Penalty)</label>
+      <select id="redeem-year">
+        <option value="no">No — holding 5+ years (no penalty)</option>
+        <option value="yes">Yes — redeeming before 5 years (3-month interest penalty)</option>
+      </select>
+    </div>
+
+    <button class="btn" onclick="requestAnimationFrame(calculate)">Calculate Returns</button>
+  </div>
+
+  <div class="results card" id="results">
+    <div class="copy-row">
+      <button class="copy-btn" id="copyBtn" onclick="copyResults()">&#128203; Copy Summary</button>
+    </div>
+
+    <div class="key-number">
+      <div class="big" id="res-final-val">$0</div>
+      <div class="label">Total Bond Value at Redemption</div>
+    </div>
+
+    <div class="summary-grid">
+      <div class="summary-item"><div class="s-val" id="res-principal">$0</div><div class="s-lbl">Principal Invested</div></div>
+      <div class="summary-item"><div class="s-val" id="res-interest">$0</div><div class="s-lbl">Interest Earned</div></div>
+      <div class="summary-item"><div class="s-val" id="res-penalty">$0</div><div class="s-lbl">Early Redemption Penalty</div></div>
+      <div class="summary-item"><div class="s-val" id="res-aftertax">$0</div><div class="s-lbl">After-Tax Value</div></div>
+      <div class="summary-item"><div class="s-val" id="res-composite">0.00%</div><div class="s-lbl">Composite Rate (Annual)</div></div>
+      <div class="summary-item"><div class="s-val" id="res-cagr">0.00%</div><div class="s-lbl">Effective CAGR</div></div>
+    </div>
+
+    <div class="note-box" id="penalty-note" style="display:none">
+      ⚠️ Early redemption penalty: the last 3 months of interest are forfeited when redeeming before 5 years.
+    </div>
+
+    <div class="bar-chart">
+      <div class="section-title">Composition at Redemption</div>
+      <div class="bar-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#0077b6"></div>Principal</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#00b4d8"></div>Net Interest</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#e74c3c"></div>Penalty / Tax</div>
+      </div>
+      <div class="stacked-bar-outer">
+        <div class="stacked-seg principal" id="bar-principal" style="width:0%"></div>
+        <div class="stacked-seg interest" id="bar-interest" style="width:0%"></div>
+        <div class="stacked-seg penalty" id="bar-penalty" style="width:0%"></div>
+      </div>
+      <div class="stacked-labels">
+        <span id="bar-lbl-principal">Principal: $0</span>
+        <span id="bar-lbl-interest">Interest: $0</span>
+        <span id="bar-lbl-penalty">Loss: $0</span>
+      </div>
+
+      <div class="bar-row">
+        <div class="bar-label">Principal</div>
+        <div class="bar-track"><div class="bar-fill principal" id="hbar-principal" style="width:0%"></div></div>
+        <div class="bar-val" id="hbar-principal-val">$0</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">Interest</div>
+        <div class="bar-track"><div class="bar-fill interest" id="hbar-interest" style="width:0%"></div></div>
+        <div class="bar-val" id="hbar-interest-val">$0</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">Tax Owed</div>
+        <div class="bar-track"><div class="bar-fill penalty" id="hbar-tax" style="width:0%"></div></div>
+        <div class="bar-val" id="hbar-tax-val">$0</div>
+      </div>
+    </div>
+
+    <div class="section-title">Year-by-Year Breakdown</div>
+    <div class="table-wrap">
+      <table id="breakdown-table">
+        <thead>
+          <tr>
+            <th>Year</th>
+            <th class="num">Bond Value</th>
+            <th class="num">Interest (Year)</th>
+            <th class="num">Cumulative Interest</th>
+            <th class="num">Composite Rate</th>
+          </tr>
+        </thead>
+        <tbody id="breakdown-body"></tbody>
+      </table>
+    </div>
+    <button class="show-all-btn" id="showAllBtn" onclick="toggleShowAll()">Show All Years</button>
+  </div>
+
+  <div class="ad-slot" id="ad-mid"></div>
+
+  <div class="content-section">
+    <h2>How to Use This I Bond Return Calculator</h2>
+    <p>Enter your initial investment amount (up to $10,000 per person per year in electronic bonds), your expected fixed rate, an estimated average inflation component, and your intended holding period. The calculator projects your bond's total value, interest earned, and after-tax return at redemption — including the 3-month interest penalty if you redeem before five years.</p>
+
+    <h2>Why This Matters</h2>
+    <p>Series I Savings Bonds have become one of the most talked-about savings vehicles in recent years — and for good reason. During 2022, I bonds paid a record composite rate of 9.62% annualized, beating every major savings account and CD available. Even at more modest inflation levels, I bonds offer something rare: a government-guaranteed return that keeps pace with inflation.</p>
+    <p>Consider this scenario: a family that invested $10,000 in I bonds in November 2021 saw their bond grow to over $11,900 within two years — purely from the inflation-linked component. A traditional high-yield savings account might have returned $800–$1,200 over the same period.</p>
+    <p>I bonds are especially valuable for conservative savers, those building emergency reserves beyond their normal liquidity needs, or anyone looking to protect purchasing power over a 5–30 year horizon. The state and local tax exemption is an added bonus for high-tax-state residents. They are not ideal for money you might need in under 12 months, since bonds cannot be redeemed in the first year.</p>
+
+    <h2>How It's Calculated</h2>
+    <p>The I bond composite rate formula is:</p>
+    <p><strong>Composite Rate = Fixed Rate + (2 × Semiannual Inflation Rate) + (Fixed Rate × Semiannual Inflation Rate)</strong></p>
+    <p>The Treasury adjusts the inflation component every May and November based on CPI-U data. This calculator uses your estimated annual inflation rate converted to a semiannual rate, then compounds it every 6 months for the full holding period. The early redemption penalty deducts the last 3 months of interest from your total if you redeem before 5 full years.</p>
+    <p><strong>After-tax value</strong> = Bond Value − (Interest Earned × Federal Tax Rate). I bond interest is exempt from state and local taxes.</p>
+
+    <h2>Tips &amp; Common Mistakes</h2>
+    <ul>
+      <li><strong>Don't redeem before 12 months:</strong> I bonds cannot be cashed before the 12-month mark, no exceptions. Plan your liquidity accordingly.</li>
+      <li><strong>The 5-year rule is important:</strong> Redeeming before 5 years costs you the last 3 months of interest. If you're at month 56, wait until month 60 — it's worth it.</li>
+      <li><strong>The $10,000 annual limit applies per Social Security number:</strong> Couples can buy $20,000/year together. You can buy an extra $5,000 with your tax refund in paper form.</li>
+      <li><strong>Adjust your inflation estimate conservatively:</strong> The semiannual inflation rate changes every May and November. Using a long-run average (3–4%) gives a realistic projection.</li>
+      <li><strong>Consider deferring taxes:</strong> You can defer reporting I bond interest until redemption or maturity, which may allow you to realize it in a lower-income year.</li>
+    </ul>
+
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>What is the current I bond rate?</summary>
+      <div class="answer">The composite rate on I bonds is set every May and November based on CPI-U inflation data. As of early 2025, the fixed rate is 1.20–1.30% and the composite rate fluctuates with inflation. Always check TreasuryDirect.gov for the most current rates before purchasing.</div>
+    </details>
+    <details>
+      <summary>Can I lose money on an I bond?</summary>
+      <div class="answer">No. I bonds are backed by the full faith and credit of the U.S. government and are guaranteed never to decrease in value — the composite rate has a floor of 0%. Even in deflationary periods, you won't lose principal. The only "loss" scenario is the 3-month interest penalty for early redemption before 5 years.</div>
+    </details>
+    <details>
+      <summary>How do I bonds compare to TIPS?</summary>
+      <div class="answer">Both are inflation-protected, but I bonds are simpler and have no secondary market risk — you hold them to redemption. TIPS pay interest semi-annually and their principal adjusts with CPI, but they can be traded and their price fluctuates. I bonds are better for long-term, set-and-forget savers; TIPS are better for those who want liquidity or are investing in a retirement account.</div>
+    </details>
+    <details>
+      <summary>Are I bond proceeds tax-exempt for education expenses?</summary>
+      <div class="answer">Yes — if you use I bond proceeds to pay for qualified higher education expenses (tuition and fees) at eligible institutions, the interest may be partially or fully exempt from federal income tax, subject to income limits. This is a significant benefit for education savers. Consult IRS Publication 970 for details.</div>
+    </details>
+  </div>
+
+  <div class="related-tools">
+    <h2>Related Tools</h2>
+    <div class="related-grid">
+      <a class="related-link" href="/employee-stock-options-value-calculator/">Employee Stock Options (ESO) Value Calculator</a>
+      <a class="related-link" href="/home-improvement-roi-calculator/">Home Improvement ROI Calculator</a>
+      <a class="related-link" href="/401k-early-withdrawal-penalty-calculator/">401k Early Withdrawal Penalty Calculator</a>
+      <a class="related-link" href="/series-ee-savings-bond-value-calculator/">Series EE Savings Bond Value Calculator</a>
+      <a class="related-link" href="/required-minimum-distribution-calculator/">Required Minimum Distribution (RMD) Calculator</a>
+      <a class="related-link" href="/stock-dollar-cost-averaging-calculator/">Stock Dollar-Cost Averaging Calculator</a>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-bottom"></div>
+</main>
+
+<footer>
+  <a href="/about/">About</a>
+  <a href="/privacy/">Privacy</a>
+  <a href="/contact/">Contact</a>
+  <span>© 2025 calcstack.dev</span>
+</footer>
+
+<script>
+// Sync slider ↔ text input
+function syncSlider(inputId, sliderId, val) {
+  const inp = document.getElementById(inputId);
+  const display = document.getElementById(sliderId.replace('-slider','') + '-val');
+  if (!inp) return;
+  inp.value = parseFloat(val).toFixed(inputId === 'hold-years' ? 0 : (inputId === 'tax-rate' ? 0 : 2));
+  if (display) {
+    if (inputId === 'hold-years') display.textContent = val + ' yrs';
+    else display.textContent = parseFloat(val).toFixed(inputId === 'tax-rate' ? 0 : 2) + '%';
+  }
+}
+
+// Sync text input → slider
+function setupInputSync(inputId, sliderId) {
+  const inp = document.getElementById(inputId);
+  const slider = document.getElementById(sliderId);
+  const display = document.getElementById(inputId + '-val');
+  if (!inp || !slider) return;
+  inp.addEventListener('input', function() {
+    slider.value = this.value;
+    if (display) {
+      if (inputId === 'hold-years') display.textContent = this.value + ' yrs';
+      else display.textContent = parseFloat(this.value || 0).toFixed(inputId === 'tax-rate' ? 0 : 2) + '%';
+    }
+  });
+  inp.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') requestAnimationFrame(calculate);
+  });
+}
+
+setupInputSync('fixed-rate', 'fixed-rate-slider');
+setupInputSync('inflation-rate', 'inflation-rate-slider');
+setupInputSync('hold-years', 'hold-years-slider');
+setupInputSync('tax-rate', 'tax-rate-slider');
+document.getElementById('principal').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') requestAnimationFrame(calculate);
+});
+
+function fmt(n) {
+  return '$' + n.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+}
+function fmtPct(n) {
+  return n.toFixed(2) + '%';
+}
+
+let showAll = false;
+let allRows = [];
+
+function toggleShowAll() {
+  showAll = !showAll;
+  renderTable();
+  document.getElementById('showAllBtn').textContent = showAll ? 'Show Less' : 'Show All Years';
+}
+
+function renderTable() {
+  const rows = showAll ? allRows : allRows.slice(0, 10);
+  let html = '';
+  for (const r of rows) {
+    html += `<tr>
+      <td>${r.year}</td>
+      <td class="num">${fmt(r.value)}</td>
+      <td class="num">${fmt(r.yearInterest)}</td>
+      <td class="num">${fmt(r.cumInterest)}</td>
+      <td class="num">${fmtPct(r.composite)}</td>
+    </tr>`;
+  }
+  document.getElementById('breakdown-body').innerHTML = html;
+  const btn = document.getElementById('showAllBtn');
+  if (allRows.length <= 10) btn.style.display = 'none';
+  else btn.style.display = 'block';
+}
+
+function calculate() {
+  // Clear errors
+  ['principal','fixed','inflation','years','tax'].forEach(k => {
+    const el = document.getElementById(k + '-err');
+    if (el) { el.classList.remove('show'); }
+  });
+  ['principal','fixed-rate','inflation-rate','hold-years','tax-rate'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.remove('error');
+  });
+
+  const principal = parseFloat(document.getElementById('principal').value);
+  const fixedRate = parseFloat(document.getElementById('fixed-rate').value) / 100;
+  const inflationRate = parseFloat(document.getElementById('inflation-rate').value) / 100;
+  const holdYears = parseInt(document.getElementById('hold-years').value);
+  const taxRate = parseFloat(document.getElementById('tax-rate').value) / 100;
+  const earlyRedeem = document.getElementById('redeem-year').value === 'yes';
+
+  let valid = true;
+  if (isNaN(principal) || principal < 25 || principal > 10000) {
+    document.getElementById('principal').classList.add('error');
+    document.getElementById('principal-err').classList.add('show');
+    valid = false;
+  }
+  if (isNaN(fixedRate) || fixedRate < 0 || fixedRate > 0.03) {
+    document.getElementById('fixed-rate').classList.add('error');
+    document.getElementById('fixed-err').classList.add('show');
+    valid = false;
+  }
+  if (isNaN(inflationRate) || inflationRate < 0 || inflationRate > 0.15) {
+    document.getElementById('inflation-rate').classList.add('error');
+    document.getElementById('inflation-err').classList.add('show');
+    valid = false;
+  }
+  if (isNaN(holdYears) || holdYears < 1 || holdYears > 30) {
+    document.getElementById('hold-years').classList.add('error');
+    document.getElementById('years-err').classList.add('show');
+    valid = false;
+  }
+  if (isNaN(taxRate) || taxRate < 0 || taxRate > 0.37) {
+    document.getElementById('tax-rate').classList.add('error');
+    document.getElementById('tax-err').classList.add('show');
+    valid = false;
+  }
+  if (!valid) return;
+
+  // I bond composite rate formula (semiannual compounding)
+  // Semiannual inflation = inflationRate / 2
+  // Composite (annualized) = fixed + 2*semi_inf + fixed*semi_inf
+  const semiInflation = inflationRate / 2;
+  const compositeAnnual = fixedRate + (2 * semiInflation) + (fixedRate * semiInflation);
+
+  // Build period-by-period (semiannual periods)
+  const totalPeriods = holdYears * 2;
+  let value = principal;
+  allRows = [];
+
+  // Store semiannual values for table rows annually
+  let prevAnnualValue = principal;
+  let cumInterest = 0;
+
+  for (let p = 1; p <= totalPeriods; p++) {
+    const periodRate = compositeAnnual / 2;
+    const interest = value * periodRate;
+    value += interest;
+    cumInterest = value - principal;
+
+    if (p % 2 === 0) {
+      const year = p / 2;
+      const yearInterest = value - prevAnnualValue;
+      allRows.push({
+        year,
+        value,
+        yearInterest,
+        cumInterest,
+        composite: compositeAnnual * 100
+      });
+      prevAnnualValue = value;
+    }
+  }
+
+  // Early redemption penalty (last 3 months = 1 semiannual period * 0.5)
+  let penaltyAmount = 0;
+  const effectiveYears = Math.min(holdYears, 30);
+  if (earlyRedeem && effectiveYears < 5) {
+    // 3-month penalty = half a semiannual period's interest on value 3 months ago
+    // Approximate: last semiannual interest * 0.5
+    const lastSemiInterest = value - (value / (1 + compositeAnnual / 2));
+    penaltyAmount = lastSemiInterest * 0.5;
+  }
+
+  const finalValue = value - penaltyAmount;
+  const totalInterest = finalValue - principal;
+  const taxOwed = Math.max(0, totalInterest * taxRate);
+  const afterTax = finalValue - taxOwed;
+  const cagr = Math.pow(finalValue / principal, 1 / holdYears) - 1;
+
+  // DOM updates
+  document.getElementById('res-final-val').textContent = fmt(finalValue);
+  document.getElementById('res-principal').textContent = fmt(principal);
+  document.getElementById('res-interest').textContent = fmt(totalInterest);
+  document.getElementById('res-penalty').textContent = penaltyAmount > 0 ? ('-' + fmt(penaltyAmount).replace('$','$')) : '$0.00';
+  document.getElementById('res-aftertax').textContent = fmt(afterTax);
+  document.getElementById('res-composite').textContent = fmtPct(compositeAnnual * 100);
+  document.getElementById('res-cagr').textContent = fmtPct(cagr * 100);
+
+  // Penalty note
+  document.getElementById('penalty-note').style.display = penaltyAmount > 0 ? 'block' : 'none';
+
+  // Stacked bar chart (of finalValue)
+  const pctPrincipal = (principal / finalValue) * 100;
+  const pctInterest = (Math.max(0, totalInterest - taxOwed) / finalValue) * 100;
+  const pctLoss = 100 - pctPrincipal - pctInterest;
+
+  document.getElementById('bar-principal').style.width = pctPrincipal.toFixed(1) + '%';
+  document.getElementById('bar-interest').style.width = pctInterest.toFixed(1) + '%';
+  document.getElementById('bar-penalty').style.width = Math.max(0, pctLoss).toFixed(1) + '%';
+  document.getElementById('bar-lbl-principal').textContent = 'Principal: ' + fmt(principal);
+  document.getElementById('bar-lbl-interest').textContent = 'Net Interest: ' + fmt(Math.max(0, totalInterest - taxOwed));
+  document.getElementById('bar-lbl-penalty').textContent = 'Tax/Penalty: ' + fmt(taxOwed + penaltyAmount);
+
+  // Horizontal bars (max = finalValue)
+  const maxBar = finalValue;
+  document.getElementById('hbar-principal').style.width = ((principal / maxBar) * 100).toFixed(1) + '%';
+  document.getElementById('hbar-principal-val').textContent = fmt(principal);
+  document.getElementById('hbar-interest').style.width = ((totalInterest / maxBar) * 100).toFixed(1) + '%';
+  document.getElementById('hbar-interest-val').textContent = fmt(totalInterest);
+  document.getElementById('hbar-tax').style.width = (((taxOwed + penaltyAmount) / maxBar) * 100).toFixed(1) + '%';
+  document.getElementById('hbar-tax-val').textContent = fmt(taxOwed + penaltyAmount);
+
+  showAll = false;
+  renderTable();
+  document.getElementById('showAllBtn').textContent = 'Show All Years';
+
+  const resultsEl = document.getElementById('results');
+  resultsEl.classList.add('show');
+  resultsEl.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function copyResults() {
+  const principal = document.getElementById('res-principal').textContent;
+  const interest = document.getElementById('res-interest').textContent;
+  const finalVal = document.getElementById('res-final-val').textContent;
+  const afterTax = document.getElementById('res-aftertax').textContent;
+  const composite = document.getElementById('res-composite').textContent;
+  const cagr = document.getElementById('res-cagr').textContent;
+  const penalty = document.getElementById('res-penalty').textContent;
+
+  const text = `Series I Savings Bond Summary\n` +
+    `Principal Invested: ${principal}\n` +
+    `Interest Earned: ${interest}\n` +
+    `Early Redemption Penalty: ${penalty}\n` +
+    `Total Bond Value: ${finalVal}\n` +
+    `After-Tax Value: ${afterTax}\n` +
+    `Composite Rate: ${composite}\n` +
+    `Effective CAGR: ${cagr}\n` +
+    `Calculated at calcstack.dev`;
+
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = '✓ Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = '📋 Copy Summary';
+      btn.classList.remove('copied');
+    }, 2000);
+  }).catch(() => {
+    alert('Copy not supported in this browser. Please select and copy manually.');
+  });
+}
+
+// Auto-calculate on load
+requestAnimationFrame(calculate);
+</script>
+</body>
+</html>
