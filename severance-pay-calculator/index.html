@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Severance Pay Calculator — Free Online Tool | calcstack.dev</title>
+<meta name="description" content="Calculate your severance pay based on years of service, salary, and company policy. Free severance pay calculator with tax estimates and full breakdown.">
+<link rel="canonical" href="https://calcstack.dev/severance-pay-calculator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Severance Pay Calculator",
+  "url": "https://calcstack.dev/severance-pay-calculator/",
+  "description": "Calculate severance pay based on years of service, salary, and company policy. Includes tax estimates and detailed breakdown.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #fff; color: #1a1a2e; font-size: 16px; line-height: 1.6; }
+a { color: #0077b6; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+nav { border-bottom: 1px solid #e0e0e0; padding: 0 1.5rem; }
+.nav-inner { max-width: 640px; margin: 0 auto; display: flex; align-items: center; height: 52px; }
+.nav-brand { font-weight: 700; font-size: 1.05rem; color: #1a1a2e; }
+.nav-brand:hover { text-decoration: none; color: #0077b6; }
+
+.container { max-width: 640px; margin: 0 auto; padding: 2rem 1.5rem 3rem; }
+h1 { font-size: 1.7rem; font-weight: 800; color: #1a1a2e; margin-bottom: 0.4rem; }
+.subtitle { color: #555; font-size: 0.95rem; margin-bottom: 2rem; }
+
+.card { background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+
+.form-group { margin-bottom: 1.25rem; }
+label { display: block; font-size: 0.85rem; font-weight: 500; color: #444; margin-bottom: 0.4rem; }
+input[type="number"], input[type="text"], select {
+  width: 100%; padding: 12px 16px; border: 1px solid #ddd; border-radius: 6px;
+  font-size: 1rem; color: #1a1a2e; background: #fff; outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s; min-height: 44px;
+  -moz-appearance: textfield;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
+input:focus, select:focus { border-color: #0077b6; box-shadow: 0 0 0 3px rgba(0,119,182,0.15); }
+input.error { border-color: #e74c3c; box-shadow: 0 0 0 3px rgba(231,76,60,0.1); }
+.error-msg { color: #e74c3c; font-size: 0.8rem; margin-top: 0.3rem; display: none; }
+.error-msg.visible { display: block; }
+
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+@media (max-width: 500px) { .form-row { grid-template-columns: 1fr; } }
+
+.slider-wrapper { display: flex; align-items: center; gap: 0.75rem; }
+input[type="range"] { flex: 1; height: 6px; accent-color: #0077b6; cursor: pointer; min-height: 0; }
+.slider-val { font-size: 0.9rem; font-weight: 600; color: #0077b6; min-width: 48px; text-align: right; }
+
+.hint { font-size: 0.78rem; color: #888; margin-top: 0.3rem; }
+
+.btn { background: #0077b6; color: #fff; border: none; padding: 12px 24px; font-size: 1rem; font-weight: 600; border-radius: 6px; cursor: pointer; width: 100%; min-height: 44px; transition: background 0.2s; margin-top: 0.5rem; }
+.btn:hover { background: #006299; }
+.btn-secondary { background: #f0f0f0; color: #1a1a2e; border: 1px solid #ddd; padding: 8px 16px; font-size: 0.85rem; font-weight: 500; border-radius: 6px; cursor: pointer; min-height: 44px; transition: background 0.2s; }
+.btn-secondary:hover { background: #e0e0e0; }
+.btn-copy { background: transparent; border: 1px solid #0077b6; color: #0077b6; padding: 6px 14px; font-size: 0.8rem; font-weight: 500; border-radius: 4px; cursor: pointer; transition: all 0.2s; min-height: 36px; }
+.btn-copy:hover { background: #0077b6; color: #fff; }
+
+.results { opacity: 0; transition: opacity 0.3s ease; pointer-events: none; margin-top: 2rem; }
+.results.visible { opacity: 1; pointer-events: all; }
+
+.results-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; }
+.results-header h2 { font-size: 1.1rem; font-weight: 700; }
+
+.key-numbers { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
+@media (max-width: 420px) { .key-numbers { grid-template-columns: 1fr; } }
+.key-box { background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 8px; padding: 1.25rem; text-align: center; }
+.key-box.primary { background: #e8f4fc; border-color: #b3d7f0; }
+.key-label { font-size: 0.78rem; color: #666; font-weight: 500; text-transform: uppercase; letter-spacing: 0.04em; }
+.key-value { font-size: 1.8rem; font-weight: 800; color: #0077b6; line-height: 1.2; margin-top: 0.2rem; }
+.key-value.dark { color: #1a1a2e; }
+.key-sub { font-size: 0.78rem; color: #888; margin-top: 0.2rem; }
+
+.section-title { font-size: 0.9rem; font-weight: 700; color: #444; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
+
+.bar-chart { margin-bottom: 1.5rem; }
+.bar-row { margin-bottom: 0.75rem; }
+.bar-label-row { display: flex; justify-content: space-between; font-size: 0.83rem; margin-bottom: 0.3rem; }
+.bar-label-row span:first-child { font-weight: 500; color: #333; }
+.bar-label-row span:last-child { font-weight: 600; color: #1a1a2e; }
+.bar-track { background: #f0f0f0; border-radius: 4px; height: 12px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 4px; transition: width 0.5s ease; }
+.bar-blue { background: #0077b6; }
+.bar-green { background: #2ecc71; }
+.bar-orange { background: #e67e22; }
+.bar-red { background: #e74c3c; }
+.bar-gray { background: #95a5a6; }
+
+.table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; margin-bottom: 1rem; }
+table { width: 100%; border-collapse: collapse; min-width: 400px; font-size: 0.88rem; }
+thead th { background: #f0f0f0; padding: 10px 12px; text-align: left; font-weight: 600; color: #444; font-size: 0.82rem; border-bottom: 2px solid #e0e0e0; white-space: nowrap; }
+thead th:not(:first-child) { text-align: right; }
+tbody tr:nth-child(even) { background: #fafafa; }
+tbody tr:nth-child(odd) { background: #fff; }
+tbody td { padding: 9px 12px; border-bottom: 1px solid #f0f0f0; color: #1a1a2e; }
+tbody td:not(:first-child) { text-align: right; font-variant-numeric: tabular-nums; }
+.show-all-row td { text-align: center !important; padding: 8px; }
+
+.toggle-btn { background: none; border: none; color: #0077b6; font-size: 0.85rem; cursor: pointer; padding: 4px 8px; font-weight: 500; }
+.toggle-btn:hover { text-decoration: underline; }
+
+.divider { border: none; border-top: 1px solid #e0e0e0; margin: 1.5rem 0; }
+
+.ad-slot { min-height: 0; margin: 0; }
+
+.content-section { margin-top: 2.5rem; }
+.content-section h2 { font-size: 1.2rem; font-weight: 700; color: #1a1a2e; margin-bottom: 0.75rem; margin-top: 2rem; }
+.content-section h2:first-child { margin-top: 0; }
+.content-section p { color: #444; font-size: 0.95rem; line-height: 1.7; margin-bottom: 0.75rem; }
+.content-section ul { padding-left: 1.4rem; color: #444; font-size: 0.95rem; line-height: 1.7; }
+.content-section ul li { margin-bottom: 0.4rem; }
+details { border: 1px solid #e0e0e0; border-radius: 6px; margin-bottom: 0.6rem; overflow: hidden; }
+summary { padding: 12px 16px; font-weight: 600; font-size: 0.92rem; cursor: pointer; background: #f8f9fa; color: #1a1a2e; list-style: none; display: flex; justify-content: space-between; align-items: center; min-height: 44px; }
+summary::-webkit-details-marker { display: none; }
+summary::after { content: '+'; font-size: 1.1rem; color: #0077b6; }
+details[open] summary::after { content: '−'; }
+details p { padding: 12px 16px; font-size: 0.9rem; color: #444; line-height: 1.65; }
+
+.related-tools { margin-top: 2rem; }
+.related-tools h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.75rem; }
+.related-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+@media (max-width: 480px) { .related-grid { grid-template-columns: 1fr; } }
+.related-link { display: block; padding: 10px 14px; border: 1px solid #e0e0e0; border-radius: 6px; font-size: 0.85rem; color: #0077b6; background: #f8f9fa; transition: background 0.2s; }
+.related-link:hover { background: #e8f4fc; text-decoration: none; }
+
+footer { border-top: 1px solid #e0e0e0; padding: 1.5rem; text-align: center; font-size: 0.82rem; color: #888; }
+footer a { color: #888; margin: 0 0.5rem; }
+footer a:hover { color: #0077b6; }
+
+.notice { background: #fff8e1; border: 1px solid #ffe082; border-radius: 6px; padding: 10px 14px; font-size: 0.82rem; color: #7a6000; margin-top: 1.5rem; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">calcstack.dev</a>
+  </div>
+</nav>
+
+<div class="container">
+  <h1>Severance Pay Calculator</h1>
+  <p class="subtitle">Estimate your severance package based on salary, years of service, and company policy.</p>
+
+  <div class="card">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="annualSalary">Annual Base Salary ($)</label>
+        <input type="number" id="annualSalary" placeholder="75,000" min="0" step="1000">
+        <div class="error-msg" id="err-salary">Please enter a valid annual salary.</div>
+      </div>
+      <div class="form-group">
+        <label for="yearsService">Years of Service</label>
+        <input type="number" id="yearsService" placeholder="5" min="0" step="0.5">
+        <div class="error-msg" id="err-years">Please enter valid years of service.</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="severanceFormula">Severance Formula</label>
+      <select id="severanceFormula">
+        <option value="1week">1 Week per Year of Service</option>
+        <option value="2weeks" selected>2 Weeks per Year of Service</option>
+        <option value="1month">1 Month per Year of Service</option>
+        <option value="custom">Custom Weeks per Year</option>
+      </select>
+    </div>
+
+    <div class="form-group" id="customWeeksGroup" style="display:none;">
+      <label>Custom: Weeks per Year of Service</label>
+      <div class="slider-wrapper">
+        <input type="range" id="customWeeks" min="0.5" max="12" step="0.5" value="3">
+        <span class="slider-val" id="customWeeksVal">3 wks</span>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="minWeeks">Minimum Severance (Weeks)</label>
+        <input type="number" id="minWeeks" placeholder="2" min="0" value="2">
+        <p class="hint">0 = no minimum</p>
+      </div>
+      <div class="form-group">
+        <label for="maxWeeks">Maximum Severance (Weeks)</label>
+        <input type="number" id="maxWeeks" placeholder="26" min="0" value="26">
+        <p class="hint">0 = no cap</p>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="bonusAmount">Additional Bonus/Payment ($)</label>
+        <input type="number" id="bonusAmount" placeholder="0" min="0" value="0">
+        <p class="hint">COBRA, relocation, etc.</p>
+      </div>
+      <div class="form-group">
+        <label for="filingStatus">Tax Filing Status</label>
+        <select id="filingStatus">
+          <option value="single">Single</option>
+          <option value="married" selected>Married Filing Jointly</option>
+          <option value="hoh">Head of Household</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>State Income Tax Rate (%)</label>
+      <div class="slider-wrapper">
+        <input type="range" id="stateTax" min="0" max="13.3" step="0.1" value="5">
+        <span class="slider-val" id="stateTaxVal">5.0%</span>
+      </div>
+      <p class="hint">Avg state rate: 0% (TX, FL, WA) to 13.3% (CA). Adjust to your state.</p>
+    </div>
+
+    <button class="btn" id="calcBtn">Calculate Severance Pay</button>
+  </div>
+
+  <div class="results" id="results">
+    <div class="results-header">
+      <h2>Your Severance Estimate</h2>
+      <button class="btn-copy" id="copyBtn">Copy Summary</button>
+    </div>
+
+    <div class="key-numbers" id="keyNumbers"></div>
+
+    <div class="card" style="margin-bottom:1.5rem;">
+      <div class="section-title">Payment Breakdown</div>
+      <div class="bar-chart" id="barChart"></div>
+    </div>
+
+    <div class="card" style="margin-bottom:1.5rem;">
+      <div class="section-title">Detailed Breakdown</div>
+      <div class="table-wrapper">
+        <table id="breakdownTable"></table>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:1.5rem;">
+      <div class="section-title">Weekly Pay Schedule</div>
+      <div class="table-wrapper">
+        <table id="scheduleTable"></table>
+      </div>
+      <div id="showAllWrapper" style="text-align:center; margin-top:0.5rem;">
+        <button class="toggle-btn" id="showAllBtn">Show All Weeks</button>
+      </div>
+    </div>
+
+    <div class="notice">
+      ⚠️ <strong>Disclaimer:</strong> This calculator provides estimates only. Tax calculations are approximations. Consult an employment attorney or tax professional for advice specific to your situation.
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-mid"></div>
+
+  <div class="content-section">
+    <h2>How to Use This Severance Pay Calculator</h2>
+    <p>Enter your annual base salary and total years of service with your employer. Select the severance formula that matches your company policy — typically 1 or 2 weeks per year of service. You can also set minimum and maximum week caps, add any additional lump-sum payments (like COBRA coverage), and adjust the tax rates to see your estimated take-home amount.</p>
+
+    <h2>Why This Matters</h2>
+    <p>Severance pay is often the most significant financial bridge between losing your job and finding a new one. Knowing exactly what you're owed — and what you'll actually take home after taxes — can make the difference between a financially stressful transition and a manageable one.</p>
+    <p>Consider a 42-year-old marketing director with 8 years at a company earning $95,000/year. Under a standard 2-weeks-per-year policy capped at 26 weeks, she'd receive $29,231 gross — but after federal and state taxes, closer to $19,500 in hand. That's roughly 5 months of reduced living expenses at $3,900/month, not the 7 months the gross figure suggests.</p>
+    <p>HR managers use severance calculators to structure packages consistently. Employees use them to verify offers before signing separation agreements. Attorneys use them as a starting point for negotiations. Whether you're being laid off, negotiating a buyout, or planning ahead, knowing your number is power.</p>
+
+    <h2>How It's Calculated</h2>
+    <p>The core formula is:</p>
+    <p><strong>Severance Weeks = Years of Service × Weeks per Year (capped by min/max)</strong></p>
+    <p><strong>Gross Severance = (Annual Salary ÷ 52) × Severance Weeks + Bonus Payments</strong></p>
+    <p>Federal income tax is estimated using 2024 marginal tax brackets for your filing status. Severance pay is treated as supplemental wages, which may be subject to a flat 22% federal withholding — this calculator uses bracket-based estimation for greater accuracy. Social Security (6.2%) and Medicare (1.45%) taxes also apply, bringing total FICA to 7.65%. State tax is applied at the rate you enter.</p>
+
+    <h2>Tips &amp; Common Mistakes</h2>
+    <ul>
+      <li><strong>Don't forget FICA taxes:</strong> Many people only think about income tax, but Social Security and Medicare take another 7.65% off the top of severance income.</li>
+      <li><strong>Negotiate before you sign:</strong> Severance packages are often negotiable — especially if you have leverage like a strong performance record or long tenure. Even getting 2 extra weeks can be worth thousands.</li>
+      <li><strong>Check your offer letter and handbook:</strong> Your actual entitlement depends on your employment contract and company policy. Some employers calculate based on total compensation, not just base salary.</li>
+      <li><strong>State taxes vary dramatically:</strong> Moving from California (13.3% top rate) to Texas (0%) could mean $3,000+ more in your pocket on a $30,000 severance package.</li>
+      <li><strong>Consider timing:</strong> If laid off late in the year, your severance may be taxed at a lower effective rate if your total annual income is lower. Ask about deferring payment to the next tax year if it makes sense.</li>
+    </ul>
+
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>Is severance pay required by law?</summary>
+      <p>In the United States, there is no federal law requiring employers to offer severance pay. It's typically based on your employment contract, company policy, or a negotiated agreement. However, the WARN Act may require 60 days' notice or pay in lieu of notice for mass layoffs at companies with 100+ employees.</p>
+    </details>
+    <details>
+      <summary>Is severance pay taxed differently than regular income?</summary>
+      <p>Severance pay is treated as ordinary income and is subject to federal income tax, state income tax, and FICA (Social Security and Medicare) taxes. Employers may withhold at a flat 22% federal rate for supplemental wages, but your actual liability depends on your total annual income. You may get a refund or owe more at tax time.</p>
+    </details>
+    <details>
+      <summary>Can I negotiate my severance package?</summary>
+      <p>Yes, and you often should — especially if you have long tenure, a strong performance record, or other leverage. Common items to negotiate include additional weeks of pay, extended health insurance coverage, accelerated vesting of stock options, and outplacement services. You typically have 21 days to review an offer before signing.</p>
+    </details>
+    <details>
+      <summary>Does receiving severance affect unemployment benefits?</summary>
+      <p>It depends on your state. Some states will delay the start of unemployment benefits until your severance period ends, treating it as continued wages. Others allow you to collect unemployment while receiving severance. Check your state's unemployment office for specific rules before filing.</p>
+    </details>
+  </div>
+
+  <div class="related-tools">
+    <h2>Related Tools</h2>
+    <div class="related-grid">
+      <a href="/series-i-savings-bond-return-calculator/" class="related-link">Series I Savings Bond Return Calculator</a>
+      <a href="/employee-stock-options-value-calculator/" class="related-link">Employee Stock Options (ESO) Value Calculator</a>
+      <a href="/home-improvement-roi-calculator/" class="related-link">Home Improvement ROI Calculator</a>
+      <a href="/401k-early-withdrawal-penalty-calculator/" class="related-link">401k Early Withdrawal Penalty Calculator</a>
+      <a href="/series-ee-savings-bond-value-calculator/" class="related-link">Series EE Savings Bond Value Calculator</a>
+      <a href="/required-minimum-distribution-calculator/" class="related-link">Required Minimum Distribution (RMD) Calculator</a>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-bottom"></div>
+</div>
+
+<footer>
+  <a href="/about/">About</a>
+  <a href="/privacy/">Privacy</a>
+  <a href="/contact/">Contact</a>
+  <br style="margin-bottom:0.5rem;">
+  <span>© <span id="yr"></span> calcstack.dev</span>
+</footer>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+// Slider: custom weeks
+const customWeeksSlider = document.getElementById('customWeeks');
+const customWeeksVal = document.getElementById('customWeeksVal');
+customWeeksSlider.addEventListener('input', () => {
+  customWeeksVal.textContent = customWeeksSlider.value + ' wks';
+});
+
+// Slider: state tax
+const stateTaxSlider = document.getElementById('stateTax');
+const stateTaxVal = document.getElementById('stateTaxVal');
+stateTaxSlider.addEventListener('input', () => {
+  stateTaxVal.textContent = parseFloat(stateTaxSlider.value).toFixed(1) + '%';
+});
+
+// Show/hide custom weeks
+document.getElementById('severanceFormula').addEventListener('change', function() {
+  document.getElementById('customWeeksGroup').style.display = this.value === 'custom' ? 'block' : 'none';
+});
+
+// Enter key triggers calc
+document.querySelectorAll('input').forEach(inp => {
+  inp.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
+});
+
+// Format helpers
+function fmt(n) { return '$' + Math.round(n).toLocaleString('en-US'); }
+function fmtD(n) { return '$' + n.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2}); }
+function fmtN(n) { return n.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2}); }
+
+// Tax brackets 2024
+const brackets = {
+  single: [
+    [11600, 0.10], [44725, 0.12], [95375, 0.22],
+    [201050, 0.24], [383900, 0.32], [487450, 0.35], [Infinity, 0.37]
+  ],
+  married: [
+    [23200, 0.10], [89450, 0.12], [190750, 0.22],
+    [364200, 0.24], [462500, 0.32], [693750, 0.35], [Infinity, 0.37]
+  ],
+  hoh: [
+    [16550, 0.10], [63100, 0.12], [100500, 0.22],
+    [191950, 0.24], [243700, 0.32], [609350, 0.35], [Infinity, 0.37]
+  ]
+};
+
+function calcFederalTax(income, status) {
+  const bkts = brackets[status];
+  let tax = 0, prev = 0;
+  for (let i = 0; i < bkts.length; i++) {
+    const [limit, rate] = bkts[i];
+    if (income <= prev) break;
+    const taxable = Math.min(income, limit) - prev;
+    tax += taxable * rate;
+    prev = limit;
+    if (income <= limit) break;
+  }
+  return tax;
+}
+
+// State and running summary for clipboard
+let _summary = '';
+
+function validate() {
+  let ok = true;
+  const salary = parseFloat(document.getElementById('annualSalary').value);
+  const years = parseFloat(document.getElementById('yearsService').value);
+
+  const salErr = document.getElementById('err-salary');
+  const yrErr = document.getElementById('err-years');
+  const salIn = document.getElementById('annualSalary');
+  const yrIn = document.getElementById('yearsService');
+
+  if (!salary || salary <= 0) {
+    salErr.classList.add('visible'); salIn.classList.add('error'); ok = false;
+  } else { salErr.classList.remove('visible'); salIn.classList.remove('error'); }
+
+  if (isNaN(years) || years < 0) {
+    yrErr.classList.add('visible'); yrIn.classList.add('error'); ok = false;
+  } else { yrErr.classList.remove('visible'); yrIn.classList.remove('error'); }
+
+  return ok;
+}
+
+function calculate() {
+  if (!validate()) return;
+
+  const salary = parseFloat(document.getElementById('annualSalary').value);
+  const years = parseFloat(document.getElementById('yearsService').value);
+  const formula = document.getElementById('severanceFormula').value;
+  const minWeeks = parseFloat(document.getElementById('minWeeks').value) || 0;
+  const maxWeeksVal2 = parseFloat(document.getElementById('maxWeeks').value) || 0;
+  const bonus = parseFloat(document.getElementById('bonusAmount').value) || 0;
+  const filingStatus = document.getElementById('filingStatus').value;
+  const stateRate = parseFloat(stateTaxSlider.value) / 100;
+
+  let weeksPerYear;
+  if (formula === '1week') weeksPerYear = 1;
+  else if (formula === '2weeks') weeksPerYear = 2;
+  else if (formula === '1month') weeksPerYear = 52 / 12;
+  else weeksPerYear = parseFloat(customWeeksSlider.value);
+
+  let rawWeeks = years * weeksPerYear;
+  if (minWeeks > 0) rawWeeks = Math.max(rawWeeks, minWeeks);
+  if (maxWeeksVal2 > 0) rawWeeks = Math.min(rawWeeks, maxWeeksVal2);
+  rawWeeks = Math.max(rawWeeks, 0);
+
+  const weeklyPay = salary / 52;
+  const baseSeverance = weeklyPay * rawWeeks;
+  const grossSeverance = baseSeverance + bonus;
+
+  // Tax estimates
+  // Assume severance is on top of partial year income — approximate by treating full severance as income this year
+  const federalTax = calcFederalTax(grossSeverance, filingStatus);
+  const fica = Math.min(grossSeverance, 160200) * 0.062 + grossSeverance * 0.0145; // SS cap 2024
+  const stateTaxAmt = grossSeverance * stateRate;
+  const totalTax = federalTax + fica + stateTaxAmt;
+  const netSeverance = grossSeverance - totalTax;
+  const effectiveRate = grossSeverance > 0 ? (totalTax / grossSeverance) * 100 : 0;
+
+  const weeksDisplay = Number.isInteger(rawWeeks) ? rawWeeks : rawWeeks.toFixed(1);
+
+  requestAnimationFrame(() => {
+    // Key numbers
+    const kn = document.getElementById('keyNumbers');
+    kn.innerHTML = `
+      <div class="key-box primary">
+        <div class="key-label">Gross Severance</div>
+        <div class="key-value">${fmt(grossSeverance)}</div>
+        <div class="key-sub">${weeksDisplay} weeks total</div>
+      </div>
+      <div class="key-box primary">
+        <div class="key-label">Estimated Take-Home</div>
+        <div class="key-value">${fmt(netSeverance)}</div>
+        <div class="key-sub">After ~${effectiveRate.toFixed(1)}% total tax</div>
+      </div>
+      <div class="key-box">
+        <div class="key-label">Weekly Pay</div>
+        <div class="key-value dark" style="font-size:1.4rem">${fmt(weeklyPay)}</div>
+        <div class="key-sub">per week</div>
+      </div>
+      <div class="key-box">
+        <div class="key-label">Total Tax Est.</div>
+        <div class="key-value dark" style="font-size:1.4rem">${fmt(totalTax)}</div>
+        <div class="key-sub">Fed + FICA + State</div>
+      </div>
+    `;
+
+    // Bar chart
+    const maxVal = grossSeverance;
+    function barRow(label, value, pct, colorClass) {
+      const w = Math.min(Math.max(pct, 0), 100);
+      return `<div class="bar-row">
+        <div class="bar-label-row"><span>${label}</span><span>${fmtD(value)}</span></div>
+        <div class="bar-track"><div class="bar-fill ${colorClass}" style="width:${w}%"></div></div>
+      </div>`;
+    }
+
+    const bc = document.getElementById('barChart');
+    bc.innerHTML =
+      barRow('Base Severance Pay', baseSeverance, (baseSeverance / maxVal) * 100, 'bar-blue') +
+      (bonus > 0 ? barRow('Bonus / Additional Pay', bonus, (bonus / maxVal) * 100, 'bar-green') : '') +
+      barRow('Federal Income Tax', federalTax, (federalTax / maxVal) * 100, 'bar-orange') +
+      barRow('FICA Taxes (SS + Medicare)', fica, (fica / maxVal) * 100, 'bar-red') +
+      (stateTaxAmt > 0 ? barRow('State Income Tax', stateTaxAmt, (stateTaxAmt / maxVal) * 100, 'bar-gray') : '') +
+      barRow('Estimated Take-Home', netSeverance, (netSeverance / maxVal) * 100, 'bar-green');
+
+    // Breakdown table
+    const statusLabel = {single:'Single', married:'Married Filing Jointly', hoh:'Head of Household'}[filingStatus];
+    const formulaLabel = {
+      '1week':'1 week / year',
+      '2weeks':'2 weeks / year',
+      '1month':'~4.33 weeks / year',
+      'custom': customWeeksSlider.value + ' weeks / year'
+    }[formula];
+
+    let bt = `<thead><tr><th>Item</th><th>Amount</th></tr></thead><tbody>`;
+    bt += `<tr><td>Annual Salary</td><td>${fmtD(salary)}</td></tr>`;
+    bt += `<tr><td>Weekly Pay (÷52)</td><td>${fmtD(weeklyPay)}</td></tr>`;
+    bt += `<tr><td>Years of Service</td><td>${years}</td></tr>`;
+    bt += `<tr><td>Severance Formula</td><td>${formulaLabel}</td></tr>`;
+    bt += `<tr><td>Calculated Weeks</td><td>${weeksDisplay} weeks</td></tr>`;
+    if (minWeeks > 0) bt += `<tr><td>Minimum (applied)</td><td>${minWeeks} weeks</td></tr>`;
+    if (maxWeeksVal2 > 0) bt += `<tr><td>Maximum Cap</td><td>${maxWeeksVal2} weeks</td></tr>`;
+    bt += `<tr><td>Base Severance Pay</td><td>${fmtD(baseSeverance)}</td></tr>`;
+    if (bonus > 0) bt += `<tr><td>Additional Bonus/Pay</td><td>${fmtD(bonus)}</td></tr>`;
+    bt += `<tr><td><strong>Gross Severance</strong></td><td><strong>${fmtD(grossSeverance)}</strong></td></tr>`;
+    bt += `<tr><td>Filing Status</td><td>${statusLabel}</td></tr>`;
+    bt += `<tr><td>Federal Income Tax (est.)</td><td>-${fmtD(federalTax)}</td></tr>`;
+    bt += `<tr><td>Social Security Tax (6.2%)</td><td>-${fmtD(Math.min(grossSeverance,160200)*0.062)}</td></tr>`;
+    bt += `<tr><td>Medicare Tax (1.45%)</td><td>-${fmtD(grossSeverance*0.0145)}</td></tr>`;
+    if (stateTaxAmt > 0) bt += `<tr><td>State Income Tax (${(stateRate*100).toFixed(1)}%)</td><td>-${fmtD(stateTaxAmt)}</td></tr>`;
+    bt += `<tr><td><strong>Total Estimated Tax</strong></td><td><strong>-${fmtD(totalTax)}</strong></td></tr>`;
+    bt += `<tr style="background:#e8f4fc;"><td><strong>Estimated Take-Home</strong></td><td><strong>${fmtD(netSeverance)}</strong></td></tr>`;
+    bt += `</tbody>`;
+    document.getElementById('breakdownTable').innerHTML = bt;
+
+    // Weekly schedule
+    const totalWeeks = Math.round(rawWeeks * 2) / 2; // half-week resolution
+    const weekCount = Math.ceil(totalWeeks);
+    let schedRows = [];
+    let cumulative = 0;
+    for (let w = 1; w <= weekCount; w++) {
+      const isLast = w === weekCount;
+      const fraction = isLast && totalWeeks % 1 !== 0 ? totalWeeks % 1 : 1;
+      const gross = weeklyPay * fraction;
+      const tax = gross * (totalTax / grossSeverance);
+      const net = gross - tax;
+      cumulative += net;
+      schedRows.push([w, fmtD(gross), fmtD(tax), fmtD(net), fmtD(cumulative)]);
+    }
+
+    const SHOW_INIT = 8;
+    function buildScheduleHTML(showAll) {
+      let t = `<thead><tr><th>Week</th><th>Gross Pay</th><th>Est. Tax</th><th>Net Pay</th><th>Cumulative Net</th></tr></thead><tbody>`;
+      const rows = showAll ? schedRows : schedRows.slice(0, SHOW_INIT);
+      rows.forEach(r => {
+        t += `<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td><td>${r[4]}</td></tr>`;
+      });
+      t += `</tbody>`;
+      return t;
+    }
+
+    let schedShowAll = false;
+    document.getElementById('scheduleTable').innerHTML = buildScheduleHTML(false);
+    const showAllBtn = document.getElementById('showAllBtn');
+    const showAllWrapper = document.getElementById('showAllWrapper');
+    if (weekCount <= SHOW_INIT) {
+      showAllWrapper.style.display = 'none';
+    } else {
+      showAllWrapper.style.display = 'block';
+      showAllBtn.textContent = `Show All ${weekCount} Weeks`;
+      showAllBtn.onclick = function() {
+        schedShowAll = !schedShowAll;
+        document.getElementById('scheduleTable').innerHTML = buildScheduleHTML(schedShowAll);
+        showAllBtn.textContent = schedShowAll ? 'Show Less' : `Show All ${weekCount} Weeks`;
+      };
+    }
+
+    // Build clipboard summary
+    _summary = [
+      'SEVERANCE PAY ESTIMATE — calcstack.dev',
+      '─────────────────────────────────────',
+      `Annual Salary:       ${fmtD(salary)}`,
+      `Years of Service:    ${years}`,
+      `Severance Weeks:     ${weeksDisplay}`,
+      `Gross Severance:     ${fmtD(grossSeverance)}`,
+      `Federal Tax (est.):  ${fmtD(federalTax)}`,
+      `FICA Taxes:          ${fmtD(fica)}`,
+      `State Tax (est.):    ${fmtD(stateTaxAmt)}`,
+      `Total Tax:           ${fmtD(totalTax)}`,
+      `Take-Home (est.):    ${fmtD(netSeverance)}`,
+      `Effective Tax Rate:  ${effectiveRate.toFixed(1)}%`,
+      '─────────────────────────────────────',
+      'Note: Estimates only. Consult a tax professional.'
+    ].join('\n');
+
+    const res = document.getElementById('results');
+    res.classList.add('visible');
+    res.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+}
+
+document.getElementById('calcBtn').addEventListener('click', calculate);
+
+// Copy button
+document.getElementById('copyBtn').addEventListener('click', function() {
+  if (!_summary) return;
+  navigator.clipboard.writeText(_summary).then(() => {
+    this.textContent = 'Copied!';
+    setTimeout(() => { this.textContent = 'Copy Summary'; }, 2000);
+  }).catch(() => {
+    this.textContent = 'Copy failed';
+    setTimeout(() => { this.textContent = 'Copy Summary'; }, 2000);
+  });
+});
+</script>
+</body>
+</html>
