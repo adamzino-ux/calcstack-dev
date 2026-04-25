@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pension Lump Sum vs Monthly Payment Calculator — Free Online Tool | calcstack.dev</title>
+<meta name="description" content="Compare pension lump sum vs monthly payments. Find your break-even point, total lifetime value, and which option puts more money in your pocket.">
+<link rel="canonical" href="https://calcstack.dev/pension-lump-sum-vs-monthly-payment-calculator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Pension Lump Sum vs Monthly Payment Calculator",
+  "url": "https://calcstack.dev/pension-lump-sum-vs-monthly-payment-calculator/",
+  "description": "Compare your pension lump sum offer against monthly annuity payments to determine the best option for your retirement.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f4f6f9;color:#1a1a2e;font-size:16px;line-height:1.6}
+a{color:#0077b6;text-decoration:none}
+a:hover{text-decoration:underline}
+nav{background:#fff;border-bottom:1px solid #e0e0e0;padding:0 1.5rem}
+.nav-inner{max-width:640px;margin:0 auto;display:flex;align-items:center;height:52px}
+.nav-brand{font-weight:700;font-size:1.05rem;color:#1a1a2e}
+.nav-brand span{color:#0077b6}
+main{max-width:640px;margin:0 auto;padding:1.5rem 1rem 2rem}
+h1{font-size:1.5rem;font-weight:800;color:#1a1a2e;margin-bottom:.4rem;line-height:1.3}
+.subtitle{color:#555;font-size:.95rem;margin-bottom:1.5rem}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;box-shadow:0 1px 4px rgba(0,0,0,.06);margin-bottom:1.5rem}
+.section-title{font-size:1rem;font-weight:700;color:#1a1a2e;margin-bottom:1.2rem;padding-bottom:.5rem;border-bottom:2px solid #f0f0f0}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.field{margin-bottom:1.1rem}
+label{display:block;font-size:.85rem;font-weight:500;color:#444;margin-bottom:.35rem}
+input[type=number],input[type=text],select{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:6px;font-size:.95rem;color:#1a1a2e;background:#fff;transition:border-color .2s,box-shadow .2s;-moz-appearance:textfield}
+input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appearance:none}
+input:focus,select:focus{outline:none;border-color:#0077b6;box-shadow:0 0 0 3px rgba(0,119,182,.15)}
+input.error{border-color:#e74c3c}
+.error-msg{color:#e74c3c;font-size:.8rem;margin-top:.3rem;display:none}
+.hint{color:#777;font-size:.78rem;margin-top:.25rem}
+.input-prefix{position:relative}
+.input-prefix span{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#888;font-size:.95rem;pointer-events:none}
+.input-prefix input{padding-left:26px}
+.tab-row{display:flex;gap:.5rem;margin-bottom:1.2rem}
+.tab-btn{flex:1;padding:10px 8px;border:1px solid #ddd;background:#f8f9fa;border-radius:6px;font-size:.85rem;font-weight:600;cursor:pointer;color:#555;transition:all .2s;min-height:44px}
+.tab-btn.active{background:#0077b6;color:#fff;border-color:#0077b6}
+.slider-wrap{display:flex;align-items:center;gap:.75rem}
+input[type=range]{flex:1;-webkit-appearance:none;appearance:none;height:6px;border-radius:4px;background:#ddd;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:#0077b6;cursor:pointer;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#0077b6;cursor:pointer;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.slider-val{min-width:48px;text-align:center;font-weight:700;color:#0077b6;font-size:.95rem}
+.btn-primary{background:#0077b6;color:#fff;border:none;padding:13px 24px;border-radius:6px;font-size:1rem;font-weight:700;cursor:pointer;width:100%;min-height:48px;transition:background .2s;letter-spacing:.01em}
+.btn-primary:hover{background:#006299}
+.btn-secondary{background:#f0f0f0;color:#1a1a2e;border:1px solid #ddd;padding:8px 16px;border-radius:6px;font-size:.85rem;font-weight:600;cursor:pointer;min-height:36px;transition:background .2s}
+.btn-secondary:hover{background:#e4e4e4}
+.results{display:none;animation:fadeIn .3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.verdict-box{border-radius:8px;padding:1.25rem 1.5rem;margin-bottom:1.2rem;border:2px solid}
+.verdict-lump{background:#e8f5e9;border-color:#2e7d32}
+.verdict-monthly{background:#e3f2fd;border-color:#1565c0}
+.verdict-neutral{background:#fff8e1;border-color:#f9a825}
+.verdict-label{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.3rem;opacity:.7}
+.verdict-headline{font-size:1.15rem;font-weight:800;color:#1a1a2e;margin-bottom:.25rem}
+.verdict-sub{font-size:.88rem;color:#555}
+.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1.2rem}
+.kpi{background:#f8f9fa;border:1px solid #e8e8e8;border-radius:8px;padding:1rem;text-align:center}
+.kpi-label{font-size:.75rem;font-weight:600;color:#666;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.3rem}
+.kpi-value{font-size:1.4rem;font-weight:800;color:#0077b6}
+.kpi-sub{font-size:.75rem;color:#888;margin-top:.2rem}
+.bar-section{margin-bottom:1.2rem}
+.bar-label{font-size:.82rem;font-weight:600;color:#555;margin-bottom:.4rem;display:flex;justify-content:space-between}
+.bar-track{height:28px;background:#f0f0f0;border-radius:6px;overflow:hidden;display:flex}
+.bar-fill-a{background:#0077b6;height:100%;transition:width .4s ease;border-radius:6px 0 0 6px}
+.bar-fill-b{background:#48cae4;height:100%;transition:width .4s ease}
+.bar-legend{display:flex;gap:1rem;margin-top:.4rem;font-size:.78rem;color:#555}
+.legend-dot{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:.3rem;vertical-align:middle}
+.copy-bar{display:flex;justify-content:flex-end;margin-bottom:.75rem}
+.copy-btn{background:#f0f0f0;border:1px solid #ddd;color:#555;padding:6px 14px;border-radius:6px;font-size:.8rem;cursor:pointer;font-weight:600;transition:all .2s;min-height:36px}
+.copy-btn:hover{background:#e0e0e0}
+table{width:100%;border-collapse:collapse;font-size:.85rem}
+thead th{background:#f0f0f0;padding:9px 10px;font-weight:700;color:#444;text-align:left;font-size:.78rem;text-transform:uppercase;letter-spacing:.05em}
+thead th.num{text-align:right}
+tbody tr:nth-child(even){background:#fafafa}
+tbody td{padding:8px 10px;border-bottom:1px solid #f0f0f0;color:#333}
+tbody td.num{text-align:right;font-variant-numeric:tabular-nums}
+tbody td.pos{color:#2e7d32;font-weight:600}
+tbody td.neg{color:#c62828;font-weight:600}
+.table-wrap{overflow-x:auto}
+.show-all-row{text-align:center;padding:10px}
+.show-all-btn{background:none;border:1px solid #0077b6;color:#0077b6;padding:7px 18px;border-radius:6px;font-size:.83rem;cursor:pointer;font-weight:600;min-height:36px}
+.show-all-btn:hover{background:#e8f4fb}
+.ad-slot{min-height:0;margin:0}
+.content-section{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;margin-bottom:1.5rem}
+.content-section h2{font-size:1.1rem;font-weight:800;color:#1a1a2e;margin-bottom:.75rem;margin-top:1.5rem}
+.content-section h2:first-child{margin-top:0}
+.content-section p{color:#444;font-size:.92rem;margin-bottom:.75rem;line-height:1.7}
+.content-section ul{color:#444;font-size:.92rem;padding-left:1.4rem;margin-bottom:.75rem}
+.content-section li{margin-bottom:.4rem;line-height:1.6}
+details{border:1px solid #e8e8e8;border-radius:6px;margin-bottom:.6rem;overflow:hidden}
+summary{padding:.75rem 1rem;font-weight:600;font-size:.9rem;cursor:pointer;background:#f8f9fa;color:#1a1a2e;list-style:none;display:flex;justify-content:space-between;align-items:center}
+summary::after{content:'▼';font-size:.7rem;color:#888;transition:transform .2s}
+details[open] summary::after{transform:rotate(180deg)}
+details p{padding:.85rem 1rem;font-size:.88rem;color:#444;line-height:1.65;border-top:1px solid #eee}
+.formula-box{background:#f0f7ff;border:1px solid #b8d9f5;border-radius:6px;padding:1rem;font-family:monospace;font-size:.85rem;color:#1a1a2e;margin:.75rem 0;line-height:1.8}
+.related-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.related-link{display:block;background:#f8f9fa;border:1px solid #e8e8e8;border-radius:6px;padding:.75rem 1rem;font-size:.85rem;font-weight:600;color:#0077b6;transition:background .2s}
+.related-link:hover{background:#e8f4fb;text-decoration:none}
+footer{background:#fff;border-top:1px solid #e0e0e0;padding:1.25rem 1.5rem;text-align:center;font-size:.82rem;color:#777;margin-top:1rem}
+footer a{color:#0077b6;margin:0 .5rem}
+.hidden-rows{display:none}
+.highlight-row td{font-weight:700;background:#fff9e6 !important}
+@media(max-width:640px){
+  .grid-2{grid-template-columns:1fr}
+  .kpi-grid{grid-template-columns:1fr 1fr}
+  .related-grid{grid-template-columns:1fr}
+  h1{font-size:1.3rem}
+  .card{padding:1.25rem}
+  .kpi-value{font-size:1.2rem}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">calc<span>stack</span>.dev</a>
+  </div>
+</nav>
+
+<main>
+  <h1>Pension Lump Sum vs Monthly Payment Calculator</h1>
+  <p class="subtitle">Find your break-even point and total lifetime value for each pension option.</p>
+
+  <div class="card">
+    <div class="section-title">Pension Options</div>
+
+    <div class="grid-2">
+      <div class="field">
+        <label for="lumpSum">Lump Sum Offer</label>
+        <div class="input-prefix"><span>$</span>
+          <input type="number" id="lumpSum" placeholder="250,000" min="0" step="1000">
+        </div>
+        <div class="error-msg" id="lumpSumErr">Please enter a valid lump sum amount.</div>
+      </div>
+      <div class="field">
+        <label for="monthlyPayment">Monthly Pension Payment</label>
+        <div class="input-prefix"><span>$</span>
+          <input type="number" id="monthlyPayment" placeholder="1,500" min="0" step="10">
+        </div>
+        <div class="error-msg" id="monthlyPaymentErr">Please enter a valid monthly payment.</div>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:1rem">Your Situation</div>
+
+    <div class="grid-2">
+      <div class="field">
+        <label for="currentAge">Current Age</label>
+        <input type="number" id="currentAge" placeholder="60" min="18" max="100" step="1">
+        <div class="error-msg" id="currentAgeErr">Enter age between 18–100.</div>
+      </div>
+      <div class="field">
+        <label for="lifeExpectancy">Life Expectancy</label>
+        <input type="number" id="lifeExpectancy" placeholder="85" min="18" max="120" step="1">
+        <div class="error-msg" id="lifeExpectancyErr">Enter age between 18–120.</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Investment Return Rate (if you take the lump sum): <strong id="returnRateDisplay">5.0%</strong></label>
+      <div class="slider-wrap">
+        <input type="range" id="returnRate" min="0" max="12" step="0.5" value="5">
+        <div class="slider-val" id="returnRateVal">5.0%</div>
+      </div>
+      <div class="hint">Assumed annual return if you invest the lump sum (e.g., 5–7% for a diversified portfolio).</div>
+    </div>
+
+    <div class="field">
+      <label>Annual COLA (Cost of Living Adjustment) on monthly pension: <strong id="colaDisplay">2.0%</strong></label>
+      <div class="slider-wrap">
+        <input type="range" id="cola" min="0" max="5" step="0.5" value="2">
+        <div class="slider-val" id="colaVal">2.0%</div>
+      </div>
+      <div class="hint">Annual increase in your monthly payment. 0% if fixed.</div>
+    </div>
+
+    <div class="grid-2">
+      <div class="field">
+        <label for="taxRate">Marginal Tax Rate (%)</label>
+        <input type="number" id="taxRate" placeholder="22" min="0" max="60" step="1" value="22">
+        <div class="hint">Applied to monthly payments and investment gains.</div>
+      </div>
+      <div class="field">
+        <label for="inflationRate">Inflation Rate (%)</label>
+        <input type="number" id="inflationRate" placeholder="3" min="0" max="15" step="0.5" value="3">
+        <div class="hint">Used to calculate real (inflation-adjusted) values.</div>
+      </div>
+    </div>
+
+    <button class="btn-primary" id="calcBtn">Calculate Best Option →</button>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="results" id="results">
+
+    <div class="copy-bar">
+      <button class="copy-btn" id="copyBtn">📋 Copy Summary</button>
+    </div>
+
+    <div id="verdictBox" class="verdict-box">
+      <div class="verdict-label">Recommendation</div>
+      <div class="verdict-headline" id="verdictHeadline"></div>
+      <div class="verdict-sub" id="verdictSub"></div>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi">
+        <div class="kpi-label">Break-Even Age</div>
+        <div class="kpi-value" id="kpiBreakeven">—</div>
+        <div class="kpi-sub" id="kpiBreakevenSub"></div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Total Monthly Payments</div>
+        <div class="kpi-value" id="kpiMonthlyTotal">—</div>
+        <div class="kpi-sub" id="kpiMonthlySub"></div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Lump Sum Final Value</div>
+        <div class="kpi-value" id="kpiLumpFinal">—</div>
+        <div class="kpi-sub" id="kpiLumpSub"></div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Lifetime Advantage</div>
+        <div class="kpi-value" id="kpiAdvantage">—</div>
+        <div class="kpi-sub" id="kpiAdvantageSub"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">Lifetime Value Comparison</div>
+
+      <div class="bar-section">
+        <div class="bar-label">
+          <span>Lump Sum (invested)</span>
+          <span id="barLumpLabel">—</span>
+        </div>
+        <div class="bar-track">
+          <div class="bar-fill-a" id="barLump" style="width:0%"></div>
+        </div>
+      </div>
+
+      <div class="bar-section">
+        <div class="bar-label">
+          <span>Monthly Payments (cumulative)</span>
+          <span id="barMonthlyLabel">—</span>
+        </div>
+        <div class="bar-track">
+          <div class="bar-fill-b" id="barMonthly" style="width:0%"></div>
+        </div>
+      </div>
+
+      <div class="bar-legend">
+        <span><span class="legend-dot" style="background:#0077b6"></span>Lump Sum Portfolio</span>
+        <span><span class="legend-dot" style="background:#48cae4"></span>Cumulative Monthly</span>
+      </div>
+
+      <div style="margin-top:1.2rem">
+        <div class="bar-label"><span>After-Tax Values</span></div>
+        <div class="bar-section">
+          <div class="bar-label"><span>Lump Sum (after-tax)</span><span id="barLumpATLabel">—</span></div>
+          <div class="bar-track"><div class="bar-fill-a" id="barLumpAT" style="width:0%;opacity:.7"></div></div>
+        </div>
+        <div class="bar-section">
+          <div class="bar-label"><span>Monthly Payments (after-tax)</span><span id="barMonthlyATLabel">—</span></div>
+          <div class="bar-track"><div class="bar-fill-b" id="barMonthlyAT" style="width:0%;opacity:.7"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">Year-by-Year Breakdown</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Age</th>
+              <th>Year</th>
+              <th class="num">Monthly Pmt</th>
+              <th class="num">Cumul. Monthly</th>
+              <th class="num">Lump Sum Value</th>
+              <th class="num">Advantage</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+      <div class="show-all-row" id="showAllRow" style="display:none">
+        <button class="show-all-btn" id="showAllBtn">Show All Years</button>
+      </div>
+    </div>
+  </div>
+  <!-- /RESULTS -->
+
+  <div class="ad-slot" id="ad-mid"></div>
+
+  <!-- CONTENT -->
+  <div class="content-section">
+    <h2>How to Use This Pension Lump Sum vs Monthly Payment Calculator</h2>
+    <p>Enter your lump sum offer and monthly pension amount, then fill in your current age, life expectancy, expected investment return, and tax rate. Hit "Calculate" to instantly see which option delivers more money over your lifetime, your break-even age, and a year-by-year comparison table.</p>
+
+    <h2>Why This Matters</h2>
+    <p>Choosing between a pension lump sum and monthly payments is one of the biggest financial decisions you'll make. Get it wrong and you could leave hundreds of thousands of dollars on the table — or outlive your savings.</p>
+    <p>Consider this: a $300,000 lump sum invested at 6% annually grows to roughly $575,000 in 10 years. But a $2,000/month pension pays $240,000 over the same period. At age 75 the monthly route pulls ahead — and if you live to 90, the pension pays out over $720,000 cumulative.</p>
+    <p>Who needs this calculator? Anyone offered a pension buyout, employees transitioning from defined-benefit to defined-contribution plans, early retirees evaluating Social Security timing, and spouses comparing survivor benefit tradeoffs. The "right" answer depends heavily on your life expectancy, investment discipline, and whether your pension includes COLA adjustments — all factors this tool accounts for.</p>
+
+    <h2>How It's Calculated</h2>
+    <p>The calculator runs a year-by-year simulation for both options from your current age to your life expectancy.</p>
+    <div class="formula-box">
+Lump Sum Value (Year N) = PreviousValue × (1 + returnRate) − withdrawals<br>
+Monthly Total (Year N) = PreviousTotal + monthlyPayment × (1 + COLA)^N × 12<br><br>
+After-Tax Monthly = monthlyPayment × (1 − taxRate)<br>
+After-Tax Lump Sum Growth = returnRate × (1 − taxRate) applied annually<br><br>
+Break-Even Age = year when Cumulative Monthly ≥ Invested Lump Sum Value
+    </div>
+    <p>The break-even calculation compares the growing invested lump sum against cumulative pension payments. If you die before break-even, the lump sum was better. After break-even, the monthly pension wins — unless your heirs inherit the remaining portfolio.</p>
+
+    <h2>Tips & Common Mistakes</h2>
+    <ul>
+      <li><strong>Don't overestimate investment returns.</strong> A 10% assumed return sounds great but is historically aggressive. Use 4–6% for a balanced portfolio to be conservative.</li>
+      <li><strong>Factor in survivor benefits.</strong> If your monthly pension includes a survivor benefit for a spouse, the lump sum needs to work even harder to compete.</li>
+      <li><strong>Account for COLA.</strong> A 2–3% annual COLA on your pension dramatically improves its lifetime value, especially over 20–30 years. A fixed monthly payment loses real purchasing power.</li>
+      <li><strong>Check pension fund health.</strong> If your employer's pension plan is underfunded, a lump sum now removes your risk. PBGC insurance covers only up to ~$7,000/month.</li>
+      <li><strong>Consider your spending discipline.</strong> The lump sum only wins on paper if you actually invest it. If there's risk you'll spend it, the monthly payment forces "automatic" income.</li>
+    </ul>
+
+    <h2>Frequently Asked Questions</h2>
+
+    <details>
+      <summary>What investment return rate should I use for the lump sum?</summary>
+      <p>For a conservative estimate, use 4–5%. A balanced 60/40 portfolio has historically returned around 6–7% before inflation, but past performance isn't guaranteed. Using 5% gives you a realistic middle ground that accounts for fees and sequence-of-returns risk.</p>
+    </details>
+
+    <details>
+      <summary>Does this calculator account for taxes on the lump sum rollover?</summary>
+      <p>If you roll your lump sum directly into a Traditional IRA or 401(k), there's no immediate tax — you defer until withdrawal. This calculator applies your marginal tax rate to annual investment gains (simulating taxable account growth) and to monthly pension income. For a direct rollover scenario, set your tax rate to reflect only the withdrawal rate you expect in retirement.</p>
+    </details>
+
+    <details>
+      <summary>What if I live longer than my life expectancy?</summary>
+      <p>Life expectancy is a median — half of people outlive it. If longevity runs in your family, consider modeling to age 90 or 95. The longer you live, the more the monthly pension tends to outperform the lump sum, especially with COLA adjustments compounding over decades.</p>
+    </details>
+
+    <details>
+      <summary>Can I leave the lump sum to my heirs?</summary>
+      <p>Yes — an invested lump sum (unlike most annuity payments) has a residual value that can pass to heirs. This is a major advantage of the lump sum option if estate planning is important to you. The monthly pension typically ends at death (or the death of a surviving spouse, depending on your plan's survivor benefit election).</p>
+    </details>
+  </div>
+
+  <div class="content-section">
+    <h2>Related Tools</h2>
+    <div class="related-grid">
+      <a href="/severance-pay-calculator/" class="related-link">💼 Severance Pay Calculator</a>
+      <a href="/series-i-savings-bond-return-calculator/" class="related-link">📈 Series I Savings Bond Return Calculator</a>
+      <a href="/employee-stock-options-value-calculator/" class="related-link">📊 Employee Stock Options (ESO) Value Calculator</a>
+      <a href="/home-improvement-roi-calculator/" class="related-link">🏠 Home Improvement ROI Calculator</a>
+      <a href="/401k-early-withdrawal-penalty-calculator/" class="related-link">💸 401k Early Withdrawal Penalty Calculator</a>
+      <a href="/series-ee-savings-bond-value-calculator/" class="related-link">🏦 Series EE Savings Bond Value Calculator</a>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-bottom"></div>
+</main>
+
+<footer>
+  <div>© <span id="yr"></span> calcstack.dev &nbsp;|&nbsp;
+    <a href="/about/">About</a>
+    <a href="/privacy/">Privacy</a>
+    <a href="/contact/">Contact</a>
+  </div>
+</footer>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+// Slider sync
+function syncSlider(rangeId, valId, suffix) {
+  const range = document.getElementById(rangeId);
+  const val = document.getElementById(valId);
+  const update = () => { val.textContent = parseFloat(range.value).toFixed(1) + suffix; };
+  range.addEventListener('input', update);
+  update();
+}
+syncSlider('returnRate', 'returnRateVal', '%');
+syncSlider('cola', 'colaVal', '%');
+
+// Also update display labels
+document.getElementById('returnRate').addEventListener('input', function() {
+  document.getElementById('returnRateDisplay').textContent = parseFloat(this.value).toFixed(1) + '%';
+});
+document.getElementById('cola').addEventListener('input', function() {
+  document.getElementById('colaDisplay').textContent = parseFloat(this.value).toFixed(1) + '%';
+});
+
+function fmt(n) {
+  if (isNaN(n)) return '—';
+  const abs = Math.abs(n);
+  const s = abs >= 1e9 ? (abs/1e9).toFixed(2)+'B'
+           : abs >= 1e6 ? (abs/1e6).toFixed(2)+'M'
+           : abs.toLocaleString('en-US', {minimumFractionDigits:0,maximumFractionDigits:0});
+  return (n < 0 ? '-$' : '$') + (abs >= 1e6 ? s : abs.toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:0}));
+}
+function fmtFull(n) {
+  if (isNaN(n)) return '—';
+  const sign = n < 0 ? '-$' : '$';
+  return sign + Math.abs(n).toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:0});
+}
+function clearErrors() {
+  ['lumpSumErr','monthlyPaymentErr','currentAgeErr','lifeExpectancyErr'].forEach(id => {
+    document.getElementById(id).style.display = 'none';
+  });
+  ['lumpSum','monthlyPayment','currentAge','lifeExpectancy'].forEach(id => {
+    document.getElementById(id).classList.remove('error');
+  });
+}
+function showError(inputId, errId) {
+  document.getElementById(inputId).classList.add('error');
+  document.getElementById(errId).style.display = 'block';
+}
+
+let allRows = [];
+let showingAll = false;
+
+function calculate() {
+  clearErrors();
+  const lumpSum = parseFloat(document.getElementById('lumpSum').value);
+  const monthly = parseFloat(document.getElementById('monthlyPayment').value);
+  const currentAge = parseInt(document.getElementById('currentAge').value);
+  const lifeExp = parseInt(document.getElementById('lifeExpectancy').value);
+  const returnRate = parseFloat(document.getElementById('returnRate').value) / 100;
+  const cola = parseFloat(document.getElementById('cola').value) / 100;
+  const taxRate = parseFloat(document.getElementById('taxRate').value) / 100;
+  const inflation = parseFloat(document.getElementById('inflationRate').value) / 100;
+
+  let valid = true;
+  if (isNaN(lumpSum) || lumpSum < 0) { showError('lumpSum','lumpSumErr'); valid=false; }
+  if (isNaN(monthly) || monthly < 0) { showError('monthlyPayment','monthlyPaymentErr'); valid=false; }
+  if (isNaN(currentAge) || currentAge < 18 || currentAge > 100) { showError('currentAge','currentAgeErr'); valid=false; }
+  if (isNaN(lifeExp) || lifeExp <= currentAge || lifeExp > 120) { showError('lifeExpectancy','lifeExpectancyErr'); valid=false; }
+  if (!valid) return;
+
+  const years = lifeExp - currentAge;
+  const afterTaxReturn = returnRate * (1 - taxRate);
+  const afterTaxMonthlyRate = 1 - taxRate;
+
+  let rows = [];
+  let lumpVal = lumpSum;
+  let lumpValAT = lumpSum;
+  let cumulMonthly = 0;
+  let cumulMonthlyAT = 0;
+  let breakEvenAge = null;
+  let breakEvenYear = null;
+  let currentMonthly = monthly;
+
+  for (let y = 1; y <= years; y++) {
+    const age = currentAge + y;
+    // Grow lump sum
+    lumpVal = lumpVal * (1 + returnRate);
+    lumpValAT = lumpValAT * (1 + afterTaxReturn);
+    // Monthly payment this year (COLA applied)
+    const yearMonthly = currentMonthly * 12;
+    const yearMonthlyAT = yearMonthly * afterTaxMonthlyRate;
+    cumulMonthly += yearMonthly;
+    cumulMonthlyAT += yearMonthlyAT;
+    // Inflate cumulative for comparison
+    const advantage = lumpVal - cumulMonthly;
+    if (breakEvenAge === null && cumulMonthly >= lumpVal) {
+      breakEvenAge = age;
+      breakEvenYear = y;
+    }
+    rows.push({ age, year: y, monthlyPmt: currentMonthly, cumulMonthly, lumpVal, advantage, cumulMonthlyAT, lumpValAT });
+    currentMonthly = currentMonthly * (1 + cola);
+  }
+
+  allRows = rows;
+  const lastRow = rows[rows.length - 1];
+  const totalMonthly = lastRow.cumulMonthly;
+  const finalLump = lastRow.lumpVal;
+  const totalMonthlyAT = lastRow.cumulMonthlyAT;
+  const finalLumpAT = lastRow.lumpValAT;
+  const advantage = finalLump - totalMonthly;
+  const bestOption = advantage < 0 ? 'monthly' : advantage > 0 ? 'lump' : 'tie';
+
+  requestAnimationFrame(() => {
+    // Verdict
+    const verdictBox = document.getElementById('verdictBox');
+    verdictBox.className = 'verdict-box';
+    if (bestOption === 'monthly') {
+      verdictBox.classList.add('verdict-monthly');
+      document.getElementById('verdictHeadline').textContent = '✅ Monthly Pension Payments Win';
+      document.getElementById('verdictSub').textContent = `Over your lifetime, monthly payments total ${fmtFull(totalMonthly)} vs. the lump sum growing to ${fmtFull(finalLump)} — a ${fmtFull(Math.abs(advantage))} advantage for the monthly option.`;
+    } else if (bestOption === 'lump') {
+      verdictBox.classList.add('verdict-lump');
+      document.getElementById('verdictHeadline').textContent = '✅ Lump Sum Investment Wins';
+      document.getElementById('verdictSub').textContent = `Investing the lump sum grows it to ${fmtFull(finalLump)} vs. ${fmtFull(totalMonthly)} in cumulative monthly payments — a ${fmtFull(Math.abs(advantage))} advantage for the lump sum.`;
+    } else {
+      verdictBox.classList.add('verdict-neutral');
+      document.getElementById('verdictHeadline').textContent = '⚖️ It\'s a Tie';
+      document.getElementById('verdictSub').textContent = 'Both options produce roughly the same lifetime value under these assumptions.';
+    }
+
+    // KPIs
+    document.getElementById('kpiBreakeven').textContent = breakEvenAge ? 'Age ' + breakEvenAge : 'Never';
+    document.getElementById('kpiBreakevenSub').textContent = breakEvenAge ? `Monthly surpasses lump sum at year ${breakEvenYear}` : 'Lump sum stays ahead your whole life';
+    document.getElementById('kpiMonthlyTotal').textContent = fmtFull(totalMonthly);
+    document.getElementById('kpiMonthlySub').textContent = 'Gross cumulative payments to age ' + lifeExp;
+    document.getElementById('kpiLumpFinal').textContent = fmtFull(finalLump);
+    document.getElementById('kpiLumpSub').textContent = 'Invested lump sum value at age ' + lifeExp;
+    const advAmt = Math.abs(advantage);
+    document.getElementById('kpiAdvantage').textContent = fmtFull(advAmt);
+    document.getElementById('kpiAdvantageSub').textContent = (bestOption === 'monthly' ? 'Monthly wins by' : bestOption === 'lump' ? 'Lump sum wins by' : 'Equal value');
+
+    // Bars
+    const maxVal = Math.max(totalMonthly, finalLump, 1);
+    const maxValAT = Math.max(totalMonthlyAT, finalLumpAT, 1);
+    const lumpPct = Math.min(100, (finalLump / maxVal) * 100);
+    const monthlyPct = Math.min(100, (totalMonthly / maxVal) * 100);
+    const lumpATpct = Math.min(100, (finalLumpAT / maxValAT) * 100);
+    const monthlyATpct = Math.min(100, (totalMonthlyAT / maxValAT) * 100);
+    document.getElementById('barLump').style.width = lumpPct + '%';
+    document.getElementById('barMonthly').style.width = monthlyPct + '%';
+    document.getElementById('barLumpAT').style.width = lumpATpct + '%';
+    document.getElementById('barMonthlyAT').style.width = monthlyATpct + '%';
+    document.getElementById('barLumpLabel').textContent = fmtFull(finalLump);
+    document.getElementById('barMonthlyLabel').textContent = fmtFull(totalMonthly);
+    document.getElementById('barLumpATLabel').textContent = fmtFull(finalLumpAT);
+    document.getElementById('barMonthlyATLabel').textContent = fmtFull(totalMonthlyAT);
+
+    // Table
+    buildTable(false);
+
+    // Show results
+    const resultsEl = document.getElementById('results');
+    resultsEl.style.display = 'block';
+    resultsEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+}
+
+function buildTable(showAll) {
+  const rows = allRows;
+  const PREVIEW = 10;
+  const breakEvenRows = new Set();
+  let prevAdv = null;
+  rows.forEach((r, i) => {
+    const adv = r.lumpVal - r.cumulMonthly;
+    if (prevAdv !== null && prevAdv > 0 && adv <= 0) breakEvenRows.add(i);
+    prevAdv = adv;
+  });
+
+  const rowsToShow = showAll ? rows : rows.slice(0, Math.min(PREVIEW, rows.length));
+  const hiddenRows = showAll ? [] : rows.slice(Math.min(PREVIEW, rows.length));
+
+  let html = '';
+  rowsToShow.forEach((r, i) => {
+    const adv = r.lumpVal - r.cumulMonthly;
+    const isBreak = breakEvenRows.has(i);
+    const cls = isBreak ? 'highlight-row' : '';
+    const advCls = adv >= 0 ? 'num pos' : 'num neg';
+    html += `<tr class="${cls}">
+      <td>${r.age}</td>
+      <td>${r.year}</td>
+      <td class="num">${fmtFull(r.monthlyPmt)}/mo</td>
+      <td class="num">${fmtFull(r.cumulMonthly)}</td>
+      <td class="num">${fmtFull(r.lumpVal)}</td>
+      <td class="${advCls}">${adv >= 0 ? '+' : ''}${fmtFull(Math.abs(adv))} ${adv >= 0 ? '(Lump)' : '(Monthly)'}</td>
+    </tr>`;
+  });
+
+  if (!showAll && hiddenRows.length > 0) {
+    // Add hidden rows
+    hiddenRows.forEach((r, i) => {
+      const adv = r.lumpVal - r.cumulMonthly;
+      const globalIdx = PREVIEW + i;
+      const isBreak = breakEvenRows.has(globalIdx);
+      const cls = (isBreak ? 'highlight-row ' : '') + 'hidden-rows';
+      const advCls = adv >= 0 ? 'num pos' : 'num neg';
+      html += `<tr class="${cls}">
+        <td>${r.age}</td>
+        <td>${r.year}</td>
+        <td class="num">${fmtFull(r.monthlyPmt)}/mo</td>
+        <td class="num">${fmtFull(r.cumulMonthly)}</td>
+        <td class="num">${fmtFull(r.lumpVal)}</td>
+        <td class="${advCls}">${adv >= 0 ? '+' : ''}${fmtFull(Math.abs(adv))} ${adv >= 0 ? '(Lump)' : '(Monthly)'}</td>
+      </tr>`;
+    });
+  }
+
+  document.getElementById('tableBody').innerHTML = html;
+
+  const showAllRow = document.getElementById('showAllRow');
+  if (rows.length > PREVIEW && !showAll) {
+    showAllRow.style.display = 'block';
+    document.getElementById('showAllBtn').textContent = 'Show All ' + rows.length + ' Years';
+    showingAll = false;
+  } else if (rows.length > PREVIEW && showAll) {
+    showAllRow.style.display = 'block';
+    document.getElementById('showAllBtn').textContent = 'Show Less';
+    showingAll = true;
+  } else {
+    showAllRow.style.display = 'none';
+  }
+}
+
+document.getElementById('showAllBtn').addEventListener('click', function() {
+  showingAll = !showingAll;
+  if (showingAll) {
+    document.querySelectorAll('.hidden-rows').forEach(r => r.style.display = '');
+    this.textContent = 'Show Less';
+  } else {
+    document.querySelectorAll('.hidden-rows').forEach(r => r.style.display = 'none');
+    this.textContent = 'Show All ' + allRows.length + ' Years';
+  }
+});
+
+document.getElementById('calcBtn').addEventListener('click', () => {
+  requestAnimationFrame(() => { calculate(); });
+});
+
+document.querySelectorAll('input').forEach(inp => {
+  inp.addEventListener('keydown', e => {
+    if (e.key === 'Enter') requestAnimationFrame(() => { calculate(); });
+  });
+});
+
+// Copy button
+document.getElementById('copyBtn').addEventListener('click', function() {
+  const rows = allRows;
+  if (!rows.length) return;
+  const lastRow = rows[rows.length - 1];
+  const lumpVal = lastRow.lumpVal;
+  const cumulMonthly = lastRow.cumulMonthly;
+  const breakEvenEl = document.getElementById('kpiBreakeven').textContent;
+  const text = [
+    'Pension Lump Sum vs Monthly Payment — Summary',
+    '='.repeat(45),
+    `Lump Sum Final Value: ${fmtFull(lumpVal)}`,
+    `Total Monthly Payments: ${fmtFull(cumulMonthly)}`,
+    `Break-Even: ${breakEvenEl}`,
+    `Advantage: ${document.getElementById('kpiAdvantage').textContent} — ${document.getElementById('kpiAdvantageSub').textContent}`,
+    '',
+    'Generated at calcstack.dev/pension-lump-sum-vs-monthly-payment-calculator/'
+  ].join('\n');
+  navigator.clipboard.writeText(text).then(() => {
+    this.textContent = '✅ Copied!';
+    setTimeout(() => { this.textContent = '📋 Copy Summary'; }, 2000);
+  }).catch(() => {
+    this.textContent = '⚠️ Failed';
+    setTimeout(() => { this.textContent = '📋 Copy Summary'; }, 2000);
+  });
+});
+</script>
+</body>
+</html>
