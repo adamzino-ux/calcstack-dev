@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Backdoor Roth IRA Tax Calculator — Free Online Tool | calcstack.dev</title>
+<meta name="description" content="Calculate the tax impact of your Backdoor Roth IRA conversion. See exactly how much you'll owe using the pro-rata rule — free, accurate, and instant.">
+<link rel="canonical" href="https://calcstack.dev/backdoor-roth-ira-tax-calculator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Backdoor Roth IRA Tax Calculator",
+  "url": "https://calcstack.dev/backdoor-roth-ira-tax-calculator/",
+  "description": "Calculate the tax impact of your Backdoor Roth IRA conversion using the pro-rata rule.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "All",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f4f6f9;color:#1a1a2e;font-size:16px;line-height:1.6}
+a{color:#0077b6;text-decoration:none}
+a:hover{text-decoration:underline}
+.nav{background:#fff;border-bottom:1px solid #e0e0e0;padding:0 1.5rem}
+.nav-inner{max-width:640px;margin:0 auto;display:flex;align-items:center;height:52px}
+.nav-brand{font-weight:700;font-size:1.05rem;color:#1a1a2e}
+.nav-brand span{color:#0077b6}
+.page-wrap{max-width:640px;margin:0 auto;padding:1.5rem 1rem 3rem}
+h1{font-size:1.6rem;font-weight:700;color:#1a1a2e;margin-bottom:0.4rem;line-height:1.3}
+.subtitle{color:#555;font-size:0.95rem;margin-bottom:1.5rem}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;box-shadow:0 2px 8px rgba(0,0,0,0.05);margin-bottom:2rem}
+.section-title{font-size:1rem;font-weight:700;color:#0077b6;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:1.2rem;padding-bottom:0.5rem;border-bottom:2px solid #e8f4fb}
+label{display:block;font-size:0.85rem;font-weight:500;color:#444;margin-bottom:0.35rem;margin-top:1rem}
+label:first-of-type{margin-top:0}
+input[type=number],input[type=text],select{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:6px;font-size:1rem;color:#1a1a2e;background:#fff;transition:border-color 0.2s,box-shadow 0.2s;-moz-appearance:textfield}
+input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none}
+input:focus,select:focus{outline:none;border-color:#0077b6;box-shadow:0 0 0 3px rgba(0,119,182,0.15)}
+input.error{border-color:#e74c3c}
+.error-msg{color:#e74c3c;font-size:0.8rem;margin-top:0.3rem;display:none}
+.error-msg.show{display:block}
+.hint{font-size:0.78rem;color:#888;margin-top:0.3rem}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media(max-width:500px){.row2{grid-template-columns:1fr}}
+.btn{display:block;width:100%;padding:14px 24px;background:#0077b6;color:#fff;border:none;border-radius:6px;font-size:1rem;font-weight:600;cursor:pointer;transition:background 0.2s;margin-top:1.5rem;min-height:44px}
+.btn:hover{background:#006299}
+.btn-secondary{background:#fff;color:#0077b6;border:1px solid #0077b6;padding:8px 16px;border-radius:6px;font-size:0.85rem;cursor:pointer;min-height:36px;transition:background 0.2s}
+.btn-secondary:hover{background:#e8f4fb}
+.results{opacity:0;transition:opacity 0.3s ease;pointer-events:none}
+.results.visible{opacity:1;pointer-events:all}
+.key-number{font-size:2.6rem;font-weight:800;color:#0077b6;line-height:1}
+.key-label{font-size:0.88rem;color:#666;margin-top:0.3rem}
+.key-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+@media(max-width:460px){.key-grid{grid-template-columns:1fr 1fr}}
+.key-box{background:#f8f9fa;border-radius:8px;padding:1rem;text-align:center}
+.key-box.accent{background:#e8f4fb;border:1px solid #bde0f5}
+.bar-wrap{margin-bottom:1.5rem}
+.bar-label{display:flex;justify-content:space-between;font-size:0.82rem;color:#555;margin-bottom:0.3rem}
+.bar-track{background:#f0f0f0;border-radius:4px;height:22px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;transition:width 0.6s ease;display:flex;align-items:center;padding-left:8px;font-size:0.75rem;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden}
+.bar-blue{background:#0077b6}
+.bar-orange{background:#e07b00}
+.bar-green{background:#1a7a4a}
+.bar-gray{background:#8a8a8a}
+.stacked-bar{display:flex;height:28px;border-radius:6px;overflow:hidden;margin-bottom:0.5rem}
+.stacked-seg{height:100%;transition:flex 0.6s ease;display:flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:700;color:#fff;overflow:hidden;white-space:nowrap}
+.legend{display:flex;flex-wrap:wrap;gap:0.6rem 1.2rem;font-size:0.8rem;color:#555;margin-top:0.5rem}
+.legend-dot{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:middle}
+table{width:100%;border-collapse:collapse;font-size:0.88rem}
+thead th{background:#f0f0f0;padding:10px 12px;text-align:left;font-weight:600;color:#333}
+thead th.num{text-align:right}
+tbody tr:nth-child(even){background:#fafafa}
+tbody td{padding:9px 12px;border-bottom:1px solid #eee;color:#444}
+tbody td.num{text-align:right;font-variant-numeric:tabular-nums}
+.table-scroll{overflow-x:auto}
+.show-all-wrap{text-align:center;margin-top:0.75rem}
+.copy-row{display:flex;justify-content:flex-end;margin-bottom:0.75rem}
+.badge{display:inline-block;padding:2px 8px;border-radius:12px;font-size:0.75rem;font-weight:600}
+.badge-warn{background:#fff3cd;color:#856404}
+.badge-ok{background:#d4edda;color:#155724}
+.alert{padding:12px 16px;border-radius:6px;font-size:0.88rem;margin-bottom:1rem}
+.alert-warn{background:#fff3cd;border-left:4px solid #ffc107;color:#856404}
+.alert-info{background:#e8f4fb;border-left:4px solid #0077b6;color:#0055a5}
+.content-section{margin-bottom:2rem}
+.content-section h2{font-size:1.2rem;font-weight:700;color:#1a1a2e;margin-bottom:0.75rem;margin-top:0}
+.content-section p{color:#444;margin-bottom:0.75rem;font-size:0.95rem}
+.content-section ul{padding-left:1.3rem;color:#444;font-size:0.95rem}
+.content-section li{margin-bottom:0.5rem}
+details{border:1px solid #e0e0e0;border-radius:6px;margin-bottom:0.75rem;background:#fff}
+summary{padding:12px 16px;cursor:pointer;font-weight:500;color:#0077b6;list-style:none;font-size:0.95rem}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"▶ ";font-size:0.75rem;color:#0077b6}
+details[open] summary::before{content:"▼ "}
+details p{padding:0 16px 14px;color:#444;font-size:0.9rem;line-height:1.6}
+.related-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem}
+@media(max-width:420px){.related-grid{grid-template-columns:1fr}}
+.related-link{display:block;background:#f8f9fa;border:1px solid #e0e0e0;border-radius:6px;padding:10px 14px;font-size:0.88rem;color:#0077b6;transition:background 0.2s}
+.related-link:hover{background:#e8f4fb;text-decoration:none}
+.ad-slot{min-height:0;margin:0}
+footer{background:#fff;border-top:1px solid #e0e0e0;padding:1.2rem 1.5rem;text-align:center;font-size:0.82rem;color:#888}
+footer a{color:#0077b6;margin:0 0.5rem}
+.tabs{display:flex;gap:0;margin-bottom:1.5rem;border-bottom:2px solid #e0e0e0}
+.tab{padding:10px 18px;cursor:pointer;font-size:0.9rem;font-weight:500;color:#666;border-bottom:2px solid transparent;margin-bottom:-2px;transition:color 0.2s,border-color 0.2s;background:none;border-top:none;border-left:none;border-right:none;min-height:44px}
+.tab.active{color:#0077b6;border-bottom-color:#0077b6;font-weight:600}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+.divider{border:none;border-top:1px solid #eee;margin:1.5rem 0}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">calc<span>stack</span>.dev</a>
+  </div>
+</nav>
+
+<div class="page-wrap">
+  <h1>Backdoor Roth IRA Tax Calculator</h1>
+  <p class="subtitle">Calculate your exact tax liability using the IRS pro-rata rule — in seconds.</p>
+
+  <!-- TOOL CARD -->
+  <div class="card">
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('inputs')">Calculator</button>
+      <button class="tab" onclick="switchTab('howto')">How It Works</button>
+    </div>
+
+    <!-- INPUTS PANEL -->
+    <div class="tab-panel active" id="tab-inputs">
+      <div class="section-title">Your IRA Details</div>
+
+      <div class="row2">
+        <div>
+          <label for="nondeductibleBasis">Non-Deductible Contribution ($)</label>
+          <input type="number" id="nondeductibleBasis" placeholder="6500" min="0" max="100000">
+          <div class="hint">Amount being converted (your new contribution)</div>
+          <div class="error-msg" id="err-nondeductible">Please enter a valid amount.</div>
+        </div>
+        <div>
+          <label for="totalTradIRA">Total Pre-Tax IRA Balance ($)</label>
+          <input type="number" id="totalTradIRA" placeholder="0" min="0">
+          <div class="hint">All traditional, SEP, and SIMPLE IRAs combined</div>
+          <div class="error-msg" id="err-tradIRA">Please enter a valid amount.</div>
+        </div>
+      </div>
+
+      <div class="row2">
+        <div>
+          <label for="totalBasis">Total Non-Deductible Basis in IRAs ($)</label>
+          <input type="number" id="totalBasis" placeholder="6500" min="0">
+          <div class="hint">Total prior non-deductible contributions (Form 8606 line 14)</div>
+          <div class="error-msg" id="err-basis">Please enter a valid amount.</div>
+        </div>
+        <div>
+          <label for="conversionAmt">Amount Being Converted ($)</label>
+          <input type="number" id="conversionAmt" placeholder="6500" min="0">
+          <div class="hint">Amount converting to Roth this year</div>
+          <div class="error-msg" id="err-conversion">Please enter a valid amount.</div>
+        </div>
+      </div>
+
+      <hr class="divider">
+      <div class="section-title">Tax Information</div>
+
+      <div class="row2">
+        <div>
+          <label for="filingStatus">Filing Status</label>
+          <select id="filingStatus">
+            <option value="single">Single</option>
+            <option value="mfj" selected>Married Filing Jointly</option>
+            <option value="mfs">Married Filing Separately</option>
+            <option value="hoh">Head of Household</option>
+          </select>
+        </div>
+        <div>
+          <label for="taxYear">Tax Year</label>
+          <select id="taxYear">
+            <option value="2025" selected>2025</option>
+            <option value="2024">2024</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row2">
+        <div>
+          <label for="ordinaryIncome">Ordinary Income (before conversion) ($)</label>
+          <input type="number" id="ordinaryIncome" placeholder="120000" min="0">
+          <div class="hint">Wages, self-employment, etc. (before adding conversion)</div>
+          <div class="error-msg" id="err-income">Please enter a valid amount.</div>
+        </div>
+        <div>
+          <label for="taxableGain">IRA Growth / Earnings ($)</label>
+          <input type="number" id="taxableGain" placeholder="0" min="0">
+          <div class="hint">Any earnings in the IRA since contribution (if any)</div>
+        </div>
+      </div>
+
+      <button class="btn" onclick="requestAnimationFrame(calculate)">Calculate Tax Impact</button>
+    </div>
+
+    <!-- HOW IT WORKS PANEL -->
+    <div class="tab-panel" id="tab-howto">
+      <div class="alert alert-info">
+        The Backdoor Roth IRA is a two-step strategy: (1) make a non-deductible traditional IRA contribution, then (2) convert it to a Roth IRA. The tax impact depends heavily on whether you have other pre-tax IRA funds.
+      </div>
+      <p><strong>Step 1 — Non-Deductible Contribution:</strong> You contribute after-tax dollars to a traditional IRA. Because you exceed the income limit for a deductible contribution, you file <strong>Form 8606</strong> to track your basis.</p>
+      <p><strong>Step 2 — Roth Conversion:</strong> You convert the traditional IRA to Roth. Normally this is tax-free since you already paid tax. But…</p>
+      <p><strong>The Pro-Rata Rule (The Catch):</strong> The IRS treats ALL your traditional IRA money as one pool. The taxable portion of your conversion is calculated as:</p>
+      <div style="background:#f8f9fa;border-radius:6px;padding:1rem;margin:1rem 0;font-family:monospace;font-size:0.9rem;">
+        Tax-Free % = Total Non-Deductible Basis ÷ (Total IRA Balance + Conversion Amount)<br><br>
+        Taxable Amount = Conversion Amount × (1 − Tax-Free %)
+      </div>
+      <p><strong>If you have $0 in other pre-tax IRAs:</strong> Your conversion is 100% tax-free — the ideal backdoor Roth scenario.</p>
+      <p><strong>If you have pre-tax IRA money:</strong> A portion of your conversion becomes taxable income. Many people do a <em>rollover to a 401(k)</em> first to eliminate this problem.</p>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="results card" id="resultsCard">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:0.5rem;margin-bottom:1.2rem">
+      <div class="section-title" style="margin-bottom:0;border:none;padding:0">Your Tax Impact Summary</div>
+      <button class="btn-secondary" onclick="copyResults()">📋 Copy Results</button>
+    </div>
+    <div id="alertZone"></div>
+    <div class="key-grid" id="keyGrid"></div>
+    <div id="stackedBarSection"></div>
+    <div id="breakdownSection"></div>
+    <div id="tableSection"></div>
+  </div>
+
+  <div class="ad-slot" id="ad-mid"></div>
+
+  <!-- CONTENT SECTIONS -->
+  <div class="content-section card">
+    <h2>How to Use This Backdoor Roth IRA Calculator</h2>
+    <p>Enter your non-deductible IRA contribution amount, the total balance across <em>all</em> your traditional/SEP/SIMPLE IRAs, your total non-deductible basis from past Form 8606 filings, and the amount you plan to convert. Then add your ordinary income and filing status so the calculator can estimate your actual tax bracket impact.</p>
+    <p>The results show your taxable conversion amount, the pro-rata percentage, estimated additional taxes owed, and whether the backdoor Roth makes sense given your full IRA picture.</p>
+  </div>
+
+  <div class="content-section card">
+    <h2>Why This Matters</h2>
+    <p>The Backdoor Roth IRA is one of the most powerful tax strategies available to high earners — but it's also one of the most misunderstood. In 2025, the Roth IRA income limit phases out starting at $150,000 for single filers and $236,000 for married couples filing jointly. If you're above those thresholds, the backdoor strategy is often your only path to tax-free growth.</p>
+    <p>Here's the problem most people miss: if you have any pre-tax money sitting in a traditional IRA — say, $100,000 from a rollover — and you try to convert just $7,000, the IRS won't let you cherry-pick. The pro-rata rule forces you to treat 93.5% of that conversion as taxable. On a $7,000 conversion, that's $6,545 added to your income, potentially costing $1,600–$2,600 in extra taxes at typical brackets.</p>
+    <p>Conversely, if you have zero pre-tax IRA funds, the conversion is entirely tax-free — which is why many advisors recommend rolling existing pre-tax IRA balances into a workplace 401(k) <em>before</em> doing the backdoor conversion. This calculator helps you model both scenarios so you can make the right call.</p>
+  </div>
+
+  <div class="content-section card">
+    <h2>How It's Calculated</h2>
+    <p>The IRS uses the <strong>pro-rata rule</strong> (sometimes called the "cream in the coffee" rule) to determine what portion of your conversion is taxable. Here's the exact formula:</p>
+    <div style="background:#f8f9fa;border-radius:6px;padding:1rem;margin:0.75rem 0;font-family:monospace;font-size:0.88rem;line-height:1.8">
+      Total IRA Value = Pre-Tax Balance + Conversion Amount<br>
+      Non-Taxable % = Total Non-Deductible Basis ÷ Total IRA Value<br>
+      Non-Taxable Amount = Conversion Amount × Non-Taxable %<br>
+      Taxable Amount = Conversion Amount − Non-Taxable Amount<br>
+      Additional Tax = Taxable Amount × Marginal Tax Rate
+    </div>
+    <p>The marginal tax rate is estimated using 2024/2025 IRS tax brackets based on your filing status and total income (ordinary income + taxable conversion amount). The calculator uses real bracket thresholds for accurate estimates.</p>
+  </div>
+
+  <div class="content-section card">
+    <h2>Tips &amp; Common Mistakes</h2>
+    <ul>
+      <li><strong>The "empty IRA" strategy:</strong> Roll your pre-tax traditional IRA balance into your employer's 401(k) before December 31 of the conversion year. This eliminates the pro-rata problem entirely.</li>
+      <li><strong>File Form 8606 every year:</strong> This IRS form tracks your non-deductible basis. Miss it and you could be double-taxed on the same dollars.</li>
+      <li><strong>Don't wait for earnings:</strong> Convert quickly after contributing to minimize any growth in the non-Roth account — otherwise a small gain becomes taxable.</li>
+      <li><strong>SEP and SIMPLE IRAs count too:</strong> Many people forget that SEP-IRA and SIMPLE IRA balances are included in the pro-rata calculation, not just traditional IRAs.</li>
+      <li><strong>Married filing separately kills it:</strong> If you file MFS, your Roth income limit is only $10,000 — almost everyone is above that. Make sure your filing status is optimal before proceeding.</li>
+    </ul>
+  </div>
+
+  <div class="content-section card">
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>What if I have $0 in pre-tax IRA funds?</summary>
+      <p>You're in the ideal scenario. With no pre-tax IRA balance, the pro-rata rule results in 100% of your conversion being tax-free. You contributed after-tax dollars and you're converting those same after-tax dollars — no taxable income is created. This is why many high earners keep their traditional IRA balance at zero.</p>
+    </details>
+    <details>
+      <summary>Does my 401(k) balance affect the pro-rata calculation?</summary>
+      <p>No — 401(k), 403(b), and 457(b) balances are NOT included in the pro-rata rule. Only traditional IRA, SEP-IRA, and SIMPLE IRA accounts count. This is why rolling pre-tax IRA funds into a 401(k) (if your plan allows it) can clear the deck for a clean backdoor Roth conversion.</p>
+    </details>
+    <details>
+      <summary>Can I do a backdoor Roth for my spouse too?</summary>
+      <p>Yes, and it's highly recommended if you're both eligible. Each spouse has their own IRA and their own contribution limit. However, the pro-rata rule is calculated separately for each spouse based on their individual IRA balances — your spouse's pre-tax IRA does not affect your calculation.</p>
+    </details>
+    <details>
+      <summary>Is the backdoor Roth IRA legal?</summary>
+      <p>Yes, as of the time of writing. Congress has discussed eliminating it (notably in the 2021 Build Back Better proposal), but it remains legal. The IRS itself has acknowledged the strategy. That said, it's worth consulting a tax professional if your situation is complex, particularly if you have large existing IRA balances.</p>
+    </details>
+  </div>
+
+  <!-- RELATED TOOLS -->
+  <div class="content-section card">
+    <h2>Related Tools</h2>
+    <div class="related-grid">
+      <a href="/pension-lump-sum-vs-monthly-payment-calculator/" class="related-link">🏦 Pension Lump Sum vs Monthly Payment</a>
+      <a href="/severance-pay-calculator/" class="related-link">💼 Severance Pay Calculator</a>
+      <a href="/series-i-savings-bond-return-calculator/" class="related-link">📈 Series I Savings Bond Return</a>
+      <a href="/employee-stock-options-value-calculator/" class="related-link">📊 Employee Stock Options Value</a>
+      <a href="/home-improvement-roi-calculator/" class="related-link">🏠 Home Improvement ROI</a>
+      <a href="/401k-early-withdrawal-penalty-calculator/" class="related-link">⚠️ 401k Early Withdrawal Penalty</a>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-bottom"></div>
+</div>
+
+<footer>
+  <div>
+    <a href="/about/">About</a>
+    <a href="/privacy/">Privacy</a>
+    <a href="/contact/">Contact</a>
+  </div>
+  <div style="margin-top:0.5rem">© 2025 calcstack.dev — Free Financial Calculators</div>
+</footer>
+
+<script>
+// TAX BRACKETS 2025
+const BRACKETS = {
+  single: {
+    2025: [[11925,0.10],[48475,0.12],[103350,0.22],[197300,0.24],[250525,0.32],[626350,0.35],[Infinity,0.37]],
+    2024: [[11600,0.10],[47150,0.12],[100525,0.22],[191950,0.24],[243725,0.32],[609350,0.35],[Infinity,0.37]]
+  },
+  mfj: {
+    2025: [[23850,0.10],[96950,0.12],[206700,0.22],[394600,0.24],[501050,0.32],[751600,0.35],[Infinity,0.37]],
+    2024: [[23200,0.10],[94300,0.12],[201050,0.22],[383900,0.24],[487450,0.32],[731200,0.35],[Infinity,0.37]]
+  },
+  mfs: {
+    2025: [[11925,0.10],[48475,0.12],[103350,0.22],[197300,0.24],[250525,0.32],[375800,0.35],[Infinity,0.37]],
+    2024: [[11600,0.10],[47150,0.12],[100525,0.22],[191950,0.24],[243725,0.32],[365600,0.35],[Infinity,0.37]]
+  },
+  hoh: {
+    2025: [[17000,0.10],[64850,0.12],[103350,0.22],[197300,0.24],[250500,0.32],[626350,0.35],[Infinity,0.37]],
+    2024: [[16550,0.10],[63100,0.12],[100500,0.22],[191950,0.24],[243700,0.32],[609350,0.35],[Infinity,0.37]]
+  }
+};
+
+const STANDARD_DEDUCTION = {
+  single:  {2025:15000,2024:14600},
+  mfj:     {2025:30000,2024:29200},
+  mfs:     {2025:15000,2024:14600},
+  hoh:     {2025:22500,2024:21900}
+};
+
+function calcTax(taxableIncome, status, year) {
+  const brackets = BRACKETS[status][year];
+  let tax = 0, prev = 0;
+  for (const [top, rate] of brackets) {
+    if (taxableIncome <= prev) break;
+    tax += (Math.min(taxableIncome, top) - prev) * rate;
+    prev = top;
+  }
+  return tax;
+}
+
+function getMarginalRate(taxableIncome, status, year) {
+  const brackets = BRACKETS[status][year];
+  let prev = 0;
+  for (const [top, rate] of brackets) {
+    if (taxableIncome <= top) return rate;
+    prev = top;
+  }
+  return 0.37;
+}
+
+function fmt(n, decimals=0) {
+  if (isNaN(n) || n === null) return '$0';
+  return '$' + Number(n.toFixed(decimals)).toLocaleString('en-US', {minimumFractionDigits:decimals, maximumFractionDigits:decimals});
+}
+
+function fmtPct(n) { return (n*100).toFixed(1)+'%'; }
+
+function pctBar(pct, colorClass, label) {
+  const w = Math.max(0, Math.min(100, pct*100)).toFixed(1);
+  const show = parseFloat(w) > 8;
+  return `<div class="bar-track"><div class="bar-fill ${colorClass}" style="width:${w}%">${show ? label : ''}</div></div>`;
+}
+
+function switchTab(which) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-inputs').classList.toggle('active', which === 'inputs');
+  document.getElementById('tab-howto').classList.toggle('active', which === 'howto');
+  document.querySelectorAll('.tab').forEach(t => {
+    t.classList.toggle('active', t.getAttribute('onclick').includes(which));
+  });
+}
+
+function clearErrors() {
+  document.querySelectorAll('.error-msg').forEach(e => e.classList.remove('show'));
+  document.querySelectorAll('input').forEach(e => e.classList.remove('error'));
+}
+
+function showError(inputId, msgId) {
+  document.getElementById(inputId).classList.add('error');
+  document.getElementById(msgId).classList.add('show');
+}
+
+let lastResultText = '';
+
+function calculate() {
+  clearErrors();
+
+  const nonded = parseFloat(document.getElementById('nondeductibleBasis').value) || 0;
+  const tradBal = parseFloat(document.getElementById('totalTradIRA').value);
+  const basis   = parseFloat(document.getElementById('totalBasis').value);
+  const convAmt = parseFloat(document.getElementById('conversionAmt').value);
+  const income  = parseFloat(document.getElementById('ordinaryIncome').value) || 0;
+  const growth  = parseFloat(document.getElementById('taxableGain').value) || 0;
+  const status  = document.getElementById('filingStatus').value;
+  const year    = parseInt(document.getElementById('taxYear').value);
+
+  let hasError = false;
+
+  if (isNaN(tradBal) || tradBal < 0) { showError('totalTradIRA','err-tradIRA'); hasError = true; }
+  if (isNaN(basis) || basis < 0) { showError('totalBasis','err-basis'); hasError = true; }
+  if (isNaN(convAmt) || convAmt <= 0) { showError('conversionAmt','err-conversion'); hasError = true; }
+  if (income < 0) { showError('ordinaryIncome','err-income'); hasError = true; }
+  if (hasError) return;
+
+  // Pro-rata calculation
+  const totalIRAValue = tradBal + convAmt; // total IRA value at time of conversion
+  const nonTaxablePct = totalIRAValue > 0 ? Math.min(1, basis / totalIRAValue) : 1;
+  const taxablePct    = 1 - nonTaxablePct;
+  const nonTaxableAmt = convAmt * nonTaxablePct;
+  const taxableConv   = convAmt * taxablePct;
+  const totalTaxableConv = taxableConv + growth;
+
+  // Tax calculation
+  const stdDed = STANDARD_DEDUCTION[status][year];
+  const taxableBeforeConv = Math.max(0, income - stdDed);
+  const taxableAfterConv  = Math.max(0, income + totalTaxableConv - stdDed);
+  const taxBefore = calcTax(taxableBeforeConv, status, year);
+  const taxAfter  = calcTax(taxableAfterConv, status, year);
+  const additionalTax = taxAfter - taxBefore;
+  const marginalRate  = getMarginalRate(taxableAfterConv, status, year);
+  const effectiveRate = taxableAfterConv > 0 ? taxAfter / taxableAfterConv : 0;
+
+  // Build effective rate on conversion
+  const convEffRate = totalTaxableConv > 0 ? additionalTax / totalTaxableConv : 0;
+
+  // Bracket breakdown table
+  const brackets = BRACKETS[status][year];
+  let bracketRows = '';
+  let prev = 0;
+  const bracketData = [];
+  for (const [top, rate] of brackets) {
+    const rangeBot = prev;
+    const rangeTop = top === Infinity ? taxableAfterConv + 1 : top;
+    if (rangeBot >= taxableAfterConv) break;
+    const incomeInBracket = Math.min(taxableAfterConv, rangeTop) - rangeBot;
+    const taxInBracket = incomeInBracket * rate;
+    bracketData.push({bot: rangeBot, top: rangeTop, rate, incomeInBracket, taxInBracket});
+    prev = top;
+  }
+
+  bracketData.forEach((b, i) => {
+    const topLabel = b.top === Infinity || b.top > taxableAfterConv + 1 ? fmt(taxableAfterConv) : fmt(b.top);
+    bracketRows += `<tr>
+      <td>${(b.rate*100).toFixed(0)}%</td>
+      <td>${fmt(b.bot)} – ${b.top >= 1e15 ? '∞' : fmt(Math.min(b.top, taxableAfterConv))}</td>
+      <td class="num">${fmt(b.incomeInBracket)}</td>
+      <td class="num">${fmt(b.taxInBracket)}</td>
+    </tr>`;
+  });
+
+  // Alerts
+  let alertHTML = '';
+  if (tradBal === 0) {
+    alertHTML = `<div class="alert alert-info">✅ <strong>Perfect setup!</strong> You have $0 in pre-tax IRA funds — your conversion is 100% tax-free. This is the ideal backdoor Roth scenario.</div>`;
+  } else if (taxablePct > 0.5) {
+    alertHTML = `<div class="alert alert-warn">⚠️ <strong>High taxable portion (${fmtPct(taxablePct)}).</strong> Consider rolling your pre-tax IRA balance into your 401(k) first to reduce or eliminate the pro-rata tax hit.</div>`;
+  } else if (taxablePct > 0) {
+    alertHTML = `<div class="alert alert-warn">⚠️ <strong>Partial tax (${fmtPct(taxablePct)} taxable).</strong> Your pre-tax IRA balance triggers the pro-rata rule. Rolling it to your 401(k) could eliminate this.</div>`;
+  }
+
+  // Stacked bar
+  const convPctNonTax = nonTaxableAmt / convAmt;
+  const convPctTax    = taxableConv / convAmt;
+  const growPct       = convAmt > 0 ? growth / (convAmt + growth) : 0;
+
+  const seg1w = (nonTaxableAmt / (convAmt + growth) * 100).toFixed(1);
+  const seg2w = (taxableConv / (convAmt + growth) * 100).toFixed(1);
+  const seg3w = (growth / (convAmt + growth) * 100).toFixed(1);
+
+  let stackedHTML = `
+    <div class="bar-wrap">
+      <div class="bar-label"><span>Conversion Breakdown</span><span>${fmt(convAmt + growth)}</span></div>
+      <div class="stacked-bar">
+        <div class="stacked-seg bar-green" style="flex:${seg1w}">${parseFloat(seg1w)>12 ? fmtPct(nonTaxableAmt/(convAmt+growth||1)) : ''}</div>
+        <div class="stacked-seg bar-orange" style="flex:${seg2w}">${parseFloat(seg2w)>12 ? fmtPct(taxableConv/(convAmt+growth||1)) : ''}</div>
+        ${growth>0 ? `<div class="stacked-seg bar-gray" style="flex:${seg3w}">${parseFloat(seg3w)>12 ? fmtPct(growth/(convAmt+growth)) : ''}</div>` : ''}
+      </div>
+      <div class="legend">
+        <span><span class="legend-dot" style="background:#1a7a4a"></span>Tax-Free (${fmt(nonTaxableAmt)})</span>
+        <span><span class="legend-dot" style="background:#e07b00"></span>Taxable Conversion (${fmt(taxableConv)})</span>
+        ${growth>0 ? `<span><span class="legend-dot" style="background:#8a8a8a"></span>Growth/Earnings (${fmt(growth)})</span>` : ''}
+      </div>
+    </div>
+    <div class="bar-wrap" style="margin-top:1rem">
+      <div class="bar-label"><span>Pro-Rata Taxable %</span><span>${fmtPct(taxablePct)}</span></div>
+      ${pctBar(taxablePct, 'bar-orange', fmtPct(taxablePct) + ' taxable')}
+    </div>`;
+
+  // Key numbers
+  const keyHTML = `
+    <div class="key-box accent">
+      <div class="key-number">${fmt(additionalTax)}</div>
+      <div class="key-label">Estimated Additional Tax</div>
+    </div>
+    <div class="key-box">
+      <div class="key-number" style="font-size:2rem">${fmtPct(taxablePct)}</div>
+      <div class="key-label">Taxable Portion (Pro-Rata)</div>
+    </div>
+    <div class="key-box">
+      <div class="key-number" style="font-size:2rem">${fmtPct(marginalRate)}</div>
+      <div class="key-label">Marginal Tax Rate</div>
+    </div>`;
+
+  // Breakdown detail table
+  const breakdownHTML = `
+    <hr class="divider">
+    <div class="section-title">Conversion Detail</div>
+    <div class="table-scroll">
+    <table>
+      <thead><tr><th>Item</th><th class="num">Amount</th></tr></thead>
+      <tbody>
+        <tr><td>Contribution / Conversion Amount</td><td class="num">${fmt(convAmt)}</td></tr>
+        <tr><td>IRA Earnings (additional taxable)</td><td class="num">${fmt(growth)}</td></tr>
+        <tr><td>Total Non-Deductible Basis</td><td class="num">${fmt(basis)}</td></tr>
+        <tr><td>Total IRA Value (pre-tax + conversion)</td><td class="num">${fmt(totalIRAValue)}</td></tr>
+        <tr><td>Non-Taxable Percentage</td><td class="num">${fmtPct(nonTaxablePct)}</td></tr>
+        <tr><td>Taxable Percentage (Pro-Rata)</td><td class="num">${fmtPct(taxablePct)}</td></tr>
+        <tr><td>Non-Taxable Amount</td><td class="num" style="color:#1a7a4a;font-weight:600">${fmt(nonTaxableAmt)}</td></tr>
+        <tr><td>Taxable Conversion Amount</td><td class="num" style="color:#e07b00;font-weight:600">${fmt(totalTaxableConv)}</td></tr>
+        <tr><td>Ordinary Income (before conversion)</td><td class="num">${fmt(income)}</td></tr>
+        <tr><td>Standard Deduction (${year})</td><td class="num">(${fmt(stdDed)})</td></tr>
+        <tr><td>Taxable Income (before conversion)</td><td class="num">${fmt(taxableBeforeConv)}</td></tr>
+        <tr><td>Taxable Income (after conversion)</td><td class="num" style="font-weight:600">${fmt(taxableAfterConv)}</td></tr>
+        <tr><td>Estimated Tax (before conversion)</td><td class="num">${fmt(taxBefore)}</td></tr>
+        <tr><td>Estimated Tax (after conversion)</td><td class="num">${fmt(taxAfter)}</td></tr>
+        <tr style="background:#fff3cd"><td><strong>Additional Tax from Conversion</strong></td><td class="num" style="color:#856404;font-weight:700">${fmt(additionalTax)}</td></tr>
+        <tr><td>Effective Rate on Taxable Conversion</td><td class="num">${fmtPct(convEffRate)}</td></tr>
+        <tr><td>Marginal Tax Bracket</td><td class="num">${fmtPct(marginalRate)}</td></tr>
+      </tbody>
+    </table>
+    </div>`;
+
+  // Bracket breakdown table (show first 5, show all toggle)
+  const SHOW_LIMIT = 5;
+  const showAll = bracketData.length <= SHOW_LIMIT;
+  let visibleRows = '';
+  let hiddenRows = '';
+  bracketData.forEach((b, i) => {
+    const row = `<tr ${i >= SHOW_LIMIT && !showAll ? 'class="hidden-row" style="display:none"' : ''}>
+      <td>${(b.rate*100).toFixed(0)}%</td>
+      <td>${fmt(b.bot)} – ${b.top >= 1e14 ? '∞' : fmt(Math.min(b.top, taxableAfterConv))}</td>
+      <td class="num">${fmt(b.incomeInBracket)}</td>
+      <td class="num">${fmt(b.taxInBracket)}</td>
+    </tr>`;
+    visibleRows += row;
+  });
+
+  const tableHTML = `
+    <hr class="divider">
+    <div class="section-title">Tax Bracket Breakdown (${year})</div>
+    <div class="table-scroll">
+    <table>
+      <thead><tr><th>Bracket</th><th>Income Range</th><th class="num">Income in Bracket</th><th class="num">Tax</th></tr></thead>
+      <tbody id="bracketBody">${visibleRows}</tbody>
+    </table>
+    </div>
+    ${bracketData.length > SHOW_LIMIT ? `<div class="show-all-wrap"><button class="btn-secondary" onclick="toggleBracketRows(this)">Show All Brackets</button></div>` : ''}`;
+
+  // Build summary text for copy
+  lastResultText = [
+    `Backdoor Roth IRA Tax Summary (${year})`,
+    `Filing Status: ${status.toUpperCase()}`,
+    `Conversion Amount: ${fmt(convAmt)}`,
+    `Taxable Portion: ${fmtPct(taxablePct)} (${fmt(totalTaxableConv)})`,
+    `Non-Taxable Portion: ${fmtPct(nonTaxablePct)} (${fmt(nonTaxableAmt)})`,
+    `Additional Tax Owed: ${fmt(additionalTax)}`,
+    `Marginal Rate: ${fmtPct(marginalRate)}`,
+    `Effective Rate on Conversion: ${fmtPct(convEffRate)}`,
+  ].join('\n');
+
+  // Render
+  document.getElementById('alertZone').innerHTML = alertHTML;
+  document.getElementById('keyGrid').innerHTML = keyHTML;
+  document.getElementById('stackedBarSection').innerHTML = stackedHTML;
+  document.getElementById('breakdownSection').innerHTML = breakdownHTML;
+  document.getElementById('tableSection').innerHTML = tableHTML;
+
+  const card = document.getElementById('resultsCard');
+  card.classList.add('visible');
+  card.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function toggleBracketRows(btn) {
+  const rows = document.querySelectorAll('.hidden-row');
+  const showing = btn.textContent.includes('Show All');
+  rows.forEach(r => r.style.display = showing ? '' : 'none');
+  btn.textContent = showing ? 'Show Less' : 'Show All Brackets';
+}
+
+function copyResults() {
+  if (!lastResultText) return;
+  const btn = document.querySelector('.btn-secondary');
+  navigator.clipboard.writeText(lastResultText).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = '✅ Copied!';
+    setTimeout(() => btn.textContent = orig, 2000);
+  }).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = lastResultText;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    const orig = btn.textContent;
+    btn.textContent = '✅ Copied!';
+    setTimeout(() => btn.textContent = orig, 2000);
+  });
+}
+
+// Enter key
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') {
+    const active = document.activeElement;
+    if (active && (active.tagName === 'INPUT' || active.tagName === 'SELECT')) {
+      requestAnimationFrame(calculate);
+    }
+  }
+});
+
+// Pre-fill defaults
+window.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('nondeductibleBasis').value = '7000';
+  document.getElementById('totalTradIRA').value = '0';
+  document.getElementById('totalBasis').value = '7000';
+  document.getElementById('conversionAmt').value = '7000';
+  document.getElementById('ordinaryIncome').value = '180000';
+  document.getElementById('taxableGain').value = '0';
+});
+</script>
+</body>
+</html>
