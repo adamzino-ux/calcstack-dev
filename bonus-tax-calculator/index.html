@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marginal Tax Rate on Bonus Calculator — Free Online Tool | calcstack.dev</title>
+<meta name="description" content="Calculate how much tax is taken out of your bonus. See federal, state, Social Security & Medicare withholding instantly. Free bonus tax calculator.">
+<link rel="canonical" href="https://calcstack.dev/bonus-tax-calculator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Marginal Tax Rate on Bonus Calculator",
+  "url": "https://calcstack.dev/bonus-tax-calculator/",
+  "description": "Calculate how much tax is taken out of your bonus check. See your federal marginal tax rate, state taxes, FICA, and net take-home amount.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "publisher": { "@type": "Organization", "name": "calcstack.dev", "url": "https://calcstack.dev" }
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f4f7fb;color:#1a1a2e;line-height:1.6;font-size:16px}
+a{color:#0077b6;text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* NAV */
+nav{background:#fff;border-bottom:1px solid #e0e0e0;padding:0 1.5rem}
+.nav-inner{max-width:640px;margin:0 auto;display:flex;align-items:center;height:52px}
+.nav-brand{font-weight:700;font-size:1.1rem;color:#1a1a2e}
+.nav-brand span{color:#0077b6}
+
+/* PAGE */
+.page{max-width:640px;margin:0 auto;padding:1.5rem}
+h1{font-size:1.6rem;font-weight:800;color:#1a1a2e;margin-bottom:.4rem;line-height:1.3}
+.subtitle{color:#555;margin-bottom:1.5rem;font-size:.95rem}
+
+/* CARD */
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:10px;padding:2rem;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:2rem}
+
+/* TABS */
+.tabs{display:flex;gap:.5rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.tab-btn{padding:8px 18px;border:1px solid #ddd;border-radius:6px;background:#f8f9fa;cursor:pointer;font-size:.88rem;font-weight:500;color:#555;transition:all .2s;min-height:44px}
+.tab-btn.active{background:#0077b6;color:#fff;border-color:#0077b6}
+
+/* INPUTS */
+.form-row{margin-bottom:1.2rem}
+.form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.2rem}
+label{display:block;font-size:.85rem;font-weight:500;color:#444;margin-bottom:.4rem}
+input,select{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:6px;font-size:1rem;color:#1a1a2e;background:#fff;transition:box-shadow .2s,border-color .2s;min-height:44px}
+input:focus,select:focus{outline:none;border-color:#0077b6;box-shadow:0 0 0 3px rgba(0,119,182,.15)}
+input.error,select.error{border-color:#e74c3c}
+.error-msg{color:#e74c3c;font-size:.8rem;margin-top:.3rem;display:none}
+.input-prefix{position:relative}
+.input-prefix span{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#777;font-size:1rem;pointer-events:none}
+.input-prefix input{padding-left:26px}
+
+/* SLIDER */
+.slider-row{margin-bottom:1.2rem}
+.slider-row label{display:flex;justify-content:space-between;align-items:center}
+.slider-row label span{font-weight:700;color:#0077b6}
+input[type=range]{padding:4px 0;cursor:pointer;accent-color:#0077b6}
+
+/* BUTTON */
+.btn{background:#0077b6;color:#fff;border:none;padding:12px 24px;border-radius:6px;font-size:1rem;font-weight:600;cursor:pointer;transition:background .2s;width:100%;min-height:44px}
+.btn:hover{background:#006299}
+.btn-sm{background:#0077b6;color:#fff;border:none;padding:7px 14px;border-radius:6px;font-size:.82rem;font-weight:500;cursor:pointer;transition:background .2s;min-height:36px}
+.btn-sm:hover{background:#006299}
+.btn-outline{background:#fff;color:#0077b6;border:1px solid #0077b6;padding:7px 14px;border-radius:6px;font-size:.82rem;font-weight:500;cursor:pointer;transition:all .2s;min-height:36px}
+.btn-outline:hover{background:#0077b6;color:#fff}
+
+/* RESULTS */
+.results{opacity:0;transition:opacity .3s ease;pointer-events:none}
+.results.visible{opacity:1;pointer-events:auto}
+.key-number{text-align:center;padding:1.5rem 1rem;background:#f0f8ff;border-radius:8px;margin-bottom:1.5rem;border:1px solid #bee3f8}
+.key-number .amount{font-size:2.8rem;font-weight:800;color:#0077b6;line-height:1}
+.key-number .label{font-size:.9rem;color:#555;margin-top:.4rem}
+.key-number .sub{font-size:1.1rem;color:#1a1a2e;font-weight:600;margin-top:.5rem}
+
+/* SUMMARY GRID */
+.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+.summary-box{background:#f8f9fa;border-radius:8px;padding:1rem;text-align:center;border:1px solid #e8e8e8}
+.summary-box .val{font-size:1.3rem;font-weight:700;color:#0077b6}
+.summary-box .lbl{font-size:.78rem;color:#666;margin-top:.2rem}
+
+/* BAR CHART */
+.bar-section{margin-bottom:1.5rem}
+.bar-section h3{font-size:.95rem;font-weight:600;margin-bottom:.8rem;color:#333}
+.bar-stack{display:flex;height:36px;border-radius:6px;overflow:hidden;margin-bottom:.6rem}
+.bar-seg{height:100%;transition:width .5s ease;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden}
+.bar-seg.net{background:#27ae60}
+.bar-seg.fed{background:#e74c3c}
+.bar-seg.state{background:#e67e22}
+.bar-seg.fica{background:#9b59b6}
+.bar-legend{display:flex;flex-wrap:wrap;gap:.6rem}
+.legend-item{display:flex;align-items:center;gap:.4rem;font-size:.8rem;color:#444}
+.legend-dot{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+
+/* TABLE */
+.table-wrap{overflow-x:auto;margin-bottom:1rem}
+table{width:100%;border-collapse:collapse;font-size:.88rem}
+th{background:#f0f0f0;padding:10px 12px;text-align:left;font-weight:600;color:#333;border-bottom:2px solid #ddd}
+th.num,td.num{text-align:right}
+td{padding:9px 12px;border-bottom:1px solid #eee;color:#1a1a2e}
+tr:nth-child(even) td{background:#fafafa}
+tr:last-child td{border-bottom:none;font-weight:700;background:#f0f8ff}
+
+/* COPY ROW */
+.copy-row{display:flex;justify-content:flex-end;gap:.5rem;margin-bottom:.8rem}
+
+/* CONTENT */
+.content-section{margin-bottom:2rem}
+.content-section h2{font-size:1.15rem;font-weight:700;color:#1a1a2e;margin-bottom:.7rem;padding-bottom:.4rem;border-bottom:2px solid #f0f0f0}
+.content-section p{margin-bottom:.8rem;color:#333;font-size:.95rem}
+.content-section ul{padding-left:1.4rem;margin-bottom:.8rem}
+.content-section ul li{margin-bottom:.5rem;color:#333;font-size:.95rem}
+details{border:1px solid #e0e0e0;border-radius:6px;margin-bottom:.7rem;background:#fafafa}
+summary{padding:12px 16px;cursor:pointer;font-weight:600;font-size:.9rem;color:#0077b6;list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"▶ ";font-size:.75rem}
+details[open] summary::before{content:"▼ "}
+details p{padding:0 16px 12px;font-size:.88rem;color:#444;line-height:1.6}
+
+/* RELATED */
+.related-grid{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
+.related-link{display:block;padding:10px 14px;background:#f8f9fa;border:1px solid #e0e0e0;border-radius:6px;font-size:.85rem;color:#0077b6;font-weight:500;transition:background .2s}
+.related-link:hover{background:#e8f4fd;text-decoration:none}
+
+/* AD SLOTS */
+.ad-slot{min-height:0;margin:0}
+
+/* FOOTER */
+footer{background:#fff;border-top:1px solid #e0e0e0;padding:1.2rem 1.5rem;text-align:center;font-size:.82rem;color:#777;margin-top:1rem}
+footer a{color:#0077b6;margin:0 .5rem}
+
+/* METHOD NOTE */
+.method-note{background:#fff8e1;border-left:3px solid #f0a500;padding:.8rem 1rem;border-radius:0 6px 6px 0;font-size:.85rem;color:#444;margin-bottom:1.2rem}
+
+/* SHOW ALL */
+.show-all-row{text-align:center;margin-top:.5rem}
+.hidden-rows{display:none}
+.hidden-rows.shown{display:table-row-group}
+
+@media(max-width:640px){
+  .form-row-2{grid-template-columns:1fr}
+  .summary-grid{grid-template-columns:1fr 1fr}
+  h1{font-size:1.35rem}
+  .key-number .amount{font-size:2.2rem}
+  .related-grid{grid-template-columns:1fr}
+  .card{padding:1.4rem}
+}
+@media(max-width:400px){
+  .summary-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">calc<span>stack</span>.dev</a>
+  </div>
+</nav>
+
+<div class="page">
+  <h1>Marginal Tax Rate on Bonus Calculator</h1>
+  <p class="subtitle">Find out exactly how much tax is taken out of your bonus — federal, state, Social Security &amp; Medicare.</p>
+
+  <!-- TOOL CARD -->
+  <div class="card">
+    <!-- METHOD TABS -->
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchMethod('aggregate')" id="tab-aggregate">Aggregate Method</button>
+      <button class="tab-btn" onclick="switchMethod('flat')" id="tab-flat">Flat Rate (22%)</button>
+    </div>
+
+    <div class="method-note" id="method-note">
+      <strong>Aggregate method:</strong> Your bonus is added to your regular salary and taxed at your effective marginal rate — the most accurate approach.
+    </div>
+
+    <!-- INPUTS -->
+    <div class="form-row-2">
+      <div class="form-row">
+        <label for="annualSalary">Annual Base Salary</label>
+        <div class="input-prefix">
+          <span>$</span>
+          <input type="text" id="annualSalary" placeholder="75,000" value="75,000" inputmode="numeric">
+        </div>
+        <div class="error-msg" id="err-salary">Please enter a valid salary.</div>
+      </div>
+      <div class="form-row">
+        <label for="bonusAmount">Bonus Amount</label>
+        <div class="input-prefix">
+          <span>$</span>
+          <input type="text" id="bonusAmount" placeholder="10,000" value="10,000" inputmode="numeric">
+        </div>
+        <div class="error-msg" id="err-bonus">Please enter a valid bonus amount.</div>
+      </div>
+    </div>
+
+    <div class="form-row-2">
+      <div class="form-row">
+        <label for="filingStatus">Filing Status</label>
+        <select id="filingStatus">
+          <option value="single">Single</option>
+          <option value="mfj">Married Filing Jointly</option>
+          <option value="mfs">Married Filing Separately</option>
+          <option value="hoh">Head of Household</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label for="stateSelect">State</label>
+        <select id="stateSelect">
+          <option value="0">No State Tax</option>
+          <option value="AL">Alabama (5%)</option>
+          <option value="AK">Alaska (0%)</option>
+          <option value="AZ">Arizona (2.5%)</option>
+          <option value="AR">Arkansas (4.4%)</option>
+          <option value="CA">California (9.3%)</option>
+          <option value="CO">Colorado (4.4%)</option>
+          <option value="CT">Connecticut (5%)</option>
+          <option value="DE">Delaware (6.6%)</option>
+          <option value="FL">Florida (0%)</option>
+          <option value="GA">Georgia (5.49%)</option>
+          <option value="HI">Hawaii (8.25%)</option>
+          <option value="ID">Idaho (5.8%)</option>
+          <option value="IL">Illinois (4.95%)</option>
+          <option value="IN">Indiana (3.05%)</option>
+          <option value="IA">Iowa (4.4%)</option>
+          <option value="KS">Kansas (5.7%)</option>
+          <option value="KY">Kentucky (4.5%)</option>
+          <option value="LA">Louisiana (4.25%)</option>
+          <option value="ME">Maine (7.15%)</option>
+          <option value="MD">Maryland (5.75%)</option>
+          <option value="MA">Massachusetts (5%)</option>
+          <option value="MI">Michigan (4.25%)</option>
+          <option value="MN">Minnesota (7.85%)</option>
+          <option value="MS">Mississippi (4.7%)</option>
+          <option value="MO">Missouri (4.8%)</option>
+          <option value="MT">Montana (6.75%)</option>
+          <option value="NE">Nebraska (5.84%)</option>
+          <option value="NV">Nevada (0%)</option>
+          <option value="NH">New Hampshire (0%)</option>
+          <option value="NJ">New Jersey (6.37%)</option>
+          <option value="NM">New Mexico (5.9%)</option>
+          <option value="NY">New York (6.85%)</option>
+          <option value="NC">North Carolina (4.5%)</option>
+          <option value="ND">North Dakota (2.5%)</option>
+          <option value="OH">Ohio (3.75%)</option>
+          <option value="OK">Oklahoma (4.75%)</option>
+          <option value="OR">Oregon (9.9%)</option>
+          <option value="PA">Pennsylvania (3.07%)</option>
+          <option value="RI">Rhode Island (5.99%)</option>
+          <option value="SC">South Carolina (6.3%)</option>
+          <option value="SD">South Dakota (0%)</option>
+          <option value="TN">Tennessee (0%)</option>
+          <option value="TX">Texas (0%)</option>
+          <option value="UT">Utah (4.55%)</option>
+          <option value="VT">Vermont (6.6%)</option>
+          <option value="VA">Virginia (5.75%)</option>
+          <option value="WA">Washington (0%)</option>
+          <option value="WV">West Virginia (6.5%)</option>
+          <option value="WI">Wisconsin (5.3%)</option>
+          <option value="WY">Wyoming (0%)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <label for="pay401k">401(k) Contribution Rate (pre-tax) &nbsp;<span style="font-weight:700;color:#0077b6" id="val401k">0%</span></label>
+      <input type="range" id="pay401k" min="0" max="25" step="1" value="0" oninput="document.getElementById('val401k').textContent=this.value+'%'">
+    </div>
+
+    <div class="form-row-2">
+      <div class="form-row">
+        <label for="ytdEarnings">YTD Earnings (before bonus)</label>
+        <div class="input-prefix">
+          <span>$</span>
+          <input type="text" id="ytdEarnings" placeholder="Optional" inputmode="numeric">
+        </div>
+        <div class="error-msg" id="err-ytd">Please enter a valid number.</div>
+      </div>
+      <div class="form-row">
+        <label for="otherDeductions">Other Pre-Tax Deductions</label>
+        <div class="input-prefix">
+          <span>$</span>
+          <input type="text" id="otherDeductions" placeholder="0" value="0" inputmode="numeric">
+        </div>
+      </div>
+    </div>
+
+    <button class="btn" onclick="requestAnimationFrame(calculate)">Calculate Bonus Tax</button>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="results" id="results">
+    <div class="card">
+      <div class="key-number" id="keyNumber"></div>
+
+      <div class="summary-grid" id="summaryGrid"></div>
+
+      <div class="bar-section">
+        <h3>Where Your Bonus Goes</h3>
+        <div class="bar-stack" id="barStack"></div>
+        <div class="bar-legend" id="barLegend"></div>
+      </div>
+
+      <div class="copy-row">
+        <button class="btn-sm" onclick="copyResults()">Copy Summary</button>
+      </div>
+
+      <h3 style="font-size:.95rem;font-weight:600;margin-bottom:.8rem;color:#333">Federal Tax Bracket Breakdown</h3>
+      <div class="table-wrap">
+        <table id="bracketTable"></table>
+      </div>
+
+      <div class="show-all-row" id="showAllRow" style="display:none">
+        <button class="btn-outline" onclick="toggleRows()">Show All Brackets</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- AD SLOT 1 -->
+  <div class="ad-slot" id="ad-mid"></div>
+
+  <!-- CONTENT -->
+  <div class="content-section">
+    <h2>How to Use This Bonus Tax Calculator</h2>
+    <p>Enter your annual base salary, your bonus amount, your filing status, and your state. Optionally adjust your 401(k) contribution rate and any other pre-tax deductions — these reduce your taxable income and can meaningfully lower what you owe. Hit <strong>Calculate Bonus Tax</strong> to instantly see your federal marginal rate, estimated withholding, and net take-home amount.</p>
+    <p>You can switch between two withholding methods: the <strong>Aggregate Method</strong> (adds your bonus to your annual salary to find the marginal tax rate — the most accurate) and the <strong>Flat Rate Method</strong> (the IRS allows employers to withhold a flat 22% on supplemental wages under $1 million).</p>
+  </div>
+
+  <div class="content-section">
+    <h2>Why This Matters</h2>
+    <p>Bonuses feel like found money — until you see the check. Someone earning $85,000 who receives a $15,000 bonus might expect to take home $12,000 or more. Instead, they're shocked to find only $9,200 after withholding. That $2,800 gap isn't random — it's the result of landing squarely in the 22% federal bracket, plus state taxes, Social Security (6.2%), and Medicare (1.45%).</p>
+    <p>Understanding your effective bonus tax rate matters for several practical reasons:</p>
+    <ul>
+      <li><strong>Negotiating compensation:</strong> If you're choosing between a $10,000 salary raise and a $10,000 year-end bonus, the after-tax value differs — especially if the raise keeps you in a lower bracket year-round.</li>
+      <li><strong>401(k) timing:</strong> If you're not maxed out on your 401(k), routing bonus money through a pre-tax contribution is one of the few legal ways to cut what the IRS takes immediately.</li>
+      <li><strong>Planning large purchases:</strong> Don't spend the gross. Knowing your net take-home prevents the sting of overdrawing an account after a bonus hits.</li>
+      <li><strong>Tax return forecasting:</strong> Withholding and final liability can differ. If your employer uses the flat 22% method but your marginal rate is 32%, you'll owe more at filing.</li>
+    </ul>
+  </div>
+
+  <div class="content-section">
+    <h2>How It's Calculated</h2>
+    <p><strong>Aggregate Method (recommended):</strong> Your bonus is added to your annualized salary, federal income tax is calculated on the combined total, then the tax on just your salary is subtracted. The difference is the federal tax attributable to your bonus.</p>
+    <p style="background:#f8f9fa;padding:.8rem 1rem;border-radius:6px;font-family:monospace;font-size:.9rem">Bonus Federal Tax = Tax(Salary + Bonus) − Tax(Salary)</p>
+    <p><strong>Flat Rate Method:</strong> The IRS permits employers to withhold a flat 22% on supplemental wages up to $1,000,000. It's simpler but often under- or over-withholds compared to your actual marginal rate.</p>
+    <p><strong>FICA taxes</strong> (Social Security + Medicare) apply until you hit the Social Security wage base ($168,600 for 2024). This calculator accounts for YTD earnings you've already paid Social Security on, stopping withholding at the cap.</p>
+    <p>State tax is applied using a flat marginal rate approximation, which is accurate for flat-tax states and a close estimate for graduated states.</p>
+  </div>
+
+  <div class="content-section">
+    <h2>Tips &amp; Common Mistakes</h2>
+    <ul>
+      <li><strong>Don't confuse withholding with your actual tax bill.</strong> The employer withholds based on one of two IRS methods — your true liability is settled at tax time. You may get a refund or owe more.</li>
+      <li><strong>Max out your 401(k) before your bonus pays out.</strong> If you're under the $23,000 limit (2024), directing part of your bonus to a 401(k) reduces your taxable income dollar-for-dollar.</li>
+      <li><strong>Check if you're near a bracket threshold.</strong> If your salary is $178,000 and your bonus pushes you past $191,950, part of the bonus tips into the 32% bracket — not all of it.</li>
+      <li><strong>Factor in YTD earnings.</strong> If you've already earned $160,000 this year, you may have already hit the Social Security cap, meaning no SS withholding on your bonus at all.</li>
+      <li><strong>Flat rate ≠ your actual rate.</strong> If your employer withholds 22% flat but you're in the 24% or 32% bracket, you'll owe the difference in April.</li>
+    </ul>
+  </div>
+
+  <div class="content-section">
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>Why is so much tax taken out of my bonus?</summary>
+      <p>Bonuses are classified as "supplemental wages" by the IRS, which means employers can withhold at a flat 22% or add them to your regular pay and withhold at your marginal rate. Because bonuses often push your income into a higher bracket temporarily, the withholding can look steep. The actual tax you owe is calculated at year-end on your total income — you may get a refund if too much was withheld.</p>
+    </details>
+    <details>
+      <summary>Is my entire bonus taxed at the higher rate?</summary>
+      <p>No — only the portion of your bonus that falls into a higher bracket is taxed at that higher rate. The US uses a progressive tax system, so the first dollars of your bonus are taxed at your existing rate. Only the amount that crosses a bracket threshold gets the higher rate applied to it.</p>
+    </details>
+    <details>
+      <summary>Can I reduce taxes on my bonus?</summary>
+      <p>Yes. The most effective legal strategy is increasing your 401(k) or HSA contributions, since these reduce your taxable income before the bonus hits. You can also ask your employer to delay paying the bonus until January if that fits your income planning. Some people time charitable donations to offset a bonus year's income.</p>
+    </details>
+    <details>
+      <summary>What's the difference between the aggregate and flat rate methods?</summary>
+      <p>The flat rate method withholds a simple 22% regardless of your actual bracket — it's fast but often inaccurate. The aggregate method adds your bonus to your regular pay and calculates tax on the combined amount, which more closely reflects what you'll actually owe. Your employer chooses the method; you can't control it, but knowing which one they use helps you plan.</p>
+    </details>
+  </div>
+
+  <!-- RELATED TOOLS -->
+  <div class="content-section">
+    <h2>Related Tools</h2>
+    <div class="related-grid">
+      <a href="/backdoor-roth-ira-tax-calculator/" class="related-link">Backdoor Roth IRA Tax Calculator</a>
+      <a href="/pension-lump-sum-vs-monthly-payment-calculator/" class="related-link">Pension Lump Sum vs Monthly Payment Calculator</a>
+      <a href="/severance-pay-calculator/" class="related-link">Severance Pay Calculator</a>
+      <a href="/series-i-savings-bond-return-calculator/" class="related-link">Series I Savings Bond Return Calculator</a>
+      <a href="/employee-stock-options-value-calculator/" class="related-link">Employee Stock Options (ESO) Value Calculator</a>
+      <a href="/home-improvement-roi-calculator/" class="related-link">Home Improvement ROI Calculator</a>
+    </div>
+  </div>
+
+  <!-- AD SLOT 2 -->
+  <div class="ad-slot" id="ad-bottom"></div>
+</div>
+
+<footer>
+  <a href="/about/">About</a>
+  <a href="/privacy/">Privacy</a>
+  <a href="/contact/">Contact</a>
+  <span style="display:block;margin-top:.5rem">© 2024 calcstack.dev</span>
+</footer>
+
+<script>
+// ─── TAX DATA 2024 ───────────────────────────────────────────────────────────
+const STD_DEDUCTION = { single:14600, mfj:29200, mfs:14600, hoh:21900 };
+const BRACKETS = {
+  single:[
+    [11600,0.10],[47150,0.12],[100525,0.22],[191950,0.24],
+    [243725,0.32],[609350,0.35],[Infinity,0.37]
+  ],
+  mfj:[
+    [23200,0.10],[94300,0.12],[201050,0.22],[383900,0.24],
+    [487450,0.32],[731200,0.35],[Infinity,0.37]
+  ],
+  mfs:[
+    [11600,0.10],[47150,0.12],[100525,0.22],[191950,0.24],
+    [243725,0.32],[365600,0.35],[Infinity,0.37]
+  ],
+  hoh:[
+    [16550,0.10],[63100,0.12],[100500,0.22],[191950,0.24],
+    [243700,0.32],[609350,0.35],[Infinity,0.37]
+  ]
+};
+const SS_WAGE_BASE = 168600;
+const SS_RATE = 0.062;
+const MEDICARE_RATE = 0.0145;
+const ADDL_MEDICARE_RATE = 0.009; // over 200k single, 250k mfj
+const ADDL_MEDICARE_THRESH = { single:200000, mfj:250000, mfs:125000, hoh:200000 };
+
+const STATE_RATES = {
+  '0':0,'AL':0.05,'AK':0,'AZ':0.025,'AR':0.044,'CA':0.093,'CO':0.044,
+  'CT':0.05,'DE':0.066,'FL':0,'GA':0.0549,'HI':0.0825,'ID':0.058,
+  'IL':0.0495,'IN':0.0305,'IA':0.044,'KS':0.057,'KY':0.045,'LA':0.0425,
+  'ME':0.0715,'MD':0.0575,'MA':0.05,'MI':0.0425,'MN':0.0785,'MS':0.047,
+  'MO':0.048,'MT':0.0675,'NE':0.0584,'NV':0,'NH':0,'NJ':0.0637,
+  'NM':0.059,'NY':0.0685,'NC':0.045,'ND':0.025,'OH':0.0375,'OK':0.0475,
+  'OR':0.099,'PA':0.0307,'RI':0.0599,'SC':0.063,'SD':0,'TN':0,'TX':0,
+  'UT':0.0455,'VT':0.066,'VA':0.0575,'WA':0,'WV':0.065,'WI':0.053,'WY':0
+};
+
+let currentMethod = 'aggregate';
+let showingAll = false;
+let lastCopyText = '';
+
+function switchMethod(m) {
+  currentMethod = m;
+  document.getElementById('tab-aggregate').classList.toggle('active', m==='aggregate');
+  document.getElementById('tab-flat').classList.toggle('active', m==='flat');
+  const note = document.getElementById('method-note');
+  if(m==='aggregate'){
+    note.innerHTML='<strong>Aggregate method:</strong> Your bonus is added to your regular salary and taxed at your effective marginal rate — the most accurate approach.';
+  } else {
+    note.innerHTML='<strong>Flat rate method:</strong> The IRS allows employers to withhold a flat <strong>22%</strong> on supplemental wages under $1,000,000. Simple, but may differ from your actual rate.';
+  }
+}
+
+function parseMoney(str){
+  if(!str&&str!==0) return NaN;
+  const v = parseFloat(String(str).replace(/[,$\s]/g,''));
+  return v;
+}
+function fmt(n,d=0){
+  if(isNaN(n)||n===null) return '—';
+  return '$'+n.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
+}
+function pct(n,d=1){ return n.toFixed(d)+'%'; }
+
+function calcFedTax(taxable, status){
+  const brackets = BRACKETS[status];
+  let tax=0, prev=0;
+  for(let i=0;i<brackets.length;i++){
+    const [top, rate] = brackets[i];
+    if(taxable<=0) break;
+    const chunk = Math.min(taxable, top-prev);
+    if(chunk<=0){ if(taxable>prev) continue; break; }
+    tax += Math.max(0, Math.min(taxable-prev, top-prev)) * rate;
+    prev = top;
+    if(taxable<=top) break;
+  }
+  return Math.max(0,tax);
+}
+
+function getMarginalRate(taxable, status){
+  const brackets = BRACKETS[status];
+  let prev=0;
+  for(let i=0;i<brackets.length;i++){
+    const [top,rate]=brackets[i];
+    if(taxable<=top) return rate;
+    prev=top;
+  }
+  return 0.37;
+}
+
+function calcFicaOnBonus(salary, bonus, ytd, filing){
+  // Social Security
+  const ytdBase = isNaN(ytd)||ytd<0 ? salary : ytd;
+  const ssAlreadyPaid = Math.min(ytdBase, SS_WAGE_BASE);
+  const ssRoom = Math.max(0, SS_WAGE_BASE - ssAlreadyPaid);
+  const ssTaxable = Math.min(bonus, ssRoom);
+  const ssTax = ssTaxable * SS_RATE;
+
+  // Medicare
+  const medTax = bonus * MEDICARE_RATE;
+
+  // Additional Medicare 0.9% on wages over threshold
+  const addlThresh = ADDL_MEDICARE_THRESH[filing] || 200000;
+  const totalWages = ytdBase + bonus;
+  const prevWages = ytdBase;
+  const addlTaxable = Math.max(0, Math.min(totalWages, Infinity) - Math.max(prevWages, addlThresh));
+  const addlMed = Math.max(0, addlTaxable) * ADDL_MEDICARE_RATE;
+
+  return { ssTax, medTax, addlMed, ficaTotal: ssTax+medTax+addlMed, ssTaxable };
+}
+
+function showError(id, msg, show){
+  const el = document.getElementById(id);
+  const inp = el.previousElementSibling?.querySelector?.('input') || el.previousElementSibling;
+  if(inp) inp.classList.toggle('error', show);
+  el.style.display = show ? 'block':'none';
+  if(msg) el.textContent = msg;
+}
+
+function calculate(){
+  let valid = true;
+
+  const salaryRaw = document.getElementById('annualSalary').value;
+  const bonusRaw = document.getElementById('bonusAmount').value;
+  const ytdRaw = document.getElementById('ytdEarnings').value;
+  const otherRaw = document.getElementById('otherDeductions').value;
+  const k401 = parseInt(document.getElementById('pay401k').value)||0;
+  const filing = document.getElementById('filingStatus').value;
+  const stateSel = document.getElementById('stateSelect').value;
+  const stateRate = STATE_RATES[stateSel]||0;
+
+  const salary = parseMoney(salaryRaw);
+  const bonus = parseMoney(bonusRaw);
+  const ytd = ytdRaw.trim()==='' ? NaN : parseMoney(ytdRaw);
+  const otherDed = parseMoney(otherRaw)||0;
+
+  showError('err-salary','Please enter a valid salary (e.g. 75,000).', isNaN(salary)||salary<0);
+  showError('err-bonus','Please enter a valid bonus amount.',isNaN(bonus)||bonus<0);
+  showError('err-ytd','Please enter a valid number.',ytdRaw.trim()!==''&&(isNaN(ytd)||ytd<0));
+
+  if(isNaN(salary)||salary<0) valid=false;
+  if(isNaN(bonus)||bonus<0) valid=false;
+  if(ytdRaw.trim()!==''&&(isNaN(ytd)||ytd<0)) valid=false;
+  if(!valid) return;
+
+  const ytdEarnings = isNaN(ytd) ? salary : ytd;
+
+  // ─── 401k & deductions on bonus ──────────────────────────────────────────
+  const k401Deduction = bonus * (k401/100);
+  const totalOtherDed = otherDed;
+  const bonusTaxable = Math.max(0, bonus - k401Deduction - totalOtherDed);
+
+  // ─── STD DEDUCTION ────────────────────────────────────────────────────────
+  const stdDed = STD_DEDUCTION[filing];
+
+  // ─── FEDERAL TAX ──────────────────────────────────────────────────────────
+  // Aggregate: tax on salary alone vs salary+bonus
+  const salaryTaxable = Math.max(0, salary - stdDed);
+  const combinedTaxable = Math.max(0, salary + bonusTaxable - stdDed);
+
+  let fedTax, effectiveFedRate, marginalRate;
+
+  if(currentMethod==='aggregate'){
+    const taxOnSalary = calcFedTax(salaryTaxable, filing);
+    const taxOnCombined = calcFedTax(combinedTaxable, filing);
+    fedTax = Math.max(0, taxOnCombined - taxOnSalary);
+    marginalRate = getMarginalRate(combinedTaxable, filing);
+    effectiveFedRate = bonusTaxable>0 ? fedTax/bonusTaxable : 0;
+  } else {
+    // flat 22%
+    if(bonus >= 1000000){
+      fedTax = bonus * 0.37;
+      marginalRate = 0.37;
+    } else {
+      fedTax = bonusTaxable * 0.22;
+      marginalRate = 0.22;
+    }
+    effectiveFedRate = bonusTaxable>0 ? fedTax/bonusTaxable : 0;
+  }
+
+  // ─── STATE TAX ────────────────────────────────────────────────────────────
+  const stateTax = bonusTaxable * stateRate;
+
+  // ─── FICA ─────────────────────────────────────────────────────────────────
+  const { ssTax, medTax, addlMed, ficaTotal } = calcFicaOnBonus(salary, bonusTaxable, ytdEarnings, filing);
+
+  // ─── TOTALS ───────────────────────────────────────────────────────────────
+  const totalWithheld = fedTax + stateTax + ficaTotal;
+  const netBonus = bonus - k401Deduction - totalWithheld;
+  const totalEffRate = bonus>0 ? totalWithheld/bonus : 0;
+
+  // ─── BUILD BRACKET TABLE ─────────────────────────────────────────────────
+  const brackets = BRACKETS[filing];
+  let bracketHTML = '<thead><tr><th>Bracket</th><th>Rate</th><th>Income in Bracket</th><th class="num">Tax</th></tr></thead><tbody>';
+  let prev2=0;
+  let visCount=0;
+  let hiddenStart=-1;
+  const rows = [];
+
+  for(let i=0;i<brackets.length;i++){
+    const [top,rate]=brackets[i];
+    const incomeInBracket = Math.min(Math.max(0,combinedTaxable-prev2), top-prev2);
+    const taxInBracket = incomeInBracket*rate;
+    const isBonus = i>=0; // will highlight relevant
+    rows.push({top,rate,incomeInBracket,taxInBracket,prev:prev2});
+    prev2=top;
+    if(incomeInBracket<=0&&combinedTaxable<(i===0?0:brackets[i-1][0])) break;
+  }
+
+  // find active brackets
+  const activeRows = rows.filter(r=>r.incomeInBracket>0);
+  activeRows.forEach((r,idx)=>{
+    const isLast = idx===activeRows.length-1;
+    const topLabel = r.top===Infinity ? '∞' : '$'+r.top.toLocaleString();
+    const rowClass = isLast ? ' style="background:#e8f4fd"':'';
+    bracketHTML+=`<tr${rowClass}><td>$${r.prev.toLocaleString()} – ${topLabel}</td><td>${(r.rate*100).toFixed(0)}%</td><td>${fmt(r.incomeInBracket)}</td><td class="num">${fmt(r.taxInBracket)}</td></tr>`;
+  });
+
+  // Total row
+  bracketHTML+=`<tr><td colspan="3"><strong>Total Federal Tax on Bonus</strong></td><td class="num"><strong>${fmt(fedTax)}</strong></td></tr>`;
+  bracketHTML+='</tbody>';
+
+  // ─── BAR segments ────────────────────────────────────────────────────────
+  const total = bonus||1;
+  const netPct = Math.max(0,(netBonus/total)*100);
+  const fedPct = Math.max(0,(fedTax/total)*100);
+  const statePct = Math.max(0,(stateTax/total)*100);
+  const ficaPct = Math.max(0,(ficaTotal/total)*100);
+  const k401Pct = Math.max(0,(k401Deduction/total)*100);
+
+  function segLabel(p,label){ return p>8 ? label : ''; }
+
+  const barHTML = `
+    ${k401Deduction>0?`<div class="bar-seg" style="width:${k401Pct.toFixed(1)}%;background:#2ecc71">${segLabel(k401Pct,'401k')}</div>`:''}
+    <div class="bar-seg net" style="width:${netPct.toFixed(1)}%">${segLabel(netPct,'Take-Home')}</div>
+    <div class="bar-seg fed" style="width:${fedPct.toFixed(1)}%">${segLabel(fedPct,'Fed')}</div>
+    ${stateTax>0?`<div class="bar-seg state" style="width:${statePct.toFixed(1)}%">${segLabel(statePct,'State')}</div>`:''}
+    <div class="bar-seg fica" style="width:${ficaPct.toFixed(1)}%">${segLabel(ficaPct,'FICA')}</div>
+  `;
+
+  const legendHTML = `
+    <div class="legend-item"><div class="legend-dot" style="background:#27ae60"></div>Take-Home (${pct(netPct)})</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#e74c3c"></div>Federal Tax (${pct(fedPct)})</div>
+    ${stateTax>0?`<div class="legend-item"><div class="legend-dot" style="background:#e67e22"></div>State Tax (${pct(statePct)})</div>`:''}
+    <div class="legend-item"><div class="legend-dot" style="background:#9b59b6"></div>FICA (${pct(ficaPct)})</div>
+    ${k401Deduction>0?`<div class="legend-item"><div class="legend-dot" style="background:#2ecc71"></div>401(k) (${pct(k401Pct)})</div>`:''}
+  `;
+
+  // ─── SUMMARY ─────────────────────────────────────────────────────────────
+  const summaryHTML = `
+    <div class="summary-box"><div class="val">${fmt(fedTax)}</div><div class="lbl">Federal Tax</div></div>
+    <div class="summary-box"><div class="val">${fmt(stateTax)}</div><div class="lbl">State Tax</div></div>
+    <div class="summary-box"><div class="val">${fmt(ficaTotal)}</div><div class="lbl">FICA (SS + Medicare)</div></div>
+    <div class="summary-box"><div class="val">${fmt(k401Deduction)}</div><div class="lbl">401(k) Contribution</div></div>
+  `;
+
+  const keyHTML = `
+    <div class="amount">${fmt(netBonus)}</div>
+    <div class="label">Estimated Take-Home Bonus</div>
+    <div class="sub">Total withheld: ${fmt(totalWithheld)} &nbsp;|&nbsp; Effective rate: ${pct(totalEffRate*100)}</div>
+    <div class="sub" style="font-size:.85rem;color:#0077b6;margin-top:.3rem">Federal marginal rate: ${pct(marginalRate*100)} &nbsp;|&nbsp; Method: ${currentMethod==='aggregate'?'Aggregate':'Flat 22%'}</div>
+  `;
+
+  // Build copy text
+  lastCopyText = [
+    'Bonus Tax Summary',
+    `Gross Bonus: ${fmt(bonus)}`,
+    `401(k) Contribution: ${fmt(k401Deduction)}`,
+    `Federal Tax: ${fmt(fedTax)}`,
+    `State Tax: ${fmt(stateTax)}`,
+    `FICA: ${fmt(ficaTotal)}`,
+    `Total Withheld: ${fmt(totalWithheld)}`,
+    `Net Take-Home: ${fmt(netBonus)}`,
+    `Effective Total Rate: ${pct(totalEffRate*100)}`,
+    `Federal Marginal Rate: ${pct(marginalRate*100)}`
+  ].join('\n');
+
+  // ─── DOM UPDATE ──────────────────────────────────────────────────────────
+  document.getElementById('keyNumber').innerHTML = keyHTML;
+  document.getElementById('summaryGrid').innerHTML = summaryHTML;
+  document.getElementById('barStack').innerHTML = barHTML;
+  document.getElementById('barLegend').innerHTML = legendHTML;
+  document.getElementById('bracketTable').innerHTML = bracketHTML;
+  document.getElementById('showAllRow').style.display='none';
+
+  const res = document.getElementById('results');
+  res.classList.add('visible');
+  res.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function toggleRows(){
+  showingAll=!showingAll;
+  const btn=document.querySelector('#showAllRow button');
+  document.querySelectorAll('.hidden-rows').forEach(el=>{
+    el.classList.toggle('shown',showingAll);
+  });
+  btn.textContent=showingAll?'Show Less':'Show All Brackets';
+}
+
+function copyResults(){
+  if(!lastCopyText) return;
+  const btn = event.target;
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(lastCopyText).then(()=>{
+      btn.textContent='Copied!';
+      setTimeout(()=>btn.textContent='Copy Summary',2000);
+    });
+  } else {
+    const ta=document.createElement('textarea');
+    ta.value=lastCopyText;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    btn.textContent='Copied!';
+    setTimeout(()=>btn.textContent='Copy Summary',2000);
+  }
+}
+
+// Format inputs on blur
+function setupMoneyInput(id){
+  const el=document.getElementById(id);
+  el.addEventListener('blur',function(){
+    const v=parseMoney(this.value);
+    if(!isNaN(v)&&v>=0) this.value=v.toLocaleString('en-US');
+  });
+  el.addEventListener('keydown',function(e){
+    if(e.key==='Enter') requestAnimationFrame(calculate);
+  });
+}
+['annualSalary','bonusAmount','ytdEarnings','otherDeductions'].forEach(setupMoneyInput);
+document.getElementById('filingStatus').addEventListener('change',()=>requestAnimationFrame(calculate));
+document.getElementById('stateSelect').addEventListener('change',()=>requestAnimationFrame(calculate));
+</script>
+</body>
+</html>
