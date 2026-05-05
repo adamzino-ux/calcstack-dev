@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Credit Score Impact on Mortgage Rate Calculator — Free Online Tool | calcstack.dev</title>
+<meta name="description" content="See exactly how your credit score affects your mortgage rate and total interest paid. Compare scenarios side-by-side with real rate estimates.">
+<link rel="canonical" href="https://calcstack.dev/credit-score-mortgage-rate-calculator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Credit Score Impact on Mortgage Rate Calculator",
+  "url": "https://calcstack.dev/credit-score-mortgage-rate-calculator/",
+  "description": "Calculate how your credit score affects your mortgage interest rate, monthly payment, and total interest paid over the life of your loan.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f0f4f8;color:#1a1a2e;font-size:16px;line-height:1.6}
+a{color:#0077b6;text-decoration:none}
+a:hover{text-decoration:underline}
+nav{background:#fff;border-bottom:1px solid #e0e0e0;padding:0 1.5rem}
+.nav-inner{max-width:640px;margin:0 auto;display:flex;align-items:center;height:52px}
+.nav-logo{font-weight:700;font-size:1.1rem;color:#1a1a2e;letter-spacing:-0.5px}
+.nav-logo span{color:#0077b6}
+main{max-width:640px;margin:0 auto;padding:1.5rem 1rem 2rem}
+h1{font-size:1.5rem;font-weight:800;color:#1a1a2e;margin-bottom:0.4rem;line-height:1.25}
+.subtitle{color:#555;font-size:0.95rem;margin-bottom:1.5rem}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;box-shadow:0 1px 4px rgba(0,0,0,0.06);margin-bottom:2rem}
+.form-group{margin-bottom:1.25rem}
+label{display:block;font-size:0.85rem;font-weight:500;color:#444;margin-bottom:6px}
+input[type=number],input[type=range],select{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:6px;font-size:1rem;color:#1a1a2e;background:#fff;transition:border-color 0.2s,box-shadow 0.2s;-webkit-appearance:none}
+input[type=number]:focus,select:focus{outline:none;border-color:#0077b6;box-shadow:0 0 0 3px rgba(0,119,182,0.15)}
+input.error{border-color:#e74c3c}
+.error-msg{color:#e74c3c;font-size:0.8rem;margin-top:4px;display:none}
+.error-msg.show{display:block}
+.range-wrap{position:relative}
+input[type=range]{padding:0;height:6px;border:none;border-radius:3px;background:#ddd;cursor:pointer;accent-color:#0077b6}
+.range-labels{display:flex;justify-content:space-between;font-size:0.75rem;color:#888;margin-top:4px}
+.score-display{text-align:center;font-size:1.8rem;font-weight:800;color:#0077b6;margin:4px 0}
+.score-tier{text-align:center;font-size:0.8rem;font-weight:600;padding:3px 10px;border-radius:12px;display:inline-block;margin:0 auto 8px}
+.tier-excellent{background:#d4edda;color:#155724}
+.tier-very-good{background:#cce5ff;color:#004085}
+.tier-good{background:#d1ecf1;color:#0c5460}
+.tier-fair{background:#fff3cd;color:#856404}
+.tier-poor{background:#f8d7da;color:#721c24}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media(max-width:480px){.row2{grid-template-columns:1fr}}
+button.btn-primary{width:100%;background:#0077b6;color:#fff;border:none;padding:14px 24px;border-radius:6px;font-size:1rem;font-weight:600;cursor:pointer;transition:background 0.2s;min-height:44px}
+button.btn-primary:hover{background:#006299}
+.results{opacity:0;transition:opacity 0.3s ease;pointer-events:none}
+.results.visible{opacity:1;pointer-events:all}
+.key-metric{text-align:center;padding:1.5rem;background:#f0f7ff;border-radius:8px;margin-bottom:1.5rem;border:1px solid #cce0f0}
+.key-metric .big-num{font-size:2.6rem;font-weight:800;color:#0077b6;line-height:1}
+.key-metric .big-label{font-size:0.9rem;color:#555;margin-top:4px}
+.key-metric .big-sub{font-size:0.8rem;color:#888;margin-top:2px}
+.metrics-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+@media(max-width:480px){.metrics-grid{grid-template-columns:1fr 1fr}}
+.metric-box{background:#f8f9fa;border:1px solid #e8e8e8;border-radius:6px;padding:1rem;text-align:center}
+.metric-box .val{font-size:1.2rem;font-weight:700;color:#1a1a2e}
+.metric-box .lbl{font-size:0.75rem;color:#666;margin-top:2px}
+h2.sec{font-size:1.05rem;font-weight:700;color:#1a1a2e;margin-bottom:1rem;padding-bottom:0.4rem;border-bottom:2px solid #e0e0e0}
+.compare-table-wrap{overflow-x:auto;margin-bottom:1.5rem}
+table{width:100%;border-collapse:collapse;font-size:0.88rem}
+thead tr{background:#f0f0f0}
+th{padding:10px 12px;text-align:left;font-weight:600;color:#333;white-space:nowrap}
+th:not(:first-child){text-align:right}
+td{padding:9px 12px;border-bottom:1px solid #f0f0f0;white-space:nowrap}
+td:not(:first-child){text-align:right}
+tr:nth-child(even) td{background:#fafafa}
+tr.highlight-row td{background:#fff8e6;font-weight:600}
+.bar-section{margin-bottom:1.5rem}
+.bar-label-row{display:flex;justify-content:space-between;font-size:0.82rem;color:#555;margin-bottom:4px}
+.bar-track{height:22px;background:#e9ecef;border-radius:4px;overflow:hidden;display:flex}
+.bar-principal{background:#0077b6;height:100%;transition:width 0.5s ease}
+.bar-interest{background:#f4a261;height:100%;transition:width 0.5s ease}
+.bar-legend{display:flex;gap:1.25rem;font-size:0.8rem;margin-top:6px}
+.bar-legend span{display:flex;align-items:center;gap:5px}
+.dot{width:11px;height:11px;border-radius:2px;display:inline-block}
+.dot-principal{background:#0077b6}
+.dot-interest{background:#f4a261}
+.score-band-section{margin-bottom:1.5rem}
+.band-row{display:flex;align-items:center;gap:10px;margin-bottom:7px;font-size:0.85rem}
+.band-label{width:90px;flex-shrink:0;font-weight:500}
+.band-rate{width:52px;flex-shrink:0;text-align:right;color:#555}
+.band-bar-track{flex:1;height:18px;background:#e9ecef;border-radius:3px;overflow:hidden}
+.band-bar-fill{height:100%;border-radius:3px;transition:width 0.5s ease}
+.band-row.active-band .band-bar-fill{outline:2px solid #1a1a2e;outline-offset:1px}
+.band-row.active-band .band-label{color:#0077b6;font-weight:700}
+.yr-table-wrap{overflow-x:auto}
+.show-all-btn{background:none;border:1px solid #0077b6;color:#0077b6;padding:8px 20px;border-radius:6px;font-size:0.85rem;cursor:pointer;width:100%;margin-top:0.75rem;min-height:36px;transition:background 0.2s,color 0.2s}
+.show-all-btn:hover{background:#0077b6;color:#fff}
+.copy-btn{background:none;border:1px solid #ccc;color:#555;padding:6px 14px;border-radius:4px;font-size:0.8rem;cursor:pointer;transition:all 0.2s;margin-top:0.75rem;min-height:36px}
+.copy-btn:hover{border-color:#0077b6;color:#0077b6}
+.ad-slot{min-height:0;margin:0}
+.content-section{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;margin-bottom:2rem}
+.content-section h2{font-size:1.15rem;font-weight:700;color:#1a1a2e;margin-bottom:0.75rem;margin-top:1.5rem}
+.content-section h2:first-child{margin-top:0}
+.content-section p{font-size:0.92rem;color:#333;margin-bottom:0.75rem}
+.content-section ul{font-size:0.92rem;color:#333;margin-left:1.25rem;margin-bottom:0.75rem}
+.content-section ul li{margin-bottom:0.4rem}
+details{margin-bottom:0.75rem;border:1px solid #e8e8e8;border-radius:6px;overflow:hidden}
+summary{padding:12px 16px;font-size:0.92rem;font-weight:600;cursor:pointer;background:#f8f9fa;list-style:none;display:flex;justify-content:space-between;align-items:center}
+summary::-webkit-details-marker{display:none}
+summary::after{content:'＋';color:#0077b6;font-size:1rem}
+details[open] summary::after{content:'－'}
+details p{padding:12px 16px;font-size:0.9rem;color:#444;background:#fff}
+.related-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem}
+@media(max-width:480px){.related-grid{grid-template-columns:1fr}}
+.related-link{display:block;padding:10px 14px;background:#f8f9fa;border:1px solid #e0e0e0;border-radius:6px;font-size:0.85rem;color:#0077b6;transition:background 0.2s,border-color 0.2s}
+.related-link:hover{background:#e8f4fb;border-color:#0077b6;text-decoration:none}
+footer{background:#fff;border-top:1px solid #e0e0e0;padding:1.25rem 1.5rem;font-size:0.82rem;color:#888;text-align:center}
+footer a{color:#888;margin:0 0.5rem}
+footer a:hover{color:#0077b6}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">calc<span>stack</span>.dev</a>
+  </div>
+</nav>
+
+<main>
+  <h1>Credit Score Impact on Mortgage Rate Calculator</h1>
+  <p class="subtitle">See how your credit score affects your mortgage rate, monthly payment, and total interest paid — with side-by-side tier comparisons.</p>
+
+  <div class="card">
+    <div class="form-group">
+      <label for="loanAmount">Loan Amount (Home Price − Down Payment)</label>
+      <input type="number" id="loanAmount" placeholder="e.g. 350000" min="10000" max="10000000" value="350000">
+      <div class="error-msg" id="err-loan">Please enter a valid loan amount between $10,000 and $10,000,000.</div>
+    </div>
+
+    <div class="form-group">
+      <label for="creditScore">Your Credit Score: <strong id="scoreVal">720</strong></label>
+      <div style="text-align:center">
+        <div class="score-display" id="scoreDisplay">720</div>
+        <div><span class="score-tier tier-good" id="scoreTierBadge">Good</span></div>
+      </div>
+      <input type="range" id="creditScore" min="580" max="850" step="1" value="720">
+      <div class="range-labels"><span>580 (Poor)</span><span>720 (Good)</span><span>850 (Excellent)</span></div>
+    </div>
+
+    <div class="row2">
+      <div class="form-group">
+        <label for="loanTerm">Loan Term</label>
+        <select id="loanTerm">
+          <option value="30">30-Year Fixed</option>
+          <option value="20">20-Year Fixed</option>
+          <option value="15">15-Year Fixed</option>
+          <option value="10">10-Year Fixed</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="baseRate">Current Market Rate (%) for 760+ Score</label>
+        <input type="number" id="baseRate" value="7.00" min="1" max="20" step="0.01" placeholder="e.g. 7.00">
+        <div class="error-msg" id="err-rate">Rate must be between 1% and 20%.</div>
+      </div>
+    </div>
+
+    <button class="btn-primary" id="calcBtn">Calculate Impact</button>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="results card" id="results">
+    <div class="key-metric">
+      <div class="big-num" id="res-savings">$0</div>
+      <div class="big-label">Potential Savings by Improving Your Score</div>
+      <div class="big-sub" id="res-savings-sub">vs. Poor credit (580–619)</div>
+    </div>
+
+    <div class="metrics-grid" id="res-metrics"></div>
+
+    <h2 class="sec">Your Score Tier: Interest vs Principal</h2>
+    <div class="bar-section" id="res-bar"></div>
+
+    <h2 class="sec">Credit Score Tier Comparison</h2>
+    <div class="compare-table-wrap">
+      <table id="tier-table">
+        <thead>
+          <tr>
+            <th>Score Range</th>
+            <th>Tier</th>
+            <th>Est. Rate</th>
+            <th>Monthly Pmt</th>
+            <th>Total Interest</th>
+            <th>vs Your Score</th>
+          </tr>
+        </thead>
+        <tbody id="tier-tbody"></tbody>
+      </table>
+    </div>
+
+    <h2 class="sec">Rate Bands Visual</h2>
+    <div class="score-band-section" id="res-bands"></div>
+
+    <h2 class="sec">Year-by-Year Amortization (Your Score)</h2>
+    <div class="yr-table-wrap">
+      <table id="yr-table">
+        <thead>
+          <tr>
+            <th>Year</th>
+            <th>Annual Payment</th>
+            <th>Principal Paid</th>
+            <th>Interest Paid</th>
+            <th>Balance Remaining</th>
+          </tr>
+        </thead>
+        <tbody id="yr-tbody"></tbody>
+      </table>
+    </div>
+    <button class="show-all-btn" id="showAllBtn">Show All Years</button>
+    <button class="copy-btn" id="copyBtn">📋 Copy Summary</button>
+  </div>
+
+  <div class="ad-slot" id="ad-mid"></div>
+
+  <!-- CONTENT SECTION -->
+  <div class="content-section">
+    <h2>How to Use This Calculator</h2>
+    <p>Enter your loan amount (purchase price minus your down payment), drag the slider to your current credit score, choose your loan term, and set today's market rate for top-tier borrowers (760+). Hit <strong>Calculate Impact</strong> to instantly see your estimated mortgage rate, monthly payment, and total interest — plus a side-by-side comparison across all credit tiers.</p>
+
+    <h2>Why This Matters</h2>
+    <p>Your credit score is one of the single biggest factors lenders use to set your mortgage rate — and even a small difference compounds dramatically over 30 years. Consider this: on a $350,000 mortgage, a borrower with a 760+ "Excellent" score might get a 7.00% rate today, while someone with a 640 "Fair" score could be quoted 8.25% or higher. That 1.25% gap translates to roughly $92,000 in extra interest over the life of the loan — nearly a quarter of the original loan amount paid purely in penalty for a lower score.</p>
+    <p>This matters most for first-time buyers who may not realize their score is dragging up their rate. It also matters before a refinance — spending 6–12 months strategically improving your score (paying down credit cards, disputing errors, avoiding new credit applications) before you lock a rate could save you tens of thousands. Real estate investors running multiple properties feel this even more acutely, since rate differences stack across loans.</p>
+    <p>Even moving from a "Fair" tier (640–659) to a "Good" tier (680–699) — just 40 points — can drop your rate by 0.5–0.75%, saving $30,000–$50,000 on a $350K loan. That's a concrete, quantifiable reason to delay a purchase by a few months to repair your credit first.</p>
+
+    <h2>How It's Calculated</h2>
+    <p>This tool uses industry-standard FICO score tier brackets and applies typical lender rate adjustments (called <em>loan-level price adjustments</em> or LLPAs) on top of the base market rate you enter for the 760+ tier:</p>
+    <p><strong>Monthly Payment = P × [r(1+r)ⁿ] / [(1+r)ⁿ − 1]</strong></p>
+    <p>Where <strong>P</strong> = loan principal, <strong>r</strong> = monthly interest rate (annual rate ÷ 12), and <strong>n</strong> = total number of payments (years × 12). Total interest = (Monthly Payment × n) − P. The rate adjustments per tier reflect real-world Fannie Mae/Freddie Mac LLPA grids, though your actual rate will vary by lender, loan type, LTV ratio, and property type.</p>
+
+    <h2>Tips & Common Mistakes</h2>
+    <ul>
+      <li><strong>Check your score before applying.</strong> Many buyers apply without knowing their score, then get surprised by a higher-than-expected rate. Pull a free report from AnnualCreditReport.com first.</li>
+      <li><strong>Don't open new credit accounts in the 6–12 months before applying.</strong> New hard inquiries and lower average account age both hurt your score temporarily.</li>
+      <li><strong>Credit utilization has huge impact.</strong> Paying down revolving balances below 30% (ideally below 10%) of your limit can boost your score 20–40 points in 30–60 days.</li>
+      <li><strong>Dispute errors — they're common.</strong> About 1 in 4 credit reports have an error. A single incorrect late payment or fraudulent account can cost you an entire tier and thousands in interest.</li>
+      <li><strong>Don't assume you're stuck in a tier.</strong> Lenders re-pull credit at closing. If you improve your score between pre-approval and close, ask for a rate renegotiation or re-lock.</li>
+    </ul>
+
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>How much does a 100-point credit score difference affect my mortgage rate?</summary>
+      <p>Typically, a 100-point improvement (e.g., from 620 to 720) can reduce your mortgage rate by 0.75% to 1.50%, depending on the lender and market conditions. On a $350,000 30-year mortgage, that translates to roughly $55,000–$110,000 in total interest savings. The impact is largest when crossing from "Fair" to "Good" or "Good" to "Excellent" tiers.</p>
+    </details>
+    <details>
+      <summary>What credit score do I need to get the best mortgage rate?</summary>
+      <p>Most lenders reserve their best rates for borrowers with scores of 760 or higher. Scores above 760 generally don't earn meaningfully lower rates — the biggest incremental gains happen in the 620–760 range. Fannie Mae and Freddie Mac publish LLPA (Loan-Level Price Adjustment) grids that show exactly how score tiers affect pricing.</p>
+    </details>
+    <details>
+      <summary>Is it worth waiting to improve my credit before buying?</summary>
+      <p>It depends on how close you are to a tier boundary. If you're at 655, you're close to the 660 threshold — and a 5-point improvement could save $20,000+, worth 2–3 months of delay. If you're at 758, the extra 2 points to hit 760 are worth pursuing before locking. Use this calculator to quantify the savings vs. the cost of waiting (rent, potential price appreciation).</p>
+    </details>
+    <details>
+      <summary>Do all lenders use the same credit score tiers?</summary>
+      <p>No. While Fannie/Freddie guidelines create a common framework, individual lenders have overlays — some may charge more for 700–719 scores, others may have programs for scores as low as 580 (FHA loans). The rates in this calculator reflect conventional loan averages. FHA loans are available at lower scores but come with mandatory mortgage insurance, which adds 0.55%–0.85% annually.</p>
+    </details>
+  </div>
+
+  <!-- RELATED TOOLS -->
+  <div class="content-section">
+    <h2 style="margin-top:0">Related Tools</h2>
+    <div class="related-grid">
+      <a class="related-link" href="/bonus-tax-calculator/">Marginal Tax Rate on Bonus Calculator</a>
+      <a class="related-link" href="/backdoor-roth-ira-tax-calculator/">Backdoor Roth IRA Tax Calculator</a>
+      <a class="related-link" href="/pension-lump-sum-vs-monthly-payment-calculator/">Pension Lump Sum vs Monthly Payment Calculator</a>
+      <a class="related-link" href="/severance-pay-calculator/">Severance Pay Calculator</a>
+      <a class="related-link" href="/series-i-savings-bond-return-calculator/">Series I Savings Bond Return Calculator</a>
+      <a class="related-link" href="/employee-stock-options-value-calculator/">Employee Stock Options (ESO) Value Calculator</a>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-bottom"></div>
+</main>
+
+<footer>
+  <div>
+    <a href="/about/">About</a>
+    <a href="/privacy/">Privacy</a>
+    <a href="/contact/">Contact</a>
+  </div>
+  <div style="margin-top:6px">© 2025 calcstack.dev</div>
+</footer>
+
+<script>
+// Credit score tier definitions
+const TIERS = [
+  { label:'Excellent', range:'760–850', min:760, max:850, adj:0.00, color:'#2a9d8f' },
+  { label:'Very Good', range:'720–759', min:720, max:759, adj:0.25, color:'#0077b6' },
+  { label:'Good',      range:'680–719', min:680, max:719, adj:0.75, color:'#48cae4' },
+  { label:'Fair',      range:'640–679', min:640, max:679, adj:1.50, color:'#f4a261' },
+  { label:'Poor',      range:'580–639', min:580, max:639, adj:2.50, color:'#e63946' },
+];
+
+function getTier(score) {
+  for (const t of TIERS) { if (score >= t.min && score <= t.max) return t; }
+  return TIERS[0];
+}
+
+function fmtMoney(n) {
+  return '$' + Math.round(n).toLocaleString('en-US');
+}
+function fmtMoneyD(n) {
+  return '$' + n.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2});
+}
+function fmtRate(r) {
+  return r.toFixed(2) + '%';
+}
+
+function calcMonthlyPayment(principal, annualRate, years) {
+  const r = annualRate / 100 / 12;
+  const n = years * 12;
+  if (r === 0) return principal / n;
+  return principal * r * Math.pow(1+r, n) / (Math.pow(1+r, n) - 1);
+}
+
+function calcTotalInterest(monthly, years, principal) {
+  return monthly * years * 12 - principal;
+}
+
+// Slider + display
+const slider = document.getElementById('creditScore');
+const scoreDisplay = document.getElementById('scoreDisplay');
+const scoreBadge = document.getElementById('scoreTierBadge');
+const scoreVal = document.getElementById('scoreVal');
+
+const tierClasses = {
+  'Excellent':'tier-excellent',
+  'Very Good':'tier-very-good',
+  'Good':'tier-good',
+  'Fair':'tier-fair',
+  'Poor':'tier-poor'
+};
+
+function updateScoreUI(score) {
+  scoreDisplay.textContent = score;
+  scoreVal.textContent = score;
+  const t = getTier(score);
+  scoreBadge.textContent = t.label;
+  scoreBadge.className = 'score-tier ' + tierClasses[t.label];
+}
+
+slider.addEventListener('input', () => { updateScoreUI(parseInt(slider.value)); });
+updateScoreUI(parseInt(slider.value));
+
+// Validate
+function validate() {
+  let ok = true;
+  const loan = parseFloat(document.getElementById('loanAmount').value);
+  const rate = parseFloat(document.getElementById('baseRate').value);
+  const loanEl = document.getElementById('loanAmount');
+  const rateEl = document.getElementById('baseRate');
+  const errLoan = document.getElementById('err-loan');
+  const errRate = document.getElementById('err-rate');
+
+  if (isNaN(loan) || loan < 10000 || loan > 10000000) {
+    loanEl.classList.add('error'); errLoan.classList.add('show'); ok = false;
+  } else { loanEl.classList.remove('error'); errLoan.classList.remove('show'); }
+
+  if (isNaN(rate) || rate < 1 || rate > 20) {
+    rateEl.classList.add('error'); errRate.classList.add('show'); ok = false;
+  } else { rateEl.classList.remove('error'); errRate.classList.remove('show'); }
+
+  return ok;
+}
+
+// Main calculate
+let allYrRows = [];
+let showingAll = false;
+
+function calculate() {
+  if (!validate()) return;
+
+  const principal = parseFloat(document.getElementById('loanAmount').value);
+  const userScore = parseInt(slider.value);
+  const years = parseInt(document.getElementById('loanTerm').value);
+  const baseRate = parseFloat(document.getElementById('baseRate').value);
+  const userTier = getTier(userScore);
+  const userRate = baseRate + userTier.adj;
+  const userMonthly = calcMonthlyPayment(principal, userRate, years);
+  const userTotalInt = calcTotalInterest(userMonthly, years, principal);
+  const userTotal = userMonthly * years * 12;
+
+  // Best possible
+  const bestMonthly = calcMonthlyPayment(principal, baseRate, years);
+  const bestTotalInt = calcTotalInterest(bestMonthly, years, principal);
+
+  // Worst
+  const worstTier = TIERS[TIERS.length-1];
+  const worstRate = baseRate + worstTier.adj;
+  const worstMonthly = calcMonthlyPayment(principal, worstRate, years);
+  const worstTotalInt = calcTotalInterest(worstMonthly, years, principal);
+
+  const savingsVsWorst = worstTotalInt - userTotalInt;
+  const savingsVsBest = userTotalInt - bestTotalInt;
+
+  // Metrics
+  const metricsHTML = `
+    <div class="metric-box"><div class="val">${fmtRate(userRate)}</div><div class="lbl">Your Est. Rate</div></div>
+    <div class="metric-box"><div class="val">${fmtMoneyD(userMonthly)}</div><div class="lbl">Monthly Payment</div></div>
+    <div class="metric-box"><div class="val">${fmtMoney(userTotalInt)}</div><div class="lbl">Total Interest</div></div>
+    <div class="metric-box"><div class="val">${fmtMoney(userTotal)}</div><div class="lbl">Total Paid</div></div>
+    <div class="metric-box"><div class="val">${fmtMoney(savingsVsBest)}</div><div class="lbl">Extra vs Best Rate</div></div>
+    <div class="metric-box"><div class="val">${years}yr</div><div class="lbl">Loan Term</div></div>
+  `;
+
+  // Key savings
+  const savingsNum = Math.max(0, savingsVsWorst);
+  document.getElementById('res-savings').textContent = fmtMoney(Math.max(savingsVsBest,0) > 0 ? savingsVsBest : 0);
+  // Actually show savings vs worst below user or savings by improving to best
+  const displaySavings = savingsVsBest;
+  document.getElementById('res-savings').textContent = displaySavings > 0 ? fmtMoney(displaySavings) : '$0';
+  document.getElementById('res-savings-sub').textContent = displaySavings > 0
+    ? `You could save this by improving to Excellent (760+) score`
+    : `You already have the best available rate tier!`;
+
+  document.getElementById('res-metrics').innerHTML = metricsHTML;
+
+  // Bar chart
+  const principalPct = (principal / userTotal * 100).toFixed(1);
+  const interestPct = (userTotalInt / userTotal * 100).toFixed(1);
+  const barHTML = `
+    <div class="bar-label-row"><span>Principal: ${fmtMoney(principal)} (${principalPct}%)</span><span>Interest: ${fmtMoney(userTotalInt)} (${interestPct}%)</span></div>
+    <div class="bar-track">
+      <div class="bar-principal" style="width:${principalPct}%"></div>
+      <div class="bar-interest" style="width:${interestPct}%"></div>
+    </div>
+    <div class="bar-legend">
+      <span><span class="dot dot-principal"></span>Principal</span>
+      <span><span class="dot dot-interest"></span>Interest</span>
+    </div>
+  `;
+  document.getElementById('res-bar').innerHTML = barHTML;
+
+  // Tier comparison table
+  let tierRows = '';
+  for (const t of TIERS) {
+    const r = baseRate + t.adj;
+    const m = calcMonthlyPayment(principal, r, years);
+    const ti = calcTotalInterest(m, years, principal);
+    const diff = ti - userTotalInt;
+    const isUser = (userTier.label === t.label);
+    const diffStr = diff === 0 ? '—' : (diff > 0 ? '+' + fmtMoney(diff) : '−' + fmtMoney(Math.abs(diff)));
+    const diffColor = diff > 0 ? 'color:#e63946' : diff < 0 ? 'color:#2a9d8f' : '';
+    tierRows += `<tr${isUser?' class="highlight-row"':''}><td>${t.range}</td><td>${t.label}${isUser?' ★':''}</td><td>${fmtRate(r)}</td><td>${fmtMoneyD(m)}</td><td>${fmtMoney(ti)}</td><td style="${diffColor}">${diffStr}</td></tr>`;
+  }
+  document.getElementById('tier-tbody').innerHTML = tierRows;
+
+  // Score bands visual
+  const maxRate = baseRate + TIERS[TIERS.length-1].adj;
+  let bandsHTML = '';
+  for (const t of TIERS) {
+    const r = baseRate + t.adj;
+    const barPct = (r / maxRate * 100).toFixed(1);
+    const isActive = (userTier.label === t.label);
+    bandsHTML += `
+      <div class="band-row${isActive?' active-band':''}">
+        <span class="band-label">${t.range}</span>
+        <div class="band-bar-track"><div class="band-bar-fill" style="width:${barPct}%;background:${t.color}"></div></div>
+        <span class="band-rate">${fmtRate(r)}</span>
+      </div>`;
+  }
+  document.getElementById('res-bands').innerHTML = bandsHTML;
+
+  // Year-by-year amortization
+  const monthlyRate = userRate / 100 / 12;
+  let balance = principal;
+  const n = years * 12;
+  const mPayment = userMonthly;
+  allYrRows = [];
+  for (let yr = 1; yr <= years; yr++) {
+    let annualPrincipal = 0, annualInterest = 0;
+    for (let m = 0; m < 12; m++) {
+      if (balance <= 0) break;
+      const intPmt = balance * monthlyRate;
+      const prinPmt = Math.min(mPayment - intPmt, balance);
+      annualInterest += intPmt;
+      annualPrincipal += prinPmt;
+      balance -= prinPmt;
+    }
+    allYrRows.push({ yr, annualPayment: annualPrincipal+annualInterest, annualPrincipal, annualInterest, balance: Math.max(0,balance) });
+  }
+
+  renderYrTable(10);
+
+  // Copy button data
+  document.getElementById('copyBtn').dataset.summary =
+    `Credit Score: ${userScore} (${userTier.label})\nLoan: ${fmtMoney(principal)} | ${years}-Year | Rate: ${fmtRate(userRate)}\nMonthly Payment: ${fmtMoneyD(userMonthly)}\nTotal Interest: ${fmtMoney(userTotalInt)}\nTotal Paid: ${fmtMoney(userTotal)}\nSavings vs Poor Credit: ${fmtMoney(worstTotalInt-userTotalInt)}\nPotential Savings to Excellent: ${fmtMoney(Math.max(0,displaySavings))}`;
+
+  const res = document.getElementById('results');
+  res.classList.add('visible');
+  res.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function renderYrTable(limit) {
+  const rows = limit ? allYrRows.slice(0, limit) : allYrRows;
+  let html = '';
+  for (const r of rows) {
+    html += `<tr><td>${r.yr}</td><td>${fmtMoneyD(r.annualPayment)}</td><td>${fmtMoneyD(r.annualPrincipal)}</td><td>${fmtMoneyD(r.annualInterest)}</td><td>${fmtMoneyD(r.balance)}</td></tr>`;
+  }
+  document.getElementById('yr-tbody').innerHTML = html;
+  const btn = document.getElementById('showAllBtn');
+  if (allYrRows.length <= 10) {
+    btn.style.display = 'none';
+  } else {
+    btn.style.display = 'block';
+    btn.textContent = limit ? `Show All ${allYrRows.length} Years ▼` : 'Show Less ▲';
+  }
+  showingAll = !limit;
+}
+
+document.getElementById('showAllBtn').addEventListener('click', () => {
+  requestAnimationFrame(() => {
+    if (showingAll) renderYrTable(10);
+    else renderYrTable(null);
+  });
+});
+
+document.getElementById('copyBtn').addEventListener('click', function() {
+  const txt = this.dataset.summary || '';
+  if (!txt) return;
+  navigator.clipboard.writeText(txt).then(() => {
+    this.textContent = '✓ Copied!';
+    setTimeout(() => { this.textContent = '📋 Copy Summary'; }, 2000);
+  }).catch(() => {
+    this.textContent = '✓ Copied!';
+    setTimeout(() => { this.textContent = '📋 Copy Summary'; }, 2000);
+  });
+});
+
+document.getElementById('calcBtn').addEventListener('click', () => {
+  requestAnimationFrame(() => { calculate(); });
+});
+
+[document.getElementById('loanAmount'), document.getElementById('baseRate')].forEach(el => {
+  el.addEventListener('keydown', e => { if (e.key==='Enter') { requestAnimationFrame(()=>{calculate();}); }});
+});
+document.getElementById('loanTerm').addEventListener('change', () => {
+  if (document.getElementById('results').classList.contains('visible')) {
+    requestAnimationFrame(()=>{calculate();});
+  }
+});
+</script>
+</body>
+</html>
