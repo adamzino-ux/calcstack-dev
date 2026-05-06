@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Variable Rate Loan Interest Cost Calculator — Free Online Tool | calcstack.dev</title>
+<meta name="description" content="Calculate total interest costs on variable rate loans. Model rate changes over time, compare scenarios, and see year-by-year breakdowns. Free online tool.">
+<link rel="canonical" href="https://calcstack.dev/variable-rate-loan-interest-cost-calculator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Variable Rate Loan Interest Cost Calculator",
+  "url": "https://calcstack.dev/variable-rate-loan-interest-cost-calculator/",
+  "description": "Calculate total interest costs on variable rate loans with rate change modeling and year-by-year breakdowns.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "calcstack.dev",
+    "url": "https://calcstack.dev"
+  }
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#fff;color:#1a1a2e;line-height:1.6;font-size:16px}
+a{color:#0077b6;text-decoration:none}
+a:hover{text-decoration:underline}
+nav{border-bottom:1px solid #e0e0e0;padding:12px 1.5rem;background:#fff}
+nav .nav-inner{max-width:640px;margin:0 auto;display:flex;align-items:center;gap:8px}
+nav .site-name{font-weight:700;color:#1a1a2e;font-size:1rem}
+nav .site-name:hover{text-decoration:none;color:#0077b6}
+.container{max-width:640px;margin:0 auto;padding:1.5rem}
+h1{font-size:1.6rem;font-weight:800;color:#1a1a2e;margin-bottom:.4rem;line-height:1.3}
+.subtitle{color:#555;font-size:.95rem;margin-bottom:2rem}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:2rem}
+.section-title{font-size:1rem;font-weight:700;color:#1a1a2e;margin-bottom:1.2rem;padding-bottom:.5rem;border-bottom:2px solid #0077b6}
+.form-group{margin-bottom:1.2rem}
+label{display:block;font-size:.85rem;font-weight:500;color:#444;margin-bottom:.4rem}
+input[type=number],input[type=text],select{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:6px;font-size:1rem;color:#1a1a2e;background:#fff;transition:border-color .2s,box-shadow .2s;-moz-appearance:textfield}
+input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
+input:focus,select:focus{outline:none;border-color:#0077b6;box-shadow:0 0 0 3px rgba(0,119,182,.15)}
+input.error{border-color:#e74c3c}
+.error-msg{color:#e74c3c;font-size:.8rem;margin-top:.3rem;display:none}
+.error-msg.show{display:block}
+.input-prefix{position:relative}
+.input-prefix span{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#777;font-size:1rem;pointer-events:none}
+.input-prefix input{padding-left:28px}
+.input-suffix{position:relative}
+.input-suffix span{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:#777;font-size:.9rem;pointer-events:none}
+.input-suffix input{padding-right:36px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.slider-row{display:flex;align-items:center;gap:.8rem;margin-top:.4rem}
+input[type=range]{flex:1;height:4px;accent-color:#0077b6;cursor:pointer;min-height:0}
+.slider-val{font-size:.85rem;font-weight:600;color:#0077b6;min-width:40px;text-align:right}
+.rate-periods{margin-top:1rem}
+.rate-period-item{background:#f8f9fa;border:1px solid #e0e0e0;border-radius:6px;padding:1rem;margin-bottom:.8rem;position:relative}
+.rate-period-item .row{grid-template-columns:2fr 2fr auto;align-items:end;gap:.8rem}
+.remove-btn{background:none;border:1px solid #ddd;border-radius:4px;color:#888;cursor:pointer;padding:10px 12px;font-size:.85rem;min-height:44px;transition:all .2s;white-space:nowrap}
+.remove-btn:hover{border-color:#e74c3c;color:#e74c3c}
+.add-period-btn{background:none;border:1px dashed #0077b6;color:#0077b6;border-radius:6px;padding:10px 20px;cursor:pointer;font-size:.9rem;width:100%;margin-top:.5rem;min-height:44px;transition:all .2s}
+.add-period-btn:hover{background:rgba(0,119,182,.05)}
+.tabs{display:flex;gap:0;margin-bottom:1.5rem;border:1px solid #ddd;border-radius:6px;overflow:hidden}
+.tab-btn{flex:1;padding:10px;background:#f8f9fa;border:none;cursor:pointer;font-size:.85rem;color:#555;transition:all .2s;min-height:44px;font-weight:500}
+.tab-btn.active{background:#0077b6;color:#fff;font-weight:600}
+.tab-content{display:none}
+.tab-content.active{display:block}
+.btn-primary{background:#0077b6;color:#fff;border:none;padding:14px 24px;border-radius:6px;font-size:1rem;font-weight:600;cursor:pointer;width:100%;min-height:48px;transition:background .2s;margin-top:.5rem}
+.btn-primary:hover{background:#006299}
+.results-section{opacity:0;transition:opacity .3s ease;pointer-events:none}
+.results-section.visible{opacity:1;pointer-events:all}
+.key-metric{text-align:center;padding:1.5rem;background:linear-gradient(135deg,#f0f8ff,#e6f3fb);border-radius:8px;margin-bottom:1.5rem}
+.key-metric .label{font-size:.85rem;color:#555;font-weight:500;margin-bottom:.3rem}
+.key-metric .value{font-size:2.4rem;font-weight:800;color:#0077b6;line-height:1.1}
+.key-metric .sub{font-size:.85rem;color:#777;margin-top:.3rem}
+.metrics-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+.metric-box{background:#f8f9fa;border:1px solid #e0e0e0;border-radius:6px;padding:1rem;text-align:center}
+.metric-box .m-label{font-size:.78rem;color:#666;font-weight:500;margin-bottom:.3rem}
+.metric-box .m-value{font-size:1.25rem;font-weight:700;color:#1a1a2e}
+.metric-box .m-value.blue{color:#0077b6}
+.bar-chart{margin-bottom:1.5rem}
+.bar-chart-title{font-size:.9rem;font-weight:600;color:#444;margin-bottom:.8rem}
+.bar-row{display:flex;align-items:center;gap:.8rem;margin-bottom:.6rem}
+.bar-label{font-size:.8rem;color:#555;width:80px;flex-shrink:0;text-align:right}
+.bar-track{flex:1;background:#eee;border-radius:4px;height:20px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;transition:width .5s ease}
+.bar-fill.principal{background:#0077b6}
+.bar-fill.interest{background:#e07b39}
+.bar-fill.rate-a{background:#0077b6}
+.bar-fill.rate-b{background:#17a589}
+.bar-value{font-size:.8rem;font-weight:600;color:#333;min-width:90px}
+.bar-legend{display:flex;gap:1.2rem;margin-bottom.8rem;flex-wrap:wrap}
+.legend-item{display:flex;align-items:center;gap:.4rem;font-size:.8rem;color:#555}
+.legend-dot{width:12px;height:12px;border-radius:2px;flex-shrink:0}
+.legend-dot.principal{background:#0077b6}
+.legend-dot.interest{background:#e07b39}
+table{width:100%;border-collapse:collapse;font-size:.85rem}
+thead th{background:#f0f0f0;padding:8px 10px;text-align:left;font-weight:600;font-size:.8rem;color:#444;position:sticky;top:0}
+thead th.num{text-align:right}
+tbody tr:nth-child(even){background:#fafafa}
+tbody tr:hover{background:#f0f8ff}
+tbody td{padding:7px 10px;border-bottom:1px solid #eee;color:#333}
+tbody td.num{text-align:right;font-variant-numeric:tabular-nums}
+tbody td.rate-cell{text-align:right;color:#0077b6;font-weight:600}
+.table-wrap{overflow-x:auto;border-radius:6px;border:1px solid #e0e0e0;margin-bottom:1rem}
+.show-all-btn{background:none;border:1px solid #ddd;border-radius:4px;padding:8px 20px;font-size:.85rem;color:#555;cursor:pointer;width:100%;min-height:40px;transition:all .2s}
+.show-all-btn:hover{border-color:#0077b6;color:#0077b6}
+.copy-btn{background:none;border:1px solid #ddd;border-radius:4px;padding:7px 14px;font-size:.8rem;color:#555;cursor:pointer;min-height:36px;transition:all .2s;float:right;margin-bottom:.5rem}
+.copy-btn:hover{border-color:#0077b6;color:#0077b6}
+.copy-btn.copied{border-color:#27ae60;color:#27ae60}
+.ad-slot{min-height:0;margin:0}
+.content-section h2{font-size:1.15rem;font-weight:700;color:#1a1a2e;margin-bottom:.7rem;margin-top:2rem}
+.content-section h2:first-child{margin-top:0}
+.content-section p{color:#444;margin-bottom:.9rem;font-size:.95rem}
+.content-section ul{color:#444;font-size:.95rem;padding-left:1.4rem;margin-bottom:.9rem}
+.content-section ul li{margin-bottom:.4rem}
+details{border:1px solid #e0e0e0;border-radius:6px;padding:.9rem 1rem;margin-bottom:.8rem}
+details summary{font-weight:600;cursor:pointer;color:#1a1a2e;font-size:.95rem;list-style:none}
+details summary::before{content:"▶ ";font-size:.7rem;color:#0077b6}
+details[open] summary::before{content:"▼ "}
+details p{margin-top:.7rem;color:#555;font-size:.9rem}
+.related-tools{background:#f8f9fa;border-radius:8px;padding:1.5rem;margin-bottom:2rem}
+.related-tools h2{font-size:1rem;font-weight:700;margin-bottom:1rem;color:#1a1a2e}
+.related-tools ul{list-style:none;padding:0}
+.related-tools ul li{padding:.4rem 0;border-bottom:1px solid #eee}
+.related-tools ul li:last-child{border-bottom:none}
+.related-tools ul li a{font-size:.9rem}
+footer{background:#f8f9fa;border-top:1px solid #e0e0e0;padding:1.5rem;text-align:center;font-size:.85rem;color:#777}
+footer a{color:#555;margin:0 .5rem}
+footer a:hover{color:#0077b6}
+.scenario-compare{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:1.5rem}
+.scenario-box{border-radius:6px;padding:1rem;text-align:center}
+.scenario-box.a{background:#e8f4fd;border:1px solid #b3d9f7}
+.scenario-box.b{background:#e8f7f3;border:1px solid #a8e6d0}
+.scenario-box .s-label{font-size:.75rem;font-weight:600;color:#555;margin-bottom:.3rem}
+.scenario-box .s-value{font-size:1.2rem;font-weight:700}
+.scenario-box.a .s-value{color:#0077b6}
+.scenario-box.b .s-value{color:#17a589}
+.info-note{background:#fffbf0;border:1px solid #f0c060;border-radius:6px;padding:.9rem 1rem;font-size:.85rem;color:#7a5c00;margin-bottom:1.2rem}
+@media(max-width:640px){
+  .row{grid-template-columns:1fr}
+  .rate-period-item .row{grid-template-columns:1fr 1fr;gap:.6rem}
+  .rate-period-item .row .form-group:last-child{grid-column:1/-1}
+  .metrics-grid{grid-template-columns:1fr 1fr}
+  .key-metric .value{font-size:2rem}
+  .scenario-compare{grid-template-columns:1fr 1fr}
+  h1{font-size:1.35rem}
+  .card{padding:1.2rem}
+  .bar-label{width:60px;font-size:.75rem}
+  .bar-value{font-size:.75rem;min-width:75px}
+}
+@media(max-width:400px){
+  .metrics-grid{grid-template-columns:1fr}
+  .scenario-compare{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="site-name">📊 calcstack.dev</a>
+  </div>
+</nav>
+
+<div class="container">
+  <h1>Variable Rate Loan Interest Cost Calculator</h1>
+  <p class="subtitle">Model how changing interest rates affect your total loan cost. Add multiple rate periods and compare fixed vs. variable scenarios.</p>
+
+  <div class="card">
+    <div class="section-title">Loan Details</div>
+
+    <div class="row">
+      <div class="form-group">
+        <label for="loanAmount">Loan Amount</label>
+        <div class="input-prefix">
+          <span>$</span>
+          <input type="number" id="loanAmount" placeholder="250,000" value="250000" min="1" max="100000000">
+        </div>
+        <div class="error-msg" id="loanAmountErr">Please enter a valid loan amount greater than 0.</div>
+      </div>
+      <div class="form-group">
+        <label for="loanTerm">Loan Term (Years)</label>
+        <input type="number" id="loanTerm" placeholder="30" value="30" min="1" max="50">
+        <div class="error-msg" id="loanTermErr">Please enter a term between 1 and 50 years.</div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group">
+        <label for="startRate">Starting Interest Rate (%)</label>
+        <div class="input-suffix">
+          <span>%</span>
+          <input type="number" id="startRate" placeholder="5.00" value="5.00" min="0.01" max="30" step="0.01">
+        </div>
+        <div class="slider-row">
+          <input type="range" id="startRateSlider" min="0.1" max="20" step="0.1" value="5.0">
+          <span class="slider-val" id="startRateSliderVal">5.0%</span>
+        </div>
+        <div class="error-msg" id="startRateErr">Please enter a rate between 0.01% and 30%.</div>
+      </div>
+      <div class="form-group">
+        <label for="paymentType">Payment Type</label>
+        <select id="paymentType">
+          <option value="amortizing">Amortizing (Fixed Payments)</option>
+          <option value="interest_only">Interest-Only</option>
+          <option value="recalculate">Amortizing (Recalculate on Change)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:1.2rem">Rate Change Schedule</div>
+    <div class="info-note">Add periods below to model when and how your rate changes. Leave empty to model a fixed rate for comparison.</div>
+
+    <div class="rate-periods" id="ratePeriods">
+      <!-- JS-generated periods go here -->
+    </div>
+    <button class="add-period-btn" id="addPeriodBtn">+ Add Rate Change Period</button>
+
+    <div class="section-title" style="margin-top:1.5rem">Scenario Comparison (Optional)</div>
+    <div class="row">
+      <div class="form-group">
+        <label for="compareRate">Compare Fixed Rate (%)</label>
+        <div class="input-suffix">
+          <span>%</span>
+          <input type="number" id="compareRate" placeholder="6.50" value="6.50" min="0.01" max="30" step="0.01">
+        </div>
+      </div>
+      <div class="form-group" style="display:flex;align-items:flex-end">
+        <label style="display:flex;align-items:center;gap:.5rem;cursor:pointer;margin-bottom:0;font-size:.9rem">
+          <input type="checkbox" id="showCompare" checked style="width:auto;accent-color:#0077b6"> Show comparison
+        </label>
+      </div>
+    </div>
+
+    <button class="btn-primary" id="calcBtn">Calculate Interest Costs</button>
+  </div>
+
+  <div class="results-section" id="resultsSection">
+    <div class="card">
+      <div class="section-title">Results Summary</div>
+      <div id="summaryContent"></div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">Visual Breakdown</div>
+      <div id="chartContent"></div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">Year-by-Year Breakdown
+        <button class="copy-btn" id="copyBtn">Copy Data</button>
+      </div>
+      <div class="tabs">
+        <button class="tab-btn active" id="tabVariable" onclick="switchTab('variable')">Variable Rate</button>
+        <button class="tab-btn" id="tabFixed" onclick="switchTab('fixed')">Fixed Comparison</button>
+      </div>
+      <div id="variableTableWrap" class="tab-content active">
+        <div class="table-wrap">
+          <table id="variableTable"></table>
+        </div>
+        <button class="show-all-btn" id="showAllVarBtn" onclick="toggleShowAll('var')">Show All Years</button>
+      </div>
+      <div id="fixedTableWrap" class="tab-content">
+        <div class="table-wrap">
+          <table id="fixedTable"></table>
+        </div>
+        <button class="show-all-btn" id="showAllFixBtn" onclick="toggleShowAll('fix')">Show All Years</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-mid"></div>
+
+  <div class="content-section">
+    <h2>How to Use This Variable Rate Loan Calculator</h2>
+    <p>Enter your loan amount, term, and starting interest rate. Then add rate change periods to model when your variable rate adjusts — specify the month the change takes effect and the new rate. Hit <strong>Calculate Interest Costs</strong> to see your total interest paid, monthly payments, and a year-by-year breakdown. The optional comparison field lets you see how a fixed-rate loan stacks up.</p>
+
+    <h2>Why This Matters</h2>
+    <p>Variable rate loans — including ARMs (Adjustable-Rate Mortgages), HELOCs, student loans, and business lines of credit — can save you money when rates drop but cost you significantly more when rates rise. The difference isn't always obvious upfront.</p>
+    <p>Consider a $300,000 mortgage starting at 5.5% that adjusts to 7.5% after 5 years. Over 30 years, that shift costs over $80,000 more in interest compared to locking in 6.5% from day one. Or the reverse: if your ARM drops from 6% to 4.5% after year 3, you save thousands — but you need to see the full picture to decide whether the risk is worth it.</p>
+    <p>This tool is designed for homebuyers evaluating ARMs, HELOC borrowers, small business owners with variable rate credit lines, and anyone who wants to understand exactly what rate volatility costs in real dollars — not just percentages.</p>
+
+    <h2>How It's Calculated</h2>
+    <p>For each rate period, the calculator uses standard amortization math:</p>
+    <p><strong>Monthly Payment = P × [r(1+r)ⁿ] / [(1+r)ⁿ − 1]</strong></p>
+    <p>Where P = remaining principal, r = monthly rate (annual rate ÷ 12), n = remaining months in the loan term. When the rate changes, the new payment is recalculated based on the remaining balance and remaining months (if "Recalculate on Change" is selected) or held fixed (standard amortizing). Total interest = sum of all interest portions across every monthly payment.</p>
+
+    <h2>Tips & Common Mistakes</h2>
+    <ul>
+      <li><strong>Don't only look at the teaser rate.</strong> Many ARMs advertise an attractive initial rate but can jump 2–3% after the fixed period ends. Model the realistic worst-case scenario.</li>
+      <li><strong>Factor in rate caps.</strong> Real ARM loans have caps on how much the rate can change per period and over the loan life. Use those caps as your "high" scenario.</li>
+      <li><strong>Interest-only loans look cheap upfront.</strong> You're not building equity. When the loan converts to amortizing, your payments jump sharply — model that transition.</li>
+      <li><strong>Compare to your break-even point.</strong> If you plan to sell or refinance in 5 years, a variable rate might save money even if it rises after year 7.</li>
+      <li><strong>Watch the effective annual rate (EAR).</strong> Monthly compounding means the real cost is slightly higher than the stated annual rate.</li>
+    </ul>
+
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>What's the difference between an ARM and a variable rate loan?</summary>
+      <p>An ARM (Adjustable-Rate Mortgage) is a specific type of variable rate loan for real estate. Variable rate loans include ARMs, HELOCs, personal loans, and business lines of credit with rates that change based on an index like SOFR or the Prime Rate. Both follow the same mathematical principles this calculator uses.</p>
+    </details>
+    <details>
+      <summary>How accurate is this calculator for real ARM loans?</summary>
+      <p>This calculator is highly accurate for modeling scenarios you define. Real ARM loans also have rate adjustment caps (e.g., 2% per adjustment, 6% lifetime cap), adjustment frequency rules, and index-based pricing. Use your loan's specific terms to set the rate values in each period for the most realistic results.</p>
+    </details>
+    <details>
+      <summary>What does "Recalculate on Change" mean?</summary>
+      <p>When a variable rate loan adjusts, most lenders recalculate your monthly payment based on the new rate and the remaining balance and term — this is "Recalculate on Change." The "Fixed Payments" option keeps your original payment amount and applies the new rate, changing how much goes to interest vs. principal each month.</p>
+    </details>
+    <details>
+      <summary>Can I model a rate that goes up, then down?</summary>
+      <p>Yes. Add as many rate change periods as you need. For example: 5% for years 1–3, 7% for years 4–6, then 6% for years 7–30. The calculator handles any combination of rate changes across the loan term, in any order.</p>
+    </details>
+  </div>
+
+  <div class="related-tools">
+    <h2>Related Financial Calculators</h2>
+    <ul>
+      <li><a href="/credit-score-mortgage-rate-calculator/">Credit Score Impact on Mortgage Rate Calculator</a></li>
+      <li><a href="/bonus-tax-calculator/">Marginal Tax Rate on Bonus Calculator</a></li>
+      <li><a href="/backdoor-roth-ira-tax-calculator/">Backdoor Roth IRA Tax Calculator</a></li>
+      <li><a href="/pension-lump-sum-vs-monthly-payment-calculator/">Pension Lump Sum vs Monthly Payment Calculator</a></li>
+      <li><a href="/severance-pay-calculator/">Severance Pay Calculator</a></li>
+      <li><a href="/series-i-savings-bond-return-calculator/">Series I Savings Bond Return Calculator</a></li>
+    </ul>
+  </div>
+
+  <div class="ad-slot" id="ad-bottom"></div>
+</div>
+
+<footer>
+  <div>
+    <a href="/about/">About</a>
+    <a href="/privacy/">Privacy</a>
+    <a href="/contact/">Contact</a>
+  </div>
+  <div style="margin-top:.5rem">© 2025 calcstack.dev — All calculations for informational purposes only.</div>
+</footer>
+
+<script>
+// ─── State ───────────────────────────────────────────────────────────────────
+let periods = [];
+let periodIdCounter = 0;
+let varShowAll = false;
+let fixShowAll = false;
+let lastVarRows = [];
+let lastFixRows = [];
+let lastCopyText = '';
+let activeTab = 'variable';
+
+// ─── Init ─────────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  addPeriod(37, 7.0);   // default: rate changes at month 37 to 7%
+  syncSlider();
+  document.getElementById('startRateSlider').addEventListener('input', onSliderInput);
+  document.getElementById('startRate').addEventListener('input', syncSlider);
+  document.getElementById('addPeriodBtn').addEventListener('click', () => { addPeriod(); renderPeriods(); });
+  document.getElementById('calcBtn').addEventListener('click', () => {
+    requestAnimationFrame(() => { calculate(); });
+  });
+  document.getElementById('copyBtn').addEventListener('click', copyData);
+  ['loanAmount','loanTerm','startRate','compareRate','paymentType','showCompare'].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.addEventListener('keydown', e => { if(e.key==='Enter') { requestAnimationFrame(() => calculate()); } });
+  });
+});
+
+function syncSlider(){
+  const val = parseFloat(document.getElementById('startRate').value) || 5;
+  const clamped = Math.min(20, Math.max(0.1, val));
+  document.getElementById('startRateSlider').value = clamped;
+  document.getElementById('startRateSliderVal').textContent = clamped.toFixed(1) + '%';
+}
+
+function onSliderInput(){
+  const val = parseFloat(this.value);
+  document.getElementById('startRate').value = val.toFixed(2);
+  document.getElementById('startRateSliderVal').textContent = val.toFixed(1) + '%';
+}
+
+// ─── Rate Periods ─────────────────────────────────────────────────────────────
+function addPeriod(month, rate){
+  const id = ++periodIdCounter;
+  periods.push({ id, month: month||'', rate: rate||'' });
+  renderPeriods();
+}
+
+function removePeriod(id){
+  periods = periods.filter(p => p.id !== id);
+  renderPeriods();
+}
+
+function renderPeriods(){
+  const container = document.getElementById('ratePeriods');
+  if(periods.length === 0){
+    container.innerHTML = '<p style="color:#888;font-size:.85rem;text-align:center;padding:.5rem 0">No rate changes added. The loan will use the starting rate for the full term.</p>';
+    return;
+  }
+  let html = '';
+  periods.forEach((p, i) => {
+    html += `<div class="rate-period-item">
+      <div style="font-size:.78rem;font-weight:600;color:#666;margin-bottom:.6rem">Period ${i+1}</div>
+      <div class="row">
+        <div class="form-group" style="margin-bottom:0">
+          <label>Starting Month</label>
+          <input type="number" min="2" placeholder="e.g. 37" value="${p.month}" onchange="updatePeriod(${p.id},'month',this.value)" style="min-height:44px">
+        </div>
+        <div class="form-group" style="margin-bottom:0">
+          <label>New Rate (%)</label>
+          <div class="input-suffix">
+            <span>%</span>
+            <input type="number" min="0.01" max="30" step="0.01" placeholder="e.g. 7.50" value="${p.rate}" onchange="updatePeriod(${p.id},'rate',this.value)" style="min-height:44px;padding-right:36px">
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom:0">
+          <label>&nbsp;</label>
+          <button class="remove-btn" onclick="removePeriod(${p.id})">Remove</button>
+        </div>
+      </div>
+    </div>`;
+  });
+  container.innerHTML = html;
+}
+
+function updatePeriod(id, field, val){
+  const p = periods.find(x => x.id === id);
+  if(p) p[field] = field === 'month' ? parseInt(val)||'' : parseFloat(val)||'';
+}
+
+// ─── Validation ───────────────────────────────────────────────────────────────
+function showError(id, show){
+  const msg = document.getElementById(id);
+  if(!msg) return;
+  const input = msg.previousElementSibling?.tagName === 'INPUT'
+    ? msg.previousElementSibling
+    : msg.parentElement?.querySelector('input');
+  if(show){ msg.classList.add('show'); if(input) input.classList.add('error'); }
+  else { msg.classList.remove('show'); if(input) input.classList.remove('error'); }
+}
+
+function clearErrors(){
+  ['loanAmountErr','loanTermErr','startRateErr'].forEach(id => showError(id,false));
+}
+
+function validate(loanAmount, loanTerm, startRate){
+  let valid = true;
+  clearErrors();
+  if(!loanAmount || loanAmount <= 0){ showError('loanAmountErr',true); valid = false; }
+  if(!loanTerm || loanTerm < 1 || loanTerm > 50){ showError('loanTermErr',true); valid = false; }
+  if(!startRate || startRate <= 0 || startRate > 30){ showError('startRateErr',true); valid = false; }
+  return valid;
+}
+
+// ─── Core Calculation ─────────────────────────────────────────────────────────
+function fmt(n){ return '$' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+function fmtNum(n){ return n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+function fmtInt(n){ return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+
+function calcLoan(principal, termMonths, startRate, ratePeriods, paymentType){
+  // Build month-by-month rate schedule
+  const rates = new Array(termMonths).fill(startRate / 100 / 12);
+  const sortedPeriods = [...ratePeriods].filter(p => p.month >= 2 && p.rate > 0).sort((a,b) => a.month - b.month);
+  sortedPeriods.forEach(p => {
+    const from = Math.min(termMonths, p.month - 1); // 0-indexed
+    for(let i = from; i < termMonths; i++) rates[i] = p.rate / 100 / 12;
+  });
+
+  let balance = principal;
+  let totalInterest = 0;
+  let totalPrincipal = 0;
+  const monthlyData = [];
+  const yearlyData = [];
+
+  // Calculate initial payment
+  function calcPayment(bal, r, n){
+    if(r === 0) return bal / n;
+    return bal * r * Math.pow(1+r,n) / (Math.pow(1+r,n) - 1);
+  }
+
+  let currentPayment = calcPayment(principal, rates[0], termMonths);
+  let lastRate = rates[0];
+  let lastPaymentRecalcMonth = 1;
+
+  for(let m = 0; m < termMonths; m++){
+    const r = rates[m];
+    // Recalculate payment if rate changed and mode is recalculate
+    if(r !== lastRate){
+      if(paymentType === 'recalculate'){
+        const remaining = termMonths - m;
+        currentPayment = calcPayment(balance, r, remaining);
+      }
+      lastRate = r;
+    }
+
+    let interestPortion, principalPortion, payment;
+    const interestDue = balance * r;
+
+    if(paymentType === 'interest_only'){
+      payment = interestDue;
+      interestPortion = interestDue;
+      principalPortion = 0;
+    } else {
+      // amortizing
+      payment = Math.min(currentPayment, balance + interestDue);
+      interestPortion = interestDue;
+      principalPortion = payment - interestPortion;
+      if(principalPortion < 0) principalPortion = 0;
+    }
+
+    if(balance <= 0){ break; }
+    if(principalPortion > balance) principalPortion = balance;
+    payment = interestPortion + principalPortion;
+
+    totalInterest += interestPortion;
+    totalPrincipal += principalPortion;
+    balance -= principalPortion;
+    if(balance < 0.01) balance = 0;
+
+    const yr = Math.floor(m / 12) + 1;
+    const annualRate = r * 12 * 100;
+    monthlyData.push({ month: m+1, year: yr, payment, interest: interestPortion, principal: principalPortion, balance, rate: annualRate });
+  }
+
+  // Aggregate yearly
+  const yearMap = {};
+  monthlyData.forEach(d => {
+    if(!yearMap[d.year]) yearMap[d.year] = { year: d.year, payment:0, interest:0, principal:0, balance: d.balance, rate: d.rate };
+    yearMap[d.year].payment += d.payment;
+    yearMap[d.year].interest += d.interest;
+    yearMap[d.year].principal += d.principal;
+    yearMap[d.year].balance = d.balance;
+    yearMap[d.year].rate = d.rate;
+  });
+  Object.values(yearMap).forEach(y => yearlyData.push(y));
+
+  const avgRate = sortedPeriods.length === 0 ? startRate :
+    (monthlyData.reduce((s,m) => s + m.rate * 12, 0) / monthlyData.length);
+
+  return { totalInterest, totalPrincipal, yearlyData, monthlyData, avgRate,
+    endingBalance: balance, totalCost: totalInterest + totalPrincipal };
+}
+
+function calculate(){
+  const loanAmount = parseFloat(document.getElementById('loanAmount').value);
+  const loanTerm = parseInt(document.getElementById('loanTerm').value);
+  const startRate = parseFloat(document.getElementById('startRate').value);
+  const paymentType = document.getElementById('paymentType').value;
+  const compareRate = parseFloat(document.getElementById('compareRate').value) || startRate;
+  const showCompare = document.getElementById('showCompare').checked;
+
+  if(!validate(loanAmount, loanTerm, startRate)) return;
+
+  const termMonths = loanTerm * 12;
+
+  // Filter valid periods
+  const validPeriods = periods.filter(p => p.month >= 2 && p.rate > 0 && p.month <= termMonths);
+  const varResult = calcLoan(loanAmount, termMonths, startRate, validPeriods, paymentType);
+  const fixResult = calcLoan(loanAmount, termMonths, compareRate, [], paymentType);
+
+  // Build summary HTML
+  const savings = fixResult.totalInterest - varResult.totalInterest;
+  const savingsSign = savings >= 0 ? 'Variable saves' : 'Fixed saves';
+  const savingsAbs = Math.abs(savings);
+
+  let summaryHTML = `
+    <div class="key-metric">
+      <div class="label">Total Interest — Variable Rate</div>
+      <div class="value">${fmt(varResult.totalInterest)}</div>
+      <div class="sub">Over ${loanTerm} years on ${fmt(loanAmount)} loan • Avg Rate: ${varResult.avgRate.toFixed(2)}%</div>
+    </div>
+    <div class="metrics-grid">
+      <div class="metric-box"><div class="m-label">Starting Rate</div><div class="m-value blue">${startRate.toFixed(2)}%</div></div>
+      <div class="metric-box"><div class="m-label">Rate Changes</div><div class="m-value">${validPeriods.length}</div></div>
+      <div class="metric-box"><div class="m-label">Total Paid (P+I)</div><div class="m-value">${fmt(varResult.totalCost)}</div></div>
+      <div class="metric-box"><div class="m-label">Ending Balance</div><div class="m-value">${fmt(varResult.endingBalance)}</div></div>
+    </div>`;
+
+  if(showCompare){
+    summaryHTML += `
+      <div class="scenario-compare">
+        <div class="scenario-box a">
+          <div class="s-label">Variable Rate</div>
+          <div class="s-value">${fmt(varResult.totalInterest)}</div>
+          <div style="font-size:.75rem;color:#555;margin-top:.2rem">Avg ${varResult.avgRate.toFixed(2)}%</div>
+        </div>
+        <div class="scenario-box b">
+          <div class="s-label">Fixed ${compareRate.toFixed(2)}%</div>
+          <div class="s-value">${fmt(fixResult.totalInterest)}</div>
+          <div style="font-size:.75rem;color:#555;margin-top:.2rem">All ${loanTerm} years</div>
+        </div>
+      </div>
+      <div style="text-align:center;font-size:.9rem;color:#444;padding:.6rem;background:#f8f9fa;border-radius:6px;margin-bottom:.5rem">
+        <strong>${savingsSign} ${fmt(savingsAbs)}</strong> in total interest over the loan term
+      </div>`;
+  }
+
+  // Build chart HTML
+  const totalForBar = varResult.totalInterest + varResult.totalPrincipal;
+  const intPct = totalForBar > 0 ? (varResult.totalInterest / totalForBar * 100).toFixed(1) : 0;
+  const prinPct = totalForBar > 0 ? (varResult.totalPrincipal / totalForBar * 100).toFixed(1) : 0;
+
+  let chartHTML = `
+    <div class="bar-chart">
+      <div class="bar-chart-title">Principal vs. Interest (Variable Rate)</div>
+      <div class="bar-legend" style="margin-bottom:.8rem">
+        <div class="legend-item"><div class="legend-dot principal"></div>Principal</div>
+        <div class="legend-item"><div class="legend-dot interest"></div>Interest</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">Principal</div>
+        <div class="bar-track"><div class="bar-fill principal" style="width:${prinPct}%"></div></div>
+        <div class="bar-value">${fmt(varResult.totalPrincipal)} (${prinPct}%)</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">Interest</div>
+        <div class="bar-track"><div class="bar-fill interest" style="width:${intPct}%"></div></div>
+        <div class="bar-value">${fmt(varResult.totalInterest)} (${intPct}%)</div>
+      </div>
+    </div>`;
+
+  if(showCompare){
+    const maxInt = Math.max(varResult.totalInterest, fixResult.totalInterest);
+    const varPct2 = maxInt > 0 ? (varResult.totalInterest / maxInt * 100).toFixed(1) : 0;
+    const fixPct2 = maxInt > 0 ? (fixResult.totalInterest / maxInt * 100).toFixed(1) : 0;
+    chartHTML += `
+      <div class="bar-chart" style="margin-top:1.2rem">
+        <div class="bar-chart-title">Total Interest: Variable vs. Fixed</div>
+        <div class="bar-row">
+          <div class="bar-label">Variable</div>
+          <div class="bar-track"><div class="bar-fill rate-a" style="width:${varPct2}%"></div></div>
+          <div class="bar-value">${fmt(varResult.totalInterest)}</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Fixed ${compareRate.toFixed(2)}%</div>
+          <div class="bar-track"><div class="bar-fill rate-b" style="width:${fixPct2}%"></div></div>
+          <div class="bar-value">${fmt(fixResult.totalInterest)}</div>
+        </div>
+      </div>`;
+
+    // Year-by-year bars (cumulative interest comparison)
+    const showYears = Math.min(varResult.yearlyData.length, fixResult.yearlyData.length);
+    const maxYears = Math.min(showYears, 10);
+    let cumVar = 0, cumFix = 0;
+    const yearPoints = [];
+    for(let i = 0; i < showYears; i++){
+      cumVar += varResult.yearlyData[i].interest;
+      cumFix += fixResult.yearlyData[i].interest;
+      yearPoints.push({ year: i+1, var: cumVar, fix: cumFix });
+    }
+    const maxCum = Math.max(...yearPoints.map(p => Math.max(p.var, p.fix)));
+    chartHTML += `<div class="bar-chart" style="margin-top:1.2rem"><div class="bar-chart-title">Cumulative Interest by Year (first ${maxYears} years)</div>`;
+    yearPoints.slice(0, maxYears).forEach(pt => {
+      const vp = maxCum > 0 ? (pt.var/maxCum*100).toFixed(1) : 0;
+      const fp = maxCum > 0 ? (pt.fix/maxCum*100).toFixed(1) : 0;
+      chartHTML += `<div style="margin-bottom:.5rem">
+        <div style="font-size:.75rem;color:#777;margin-bottom:.2rem">Year ${pt.year}</div>
+        <div class="bar-row" style="margin-bottom:.2rem">
+          <div class="bar-label" style="width:55px;font-size:.72rem">Variable</div>
+          <div class="bar-track"><div class="bar-fill rate-a" style="width:${vp}%"></div></div>
+          <div class="bar-value" style="font-size:.75rem">${fmt(pt.var)}</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label" style="width:55px;font-size:.72rem">Fixed</div>
+          <div class="bar-track"><div class="bar-fill rate-b" style="width:${fp}%"></div></div>
+          <div class="bar-value" style="font-size:.75rem">${fmt(pt.fix)}</div>
+        </div>
+      </div>`;
+    });
+    chartHTML += `</div>`;
+  }
+
+  // Build tables
+  lastVarRows = varResult.yearlyData;
+  lastFixRows = fixResult.yearlyData;
+
+  const fixedVisible = showCompare;
+  document.getElementById('tabFixed').style.display = fixedVisible ? '' : 'none';
+
+  // Build copy text
+  let copyLines = `Variable Rate Loan — Interest Cost Summary\n`;
+  copyLines += `Loan: ${fmt(loanAmount)} | Term: ${loanTerm} yrs | Start Rate: ${startRate}%\n`;
+  copyLines += `Total Interest (Variable): ${fmt(varResult.totalInterest)}\n`;
+  if(showCompare) copyLines += `Total Interest (Fixed ${compareRate}%): ${fmt(fixResult.totalInterest)}\n`;
+  copyLines += `\nYear,Payment,Interest,Principal,Balance,Rate\n`;
+  varResult.yearlyData.forEach(r => {
+    copyLines += `${r.year},${r.payment.toFixed(2)},${r.interest.toFixed(2)},${r.principal.toFixed(2)},${r.balance.toFixed(2)},${r.rate.toFixed(2)}%\n`;
+  });
+  lastCopyText = copyLines;
+
+  varShowAll = false;
+  fixShowAll = false;
+
+  // Render all at once
+  document.getElementById('summaryContent').innerHTML = summaryHTML;
+  document.getElementById('chartContent').innerHTML = chartHTML;
+  renderTable('variable', false);
+  renderTable('fixed', false);
+
+  const resultsSection = document.getElementById('resultsSection');
+  resultsSection.classList.add('visible');
+  resultsSection.scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+function buildTableHTML(rows, showAll){
+  const displayRows = showAll ? rows : rows.slice(0, 10);
+  let html = `<thead><tr>
+    <th>Year</th>
+    <th class="num">Annual Payment</th>
+    <th class="num">Interest</th>
+    <th class="num">Principal</th>
+    <th class="num">Balance</th>
+    <th class="num">Rate</th>
+  </tr></thead><tbody>`;
+  displayRows.forEach(r => {
+    html += `<tr>
+      <td>${r.year}</td>
+      <td class="num">${fmt(r.payment)}</td>
+      <td class="num">${fmt(r.interest)}</td>
+      <td class="num">${fmt(r.principal)}</td>
+      <td class="num">${fmt(r.balance)}</td>
+      <td class="rate-cell">${r.rate.toFixed(2)}%</td>
+    </tr>`;
+  });
+  html += '</tbody>';
+  return html;
+}
+
+function renderTable(type, showAll){
+  if(type === 'variable'){
+    document.getElementById('variableTable').innerHTML = buildTableHTML(lastVarRows, showAll);
+    const btn = document.getElementById('showAllVarBtn');
+    if(lastVarRows.length <= 10){ btn.style.display='none'; }
+    else { btn.style.display=''; btn.textContent = showAll ? 'Show Fewer Years' : `Show All ${lastVarRows.length} Years`; }
+  } else {
+    document.getElementById('fixedTable').innerHTML = buildTableHTML(lastFixRows, showAll);
+    const btn = document.getElementById('showAllFixBtn');
+    if(lastFixRows.length <= 10){ btn.style.display='none'; }
+    else { btn.style.display=''; btn.textContent = showAll ? 'Show Fewer Years' : `Show All ${lastFixRows.length} Years`; }
+  }
+}
+
+function toggleShowAll(type){
+  if(type === 'var'){
+    varShowAll = !varShowAll;
+    renderTable('variable', varShowAll);
+  } else {
+    fixShowAll = !fixShowAll;
+    renderTable('fixed', fixShowAll);
+  }
+}
+
+function switchTab(tab){
+  activeTab = tab;
+  document.getElementById('tabVariable').classList.toggle('active', tab==='variable');
+  document.getElementById('tabFixed').classList.toggle('active', tab==='fixed');
+  document.getElementById('variableTableWrap').classList.toggle('active', tab==='variable');
+  document.getElementById('fixedTableWrap').classList.toggle('active', tab==='fixed');
+}
+
+function copyData(){
+  const btn = document.getElementById('copyBtn');
+  navigator.clipboard.writeText(lastCopyText).then(() => {
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy Data'; btn.classList.remove('copied'); }, 2000);
+  }).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = lastCopyText;
+    ta.style.position='fixed';ta.style.opacity='0';
+    document.body.appendChild(ta);ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy Data'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+// Initial render
+renderPeriods();
+</script>
+</body>
+</html>
