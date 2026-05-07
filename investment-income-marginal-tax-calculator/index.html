@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marginal Tax Rate on Investment Income Calculator — Free Online Tool | calcstack.dev</title>
+<meta name="description" content="Calculate your marginal tax rate on investment income including dividends, capital gains, and interest. See exact tax owed and effective vs marginal rates instantly.">
+<link rel="canonical" href="https://calcstack.dev/investment-income-marginal-tax-calculator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Marginal Tax Rate on Investment Income Calculator",
+  "url": "https://calcstack.dev/investment-income-marginal-tax-calculator/",
+  "description": "Calculate your marginal tax rate on investment income including dividends, capital gains, and interest income.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f0f4f8;color:#1a1a2e;font-size:16px;line-height:1.6}
+a{color:#0077b6;text-decoration:none}
+a:hover{text-decoration:underline}
+nav{background:#fff;border-bottom:1px solid #e0e0e0;padding:0 1.5rem}
+.nav-inner{max-width:640px;margin:0 auto;display:flex;align-items:center;height:52px}
+.nav-brand{font-weight:700;font-size:1.1rem;color:#1a1a2e}
+.nav-brand span{color:#0077b6}
+main{max-width:640px;margin:0 auto;padding:1.5rem}
+h1{font-size:1.5rem;font-weight:700;color:#1a1a2e;margin-bottom:0.5rem;line-height:1.3}
+.subtitle{color:#555;font-size:0.95rem;margin-bottom:1.5rem}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;box-shadow:0 2px 8px rgba(0,0,0,0.06);margin-bottom:2rem}
+.section-title{font-size:1rem;font-weight:700;color:#1a1a2e;margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:2px solid #0077b6}
+.form-group{margin-bottom:1.25rem}
+label{display:block;font-size:0.85rem;font-weight:500;color:#444;margin-bottom:5px}
+label .hint{font-weight:400;color:#888;font-size:0.8rem}
+input[type="number"],select{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:6px;font-size:0.95rem;color:#1a1a2e;background:#fff;transition:border-color 0.2s,box-shadow 0.2s;height:44px}
+input[type="number"]:focus,select:focus{outline:none;border-color:#0077b6;box-shadow:0 0 0 3px rgba(0,119,182,0.15)}
+input.error{border-color:#e74c3c}
+.error-msg{color:#e74c3c;font-size:0.8rem;margin-top:4px;display:none}
+.input-prefix{position:relative}
+.input-prefix span{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#888;font-size:0.95rem;pointer-events:none}
+.input-prefix input{padding-left:26px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media(max-width:480px){.row2{grid-template-columns:1fr}}
+.filing-tabs{display:flex;gap:0.5rem;margin-bottom:1.25rem;flex-wrap:wrap}
+.tab-btn{padding:8px 16px;border:1px solid #ddd;border-radius:20px;background:#fff;color:#555;font-size:0.85rem;cursor:pointer;transition:all 0.2s;min-height:36px}
+.tab-btn.active{background:#0077b6;color:#fff;border-color:#0077b6}
+.tab-btn:hover:not(.active){border-color:#0077b6;color:#0077b6}
+.calc-btn{width:100%;background:#0077b6;color:#fff;border:none;border-radius:6px;padding:14px 24px;font-size:1rem;font-weight:600;cursor:pointer;transition:background 0.2s;min-height:48px;margin-top:0.5rem}
+.calc-btn:hover{background:#006299}
+.results{opacity:0;transition:opacity 0.3s ease;pointer-events:none}
+.results.visible{opacity:1;pointer-events:all}
+.key-numbers{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+@media(max-width:480px){.key-numbers{grid-template-columns:1fr 1fr}}
+.key-box{background:#f8f9fa;border:1px solid #e0e0e0;border-radius:8px;padding:1rem;text-align:center}
+.key-box .kval{font-size:1.5rem;font-weight:700;color:#0077b6;line-height:1.2}
+.key-box .klabel{font-size:0.75rem;color:#666;margin-top:4px}
+.key-box.highlight{background:#e8f4fd;border-color:#0077b6}
+.key-box.highlight .kval{color:#005f8f}
+.breakdown-title{font-size:0.9rem;font-weight:600;color:#444;margin-bottom:0.75rem}
+.bar-chart{margin-bottom:1.5rem}
+.bar-row{margin-bottom:0.6rem}
+.bar-label{display:flex;justify-content:space-between;font-size:0.8rem;color:#555;margin-bottom:3px}
+.bar-track{background:#f0f0f0;border-radius:4px;height:18px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;transition:width 0.5s ease}
+.bar-income{background:#0077b6}
+.bar-federal{background:#e74c3c}
+.bar-niit{background:#e67e22}
+.bar-state{background:#8e44ad}
+.bar-net{background:#27ae60}
+.stacked-bar{display:flex;height:28px;border-radius:6px;overflow:hidden;margin-bottom:0.5rem}
+.stacked-seg{height:100%;transition:width 0.5s ease}
+.legend{display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:1.5rem}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:0.78rem;color:#555}
+.legend-dot{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+table{width:100%;border-collapse:collapse;font-size:0.875rem}
+thead th{background:#f0f0f0;padding:10px 12px;text-align:left;font-weight:600;color:#333;font-size:0.8rem;border-bottom:2px solid #ddd}
+thead th.num{text-align:right}
+tbody tr:nth-child(even){background:#fafafa}
+tbody td{padding:9px 12px;border-bottom:1px solid #eee;color:#333}
+tbody td.num{text-align:right;font-variant-numeric:tabular-nums}
+tbody tr.active-row{background:#e8f4fd!important;font-weight:600}
+tbody tr.active-row td{color:#0077b6}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.show-all-btn{background:none;border:1px solid #0077b6;color:#0077b6;border-radius:6px;padding:8px 16px;font-size:0.85rem;cursor:pointer;width:100%;margin-top:0.75rem;min-height:36px;transition:all 0.2s}
+.show-all-btn:hover{background:#0077b6;color:#fff}
+.copy-btn{background:#f8f9fa;border:1px solid #ddd;color:#555;border-radius:6px;padding:6px 14px;font-size:0.8rem;cursor:pointer;transition:all 0.2s;min-height:32px}
+.copy-btn:hover{border-color:#0077b6;color:#0077b6}
+.results-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.5rem}
+.divider{border:none;border-top:1px solid #eee;margin:1.5rem 0}
+.content-section{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:2rem;margin-bottom:2rem}
+.content-section h2{font-size:1.15rem;font-weight:700;color:#1a1a2e;margin-bottom:0.75rem;margin-top:1.5rem}
+.content-section h2:first-child{margin-top:0}
+.content-section p{color:#444;font-size:0.92rem;margin-bottom:0.75rem;line-height:1.7}
+.content-section ul{padding-left:1.25rem;color:#444;font-size:0.92rem}
+.content-section ul li{margin-bottom:0.4rem;line-height:1.6}
+details{border:1px solid #e0e0e0;border-radius:6px;margin-bottom:0.6rem}
+summary{padding:12px 16px;cursor:pointer;font-weight:600;font-size:0.9rem;color:#1a1a2e;list-style:none;display:flex;justify-content:space-between;align-items:center}
+summary::after{content:'▸';color:#0077b6;transition:transform 0.2s}
+details[open] summary::after{transform:rotate(90deg)}
+details p{padding:0 16px 14px;font-size:0.88rem;color:#444;line-height:1.6}
+.related-tools{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:1.5rem;margin-bottom:2rem}
+.related-tools h2{font-size:1rem;font-weight:700;color:#1a1a2e;margin-bottom:1rem}
+.related-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.5rem}
+@media(max-width:480px){.related-grid{grid-template-columns:1fr}}
+.related-link{display:block;padding:10px 14px;background:#f8f9fa;border:1px solid #e0e0e0;border-radius:6px;font-size:0.85rem;color:#0077b6;transition:all 0.2s}
+.related-link:hover{background:#e8f4fd;border-color:#0077b6;text-decoration:none}
+.ad-slot{min-height:0;margin:0}
+footer{background:#fff;border-top:1px solid #e0e0e0;padding:1.5rem;text-align:center}
+.footer-inner{max-width:640px;margin:0 auto}
+.footer-links{display:flex;justify-content:center;gap:1.5rem;margin-bottom:0.5rem;flex-wrap:wrap}
+.footer-links a{font-size:0.85rem;color:#555}
+.footer-copy{font-size:0.8rem;color:#888}
+.rate-badge{display:inline-block;background:#e8f4fd;border:1px solid #0077b6;color:#005f8f;border-radius:12px;padding:2px 10px;font-size:0.8rem;font-weight:600;margin-left:6px}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">calc<span>stack</span>.dev</a>
+  </div>
+</nav>
+
+<main>
+  <h1>Marginal Tax Rate on Investment Income Calculator</h1>
+  <p class="subtitle">Find out exactly how much tax you'll owe on your investment income — dividends, capital gains, and interest — based on your filing status and income.</p>
+
+  <div class="card">
+    <div class="section-title">Filing Status</div>
+    <div class="filing-tabs" id="filingTabs">
+      <button class="tab-btn active" data-val="single">Single</button>
+      <button class="tab-btn" data-val="mfj">Married Filing Jointly</button>
+      <button class="tab-btn" data-val="mfs">Married Filing Separately</button>
+      <button class="tab-btn" data-val="hoh">Head of Household</button>
+    </div>
+
+    <div class="section-title">Your Income</div>
+    <div class="row2">
+      <div class="form-group">
+        <label>Ordinary Income (W-2, etc.) <span class="hint">before investment income</span></label>
+        <div class="input-prefix"><span>$</span>
+          <input type="number" id="ordinaryIncome" placeholder="75,000" min="0" step="1">
+        </div>
+        <div class="error-msg" id="err-ordinary">Please enter a valid amount (≥ 0)</div>
+      </div>
+      <div class="form-group">
+        <label>Standard / Itemized Deduction <span class="hint">leave blank for standard</span></label>
+        <div class="input-prefix"><span>$</span>
+          <input type="number" id="deduction" placeholder="Auto" min="0" step="1">
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:0.5rem">Investment Income</div>
+    <div class="row2">
+      <div class="form-group">
+        <label>Qualified Dividends <span class="hint">long-term rate applies</span></label>
+        <div class="input-prefix"><span>$</span>
+          <input type="number" id="qualDividends" placeholder="0" min="0" step="1">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Ordinary Dividends <span class="hint">taxed as ordinary income</span></label>
+        <div class="input-prefix"><span>$</span>
+          <input type="number" id="ordDividends" placeholder="0" min="0" step="1">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Long-Term Capital Gains <span class="hint">assets held &gt; 1 year</span></label>
+        <div class="input-prefix"><span>$</span>
+          <input type="number" id="ltcg" placeholder="0" min="0" step="1">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Short-Term Capital Gains <span class="hint">assets held ≤ 1 year</span></label>
+        <div class="input-prefix"><span>$</span>
+          <input type="number" id="stcg" placeholder="0" min="0" step="1">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Interest Income <span class="hint">savings, bonds, CDs</span></label>
+        <div class="input-prefix"><span>$</span>
+          <input type="number" id="interestIncome" placeholder="0" min="0" step="1">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>State Tax Rate <span class="hint">% on investment income</span></label>
+        <div class="input-prefix"><span>%</span>
+          <input type="number" id="stateRate" placeholder="5" min="0" max="20" step="0.1" style="padding-left:30px">
+        </div>
+      </div>
+    </div>
+
+    <button class="calc-btn" id="calcBtn">Calculate My Tax Rate</button>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="card results" id="results">
+    <div class="results-header">
+      <div class="section-title" style="margin-bottom:0">Your Results</div>
+      <button class="copy-btn" id="copyBtn">Copy Summary</button>
+    </div>
+
+    <div class="key-numbers" id="keyNumbers"></div>
+
+    <hr class="divider">
+
+    <div class="breakdown-title">Income & Tax Breakdown</div>
+    <div class="stacked-bar" id="stackedBar"></div>
+    <div class="legend" id="legend"></div>
+
+    <div class="bar-chart" id="barChart"></div>
+
+    <hr class="divider">
+
+    <div class="breakdown-title">Federal Tax Bracket Breakdown</div>
+    <div class="table-wrap">
+      <table id="bracketTable">
+        <thead>
+          <tr>
+            <th>Bracket</th>
+            <th>Rate</th>
+            <th class="num">Income in Bracket</th>
+            <th class="num">Tax in Bracket</th>
+          </tr>
+        </thead>
+        <tbody id="bracketBody"></tbody>
+      </table>
+    </div>
+
+    <hr class="divider">
+
+    <div class="breakdown-title">Investment Income Detail</div>
+    <div class="table-wrap">
+      <table id="detailTable">
+        <thead>
+          <tr>
+            <th>Income Type</th>
+            <th class="num">Amount</th>
+            <th>Federal Rate</th>
+            <th class="num">Federal Tax</th>
+            <th class="num">State Tax</th>
+            <th class="num">Total Tax</th>
+          </tr>
+        </thead>
+        <tbody id="detailBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-mid"></div>
+
+  <!-- CONTENT SECTION -->
+  <div class="content-section">
+    <h2>How to Use This Tax Rate on Investment Income Calculator</h2>
+    <p>Enter your ordinary income (wages, salary) before any investment income, then input each type of investment income separately. Choose your filing status using the tabs at the top, and optionally enter your state's income tax rate on investment income. Click "Calculate My Tax Rate" to see your marginal rate, effective rate, and a full breakdown by income type.</p>
+
+    <h2>Why This Matters</h2>
+    <p>Not all investment income is taxed equally — and the difference can be dramatic. A single filer earning $90,000 in wages who receives $10,000 in qualified dividends might pay 0% federal tax on those dividends. The same person receiving $10,000 in interest income from a savings account pays 22%. That's a $2,200 difference on identical dollar amounts.</p>
+    <p>This matters especially in three scenarios: (1) <strong>Retirement planning</strong> — retirees often have low ordinary income, putting them in the 0% long-term capital gains bracket. (2) <strong>Tax-loss harvesting</strong> — knowing your marginal rate helps you decide whether to harvest gains or losses in a given year. (3) <strong>Asset location</strong> — placing interest-generating bonds in tax-deferred accounts and holding qualified dividend stocks in taxable accounts can save thousands annually.</p>
+    <p>The Net Investment Income Tax (NIIT) adds another 3.8% on top of regular rates for high earners — single filers over $200,000 and joint filers over $250,000. This calculator accounts for it automatically.</p>
+
+    <h2>How It's Calculated</h2>
+    <p><strong>Ordinary investment income</strong> (interest, ordinary dividends, short-term capital gains) is stacked on top of your ordinary income and taxed at regular progressive federal brackets (10%–37% for 2024).</p>
+    <p><strong>Qualified dividends and long-term capital gains</strong> use preferential rates of 0%, 15%, or 20%, depending on your taxable income level. The calculation "stacks" this preferential income on top of all ordinary income to find which LTCG bracket it falls in.</p>
+    <p><strong>Formula:</strong></p>
+    <p>Taxable Income = Ordinary Income + Ordinary Investment Income − Deduction<br>
+    LTCG/QD Tax = LTCG Rate × (Qualified Dividends + LTCG)<br>
+    NIIT = 3.8% × investment income above threshold (if applicable)<br>
+    Total Tax = Ordinary Tax + LTCG Tax + NIIT + State Tax</p>
+
+    <h2>Tips & Common Mistakes</h2>
+    <ul>
+      <li><strong>Don't confuse qualified vs. ordinary dividends.</strong> Most dividends from U.S. companies held long enough are "qualified" and get preferential rates. Check your 1099-DIV box 1a vs. 1b to split them correctly.</li>
+      <li><strong>Watch the NIIT cliff.</strong> If your modified AGI exceeds $200,000 (single) or $250,000 (joint), an extra 3.8% applies to ALL net investment income — not just the amount over the threshold.</li>
+      <li><strong>State taxes vary wildly.</strong> Nine states have no income tax; others tax capital gains as ordinary income at up to 13.3% (California). Always add your state rate for a complete picture.</li>
+      <li><strong>Short-term gains are expensive.</strong> Holding a position just one extra day past 365 can shift a gain from your top ordinary rate (up to 37%) to a preferential rate (max 20%) — a 17-point difference.</li>
+      <li><strong>The 0% LTCG bracket is real.</strong> For 2024, single filers with taxable income under $47,026 pay zero federal tax on qualified dividends and long-term capital gains.</li>
+    </ul>
+
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>What's the difference between marginal and effective tax rate on investment income?</summary>
+      <p>The marginal rate is the rate on your next dollar of that income type — it tells you the cost of earning one more dollar. The effective rate is the average rate across all investment income, which is usually lower because the first dollars may be taxed at 0% or a lower bracket. Use the marginal rate for decisions about earning more investment income; use the effective rate to understand your overall tax burden.</p>
+    </details>
+    <details>
+      <summary>Does the 3.8% Net Investment Income Tax apply to everyone?</summary>
+      <p>No — the NIIT only applies if your Modified Adjusted Gross Income (MAGI) exceeds $200,000 for single filers or $250,000 for married filing jointly. It's applied to the lesser of your net investment income or the excess of MAGI over the threshold. This calculator estimates NIIT based on your total income inputs.</p>
+    </details>
+    <details>
+      <summary>Are municipal bond interest and Roth IRA distributions taxable?</summary>
+      <p>Municipal bond interest is generally exempt from federal income tax (and often state tax if issued in your state), so you should not include it here. Qualified Roth IRA distributions are also tax-free and should be excluded. This calculator focuses on federally taxable investment income only.</p>
+    </details>
+    <details>
+      <summary>Why does the 2024 tax year matter?</summary>
+      <p>Tax brackets and standard deductions are adjusted for inflation each year by the IRS. This calculator uses 2024 tax year figures: standard deductions of $14,600 (single), $29,200 (MFJ), $14,600 (MFS), and $21,900 (HOH), along with updated bracket thresholds. Always verify current figures with IRS Publication 505 for the most accurate results.</p>
+    </details>
+  </div>
+
+  <!-- RELATED TOOLS -->
+  <div class="related-tools">
+    <h2>Related Tools</h2>
+    <div class="related-grid">
+      <a href="/variable-rate-loan-interest-cost-calculator/" class="related-link">Variable Rate Loan Interest Cost Calculator</a>
+      <a href="/credit-score-mortgage-rate-calculator/" class="related-link">Credit Score Impact on Mortgage Rate Calculator</a>
+      <a href="/bonus-tax-calculator/" class="related-link">Marginal Tax Rate on Bonus Calculator</a>
+      <a href="/backdoor-roth-ira-tax-calculator/" class="related-link">Backdoor Roth IRA Tax Calculator</a>
+      <a href="/pension-lump-sum-vs-monthly-payment-calculator/" class="related-link">Pension Lump Sum vs Monthly Payment Calculator</a>
+      <a href="/severance-pay-calculator/" class="related-link">Severance Pay Calculator</a>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-bottom"></div>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-links">
+      <a href="/about/">About</a>
+      <a href="/privacy/">Privacy</a>
+      <a href="/contact/">Contact</a>
+    </div>
+    <div class="footer-copy">© 2024 calcstack.dev — Free Online Calculators</div>
+  </div>
+</footer>
+
+<script>
+// ── 2024 TAX BRACKETS ──────────────────────────────────────────────────────
+const BRACKETS = {
+  single:   [[11600,0.10],[47150,0.12],[100525,0.22],[191950,0.24],[243725,0.32],[609350,0.35],[Infinity,0.37]],
+  mfj:      [[23200,0.10],[94300,0.12],[201050,0.22],[383900,0.24],[487450,0.32],[731200,0.35],[Infinity,0.37]],
+  mfs:      [[11600,0.10],[47150,0.12],[100525,0.22],[191950,0.24],[243725,0.32],[365600,0.35],[Infinity,0.37]],
+  hoh:      [[16550,0.10],[63100,0.12],[100500,0.22],[191950,0.24],[243700,0.32],[609350,0.35],[Infinity,0.37]]
+};
+const LTCG_BRACKETS = {
+  single:   [[47025,0.00],[518900,0.15],[Infinity,0.20]],
+  mfj:      [[94050,0.00],[583750,0.15],[Infinity,0.20]],
+  mfs:      [[47025,0.00],[291850,0.15],[Infinity,0.20]],
+  hoh:      [[63000,0.00],[551350,0.15],[Infinity,0.20]]
+};
+const STD_DED = {single:14600,mfj:29200,mfs:14600,hoh:21900};
+const NIIT_THRESH = {single:200000,mfj:250000,mfs:125000,hoh:200000};
+
+let filingStatus = 'single';
+
+// Filing tabs
+document.getElementById('filingTabs').addEventListener('click', e => {
+  const btn = e.target.closest('.tab-btn');
+  if(!btn) return;
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  filingStatus = btn.dataset.val;
+});
+
+// Enter key
+document.querySelectorAll('input').forEach(inp => {
+  inp.addEventListener('keydown', e => { if(e.key==='Enter') calculate(); });
+});
+
+document.getElementById('calcBtn').addEventListener('click', () => {
+  requestAnimationFrame(() => calculate());
+});
+
+function fmtN(n,dec=0){ return n.toLocaleString('en-US',{minimumFractionDigits:dec,maximumFractionDigits:dec}); }
+function fmtD(n){ return '$'+fmtN(n,2); }
+function fmtP(n){ return (n*100).toFixed(2)+'%'; }
+
+function calcOrdinaryTax(income, brackets) {
+  let tax = 0, prev = 0;
+  const rows = [];
+  for(const [cap,rate] of brackets){
+    if(income <= 0) break;
+    const taxable = Math.min(income, cap - prev);
+    if(taxable > 0){
+      rows.push({lower:prev,upper:Math.min(cap,prev+taxable),rate,taxable,tax:taxable*rate});
+      tax += taxable * rate;
+    }
+    income -= taxable;
+    prev = cap;
+  }
+  return {tax, rows};
+}
+
+function calcLTCGTax(ltcgAmount, ordinaryTaxable, brackets) {
+  if(ltcgAmount <= 0) return 0;
+  let tax = 0;
+  let prev = 0;
+  const stackedBase = ordinaryTaxable;
+  for(const [cap,rate] of brackets){
+    const spaceInBracket = Math.max(0, cap - Math.max(prev, stackedBase));
+    const taxable = Math.min(ltcgAmount, spaceInBracket);
+    tax += taxable * rate;
+    ltcgAmount -= taxable;
+    if(ltcgAmount <= 0) break;
+    prev = cap;
+  }
+  return tax;
+}
+
+function getMarginalOrdinaryRate(taxableIncome, brackets) {
+  let prev = 0;
+  for(const [cap,rate] of brackets){
+    if(taxableIncome <= cap) return rate;
+    prev = cap;
+  }
+  return brackets[brackets.length-1][1];
+}
+
+function getMarginalLTCGRate(totalTaxable, ltcgBrackets) {
+  for(const [cap,rate] of ltcgBrackets){
+    if(totalTaxable <= cap) return rate;
+  }
+  return ltcgBrackets[ltcgBrackets.length-1][1];
+}
+
+function calculate() {
+  // Clear errors
+  document.querySelectorAll('.error-msg').forEach(e=>e.style.display='none');
+  document.querySelectorAll('input').forEach(e=>e.classList.remove('error'));
+
+  const ordInc = parseFloat(document.getElementById('ordinaryIncome').value)||0;
+  const dedInput = document.getElementById('deduction').value;
+  const deduction = dedInput===''||dedInput===null ? STD_DED[filingStatus] : Math.max(0,parseFloat(dedInput)||0);
+  const qualDiv = Math.max(0,parseFloat(document.getElementById('qualDividends').value)||0);
+  const ordDiv = Math.max(0,parseFloat(document.getElementById('ordDividends').value)||0);
+  const ltcg = Math.max(0,parseFloat(document.getElementById('ltcg').value)||0);
+  const stcg = Math.max(0,parseFloat(document.getElementById('stcg').value)||0);
+  const interest = Math.max(0,parseFloat(document.getElementById('interestIncome').value)||0);
+  const stateRate = Math.max(0,Math.min(20,parseFloat(document.getElementById('stateRate').value)||0))/100;
+
+  if(ordInc < 0){
+    document.getElementById('err-ordinary').style.display='block';
+    document.getElementById('ordinaryIncome').classList.add('error');
+    return;
+  }
+
+  const brackets = BRACKETS[filingStatus];
+  const ltcgBrackets = LTCG_BRACKETS[filingStatus];
+  const niitThresh = NIIT_THRESH[filingStatus];
+
+  // Ordinary taxable = wages + ordinary dividends + short-term CG + interest − deduction
+  const totalOrdinaryGross = ordInc + ordDiv + stcg + interest;
+  const ordinaryTaxable = Math.max(0, totalOrdinaryGross - deduction);
+  // Preferential income stacked on top
+  const prefIncome = qualDiv + ltcg;
+  const totalTaxable = ordinaryTaxable + prefIncome;
+
+  // Federal ordinary tax
+  const {tax: fedOrdTax, rows: bracketRows} = calcOrdinaryTax(ordinaryTaxable, brackets);
+
+  // LTCG / qualified dividends tax
+  const fedPrefTax = calcLTCGTax(prefIncome, ordinaryTaxable, ltcgBrackets);
+
+  // NIIT
+  const magi = ordInc + ordDiv + stcg + interest + qualDiv + ltcg;
+  const niitBase = Math.max(0, Math.min(qualDiv+ltcg+ordDiv+stcg+interest, magi - niitThresh));
+  const niitTax = niitBase * 0.038;
+
+  // State tax on investment income
+  const totalInvestIncome = qualDiv + ordDiv + ltcg + stcg + interest;
+  const stateTax = totalInvestIncome * stateRate;
+
+  // Totals
+  const totalFedTax = fedOrdTax + fedPrefTax + niitTax;
+  const totalTax = totalFedTax + stateTax;
+
+  // Marginal rates
+  const margOrdRate = getMarginalOrdinaryRate(ordinaryTaxable, brackets);
+  const margLTCGRate = getMarginalLTCGRate(ordinaryTaxable, ltcgBrackets);
+  const effectiveRate = totalInvestIncome > 0 ? totalTax / totalInvestIncome : 0;
+
+  // Per-type detail
+  const types = [
+    {name:'Qualified Dividends', amount:qualDiv, fedRate:margLTCGRate+(niitBase>0?0.038:0), fedTax:calcLTCGTax(qualDiv,ordinaryTaxable,ltcgBrackets)+(qualDiv/Math.max(prefIncome,1))*niitTax, stateTax:qualDiv*stateRate},
+    {name:'Long-Term Capital Gains', amount:ltcg, fedRate:margLTCGRate+(niitBase>0?0.038:0), fedTax:calcLTCGTax(ltcg,ordinaryTaxable+(qualDiv>0?qualDiv:0),ltcgBrackets)+(ltcg/Math.max(prefIncome,1))*niitTax, stateTax:ltcg*stateRate},
+    {name:'Ordinary Dividends', amount:ordDiv, fedRate:margOrdRate+(niitBase>0?0.038:0), fedTax:ordDiv*(ordinaryTaxable>0?fedOrdTax/ordinaryTaxable:0)*(ordDiv/Math.max(ordinaryTaxable,1))*ordinaryTaxable/Math.max(ordDiv,1), stateTax:ordDiv*stateRate},
+    {name:'Short-Term Capital Gains', amount:stcg, fedRate:margOrdRate+(niitBase>0?0.038:0), fedTax:0, stateTax:stcg*stateRate},
+    {name:'Interest Income', amount:interest, fedRate:margOrdRate+(niitBase>0?0.038:0), fedTax:0, stateTax:interest*stateRate},
+  ].filter(t=>t.amount>0);
+
+  // Recalculate ordinary investment portion of fed tax more accurately
+  const ordInvInc = ordDiv + stcg + interest;
+  const ordInvTaxable = Math.max(0, ordInvInc - Math.max(0,deduction - ordInc));
+  const {tax: ordInvTax} = calcOrdinaryTax(ordInvTaxable, brackets);
+  const {tax: baseOrdTax} = calcOrdinaryTax(Math.max(0, ordInc - deduction), brackets);
+  const ordInvFedTax = ordInvTax - baseOrdTax;
+
+  // Re-assign fed taxes proportionally to ordinary types
+  types.forEach(t => {
+    if(['Ordinary Dividends','Short-Term Capital Gains','Interest Income'].includes(t.name)){
+      const share = ordInvInc>0 ? t.amount/ordInvInc : 0;
+      t.fedTax = Math.max(0, ordInvFedTax * share);
+      t.totalTax = t.fedTax + (niitBase>0?(t.amount/Math.max(totalInvestIncome,1))*niitTax:0) + t.stateTax;
+    } else {
+      t.totalTax = t.fedTax + t.stateTax;
+    }
+  });
+
+  // Build HTML
+  let html = '';
+
+  // Key numbers
+  const kn = `
+    <div class="key-box highlight">
+      <div class="kval">${fmtP(margOrdRate)}</div>
+      <div class="klabel">Marginal Rate<br>(Ordinary)</div>
+    </div>
+    <div class="key-box highlight">
+      <div class="kval">${fmtP(margLTCGRate)}</div>
+      <div class="klabel">Marginal Rate<br>(LTCG / Qual. Div.)</div>
+    </div>
+    <div class="key-box">
+      <div class="kval">${fmtP(effectiveRate)}</div>
+      <div class="klabel">Effective Rate<br>(All Invest. Income)</div>
+    </div>
+    <div class="key-box">
+      <div class="kval">${fmtD(totalTax)}</div>
+      <div class="klabel">Total Tax on<br>Invest. Income</div>
+    </div>
+    <div class="key-box">
+      <div class="kval">${fmtD(totalFedTax)}</div>
+      <div class="klabel">Federal Tax on<br>Invest. Income</div>
+    </div>
+    <div class="key-box">
+      <div class="kval">${fmtD(totalInvestIncome - totalTax)}</div>
+      <div class="klabel">Net After-Tax<br>Invest. Income</div>
+    </div>`;
+  document.getElementById('keyNumbers').innerHTML = kn;
+
+  // Stacked bar
+  const total = totalInvestIncome > 0 ? totalInvestIncome : 1;
+  const netPct = Math.max(0,(totalInvestIncome - totalTax)/total*100);
+  const fedPct = Math.max(0,totalFedTax/total*100);
+  const statePct = Math.max(0,stateTax/total*100);
+  document.getElementById('stackedBar').innerHTML = `
+    <div class="stacked-seg bar-net" style="width:${netPct}%" title="Net income"></div>
+    <div class="stacked-seg bar-federal" style="width:${fedPct}%" title="Federal tax"></div>
+    <div class="stacked-seg bar-state" style="width:${statePct}%" title="State tax"></div>`;
+
+  document.getElementById('legend').innerHTML = `
+    <div class="legend-item"><div class="legend-dot" style="background:#27ae60"></div>Net Income (${fmtD(totalInvestIncome-totalTax)})</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#e74c3c"></div>Federal Tax (${fmtD(totalFedTax)})</div>
+    ${stateTax>0?`<div class="legend-item"><div class="legend-dot" style="background:#8e44ad"></div>State Tax (${fmtD(stateTax)})</div>`:''}
+    ${niitTax>0?`<div class="legend-item"><div class="legend-dot" style="background:#e67e22"></div>NIIT incl. in Federal (${fmtD(niitTax)})</div>`:''}`;
+
+  // Bar chart
+  const bars = [
+    {label:'Total Investment Income', val:totalInvestIncome, max:totalInvestIncome, cls:'bar-income'},
+    {label:'Federal Tax (Ordinary)', val:fedOrdTax, max:totalInvestIncome, cls:'bar-federal'},
+    {label:'Federal Tax (LTCG/QD)', val:fedPrefTax, max:totalInvestIncome, cls:'bar-federal'},
+    ...(niitTax>0?[{label:'Net Investment Income Tax (3.8%)', val:niitTax, max:totalInvestIncome, cls:'bar-niit'}]:[]),
+    ...(stateTax>0?[{label:'State Tax', val:stateTax, max:totalInvestIncome, cls:'bar-state'}]:[]),
+    {label:'Net After-Tax Income', val:Math.max(0,totalInvestIncome-totalTax), max:totalInvestIncome, cls:'bar-net'},
+  ].filter(b=>b.val>0);
+
+  document.getElementById('barChart').innerHTML = bars.map(b=>{
+    const pct = b.max>0 ? Math.min(100,b.val/b.max*100) : 0;
+    return `<div class="bar-row">
+      <div class="bar-label"><span>${b.label}</span><span>${fmtD(b.val)}</span></div>
+      <div class="bar-track"><div class="bar-fill ${b.cls}" style="width:${pct}%"></div></div>
+    </div>`;
+  }).join('');
+
+  // Bracket table
+  let bracketHTML = '';
+  let bracketPrev = 0;
+  for(const row of bracketRows){
+    const isActive = ordinaryTaxable > row.lower;
+    bracketHTML += `<tr class="${isActive?'active-row':''}">
+      <td>$${fmtN(row.lower)} – ${row.upper===Infinity?'∞':'$'+fmtN(row.upper)}</td>
+      <td>${(row.rate*100).toFixed(0)}%</td>
+      <td class="num">${fmtD(row.taxable)}</td>
+      <td class="num">${fmtD(row.tax)}</td>
+    </tr>`;
+  }
+  if(prefIncome > 0){
+    bracketHTML += `<tr>
+      <td colspan="2" style="color:#0077b6;font-weight:600">LTCG / Qualified Dividends Rate: ${(margLTCGRate*100).toFixed(0)}%</td>
+      <td class="num">${fmtD(prefIncome)}</td>
+      <td class="num">${fmtD(fedPrefTax)}</td>
+    </tr>`;
+  }
+  if(niitTax > 0){
+    bracketHTML += `<tr>
+      <td colspan="2" style="color:#e67e22;font-weight:600">Net Investment Income Tax (3.8%)</td>
+      <td class="num">${fmtD(niitBase)}</td>
+      <td class="num">${fmtD(niitTax)}</td>
+    </tr>`;
+  }
+  document.getElementById('bracketBody').innerHTML = bracketHTML;
+
+  // Detail table
+  let detailHTML = '';
+  for(const t of types){
+    detailHTML += `<tr>
+      <td>${t.name}</td>
+      <td class="num">${fmtD(t.amount)}</td>
+      <td>${(t.fedRate*100).toFixed(1)}%</td>
+      <td class="num">${fmtD(t.fedTax)}</td>
+      <td class="num">${fmtD(t.stateTax)}</td>
+      <td class="num">${fmtD(t.totalTax)}</td>
+    </tr>`;
+  }
+  if(types.length===0){
+    detailHTML = `<tr><td colspan="6" style="text-align:center;color:#888;padding:1rem">No investment income entered</td></tr>`;
+  } else {
+    detailHTML += `<tr style="font-weight:700;background:#f0f0f0">
+      <td>Total</td>
+      <td class="num">${fmtD(totalInvestIncome)}</td>
+      <td>—</td>
+      <td class="num">${fmtD(totalFedTax)}</td>
+      <td class="num">${fmtD(stateTax)}</td>
+      <td class="num">${fmtD(totalTax)}</td>
+    </tr>`;
+  }
+  document.getElementById('detailBody').innerHTML = detailHTML;
+
+  // Copy summary text
+  const summaryText = [
+    `=== Investment Income Tax Summary ===`,
+    `Filing Status: ${filingStatus.toUpperCase()}`,
+    `Total Investment Income: ${fmtD(totalInvestIncome)}`,
+    `Marginal Rate (Ordinary): ${fmtP(margOrdRate)}`,
+    `Marginal Rate (LTCG/QD): ${fmtP(margLTCGRate)}`,
+    `Federal Tax: ${fmtD(totalFedTax)}`,
+    niitTax>0?`  - NIIT (3.8%): ${fmtD(niitTax)}`:'',
+    stateTax>0?`State Tax (${(stateRate*100).toFixed(1)}%): ${fmtD(stateTax)}`:'',
+    `Total Tax: ${fmtD(totalTax)}`,
+    `Net After-Tax: ${fmtD(totalInvestIncome-totalTax)}`,
+    `Effective Rate: ${fmtP(effectiveRate)}`,
+    `Generated at calcstack.dev`
+  ].filter(Boolean).join('\n');
+
+  document.getElementById('copyBtn').setAttribute('data-summary', summaryText);
+
+  const el = document.getElementById('results');
+  el.classList.add('visible');
+  el.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+// Copy button
+document.getElementById('copyBtn').addEventListener('click', function(){
+  const text = this.getAttribute('data-summary')||'';
+  if(!text) return;
+  navigator.clipboard.writeText(text).then(()=>{
+    const orig = this.textContent;
+    this.textContent = 'Copied!';
+    this.style.color = '#27ae60';
+    this.style.borderColor = '#27ae60';
+    setTimeout(()=>{ this.textContent=orig; this.style.color=''; this.style.borderColor=''; },2000);
+  }).catch(()=>{
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position='fixed';ta.style.opacity='0';
+    document.body.appendChild(ta);ta.select();
+    document.execCommand('copy');document.body.removeChild(ta);
+    const orig = this.textContent;
+    this.textContent='Copied!';
+    setTimeout(()=>{ this.textContent=orig; },2000);
+  });
+});
+</script>
+</body>
+</html>
